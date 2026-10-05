@@ -526,13 +526,15 @@ This makes authorization and auditing clearer.
 As the platform grows, separate permissions such as:
 
 ```text
-worker_verification_review
-payment_refund
-dispute_resolution
-worker_suspension
-review_moderation
-audit_access
+verification.review
+finance.refund
+dispute.resolve
+account.suspend
+review.moderate
+audit.view
 ```
+
+The full permission catalog and role matrix are in [LLD-020 §3.2, §4.1](../lld/lld-020-admin-operations.md).
 
 An employee who can review verification documents may not need permission to issue refunds.
 

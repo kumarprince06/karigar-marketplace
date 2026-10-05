@@ -8,7 +8,7 @@
 | Module | `matching` (+ `worker` for service area and online status) |
 | Parent HLD | [modules/01](../modules/01-matching-engine-and-geospatial-discovery.md), [ADR 0011](../adr/0011-explainable-rule-based-matching.md), [ADR 0017](../adr/0017-customer-picks-the-worker.md), [architecture/03 §17, §30–34.2](../architecture/03-erd-and-production-database-design.md), [modules/07 §4–6](../modules/07-trust-verification-reputation-and-reviews.md) |
 | Requirements | FR-MAT-001, FR-MAT-002, FR-WRK-005 (availability), FR-WRK-006 (service area), FR-WRK-007 |
-| Depends on | LLD-004 (trades, `job_eligible`), LLD-006 (`ServiceRequestSubmitted`, request lifecycle), reviews/reputation (`reputation_snapshots`) |
+| Depends on | LLD-004 (trades, `job_eligible`), LLD-006 (`ServiceRequestSubmitted`, request lifecycle), LLD-012 (`reputation_snapshots`), LLD-015 (working hours, time off, capacity), LLD-020 (`admin_users`) |
 | Used by | LLD-008 (offers → accept / shortlist / select), LLD-013 (offer notifications) |
 | Last updated | 2026-10-03 |
 
@@ -29,7 +29,7 @@ When a request is submitted (advance paid, LLD-006), matching finds suitable nea
 - "Search again" after no match; emergency-availability check used by LLD-006
 - Request status: `SUBMITTED → MATCHING`, `MATCHING → FAILED_TO_MATCH`
 
-**Out of scope:** the worker's offer inbox, accept / decline / withdraw, shortlist and selection (LLD-008); push delivery (LLD-013); weekly schedules and time off (later); live GPS tracking during a job (LLD-009).
+**Out of scope:** the worker's offer inbox, accept / decline / withdraw, shortlist and selection (LLD-008); push delivery (LLD-013); weekly working hours, time off and open-job capacity ([LLD-015](lld-015-worker-availability-schedule.md), which adds its clauses to the §3.1 query); live GPS tracking during a job (LLD-009).
 
 **Decisions**
 
@@ -83,7 +83,9 @@ com.karigar.matching
 ├── domain/
 │   ├── MatchingRun                     -- per request: round, radius, next_round_at, status
 │   ├── WorkerMatch                     -- offer: status, round, score, reasons, expires_at
-│   └── event/ WorkerOffered, MatchingRoundCompleted, MatchingFailed
+│   └── event/ WorkerOffered {workerId, matchId, tradeId, window, urgency, expiresAt}, MatchingRoundCompleted,
+│              MatchingFailed {requestId, customerId}, WorkerNotSelected {workerId, matchId, reason}
+│              (+ worker module: MissedOffersReminder {workerId}, WorkerAutoOffline {workerId}) — all outbox, ids only (LLD-022 D8)
 └── infrastructure/persistence/
 ```
 
@@ -137,7 +139,7 @@ CREATE TABLE worker_availability (
     missed_offers_in_row SMALLINT NOT NULL DEFAULT 0,
     changed_by           VARCHAR(10) NOT NULL CHECK (changed_by IN ('WORKER','SYSTEM','ADMIN')),
     updated_at           TIMESTAMPTZ NOT NULL
-);
+);   -- time_zone, max_open_jobs added by LLD-015 V6_4__worker_schedule.sql
 
 -- maintained by LLD-004 JobReadinessService: trade ACTIVE + mandatory verifications valid
 ALTER TABLE worker_professions ADD COLUMN job_eligible BOOLEAN NOT NULL DEFAULT false;
@@ -208,15 +210,16 @@ CREATE TABLE account_restrictions (           -- shared with modules/07–08 (st
     starts_at         TIMESTAMPTZ NOT NULL,
     ends_at           TIMESTAMPTZ,               -- NULL = until lifted
     lifted_at         TIMESTAMPTZ,
-    created_by_admin_id UUID REFERENCES admin_users (id),
+    created_by_admin_id UUID REFERENCES admin_users (id),   -- admin_users: LLD-020 V1_3 (runs before V6_2)
     created_at        TIMESTAMPTZ NOT NULL
 );
+-- lifted_by_admin_id is added by LLD-020 V15_1.
 CREATE INDEX ix_restrictions_active ON account_restrictions (user_id, restriction_type) WHERE lifted_at IS NULL;
 ```
 
 ### 3.1 Candidate query
 
-The constant round radius uses the GIST index; the worker's own radius is checked afterwards (a per-row radius cannot use the index).
+The constant round radius uses the GIST index; the worker's own radius is checked afterwards (a per-row radius cannot use the index). `reputation_snapshots` is created by LLD-012 `V10_1`; its rates may be `NULL` (no offers / bookings yet), so `coalesce` falls back to the priors. The last three clauses (working hours, time off, capacity) and `:min_overlap` come from [LLD-015 §3.2](lld-015-worker-availability-schedule.md); `av` also provides `time_zone` and `max_open_jobs`.
 
 ```sql
 WITH req AS (SELECT CAST(:location AS geography) AS loc)
@@ -252,11 +255,31 @@ WHERE ST_Distance(a.base_location, req.loc) <= a.radius_meters                  
                     AND v.status NOT IN ('CANCELLED','RESCHEDULED','WORKER_NO_SHOW','CUSTOMER_NO_SHOW','DONE')
                     AND tstzrange(v.scheduled_start_at, v.scheduled_end_at) && tstzrange(:window_start, :window_end))
   AND w.user_id <> :customer_user_id                                                         -- no self-booking
+  -- LLD-015: working hours overlap the window by ≥ :min_overlap; skipped for EMERGENCY
+  AND (:emergency OR EXISTS (
+        SELECT 1
+        FROM generate_series(0, CAST(timezone(av.time_zone, :window_end)   AS date)
+                              - CAST(timezone(av.time_zone, :window_start) AS date)) AS n(i)
+        CROSS JOIN LATERAL (SELECT CAST(timezone(av.time_zone, :window_start) AS date) + n.i AS day) d
+        JOIN worker_working_hours h
+          ON h.worker_id = w.id AND h.iso_weekday = extract(isodow FROM d.day)
+        CROSS JOIN LATERAL (
+          SELECT tstzrange(timezone(av.time_zone, d.day + h.start_time),
+                           timezone(av.time_zone, d.day + h.end_time))
+               * tstzrange(:window_start, :window_end) AS r) x
+        WHERE NOT isempty(x.r) AND upper(x.r) - lower(x.r) >= :min_overlap))
+  -- LLD-015: not on time off during the window
+  AND NOT EXISTS (SELECT 1 FROM worker_time_off t
+                  WHERE t.worker_id = w.id AND t.ends_at > :window_start AND t.starts_at < :window_end)
+  -- LLD-015: under capacity
+  AND (SELECT count(*) FROM bookings b JOIN jobs j ON j.booking_id = b.id
+        WHERE b.worker_id = w.id AND b.status = 'CONFIRMED'
+          AND j.status IN ('SCHEDULED','IN_PROGRESS','ON_HOLD')) < av.max_open_jobs
 ORDER BY ST_Distance(a.base_location, req.loc)
 LIMIT :prefilter_limit;      -- e.g. 50 nearest eligible; ranking (§4) then picks the top N in Java
 ```
 
-`:emergency` also requires a valid police verification; that is already part of `job_eligible`'s calculation for emergency (`accepts_emergency_jobs` can only be true with a valid POLICE_VERIFICATION — LLD-004 / LLD-006 D5).
+`:emergency` also requires a valid police verification. This is enforced through `accepts_emergency_jobs`, not `job_eligible`: the flag can only be set with a valid `POLICE_VERIFICATION`, and the LLD-004 `recheck` clears it when the check expires or is revoked ([LLD-016](lld-016-worker-verification.md); LLD-006 D5).
 
 ---
 
@@ -314,7 +337,7 @@ Example `score_reasons`:
 { "data": { "available": true } }
 ```
 
-`true` if at least one eligible, online, emergency-opted-in worker's area covers the point within 10 km. Used by LLD-006 to show or hide the Emergency option. It never returns counts or worker details.
+`true` if at least one eligible, online, emergency-opted-in worker's area covers the point within 10 km, applying the LLD-015 time-off and capacity clauses (not working hours). Used by LLD-006 to show or hide the Emergency option. It never returns counts or worker details.
 
 ### 5.4 Error codes
 
@@ -366,7 +389,7 @@ sequenceDiagram
     J->>DB: no more rounds
     alt accepted = 0
         J->>L: failToMatch(request) → FAILED_TO_MATCH
-        J->>DB: run FAILED; outbox MatchingFailed (customer notified; advance refund timer, LLD-006)
+        J->>DB: run FAILED; outbox MatchingFailed {requestId, customerId} (customer notified; advance refund timer, LLD-006)
     else accepted ≥ 1
         J->>DB: run WAITING_SELECTION (customer picks, LLD-008)
     end
@@ -395,7 +418,7 @@ sequenceDiagram
 | — | round sends offer | matching | NOTIFIED |
 | NOTIFIED | worker opens it | LLD-008 | VIEWED |
 | NOTIFIED / VIEWED | `expires_at` passed | `OfferExpiryJob` | EXPIRED (missed-offer counter +1) |
-| NOTIFIED / VIEWED / ACCEPTED | request cancelled / expired / booked by another worker | `CloseOffersOnRequestEnded` | EXPIRED / NOT_SELECTED (`close_reason`) |
+| NOTIFIED / VIEWED / ACCEPTED | request cancelled / expired / booked by another worker | `CloseOffersOnRequestEnded` | EXPIRED / NOT_SELECTED (`close_reason`); `WorkerNotSelected` (reason `REQUEST_ENDED`) to `ACCEPTED` offers only |
 
 ---
 
@@ -405,15 +428,15 @@ sequenceDiagram
 - **Several app instances:** runs and offer expiry are claimed with `FOR UPDATE SKIP LOCKED`; each due run is processed by exactly one instance.
 - **Same worker offered twice:** prevented by `ux_matches_live`; if two rounds race, the insert fails for that worker and the round continues with the rest.
 - **Max live offers:** counted in the query and re-checked by the insert's transaction (a worker may briefly reach 4 under a race; acceptable, bounded).
-- **Request ends mid-round:** the job re-reads request status inside the transaction; `CloseOffersOnRequestEnded` runs on the outbox event and closes remaining offers (idempotent: only touches NOTIFIED / VIEWED / ACCEPTED).
-- **Missed offers:** `OfferExpiryJob` increments `missed_offers_in_row`. At 5 within 24 h the worker gets a reminder ("You have missed 5 job offers — turn off 'available' when you are busy"). Only if the worker has not responded to any offer for 48 h are they set offline (`changed_by = SYSTEM`) with a message. Any response resets the counter.
+- **Request ends mid-round:** the job re-reads request status inside the transaction; `CloseOffersOnRequestEnded` runs on the outbox event and closes remaining offers (idempotent: only touches NOTIFIED / VIEWED / ACCEPTED); for offers that were `ACCEPTED` it writes outbox `WorkerNotSelected {workerId, matchId, reason: REQUEST_ENDED}` — workers who never accepted get nothing.
+- **Missed offers:** `OfferExpiryJob` increments `missed_offers_in_row`. At 5 within 24 h the worker gets a reminder (outbox `MissedOffersReminder {workerId}`: "You have missed 5 job offers — turn off 'available' when you are busy"). Only if the worker has not responded to any offer for 48 h are they set offline (`changed_by = SYSTEM`) with outbox `WorkerAutoOffline {workerId}`. Any response resets the counter.
 - **Empty areas:** a round with no candidates advances immediately; with zero candidates in all rounds the request fails within seconds rather than waiting.
 
 ---
 
 ## 9. Security & privacy
 
-- Offers (`WorkerOffered`) carry **locality, distance, trade, problems, window, price guide, urgency, surcharge** and photos — never the house number, exact location, customer name or phone (released only after selection, LLD-008/009).
+- The `WorkerOffered` outbox payload is ids only: `{workerId, matchId, tradeId, window, urgency, expiresAt}` (+ `aggregateVersion`); the offer card (LLD-008) shows **locality, distance, trade, problems, window, price guide, urgency, surcharge** and photos — never the house number, exact location, customer name or phone (released only after selection, LLD-008/009).
 - Worker base location is personal data: never shown to customers (they see distance only, rounded to 0.5 km); stored to ~10 m precision.
 - `emergency-availability` returns only a boolean and is rate-limited (20/min per IP) so it can't be used to map where workers live.
 - Ranking reasons are visible to admins (explainability, disputes about fairness), not to customers or other workers.
@@ -443,7 +466,7 @@ Alerts: run lag (oldest due `next_round_at` > 5 min behind); failed-to-match > 3
 | Level | Cases |
 |---|---|
 | Unit | round progression per urgency; widen only while accepted < 3; ranking formula and emergency weights; favourite boost; deterministic tie-break |
-| Integration (Testcontainers PostGIS) | worker 4 km away with 5 km radius found in round 2 (5 km) not round 1 (2 km); worker 4 km away with 3 km own radius never found; offline / not job_eligible / restricted / blocked / declined / busy-overlapping-visit workers excluded; expired-offer worker re-offered in a later round; emergency only opted-in workers |
+| Integration (Testcontainers PostGIS) | worker 4 km away with 5 km radius found in round 2 (5 km) not round 1 (2 km); worker 4 km away with 3 km own radius never found; offline / not job_eligible / restricted / blocked / declined / busy-overlapping-visit workers excluded; outside working hours / on leave / at capacity (LLD-015) excluded, emergency ignores working hours only; expired-offer worker re-offered in a later round; emergency only opted-in workers |
 | Geography | lon/lat order (`ST_MakePoint(lng, lat)`), distances checked against a known Howrah pair (e.g. Howrah station ↔ Shibpur ≈ 4–5 km) |
 | Jobs | two instances run the round job → each run processed once per round; offer expiry sets EXPIRED; reminder after 5 missed; offline only after 48 h without any response |
 | Quiet hours | non-emergency request created at 22:30 → first offers sent at 07:00; emergency at 02:00 → offers sent immediately |
@@ -459,7 +482,7 @@ Alerts: run lag (oldest due `next_round_at` > 5 min behind); failed-to-match > 3
 |---|---|---|---|
 | Use live GPS for NOW / EMERGENCY distance when the worker is out? | No; base location only in MVP | TBD | Phase 2 |
 | Prefer workers who speak the customer's language? | Not in ranking yet; shown on profile | TBD | After pilot data |
-| Weekly working hours (don't offer outside them) | Not in MVP; online toggle only | TBD | Availability LLD |
+| ~~Weekly working hours (don't offer outside them)~~ | **Decided by [LLD-015](lld-015-worker-availability-schedule.md):** working hours, time off and capacity filter the candidate query | — | — |
 | Pay workers a small fee for emergency standby at night? | No | Product | After pilot |
 
 ---
@@ -470,3 +493,4 @@ Alerts: run lag (oldest due `next_round_at` > 5 min behind); failed-to-match > 3
 |---|---|---|---|
 | 0.1 | 2026-10-03 | TBD | First draft |
 | 0.2 | 2026-10-03 | TBD | Not real-time dispatch: push + inbox, human-paced response windows, quiet hours, softer missed-offer handling |
+| 0.3 | 2026-10-05 | TBD | Integrated with LLD-012–022: LLD-015 clauses (working hours / time off / capacity, `:min_overlap`) in candidate + emergency queries; `admin_users` (020 V1_3), `lifted_by_admin_id` (020 V15_1), `reputation_snapshots` (012 V10_1, NULL rates → priors); emergency police check via `accepts_emergency_jobs`; named `MissedOffersReminder`, `WorkerAutoOffline`, `WorkerNotSelected` (REQUEST_ENDED); id-only `WorkerOffered` / `MatchingFailed` payloads |

@@ -8,7 +8,7 @@
 | Module | `matching` (offers, shortlist) + `booking` (selection creates the booking) |
 | Parent HLD | [ADR 0017](../adr/0017-customer-picks-the-worker.md), [modules/01 §30–38](../modules/01-matching-engine-and-geospatial-discovery.md), [modules/02](../modules/02-service-request-booking-and-job-execution.md), [architecture/03 §32–35, §40.1](../architecture/03-erd-and-production-database-design.md) |
 | Requirements | FR-WRK-007, FR-WRK-008, FR-MAT-002 (customer picks), FR-JOB-003 (visits) |
-| Depends on | LLD-004 (rates, public profile), LLD-006 (request lifecycle, advance), LLD-007 (offers, runs) |
+| Depends on | LLD-004 (rates, public profile), LLD-006 (request lifecycle, advance), LLD-007 (offers, runs), LLD-012 (`CustomerRatingLookup`), LLD-014 (`MediaUrls`), LLD-015 (`WorkerAvailabilityLookup`) |
 | Used by | LLD-009 (booking, job and visits continue from here), LLD-013 (notifications) |
 | Last updated | 2026-10-03 |
 
@@ -59,12 +59,16 @@ com.karigar.matching
 │       ├── WorkerRates              -- LLD-004: current rates for (worker, trade)
 │       ├── WorkerEligibility        -- LLD-004/007: ACTIVE, job_eligible, not restricted
 │       ├── PublicWorkerQuery        -- LLD-004 public profile projection
+│       ├── WorkerAvailabilityLookup -- LLD-015: canTakeBooking(worker, visitStart, visitEnd) (time off + capacity)
+│       ├── CustomerRatingLookup     -- LLD-012: forCustomer(customerId) → rating, null below 3 reviews
 │       ├── BookingCreation          -- booking module: createFromSelection(...) (LLD-009 owns the internals)
-│       ├── MediaUrls                -- short-lived signed URLs for request photos / voice note
+│       ├── MediaUrls                -- LLD-014 MediaUrls.links(ids, variant, viewer): short-lived signed URLs for request photos / voice note
 │       └── OutboxWriter, Clock
 └── domain/
     ├── WorkerMatch                  -- accept(), decline(), withdraw(), select(), notSelected()
-    └── event/ OfferAccepted, OfferDeclined, OfferWithdrawn, WorkerSelected, WorkerNotSelected
+    └── event/ OfferAccepted, OfferDeclined, OfferWithdrawn, WorkerSelected, WorkerNotSelected {workerId, matchId, reason},
+               SelectionReminderDue {requestId, customerId}, BookingConfirmed {bookingId, customerId, workerId}
+               -- outbox, ids + aggregateVersion only (LLD-022 D8)
 
 com.karigar.booking
 └── application/ BookingCreationService implements BookingCreation
@@ -153,10 +157,12 @@ Offer detail (what a worker sees **before** selection):
     "priceGuide": { "minMinor": 15000, "maxMinor": 35000 },
     "emergencySurchargeMinor": 0,
     "myRates": [ { "rateType": "VISIT", "amountMinor": 20000 }, { "rateType": "MINIMUM", "amountMinor": 30000 } ],
-    "customer": { "firstName": "Anjali", "jobsBooked": 4 }
+    "customer": { "firstName": "Anjali", "jobsBooked": 4, "rating": null }
   }
 }
 ```
+
+`customer.rating` comes from `CustomerRatingLookup.forCustomer` ([LLD-012](lld-012-reviews-ratings.md)); it is `null` until the customer has 3 counted reviews. Photo / voice-note URLs are built with `MediaUrls` ([LLD-014](lld-014-media-upload.md)).
 
 Not shown before selection: house number, building, street, landmark, exact location, customer's full name, phone, contact person.
 
@@ -216,7 +222,7 @@ Select response:
 | 403 | `WORKER_NOT_ELIGIBLE` | worker no longer ACTIVE / job_eligible / restricted |
 | 404 | `SERVICE_REQUEST_NOT_FOUND` | not the customer's request |
 | 409 | `REQUEST_NOT_AWAITING_SELECTION` | request cancelled, expired, already booked |
-| 409 | `MATCH_NO_LONGER_AVAILABLE` | chosen worker withdrew, became ineligible or busy — app refreshes the shortlist |
+| 409 | `MATCH_NO_LONGER_AVAILABLE` | chosen worker withdrew, became ineligible or busy, is on time off or at capacity (`details.reason` `WORKER_ON_TIME_OFF` / `WORKER_AT_CAPACITY`, LLD-015) — app refreshes the shortlist |
 
 ---
 
@@ -254,16 +260,19 @@ sequenceDiagram
     S->>DB: SELECT service_request FOR UPDATE (owner, AWAITING_SELECTION, not expired)
     S->>DB: SELECT match FOR UPDATE (ACCEPTED, belongs to request)
     S->>DB: worker still ACTIVE, job_eligible, not restricted?
+    S->>DB: WorkerAvailabilityLookup.canTakeBooking(worker, visitStart, visitEnd) — locks worker_availability FOR UPDATE;<br/>no time off in the window, open jobs < max_open_jobs (else 409 MATCH_NO_LONGER_AVAILABLE)
     S->>DB: UPDATE match → SELECTED
     S->>DB: UPDATE other ACCEPTED/NOTIFIED/VIEWED → NOT_SELECTED / EXPIRED (close_reason OTHER_SELECTED)
     S->>B: createFromSelection(request, match)
     B->>DB: INSERT bookings (CONFIRMED), jobs (SCHEDULED), job_visits #1 (overlap constraint)
     S->>DB: request → BOOKED, selected_worker_id; matching_runs → STOPPED
-    S->>DB: INSERT outbox (WorkerSelected, WorkerNotSelected ×n, BookingConfirmed)
+    S->>DB: INSERT outbox (WorkerSelected, WorkerNotSelected ×n (offers that were ACCEPTED only), BookingConfirmed {bookingId, customerId, workerId})
     S->>DB: INSERT idempotency_records
     S-->>CA: 201 booking + worker phone
-    Note over DB: push to selected worker with full address + contact; "not selected" to others
+    Note over DB: push to selected worker with full address + contact; "not selected" to workers who had accepted
 ```
+
+Working hours are **not** re-checked at selection: the worker chose `availableFrom` when accepting (D2, [LLD-015 §5.3](lld-015-worker-availability-schedule.md)).
 
 If the visit insert violates the overlap exclusion constraint (the worker got booked elsewhere since accepting), the whole transaction rolls back, the match is set `WITHDRAWN` (`close_reason = WORKER_BUSY`) in a new transaction, and the customer gets `409 MATCH_NO_LONGER_AVAILABLE`.
 
@@ -311,6 +320,9 @@ A worker who withdraws often is tracked (`withdraw_rate` in reputation, modules/
 - **Double tap on two different workers:** the request row lock serialises them; the second sees `BOOKED` → `409 REQUEST_NOT_AWAITING_SELECTION`. Backstops: `ux_matches_selected` and the one-booking-per-request index.
 - **Idempotency:** `select-worker` requires `Idempotency-Key`; a retry returns the same `201`. Accept / decline / withdraw are naturally idempotent for the same target state (repeat → `200` with current state).
 - **Worker booked elsewhere since accepting:** caught by the overlap exclusion constraint at selection (§5.2).
+- **Capacity race:** `canTakeBooking` locks the worker's `worker_availability` row `FOR UPDATE`, so two selections of the same worker serialise and the second sees the new open job (LLD-015 D8).
+- **Reminders:** `SelectionReminderJob` sets `reminder_sent_at` and writes outbox `SelectionReminderDue {requestId, customerId}` in the same transaction (LLD-013 sends it).
+- **Not-selected notice:** `WorkerNotSelected` goes only to workers whose offer was `ACCEPTED`; offers still `NOTIFIED` / `VIEWED` just expire silently.
 - **Worker becomes ineligible after accepting** (restricted, verification expired, suspended): selection checks eligibility → `MATCH_NO_LONGER_AVAILABLE`; a listener also withdraws that worker's accepted offers when they become ineligible.
 - **Pending-accept limit:** counted with the worker's accepted offers locked (`SELECT … FOR UPDATE` on the worker's ACCEPTED rows).
 
@@ -348,6 +360,7 @@ Alert: `selection_conflict_total{reason="busy"}` > 10 % of selections (workers a
 | Unit | accept with rate not in worker's list → 422; `availableFrom` outside window / in the past → 422; withdraw only from ACCEPTED |
 | Integration (Testcontainers) | first accept moves request to AWAITING_SELECTION; select creates booking + job + visit 1 with snapshot and advance; others → NOT_SELECTED / EXPIRED; matching run STOPPED; outbox events written |
 | Privacy | offer detail has no house number / phone / full name; select response has worker phone; not-selected worker gets 404 on booking endpoints |
+| Availability (LLD-015) | worker on time off in the visit window → 409 `WORKER_ON_TIME_OFF`; worker at `max_open_jobs` → 409 `WORKER_AT_CAPACITY`; two parallel selections of the same worker with one slot left → one booking |
 | Concurrency | select vs worker withdraw at the same moment → one consistent result; two selects (different workers) in parallel → one booking; worker double-booked between accept and select → 409 and match WITHDRAWN |
 | Limits | 4th accept while 3 pending → 409; after one is selected or not selected, a new accept works |
 | Lifecycle | last accepted offer withdrawn → request back to MATCHING and next round runs; request expires with accepted offers → all closed, advance refund event (LLD-006) |
@@ -370,3 +383,4 @@ Alert: `selection_conflict_total{reason="busy"}` > 10 % of selections (workers a
 | Version | Date | Author | Change |
 |---|---|---|---|
 | 0.1 | 2026-10-03 | TBD | First draft |
+| 0.2 | 2026-10-05 | TBD | Integrated with LLD-012–022: selection re-check `canTakeBooking` (015), `SelectionReminderDue` outbox, `WorkerNotSelected` only to ACCEPTED offers, id-only `BookingConfirmed` payload, customer rating via `CustomerRatingLookup` (012), `MediaUrls` → LLD-014 |

@@ -26,7 +26,7 @@ The catalog is the reference data everything else points to: **Category → Trad
 - Seed data: 7 categories, 33 trades, launch skills and problems for electrician and plumber
 - Caching
 
-**Out of scope:** worker ↔ trade links and rates (LLD-004), reason codes (shared), prices actually charged (quotes).
+**Out of scope:** worker ↔ trade links and rates (LLD-004), reason codes (`reason_codes` + translations, created in [LLD-022](lld-022-shared-platform.md) `V1_0`), prices actually charged (quotes, [LLD-017](lld-017-quotes-additional-work-material.md)).
 
 **Decisions**
 
@@ -418,3 +418,4 @@ Alert: search miss rate > 30 % for a day (keywords need work); missing `en` tran
 | Version | Date | Author | Change |
 |---|---|---|---|
 | 0.1 | 2026-10-03 | TBD | First draft |
+| 0.2 | 2026-10-05 | TBD | Integrated with LLD-012–022: pointers to LLD-022 (`reason_codes`) and LLD-017 (quotes) |

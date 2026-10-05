@@ -8,7 +8,7 @@
 | Module | `servicerequest` |
 | Parent HLD | [modules/02](../modules/02-service-request-booking-and-job-execution.md), [architecture/03 §25–29, §34.1, §43](../architecture/03-erd-and-production-database-design.md), [ADR 0017](../adr/0017-customer-picks-the-worker.md) |
 | Requirements | FR-CUS-004 (3-step request, emergency, drafts, advance), FR-CUS-003 rules (saved address, service area) |
-| Depends on | LLD-001 (email verified), LLD-003 (`CatalogLookup`), LLD-005 (address book, zone resolution), LLD-011 (online payment: advance order, webhook, refund), media upload (separate LLD) |
+| Depends on | LLD-001 (email verified), LLD-003 (`CatalogLookup`), LLD-005 (address book, zone resolution), LLD-011 (online payment: advance order, webhook, refund), LLD-014 (media: `MediaAttachments`), LLD-016 (`VerificationStatusLookup` for D5) |
 | Used by | LLD-007 (matching starts on `ServiceRequestSubmitted`), LLD-008 (shortlist / selection), LLD-009 (booking, advance applied to the bill) |
 | Last updated | 2026-10-03 |
 
@@ -28,7 +28,7 @@ The customer's three steps — **what** (trade + common problems, optional descr
 - Customer's request list / detail; "Book again"
 - Request status machine and which module may move it
 
-**Out of scope:** notifying workers and rounds (LLD-007), accept / shortlist / select (LLD-008), booking, job and final bill (LLD-009), payment provider integration details (LLD-011), media upload (media LLD).
+**Out of scope:** notifying workers and rounds (LLD-007), accept / shortlist / select (LLD-008), booking, job and final bill (LLD-009), payment provider integration details (LLD-011), media upload ([LLD-014](lld-014-media-upload.md)), realtime push ([LLD-021](lld-021-realtime-updates.md)).
 
 **Decisions**
 
@@ -38,7 +38,7 @@ The customer's three steps — **what** (trade + common problems, optional descr
 | D2 | Placing a request needs a **verified email** (LLD-001 D1). | — |
 | D3 | The address is **re-resolved** to a service zone at creation; the zone must be `ACTIVE`. | — |
 | D4 | Normal time rules (IST): working hours **07:00–21:00**; **NOW** until 20:00, window now → +3 h; **TODAY** window ≥ 2 h within today's hours; **SCHEDULED** start +2 h … +30 days, window 2–12 h. | as listed |
-| D5 | **EMERGENCY** urgency: allowed **24×7**, only for problems flagged `emergency_eligible` in trades with `emergency_enabled`; window now → +2 h; a per-trade **emergency surcharge** is shown before confirming and added to the bill. Only workers who opted in to emergency jobs and are **police-verified** are notified (LLD-007). | surcharge per trade, e.g. ₹200 (indicative) |
+| D5 | **EMERGENCY** urgency: allowed **24×7**, only for problems flagged `emergency_eligible` in trades with `emergency_enabled`; window now → +2 h; a per-trade **emergency surcharge** is shown before confirming and added to the bill. Only workers who opted in to emergency jobs and are **police-verified** (`VerificationStatusLookup.hasValid(POLICE_VERIFICATION)`, [LLD-016](lld-016-worker-verification.md)) are notified (LLD-007). | surcharge per trade, e.g. ₹200 (indicative) |
 | D6 | **Advance payment** is required to submit a request: paid online (UPI / card / net banking) through the payment provider. The request waits in `PENDING_PAYMENT` and goes to matching only after a verified payment webhook. | amount per trade (e.g. ₹99, indicative); required for all urgencies; can be switched off per urgency |
 | D7 | **Advance refund / adjustment:** full automatic refund if the request is cancelled before booking, expires, or fails to match; if a worker is booked, the advance is **deducted from the final bill** (LLD-009); after booking, cancellation fees follow LLD-009. Unpaid requests expire after 15 min with no charge. | 15 min to pay |
 | D8 | Limits: max **3 open requests** per customer; **one open request per (trade, address)**. | 3 / 1 |
@@ -67,7 +67,8 @@ com.karigar.servicerequest
 │       ├── CatalogLookup               -- trade active, problem ∈ trade, price guide, emergency flags,
 │       │                                  surcharge and advance amount per trade
 │       ├── AddressBook, ServiceZoneLookup   -- LLD-005
-│       ├── MediaLookup, FavouriteWorkerLookup
+│       ├── MediaAttachments            -- LLD-014: attach(ids, owner, {REQUEST_PHOTO, REQUEST_VIDEO, VOICE_NOTE}, ref), keepUntil(ids, owner, until)
+│       ├── FavouriteWorkerLookup
 │       ├── AdvancePayments             -- LLD-011: createAdvanceOrder(requestId, amount) → checkout data;
 │       │                                  refundAdvance(requestId, reason)
 │       └── OutboxWriter, Clock
@@ -75,7 +76,8 @@ com.karigar.servicerequest
 │   ├── ServiceRequest                  -- aggregate root
 │   ├── ServiceRequestDraft
 │   ├── RequestStatus, Urgency, TimeWindow, TimeRules, AddressSnapshot, PriceGuide, Charges
-│   └── event/ ServiceRequestSubmitted, ServiceRequestCancelled, ServiceRequestExpired, AdvanceRefundRequested
+│   └── event/ ServiceRequestSubmitted, ServiceRequestCancelled, ServiceRequestExpired {requestId, customerId},
+│              AdvanceRefundRequested   -- payloads carry ids + aggregateVersion only (LLD-022 D8)
 └── infrastructure/persistence/
 ```
 
@@ -151,7 +153,7 @@ CREATE TABLE service_requests (
     price_guide_max_minor BIGINT,
     emergency_surcharge_minor BIGINT NOT NULL DEFAULT 0 CHECK (emergency_surcharge_minor >= 0),
     advance_minor         BIGINT NOT NULL DEFAULT 0 CHECK (advance_minor >= 0),
-    advance_payment_id    UUID REFERENCES payments (id),        -- set when the advance succeeds
+    advance_payment_id    UUID,                                 -- set when the advance succeeds; FK added in V8_1 (LLD-010)
     preferred_worker_id   UUID REFERENCES workers (id),
     selected_worker_id    UUID REFERENCES workers (id),
     status                VARCHAR(20) NOT NULL CHECK (status IN
@@ -188,7 +190,7 @@ CREATE TABLE service_request_problems (
 CREATE TABLE service_request_attachments (
     id                 UUID PRIMARY KEY,
     service_request_id UUID NOT NULL REFERENCES service_requests (id),
-    media_id           UUID NOT NULL,
+    media_id           UUID NOT NULL REFERENCES media_objects (id),   -- LLD-014 (V4_8 runs before V5_1)
     kind               VARCHAR(10) NOT NULL CHECK (kind IN ('PHOTO','VIDEO','VOICE')),
     created_at         TIMESTAMPTZ NOT NULL,
     UNIQUE (service_request_id, media_id)
@@ -217,7 +219,7 @@ ALTER TABLE professions
 ALTER TABLE common_problems
     ADD COLUMN emergency_eligible BOOLEAN NOT NULL DEFAULT false;
 ALTER TABLE workers
-    ADD COLUMN accepts_emergency_jobs BOOLEAN NOT NULL DEFAULT false;   -- needs POLICE_VERIFICATION (LLD-004)
+    ADD COLUMN accepts_emergency_jobs BOOLEAN NOT NULL DEFAULT false;   -- needs valid POLICE_VERIFICATION (LLD-016); cleared by LLD-004 recheck
 ```
 
 Emergency-eligible problems at launch (seed, LLD-003): `ELEC_SWITCHBOARD_SPARKING`, `ELEC_NO_POWER` (new: "No power in the house / one room"), `PLUM_BURST_PIPE` (new: "Burst / leaking pipe flooding"), `PLUM_TOILET_OVERFLOW` (new: "Toilet overflowing / blocked"). Locksmith "Locked out" is added when that trade launches.
@@ -278,7 +280,7 @@ Response (advance required):
 }
 ```
 
-The app opens the provider checkout with `payment.checkout`. It must **not** treat the checkout's success callback as final; it polls `GET /service-requests/{id}` (or listens on realtime) until `status` becomes `SUBMITTED` after the verified webhook (LLD-011).
+The app opens the provider checkout with `payment.checkout`. It must **not** treat the checkout's success callback as final; it polls `GET /service-requests/{id}` (or refetches it on the realtime `SERVICE_REQUEST_UPDATED` message, [LLD-021](lld-021-realtime-updates.md)) until `status` becomes `SUBMITTED` after the verified webhook (LLD-011).
 
 ### 4.2 Drafts
 
@@ -289,7 +291,7 @@ The app opens the provider checkout with `payment.checkout`. It must **not** tre
 | GET / PATCH / DELETE | `/api/v1/service-request-drafts/{id}` | read / edit (send `version`) / delete |
 | POST | `/api/v1/service-request-drafts/{id}/submit` | runs full create validation; on success the draft is deleted and the request returned (same response as create) |
 
-Draft validation is light: field formats and ownership of `addressId` / `mediaIds` only. Everything else is checked on submit, which returns the same error codes as create.
+Draft validation is light: field formats and ownership of `addressId` / `mediaIds` only. Each draft save calls `MediaAttachments.keepUntil(mediaIds, owner, draft.expires_at)` so the draft's media survives the 24 h unattached cleanup (LLD-014 D5). Everything else is checked on submit, which returns the same error codes as create.
 
 ### 4.3 Error codes
 
@@ -329,6 +331,7 @@ sequenceDiagram
     Note over C,DB: transaction 1
     C->>DB: INSERT service_requests (PENDING_PAYMENT, payment_due_at = now + 15 min)
     C->>DB: INSERT problems, attachments, idempotency record
+    C->>P: MediaAttachments.attach(mediaIds, customer, request purposes, requestId) — same transaction
     Note over C,DB: commit
     C->>AP: createAdvanceOrder(requestId, advance)  (provider order, idempotent per request)
     C-->>App: 201 + checkout data
@@ -353,14 +356,14 @@ sequenceDiagram
     X->>DB: guarded UPDATE status → CANCELLED / EXPIRED / FAILED_TO_MATCH
     alt advance was paid
         X->>DB: INSERT outbox_events (AdvanceRefundRequested, reason)
-        Note over AP: payment module creates refund (idempotency key = requestId) → provider
+        Note over AP: payment module creates refund (idempotency key = `ADV_REFUND:{requestId}`, LLD-011) → provider
     end
     X->>DB: INSERT outbox_events (ServiceRequestCancelled / Expired)
 ```
 
 ### 5.3 Draft → submit
 
-`POST /service-request-drafts/{id}/submit` → `DraftService` loads the draft (owner, version) → maps payload to `CreateServiceRequest` → calls `CreateServiceRequestService` → in the same transaction as the request insert, deletes the draft. Any validation error leaves the draft unchanged so the customer can fix it.
+`POST /service-request-drafts/{id}/submit` → `DraftService` loads the draft (owner, version) → maps payload to `CreateServiceRequest` → calls `CreateServiceRequestService` (which attaches the media via `MediaAttachments.attach`) → in the same transaction as the request insert, deletes the draft. Any validation error leaves the draft unchanged so the customer can fix it.
 
 ---
 
@@ -459,3 +462,4 @@ Alerts: outbox lag for `ServiceRequestSubmitted` > 60 s; unpaid-expired > 40 % o
 |---|---|---|---|
 | 0.1 | 2026-10-03 | TBD | First draft |
 | 0.2 | 2026-10-03 | TBD | Added emergency requests (24×7 + surcharge), drafts, advance payment at request time |
+| 0.3 | 2026-10-05 | TBD | Integrated with LLD-012–022: attachments FK to `media_objects` + `MediaAttachments.attach` / `keepUntil` (014), D5 police check via `hasValid` (016), `ServiceRequestExpired` carries `customerId`, realtime `SERVICE_REQUEST_UPDATED` refetch (021) |

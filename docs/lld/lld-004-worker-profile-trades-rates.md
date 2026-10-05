@@ -9,7 +9,7 @@
 | Parent HLD | [architecture/03 §10, §14–14.2](../architecture/03-erd-and-production-database-design.md), [architecture/04 Worker](../architecture/04-domain-model-aggregates-and-state-machines.md), [modules/09](../modules/09-search-discovery-and-worker-profile.md), [modules/07](../modules/07-trust-verification-reputation-and-reviews.md) |
 | Requirements | FR-WRK-001, FR-WRK-002, FR-WRK-003 |
 | Depends on | LLD-001 (worker row created at sign-up), LLD-003 (`CatalogLookup`) |
-| Used by | Matching (LLD-007), shortlist (LLD-008), booking rate snapshot (LLD-009) |
+| Used by | Matching (LLD-007), shortlist (LLD-008), booking rate snapshot (LLD-009), verification (LLD-016, calls `recheck`), availability (LLD-015, calls `recheck`), admin (LLD-020, `WorkerAccountCommands`) |
 | Last updated | 2026-10-03 |
 
 ---
@@ -28,7 +28,7 @@ A worker's profile says **what they do and what they charge**: one or more trade
 - Public worker profile view used by customers and the shortlist
 - Reacting to a trade being deactivated in the catalog
 
-**Out of scope:** verification documents (verification LLD), service area and live location (matching LLD-007), online/offline availability (availability LLD), profile photo upload (media LLD), payout accounts (payouts LLD), ratings (reviews LLD-012).
+**Out of scope:** verification documents ([LLD-016](lld-016-worker-verification.md)), service area and live location (matching [LLD-007](lld-007-matching-candidate-search.md)), working hours / time off / capacity ([LLD-015](lld-015-worker-availability-schedule.md)), profile photo upload ([LLD-014](lld-014-media-upload.md)), payout accounts ([LLD-019](lld-019-worker-payouts.md)), ratings ([LLD-012](lld-012-reviews-ratings.md)).
 
 **Decisions**
 
@@ -40,8 +40,8 @@ A worker's profile says **what they do and what they charge**: one or more trade
 | D4 | Rates must be within **sanity bounds** per rate type (catches typos like ₹85,000/day). Bounds live in config, not code. | table in §3 |
 | D5 | `account_status` moves `ONBOARDING → ACTIVE` **automatically** when the readiness checklist is complete; admins only suspend / reinstate. | — |
 | D6 | Bio and display name may not contain phone numbers, emails or links. | Keeps bookings on the platform (product/01 Scenario K). |
-| D7 | Profile change events are **best-effort** after-commit Spring events (search projection, matching cache); a nightly job reconciles. | [ADR 0005](../adr/0005-async-events-and-transactional-outbox.md) — not money or bookings, so no outbox. |
-| D8 | A **verified bank account** (IFSC, penny-drop) is required before a worker's first job, even for cash-only workers; a UPI ID can be added as an extra payout option. | Decided by product owner (2026-10-03). |
+| D7 | Profile change events (`WorkerProfileUpdated`, `WorkerTradesChanged`, `WorkerRatesChanged`) are **best-effort** after-commit Spring events (search projection, matching cache); a nightly job reconciles. **`WorkerActivated` and `WorkerSuspended` go through the outbox** (same transaction as the status change): they drive a notification and booking cancellation, which must not be lost. | [ADR 0005](../adr/0005-async-events-and-transactional-outbox.md) |
+| D8 | A **verified bank account** (IFSC, penny-drop) is required before a worker's first job, even for cash-only workers; UPI payout is **not supported** while payouts use provider split transfers ([LLD-019](lld-019-worker-payouts.md) D2, `422 UPI_PAYOUT_NOT_SUPPORTED`). | Decided by product owner (2026-10-03). |
 
 ---
 
@@ -61,19 +61,22 @@ com.karigar.worker
 │   ├── PublicWorkerQueryService      -- read model for customers / shortlist
 │   ├── WorkerProfileOnRegistration   -- @EventListener(UserRegistered) from LLD-001
 │   ├── PauseTradesOnCatalogChange    -- @EventListener(CatalogChanged) from LLD-003
+│   ├── WorkerAccountCommands         -- public API for LLD-020: suspend(workerId, reason) / reinstate(workerId)
 │   └── port/
 │       ├── CatalogLookup             -- LLD-003 public API
-│       ├── VerificationStatusLookup  -- mandatory checks per trade (verification LLD)
+│       ├── VerificationStatusLookup  -- missingMandatory / hasValid / badges; specified in LLD-016
 │       ├── ServiceAreaLookup         -- has a service area (LLD-007)
-│       ├── ReputationLookup          -- rating, jobs done (LLD-012)
-│       └── ContactInfoDetector       -- phone / email / URL patterns
+│       ├── PayoutAccountLookup       -- has a verified bank account (LLD-019)
+│       └── ReputationLookup          -- rating, jobs done; implemented by LLD-012 (rating null when count < 3)
+│   (ContactInfoDetector — phone / email / URL patterns — lives in shared/text, LLD-022)
 ├── domain/
 │   ├── Worker                        -- aggregate root: profile, professions, rates, skills
 │   ├── WorkerProfession              -- trade link: primary, experience, status
 │   ├── WorkerRate                    -- rate row with effective_from / effective_to
 │   ├── RateType, RateUnit, WorkerStatus, TradeStatus
 │   ├── RateBounds                    -- min/max per rate type (from config)
-│   └── event/ WorkerProfileUpdated, WorkerTradesChanged, WorkerRatesChanged, WorkerActivated
+│   └── event/ WorkerProfileUpdated, WorkerTradesChanged, WorkerRatesChanged (after-commit);
+│              WorkerActivated {workerId}, WorkerSuspended {workerId, reasonCode} (outbox, D7)
 └── infrastructure/persistence/  JPA entities, repositories, PublicWorkerQuery (native SQL projection)
 ```
 
@@ -262,14 +265,15 @@ A trade missing from the list is removed. A newly added trade with no rate is st
       { "code": "PROFILE_BASICS",        "done": true },
       { "code": "TRADE_WITH_RATE",       "done": true },
       { "code": "SERVICE_AREA",          "done": false },
-      { "code": "MANDATORY_VERIFICATIONS", "done": false, "missing": ["AADHAAR_EKYC", "SELFIE_MATCH"] },
+      { "code": "WORKING_HOURS",         "done": false },
+      { "code": "MANDATORY_VERIFICATIONS", "done": false, "missing": ["ID_PROOF"] },
       { "code": "BANK_ACCOUNT_VERIFIED", "done": false }
     ]
   }
 }
 ```
 
-Step labels are localized by the backend (LLD-003); the app shows them as a simple checklist with icons.
+Step labels are localized by the backend (LLD-003); the app shows them as a simple checklist with icons. `WORKING_HOURS` = at least one working day set ([LLD-015](lld-015-worker-availability-schedule.md)); `MANDATORY_VERIFICATIONS.missing` = `VerificationStatusLookup.missingMandatory` over all live trades ([LLD-016](lld-016-worker-verification.md) §3 requirements seed: `ID_PROOF` for every trade, plus e.g. `ELECTRICAL_LICENSE`, `POLICE_VERIFICATION` per trade); `BANK_ACCOUNT_VERIFIED` = `PayoutAccountLookup` ([LLD-019](lld-019-worker-payouts.md)).
 
 `GET /workers/{workerId}` (public):
 
@@ -290,6 +294,8 @@ Step labels are localized by the backend (LLD-003); the app shows them as a simp
   }
 }
 ```
+
+`experienceYears` is self-declared and shown as "12 years" without any verified mark; only items in `badges` are verified.
 
 Never returned publicly: phone, email, user id, exact location, payout details, verification documents, `PAUSED`/`REMOVED` trades. Only `ACTIVE` workers are visible publicly (others → 404).
 
@@ -338,18 +344,20 @@ sequenceDiagram
 sequenceDiagram
     participant Ev as Any profile / verification / service-area change
     participant R as JobReadinessService
-    participant P as Ports (verification, service area, payout)
+    participant P as Ports (verification LLD-016, service area, payout LLD-019)
     participant DB as PostgreSQL
     Ev->>R: recheck(workerId)
     R->>DB: worker, user.email_verified_at, live trades with rates
     R->>P: mandatory verifications done? service area set? verified bank account?
+    R->>DB: working hours set? (LLD-015, same module)
+    R->>DB: job_eligible per trade, verification_status, accepts_emergency_jobs = false if police check invalid
     alt all steps done and status = ONBOARDING
         R->>DB: account_status = ACTIVE, activated_at = now
-        R->>R: publish WorkerActivated (notification: "You can now receive jobs")
+        R->>DB: INSERT outbox_events (WorkerActivated {workerId}) → LLD-013 "You can now receive jobs"
     end
 ```
 
-`recheck` also sets `worker_professions.job_eligible` per trade (trade ACTIVE and its mandatory verifications valid) — the flag the matching query filters on ([LLD-007](lld-007-matching-candidate-search.md)). `recheck` runs after the worker's own changes and on events from the verification, service-area and payout modules (`VerificationStatusChanged`, `ServiceAreaChanged`, `PayoutAccountVerified`).
+`recheck` also sets `worker_professions.job_eligible` per trade (trade ACTIVE and its mandatory verifications valid) — the flag the matching query filters on ([LLD-007](lld-007-matching-candidate-search.md)); recomputes `workers.verification_status` (`VERIFIED` / `PARTIAL` / `UNVERIFIED`, rule in [LLD-016](lld-016-worker-verification.md)); and clears `accepts_emergency_jobs` when `hasValid(POLICE_VERIFICATION)` is false. LLD-016 calls `recheck` **inside its decision / expiry transaction** (same module); LLD-015 calls it after working hours change. It also runs after the worker's own changes and on `ServiceAreaChanged` and `PayoutAccountVerified` ([LLD-019](lld-019-worker-payouts.md)).
 
 ---
 
@@ -364,8 +372,11 @@ sequenceDiagram
 | ACTIVE | admin suspend / strike threshold ([modules/07](../modules/07-trust-verification-reputation-and-reviews.md)) | — | SUSPENDED |
 | SUSPENDED | admin reinstate | — | ACTIVE |
 | ONBOARDING / ACTIVE | worker deactivates account | no live booking | DEACTIVATED |
+| DEACTIVATED | — | — | terminal; coming back means a new sign-up (history stays linked to the old user id) |
 
-An ACTIVE worker whose mandatory verification expires stays ACTIVE but that trade is excluded from matching until renewed (verification LLD).
+`SUSPENDED` (via `WorkerAccountCommands.suspend`, called by [LLD-020](lld-020-admin-operations.md)) writes `WorkerSuspended {workerId, reasonCode}` to the outbox: matching stops new offers at once, and [LLD-009 §8](lld-009-booking-job-visits.md) cancels the worker's confirmed bookings and re-matches them. A visit already in progress may be checked out first.
+
+An ACTIVE worker whose mandatory verification expires stays ACTIVE but that trade is excluded from matching until renewed (`job_eligible = false`, [LLD-016](lld-016-worker-verification.md)).
 
 **Worker trade (`worker_professions.status`)**
 
@@ -393,7 +404,7 @@ An ACTIVE worker whose mandatory verification expires stays ACTIVE but that trad
 ## 8. Security & privacy
 
 - A worker can only change their own profile: the worker id is taken from the token (`sub` → worker), never from the request.
-- `ContactInfoDetector` rejects Indian mobile numbers (with spaces, dashes, +91, or written with mixed digits), emails, URLs and "WhatsApp me" style phrases in name and bio; the rule list is config so ops can extend it.
+- `ContactInfoDetector` (`shared/text`, [LLD-022](lld-022-shared-platform.md); also used by LLD-012, 017, 018) rejects Indian mobile numbers (with spaces, dashes, +91, or written with mixed digits), emails, URLs and "WhatsApp me" style phrases in name and bio; the rule list is config so ops can extend it.
 - Public profile returns the fields in §4 only; display name is shown as entered (workers often use first name + initial).
 - Rate history is personal business data of the worker: visible to the worker and admins, not to customers (customers see current rates only).
 - Admin changes to a worker profile write `audit_events`.
@@ -421,7 +432,7 @@ Alert: no worker activated in 7 days during pilot (onboarding broken); `RATE_OUT
 | Unit (aggregate) | 4th trade → `TOO_MANY_TRADES`; zero / two primaries → `PRIMARY_TRADE_REQUIRED`; trade without rate is PAUSED; rate diff keeps unchanged rows, closes changed ones; bounds per type; `PER_UNIT` needs unit |
 | Unit (detector) | `98765 43210`, `+91-98765-43210`, `nine eight…` style, emails, `wa.me/…` rejected; normal text like "12 years experience, 2BHK" accepted |
 | Integration (Testcontainers) | sign-up as worker → ONBOARDING row; add raj mistri + tiles mistri with rates and skills; skill from another trade → FK error mapped to 422; removing primary without new primary → 422 |
-| Readiness | completing the last step (e.g. verification event) activates the worker exactly once and emits `WorkerActivated` |
+| Readiness | completing the last step (e.g. verification decision or working hours) activates the worker exactly once and writes `WorkerActivated` to the outbox; police check expiring → `accepts_emergency_jobs` false and `verification_status` recomputed in the same transaction |
 | Concurrency | two parallel `PUT /professions` with same version → one 200, one 409; two parallel rate saves never produce two current rates |
 | Catalog | deactivating a trade pauses all worker trades for it; re-activating does not auto-resume (worker must resume) |
 | Public view | non-active worker → 404; response has no phone/email/userId; names localized |
@@ -444,3 +455,5 @@ Alert: no worker activated in 7 days during pilot (onboarding broken); `RATE_OUT
 | Version | Date | Author | Change |
 |---|---|---|---|
 | 0.1 | 2026-10-03 | TBD | First draft |
+| 0.2 | 2026-10-05 | TBD | DEACTIVATED is terminal; suspension cancels + re-matches confirmed bookings (LLD-009); experience marked self-declared |
+| 0.3 | 2026-10-05 | TBD | Integrated with LLD-012–022: readiness `WORKING_HOURS` (015) + `ID_PROOF` verification items (016); recheck recomputes `verification_status` / clears emergency flag; `PayoutAccountLookup` (019), `ReputationLookup` (012), `ContactInfoDetector` → shared/text (022); `WorkerActivated` / `WorkerSuspended` via outbox; UPI payout unsupported (019 D2); `WorkerAccountCommands` (020) |

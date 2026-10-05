@@ -565,12 +565,10 @@ Initial channels:
 ```text
 In-app notifications
 Push notifications
-SMS for authentication
+Email via Brevo
 ```
 
-Potential transactional SMS can be added where operationally necessary.
-
-Email and WhatsApp can remain later unless product validation requires them earlier.
+Email via Brevo; no SMS in MVP ([ADR 0016](../adr/0016-email-password-login-phone-otp-later.md)). SMS and WhatsApp come later (TRAI DLT registration). Implemented by [LLD-013](../lld/lld-013-notifications.md).
 
 ---
 
