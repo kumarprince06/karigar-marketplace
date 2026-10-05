@@ -58,7 +58,7 @@
         <div class="li erow"><span class="ic hold">⚖️</span><div class="t"><b>Tap leaking · Bally</b><small>Customer complaint open</small></div><div class="r"><b class="money">₹200</b><span class="chip neutral">⏸ On hold</span></div></div>
       </div>
     </div>
-    <nav class="tabbar"><a><span class="ico">🏠</span>Home</a><a><span class="ico">📥</span>Offers</a><a><span class="ico">🧰</span>Jobs</a><a class="on"><span class="ico">💰</span>Earnings</a><a><span class="ico">👤</span>Me</a></nav>
+    <nav class="tabbar"><a><span class="ico">🏠</span>Home</a><a><span class="ico">📥</span>Offers</a><a><span class="ico">🧰</span>Jobs</a><a class="on"><span class="ico">💰</span>Earnings</a><a><span class="ico">👤</span>Profile</a></nav>
   </div>
   <div class="note"><b>Data (LLD-010 §4 summary, D6/D9; LLD-019 D6/D7)</b><code>GET /worker/earnings/summary</code> → balanceMinor (computed from ledger, can be negative), pendingMinor ("Waiting for customer" = job not yet COMPLETED), eligibleMinor ("Ready"), duesLimitMinor, restricted. Rows <code>GET /worker/earnings</code>: status PENDING / ELIGIBLE / ON_HOLD (dispute open) / PAID_OUT / REVERSED; cash rows show gross collected + fee (10 % + 18 % GST on the fee) as a debt. Next payout = min(eligible owed, balance) = ₹1,022, daily 11:00 IST if ≥ ₹100, ACTIVE bank account past 24 h cooling-off. "On hold" sum is a client total of ON_HOLD rows (not in the summary API).</div>
 
@@ -82,7 +82,7 @@
         <div class="li" style="justify-content:center;color:var(--primary);font-weight:600">See 5 more ›</div>
       </div>
     </div>
-    <nav class="tabbar"><a><span class="ico">🏠</span>Home</a><a><span class="ico">📥</span>Offers</a><a><span class="ico">🧰</span>Jobs</a><a class="on"><span class="ico">💰</span>Earnings</a><a><span class="ico">👤</span>Me</a></nav>
+    <nav class="tabbar"><a><span class="ico">🏠</span>Home</a><a><span class="ico">📥</span>Offers</a><a><span class="ico">🧰</span>Jobs</a><a class="on"><span class="ico">💰</span>Earnings</a><a><span class="ico">👤</span>Profile</a></nav>
   </div>
 
   <!-- W-13c Pay dues · provider checkout -->

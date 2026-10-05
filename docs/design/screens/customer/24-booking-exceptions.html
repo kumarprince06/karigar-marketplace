@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Customer · When plans change</title>
+<link rel="stylesheet" href="../assets/karigar.css">
+<style>
+  .kv { display: flex; justify-content: space-between; gap: 12px; font-size: 14px; line-height: 20px; }
+  .kv > span:first-child { color: var(--text-2); }
+  .kv > b { text-align: right; font-weight: 600; }
+  .offer { padding: 12px; gap: 8px; }
+  .offer .pic { width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; font-size: 26px; background: var(--grad-soft); border: 2px solid var(--primary-subtle); flex-shrink: 0; }
+  .offer .terms { display: grid; grid-template-columns: 1fr 1fr auto; gap: 8px; align-items: center; }
+  .offer .terms > div { background: var(--bg); border-radius: var(--r-sm); padding: 4px 8px; }
+  .offer .terms small { display: block; font-size: 12px; line-height: 15px; color: var(--text-2); }
+  .offer .terms b { font-size: 15px; }
+  .offer .btn.sm { min-height: 48px; padding: 0 16px; }
+  .tiny { font-size: 12px; line-height: 16px; padding: 2px 8px; }
+  .stephead { padding: 0 16px 10px; display: flex; flex-direction: column; gap: 6px; flex-shrink: 0; }
+  .stephead .sm b { color: var(--primary); }
+  .sum .li { min-height: 48px; align-items: flex-start; }
+  .sum .li .k { width: 22px; flex-shrink: 0; }
+  .edit { color: var(--primary); font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="canvas">
+  <p class="canvas-title"><b>Customer · When plans change — worker cancels, job can't be finished, missed visit, book again</b>Running example: Priya Sen booked Rakesh Das (electrician) for "Fan not working", today 4:00–6:00 PM, Shibpur, Ref 9C41E7, ₹99 advance, ₹350 per visit. Money rules from LLD-009 §8; push text has no amounts (LLD-013 D5), the app shows them behind login.</p>
+
+  <!-- C-24a Worker cancelled -->
+  <div class="phone">
+    <span class="label">C-24a Worker cancelled → finding someone else · new</span>
+    <div class="hero" style="padding-top:0;gap:10px">
+      <div class="statusbar clear" style="padding:0 2px"><span>3:22</span><span>▮▮ 4G</span></div>
+      <div class="row between"><button class="iconbtn" style="color:#fff">←</button><span class="pill">💰 Your ₹99 advance is safe</span></div>
+      <div class="illus glass sm">🔄</div>
+      <h1 class="h2 center">Rakesh can't come. We're finding someone else</h1>
+      <p class="center sm" style="opacity:.92">He cancelled at 3:20 PM. You don't pay anything for this.</p>
+    </div>
+    <div class="content" style="padding-top:14px;gap:10px">
+      <div class="card" style="gap:6px">
+        <div class="row between"><b>Fan not working + 1</b><span class="chip info">Finding workers</span></div>
+        <span class="sm muted">Today, 4:00 – 6:00 PM · Home, Shibpur</span>
+        <div class="hr"></div>
+        <span class="sm">🔍 We're asking other electricians near you now. Rakesh won't be asked again for this job.</span>
+        <span class="countdown">⏱️ Choose a worker by 6:00 PM</span>
+      </div>
+      <div class="banner neutral"><span class="ico">🔔</span><span class="sm">You can close the app. We'll notify you when workers are ready to choose.</span></div>
+      <div class="grow"></div>
+      <p class="help center">Don't need it any more? Cancel and get your full advance back.</p>
+      <a class="btn danger-o">Cancel request · ₹99 refunded</a>
+    </div>
+  </div>
+  <div class="note"><b>Data (LLD-009 D6, §6.2, §7, §8; LLD-006 §6 BOOKED → MATCHING; LLD-013 #25)</b>Worker <code>POST /bookings/{id}/cancel</code> → booking CANCELLED (cancelled_by WORKER), job + open visits CANCELLED; request <strong>BOOKED → MATCHING</strong>, selected worker cleared, new matching run (attempt + 1) with Rakesh in exclusions. Customer pays 0, advance stays on the request. A late cancel (&lt; 2 h) gives Rakesh a LATE_CANCELLATION strike — never shown to the customer. Push (lock-screen safe): "Rakesh cancelled — we're finding someone else. Your advance is safe." Tapping it opens this screen; then the normal matching screen (C-13a). Cancel = <code>POST /service-requests/{id}/cancel</code> → full refund (C-13h/C-13i).<br><strong>Gap:</strong> LLD-006 allows BOOKED → MATCHING only "not expired"; if <code>expires_at</code> (TODAY = window end) has passed or is minutes away, the docs don't say whether it is extended or the request closes with a refund.</div>
+
+  <!-- C-24b Re-matching shortlist -->
+  <div class="phone soft">
+    <span class="label">C-24b New shortlist after re-matching · new</span>
+    <div class="statusbar"><span>3:51</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><div class="grow"><h1 style="font-size:18px;line-height:24px">2 workers want this job</h1><div class="sub">Choose one · Fan not working + 1 · Today 4–6 PM</div></div></div>
+    <div class="content" style="padding-top:0;gap:10px">
+      <div class="banner info"><span class="ico">🔄</span><span class="sm"><b>New search</b> after Rakesh cancelled. Your ₹99 advance carries over — nothing more to pay now.</span></div>
+      <span class="countdown">⏱️ Choose by 6:00 PM · 2 h 9 min left</span>
+
+      <div class="card offer selected">
+        <div class="row"><div class="pic">🧑🏽‍🔧</div><div class="grow"><b>Abdul Hossain</b><div class="sm muted">★ 4.6 (12) · 41 jobs · 6 yrs</div></div></div>
+        <div class="terms"><div><small>Visit charge</small><b class="money">₹300</b></div><div><small>Can come at</small><b>4:45 PM</b></div><a class="btn primary sm">Select</a></div>
+        <div class="row wrap" style="gap:4px"><span class="chip success tiny">🪪 ID</span><span class="chip success tiny">⚡ Licensed</span><span class="chip neutral tiny">বাংলা · हिंदी</span><span class="chip neutral tiny">📍 1.5 km</span></div>
+      </div>
+
+      <div class="card offer">
+        <div class="row"><div class="pic">👨🏽‍🔧</div><div class="grow"><b>Bikash Pal</b><div class="sm muted">New on Karigar · 2 jobs · 4 yrs</div></div></div>
+        <div class="terms"><div><small>Visit charge</small><b class="money">₹250</b></div><div><small>Can come at</small><b>5:15 PM</b></div><a class="btn secondary sm">Select</a></div>
+        <div class="row wrap" style="gap:4px"><span class="chip success tiny">🪪 ID</span><span class="chip neutral tiny">বাংলা</span><span class="chip neutral tiny">📍 3 km</span></div>
+      </div>
+      <p class="help center">⏳ Still asking others. Tap a worker to see his profile and reviews.</p>
+    </div>
+  </div>
+  <div class="note"><b>Shortlist again (LLD-008 §4.2, LLD-007 D7)</b>Same screen and API as C-13c (<code>GET /service-requests/{id}/shortlist</code>) — only the info banner is added when the request's matching attempt &gt; 1 after a worker cancel / no-show. Rakesh is excluded; workers who declined before stay excluded; earlier candidates whose offers simply closed may be asked again. Selecting goes through C-13d and creates a new booking (new Ref, new start code) with the same advance applied — no second advance.</div>
+
+  <!-- C-24c Job couldn't be finished -->
+  <div class="phone">
+    <span class="label">C-24c Job couldn't be finished · new</span>
+    <div class="hero" style="padding-top:0;gap:8px">
+      <div class="statusbar clear" style="padding:0 2px"><span>5:20</span><span>▮▮ 4G</span></div>
+      <div class="row"><button class="iconbtn" style="color:#fff">←</button><div class="grow"><b>Fan not working</b><p class="sm muted">Ref 9C41E7 · Rakesh Das</p></div></div>
+      <div class="row" style="gap:12px">
+        <div class="illus glass sm" style="width:60px;height:60px;font-size:28px;align-self:auto">🧩</div>
+        <div><p class="h3">Rakesh couldn't finish the job</p><span class="pill" style="margin-top:4px">Part not available</span></div>
+      </div>
+    </div>
+    <div class="content" style="padding-top:12px;gap:10px">
+      <div class="card" style="padding:12px 14px;gap:6px">
+        <b class="label-t">What Rakesh said</b>
+        <p class="sm">"Fan motor winding is burnt. This model's motor is not sold any more in Howrah market. Fan needs replacing."</p>
+        <div class="row" style="gap:8px"><div class="thumb" style="width:52px;height:52px">🖼️</div><span class="sm muted">1 photo · checked out 5:10 PM</span></div>
+      </div>
+      <div class="list bill">
+        <div class="li"><span class="t">Visit charge · today<small>₹350, but never more than your advance</small></span><b class="money">₹99</b></div>
+        <div class="li"><span class="t">Taken from your advance</span><b class="money">−₹99</b></div>
+        <div class="li total"><span class="t">You pay now</span><b class="money">₹0</b></div>
+        <div class="li"><span class="t">Advance refund<small>Whole advance used for the visit</small></span><b class="money">₹0</b></div>
+      </div>
+      <p class="help">Booking and request are closed. If a visit charge is less than your advance, the rest goes back to your UPI in 5–7 days.</p>
+    </div>
+    <div class="footer">
+      <a class="btn primary">🔁 Book again</a>
+      <a class="btn danger-o">Report a problem</a>
+    </div>
+  </div>
+  <div class="note"><b>Data (LLD-009 §5.3 cannot-complete, §7, §8; LLD-017 D10; LLD-018 D2; LLD-013 #30)</b>Worker <code>POST /jobs/{id}/cannot-complete {reasonCode, notes, mediaIds}</code> after checking out the current visit → job <strong>FAILED</strong> (<code>failure_reason</code> PART_UNAVAILABLE / NEEDS_OTHER_TRADE / SITE_NOT_READY / OTHER, translated), booking + request <strong>CANCELLED</strong>. Customer pays: visit charge for the failed visit capped at the advance + earlier confirmed visits + covered/acknowledged material bills; rest of advance refunded (amounts from <code>JobFailed</code>, refund row UNUSED_ADVANCE). With ₹350 &gt; ₹99 the refund is ₹0 — row kept so the rule is visible. Multi-day jobs add "Day 1 · confirmed ₹1,350" and any material rows; amount above the advance → "Pay ₹X" button (C-22). Push: "Your job couldn't be finished. Book again from the app." (no amount). Report a problem → <code>POST /disputes {subjectType: JOB}</code>, open until 7 days after the job ended. Bookings list: Cancelled tab.</div>
+
+  <!-- C-24d Customer no-show -->
+  <div class="phone soft">
+    <span class="label">C-24d You weren't home (missed visit) · new</span>
+    <div class="statusbar"><span>5:05</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><div class="grow"><h1>Fan not working</h1><p class="sub">Ref 9C41E7 · Visit 1</p></div></div>
+    <div class="content" style="gap:10px;padding-top:0">
+      <div class="card" style="align-items:center;text-align:center;gap:8px;padding:16px 14px">
+        <div class="illus sm">🚪</div>
+        <p class="h3">Visit marked as missed</p>
+        <p class="sm muted">Rakesh reached your address at <b style="color:var(--text)">4:32 PM</b> and waited till <b style="color:var(--text)">5:02 PM</b>. He couldn't reach you or Mita Sen by phone.</p>
+      </div>
+      <div class="list bill">
+        <div class="li"><span class="t">Visit charge<small>₹350, but never more than your advance</small></span><b class="money">₹99</b></div>
+        <div class="li total"><span class="t">Taken from your advance</span><b class="money">₹99</b></div>
+      </div>
+      <p class="sm">Nothing more to pay. This booking is closed.</p>
+      <div class="banner warning"><span class="ico">⚖️</span><span class="sm"><b>Were you at home?</b> Report it within 7 days. Our team checks the visit and refunds you if he wasn't there.</span></div>
+    </div>
+    <div class="footer">
+      <a class="btn danger-o">Report a problem</a>
+      <a class="btn primary">🔁 Book again</a>
+    </div>
+  </div>
+  <div class="note"><b>Data (LLD-009 D8, §5.2, §7, §8; LLD-018 categories, D2; LLD-013 #27)</b>Worker <code>POST /visits/{id}/customer-no-show</code> only after check-in with valid GPS (≤ 300 m) and 30 min waiting → visit <strong>CUSTOMER_NO_SHOW</strong>, booking CANCELLED. Customer pays the visit charge capped at the advance (₹99); worker gets it less commission; customer no-show counter +1 (modules/07 §4.5, not shown here). Times from <code>check_in_at</code> + 30 min. Push: "Your visit was marked as missed" (charge only in-app). "Report a problem" opens the dispute form pre-set to <code>{subjectType: VISIT, category: NO_SHOW_DISAGREEMENT}</code>; possible actions REFUND / REVOKE_STRIKE. GPS points are never shown to the customer (LLD-018 D9).<br><strong>Gap:</strong> LLD-009 §7 / LLD-006 don't say what the <em>request</em> becomes after a customer no-show (worker no-show → MATCHING; customer cancel / FAILED → CANCELLED). Shown here as closed + "Book again".</div>
+
+  <!-- C-24e Book again -->
+  <div class="phone soft">
+    <span class="label">C-24e Book again · prefilled request · new</span>
+    <div class="statusbar"><span>5:24</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><h1>Book again</h1></div>
+    <div class="stephead"><div class="steps"><i class="on"></i><i></i><i></i></div><span class="sm muted"><b>Step 1 of 3</b> · We filled this from your last booking</span></div>
+    <div class="content" style="padding-top:0;gap:10px">
+      <div class="card hero" style="flex-direction:row;align-items:center;gap:12px;padding:12px 14px">
+        <div class="avatar" style="background:#fff">RD</div>
+        <div class="grow"><b>Rakesh will be asked first</b><p class="sm" style="opacity:.9">He gets 30 min to say yes, then we ask others near you.</p></div>
+        <span class="toggle on" style="background:var(--accent)"></span>
+      </div>
+      <div class="list sum">
+        <div class="li"><span class="k">⚡</span><div class="t"><b>Electrician</b><small>Fan not working · Switch sparks</small></div><a class="sm edit">Edit</a></div>
+        <div class="li"><span class="k">📝</span><div class="t"><b>Details</b><small>"Fan stopped last night, switch makes noise."</small></div><a class="sm edit">Edit</a></div>
+        <div class="li"><span class="k">🏠</span><div class="t"><b>Home · Shibpur</b><small>On site: Mita Sen · 98311 22334</small></div><a class="sm edit">Edit</a></div>
+        <div class="li"><span class="k">🕓</span><div class="t"><b style="color:var(--warning)">Pick a new day and time</b><small>Next step</small></div></div>
+      </div>
+      <div class="banner info"><span class="ico">💳</span><span class="sm">This is a new request: you'll pay a new <b>₹99 advance</b> at step 3. It is taken off the bill.</span></div>
+    </div>
+    <div class="footer"><a class="btn primary">Continue</a></div>
+  </div>
+  <div class="note"><b>Data (LLD-006 §4.1 repeat-template; LLD-007 favourite round; LLD-009 §7)</b>"Book again" → <code>GET /service-requests/{id}/repeat-template</code> → create body pre-filled (trade, problems, description, address, site contact) with <code>preferredWorkerId</code> = Rakesh; time window is chosen again. Then the normal 3 steps: C-11a/b (editable) → C-11c → C-11h, new advance, new <code>POST /service-requests</code>. Matching starts with the favourite round (only Rakesh; NOW 15 min, TODAY 30 min, SCHEDULED 2 h; none for EMERGENCY), then normal rounds. Toggle off → <code>preferredWorkerId: null</code>. 422 PREFERRED_WORKER_UNAVAILABLE (blocked, suspended, not job-eligible) → hide the card and say "We'll ask workers near you". Also reachable from C-20e, C-24c, C-24d and completed bookings.<br><strong>Gaps:</strong> LLD-006 doesn't say whether the template sets <code>preferredWorkerId</code> to the last worker, carries over photos / voice (media lifetime, LLD-014 D5) or lets the customer turn the preference off. After a NEEDS_OTHER_TRADE failure the template should not offer the same trade or worker — not defined.</div>
+</div>
+</body>
+</html>

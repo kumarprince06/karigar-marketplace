@@ -424,6 +424,58 @@ for(const[p,s]of P){h+=`<tr><td class="mono">${p}</td><td class="y">✓</td>`+[.
 document.getElementById('mx').innerHTML=h;
 </script>
 
+<!-- A-69 Reason codes -->
+<div class="web">
+  <span class="label">A-69 Reason codes (read-only) · new</span>
+  <nav class="side" data-on="settings"></nav>
+  <div class="main">
+    <header class="topbar" data-std><h1>Platform settings › Reason codes</h1></header>
+    <div class="page" style="gap:12px">
+      <div class="row between"><div class="tabs" style="border:0"><a>⚙️ Settings</a><a class="on">🏷️ Reason codes</a></div><span class="chip neutral">👁️ ops.view</span></div>
+      <div class="banner neutral"><span class="ico">🔒</span><span><b>Read-only</b> — codes are added by each module's <span class="mono">R__</span> migration (LLD-022); changes go through a release. Missing labels fall back to English.</span></div>
+      <div class="split">
+        <div class="card" style="width:272px;flex-shrink:0;padding:10px;gap:2px">
+          <div class="tree">
+            <div class="cat"><span>Category</span><span class="faint">codes</span></div>
+            <div class="tr on"><span class="mono">CUSTOMER_CANCELLATION</span><span>6</span></div>
+            <div class="tr"><span class="mono">WORKER_CANCELLATION</span><span>5</span></div>
+            <div class="tr"><span class="mono">OFFER_DECLINE</span><span>6</span></div>
+            <div class="tr"><span class="mono">QUOTE_REJECTION</span><span>4</span></div>
+            <div class="tr"><span class="mono">VERIFICATION_REJECTION</span><span>15</span></div>
+            <div class="tr"><span class="mono">DISPUTE</span><span>8</span></div>
+            <div class="tr"><span class="mono">REFUND</span><span>8</span></div>
+            <div class="tr"><span class="mono">REVIEW_MODERATION</span><span>8</span></div>
+            <div class="tr"><span class="mono">WORKER_SUSPENSION</span><span>5</span></div>
+            <div class="tr"><span class="mono">CUSTOMER_SUSPENSION</span><span>4</span></div>
+            <div class="tr"><span class="mono">ACCOUNT_RESTRICTION</span><span>4</span></div>
+            <div class="tr"><span class="mono">PII_REVEAL</span><span>3</span></div>
+            <div class="tr"><span class="mono">WORKER_STRIKE</span><span>7</span></div>
+          </div>
+          <p class="help" style="padding:6px 8px">Rows are never deleted; a retired code is set inactive.</p>
+        </div>
+        <div class="col grow" style="gap:12px;min-width:0">
+          <div class="row between"><div class="row"><b class="h4 mono" style="font-size:16px">CUSTOMER_CANCELLATION</b><span class="chip brand">LLD-009 · R__ seed</span></div><div class="row"><span class="chip warning">🌐 1 missing bn</span><span class="chip warning">1 missing hi</span></div></div>
+          <div class="table"><table class="mini">
+            <tr><th>Sort order</th><th>Code</th><th>Label · en</th><th>বাংলা</th><th>हिंदी</th><th>Requires note</th><th>Cancellation fee applies</th><th>Active</th></tr>
+            <tr><td>1</td><td class="mono">WORKER_LATE</td><td>Worker is late</td><td lang="bn">কারিগর দেরি করছেন</td><td lang="hi">कारीगर देर से आ रहा है</td><td class="faint">—</td><td class="faint">— no fee</td><td><span class="chip success">ACTIVE</span></td></tr>
+            <tr><td>2</td><td class="mono">FOUND_SOMEONE_ELSE</td><td>Found someone else</td><td lang="bn">অন্য কাউকে পেয়েছি</td><td lang="hi">किसी और को ढूंढ लिया</td><td class="faint">—</td><td>✓ yes</td><td><span class="chip success">ACTIVE</span></td></tr>
+            <tr><td>3</td><td class="mono">NO_LONGER_NEEDED</td><td>No longer needed</td><td lang="bn">আর দরকার নেই</td><td lang="hi">अब ज़रूरत नहीं है</td><td class="faint">—</td><td>✓ yes</td><td><span class="chip success">ACTIVE</span></td></tr>
+            <tr><td>4</td><td class="mono">PRICE_TOO_HIGH</td><td>Price is too high</td><td lang="bn">দাম খুব বেশি</td><td><span class="chip warning">missing translation</span></td><td class="faint">—</td><td>✓ yes</td><td><span class="chip success">ACTIVE</span></td></tr>
+            <tr><td>5</td><td class="mono">BOOKED_BY_MISTAKE</td><td>Booked by mistake</td><td><span class="chip warning">missing translation</span></td><td lang="hi">गलती से बुक हो गया</td><td class="faint">—</td><td>✓ yes</td><td><span class="chip success">ACTIVE</span></td></tr>
+            <tr><td>6</td><td class="mono">OTHER</td><td>Other reason</td><td lang="bn">অন্য কারণ</td><td lang="hi">अन्य कारण</td><td>✓ yes</td><td>✓ yes</td><td><span class="chip success">ACTIVE</span></td></tr>
+          </table></div>
+          <div class="banner info"><span class="ico">ℹ️</span><span><b>Cancellation fee applies</b> only matters inside the late window (2 h before the visit, fee min(advance, ₹100)). A code without it never charges the customer, e.g. when the worker is late.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="notes">
+  <div class="note"><b>Data</b><code>reason_codes (category, code, requires_note, cancellation_fee_applies, active, sort_order)</code> + <code>reason_code_translations (category, code, locale, label)</code>, LLD-022 <code>V1_0</code>. Seeds per owning module: LLD-008 OFFER_DECLINE, LLD-009 cancellations + strikes, LLD-011 REFUND, LLD-012 REVIEW_MODERATION, LLD-016 VERIFICATION_REJECTION, LLD-017 QUOTE_REJECTION, LLD-018 DISPUTE, LLD-020 suspension / restriction / PII_REVEAL.</div>
+  <div class="note"><b>Permission</b>Visible to <code>ops.view</code> (all staff roles). No edit, add, toggle or delete — read-only by design, like Roles (A-67) and Settings (A-68).</div>
+  <div class="note"><b>Open</b>No admin endpoint in any LLD yet (would be <code>GET /admin/reason-codes?category=</code>). Per-code flags and bn/hi labels shown are examples; LLD-009 does not list which cancellation codes carry the fee. ERD §52.4 lists 10 categories; LLD-020 adds 4 admin ones. Code counts for LLD-020 / WORKER_STRIKE are placeholders.</div>
+</div>
+
 </div>
 
 <script>

@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Worker · Notifications, help & account</title>
+<link rel="stylesheet" href="../assets/karigar.css">
+<style>
+  /* worker app: body >= 16px, secondary >= 14px (design review §3.1) */
+  .phone { font-size: 16px; line-height: 24px; }
+  .phone .sm:not(.illus), .phone .help, .phone .li .t small { font-size: 14px; line-height: 20px; }
+  .sec { font-size: 14px; font-weight: 700; color: var(--text-2); text-transform: uppercase; letter-spacing: .04em; }
+  .li .ic { width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; font-size: 20px; background: var(--primary-subtle); flex-shrink: 0; }
+  .li.tight { min-height: 52px; padding: 8px 14px; }
+  .li.unread { background: #FFFBEF; }
+  .udot { width: 12px; height: 12px; border-radius: 50%; background: var(--accent); flex-shrink: 0; margin-top: 6px; }
+  .reason { min-height: 56px; display: flex; align-items: center; gap: 12px; padding: 0 14px; border: 1.5px solid var(--border-strong); border-radius: var(--r-md); font-weight: 600; background: var(--surface); }
+  .reason i { font-style: normal; font-size: 22px; width: 28px; text-align: center; }
+  .reason.on { border: 2px solid var(--primary); background: var(--primary-subtle); color: var(--primary); }
+  .ph { width: 64px; height: 64px; border-radius: var(--r-md); background: linear-gradient(135deg,#CFE3DF,#E9E3D2); display: grid; place-items: center; font-size: 24px; flex-shrink: 0; position: relative; }
+  .ph.add { background: var(--surface); border: 2px dashed var(--primary); color: var(--primary); }
+  .ph small { position: absolute; bottom: 2px; left: 0; right: 0; text-align: center; font-size: 11px; font-weight: 600; color: var(--ink); }
+  .redhero { background-image: var(--tools-light), linear-gradient(150deg,#5E120E 0%,#8E1B15 55%,#B3261E 100%); }
+  .ghostbtn { background: rgba(255,255,255,.16); color: #fff; border: 1.5px solid rgba(255,255,255,.6); }
+</style>
+</head>
+<body>
+<div class="canvas">
+  <p class="canvas-title"><b>Worker · Notifications, help & account</b>Inbox and push settings (LLD-013), help = phone / WhatsApp + FAQ (no chat, P1/P19), report a problem = dispute opened by the worker (LLD-018), account paused (LLD-004 / LLD-020 D6), forgot / reset password and session states (LLD-001 / LLD-002). Worker sample: Sujit Das, plumber, Shibpur.</p>
+
+  <!-- W-14a Notifications inbox · Bengali -->
+  <div class="phone" lang="bn">
+    <span class="label">W-14a Notifications inbox · Bengali · new</span>
+    <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><h1>🔔 খবর</h1><a class="btn ghost sm" style="padding:0 8px">সব পড়া হয়েছে</a></div>
+    <div class="content" style="gap:8px">
+      <p class="sec">আজ · 3টি নতুন</p>
+      <div class="list">
+        <div class="li unread" style="align-items:flex-start"><span class="tradeicon" style="width:40px;height:40px;font-size:20px">🎉</span><div class="t"><b>আপনি কাজটি পেয়েছেন</b><small>প্লাম্বিং · শিবপুর · আজ 4:30</small></div><span class="udot"></span></div>
+        <div class="li unread" style="align-items:flex-start"><span class="tradeicon" style="width:40px;height:40px;font-size:20px">📆</span><div class="t"><b>রিনা একটি দিন সরাতে চান</b><small>শুক্র → শনি · 12 ঘণ্টার মধ্যে উত্তর দিন</small></div><span class="udot"></span></div>
+        <div class="li unread" style="align-items:flex-start"><span class="tradeicon" style="width:40px;height:40px;font-size:20px;background:var(--grad-danger)">⚖️</span><div class="t"><b>অঞ্জলি একটি সমস্যা জানিয়েছেন</b><small>কল লিক · 48 ঘণ্টার মধ্যে উত্তর দিন</small></div><span class="udot"></span></div>
+      </div>
+      <p class="sec">আগে</p>
+      <div class="list">
+        <div class="li" style="align-items:flex-start"><span class="tradeicon teal" style="width:40px;height:40px;font-size:20px">🏦</span><div class="t">₹1,240 আপনার ব্যাংকে পাঠানো হয়েছে<small>SBI ••7890 · 2 অক্টো</small></div></div>
+        <div class="li" style="align-items:flex-start"><span class="tradeicon teal" style="width:40px;height:40px;font-size:20px">✅</span><div class="t">আজকের কাজ গ্রাহক মেনে নিয়েছেন<small>বাথরুমের পাইপ · দিন 1 · 1 অক্টো</small></div></div>
+        <div class="li" style="align-items:flex-start"><span class="tradeicon teal" style="width:40px;height:40px;font-size:20px">⭐</span><div class="t">আপনি একটি নতুন রিভিউ পেয়েছেন<small>30 সেপ্টে</small></div></div>
+      </div>
+      <div class="banner neutral"><span class="ico">📥</span><span>নতুন কাজের খবর <b>অফার</b> ট্যাবে দেখুন।</span></div>
+    </div>
+    <nav class="tabbar"><a class="on"><span class="ico">🏠</span>হোম</a><a><span class="ico">📥</span>অফার</a><a><span class="ico">🧰</span>কাজ</a><a><span class="ico">💰</span>আয়</a><a><span class="ico">👤</span>প্রোফাইল</a></nav>
+  </div>
+
+  <!-- W-14b Notification settings -->
+  <div class="phone soft">
+    <span class="label">W-14b Notification settings · new</span>
+    <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><h1>🔔 Phone alerts</h1></div>
+    <div class="content" style="gap:10px">
+      <p class="sec">You can turn off</p>
+      <div class="list">
+        <div class="li"><span class="ic">⏰</span><div class="t"><b>Reminders</b><small>Missed offers, rate your customer, papers expiring</small></div><span class="toggle on"></span></div>
+      </div>
+      <div class="banner neutral"><span class="ico">🌙</span><span><b>Night 9 pm – 7 am:</b> reminders wait till 7 am.</span></div>
+      <p class="sec">Always on 🔒</p>
+      <div class="list">
+        <div class="li tight"><span class="ic" style="background:var(--grad-warm)">📥</span><div class="t"><b>New job offers</b><small>Loud sound · comes at once</small></div><span class="toggle locked"></span></div>
+        <div class="li tight"><span class="ic">🧰</span><div class="t"><b>Jobs & visits</b><small>You got the job, day OK'd, cancelled</small></div><span class="toggle locked"></span></div>
+        <div class="li tight"><span class="ic">💰</span><div class="t"><b>Money</b><small>Paid to bank, cash confirmed</small></div><span class="toggle locked"></span></div>
+        <div class="li tight"><span class="ic">🛡️</span><div class="t"><b>Account & safety</b><small>Password, bank changed, account paused</small></div><span class="toggle locked"></span></div>
+      </div>
+      <p class="sm muted">Don't want offers now? Turn off <b>"I'm taking jobs"</b> on Home.</p>
+    </div>
+    <nav class="tabbar"><a><span class="ico">🏠</span>Home</a><a><span class="ico">📥</span>Offers</a><a><span class="ico">🧰</span>Jobs</a><a><span class="ico">💰</span>Earnings</a><a class="on"><span class="ico">👤</span>Profile</a></nav>
+  </div>
+  <div class="note"><b>Data (LLD-013 D5–D6, D9–D10, D13, §3 rule table, §5)</b>Inbox: <code>GET /api/v1/notifications</code> (cursor, newest first), <code>/unread-count</code> (badge, cap 99), <code>POST /{id}/read</code>, <code>/read-all</code>; unread = <code>read: false</code> (amber dot, tinted row). Rows shown = worker types JOB_CONFIRMED, CHANGE_PROPOSED, DISPUTE_OPENED, PAYOUT_PAID, VISIT_CONFIRMED, REVIEW_PUBLISHED. Texts are rendered in the user's locale at creation. <b>NEW_JOB_OFFER is push only (no inbox row)</b> — hence the "see Offers" hint. Amounts / bank last 4 only in the inbox, never in push (D5). Kept 90 days.<br>Settings: <code>GET|PUT /me/notification-preferences</code> — only <code>REMINDER</code> push is switchable (MISSED_OFFERS, REVIEW_REMINDER_*, REVIEW_NUDGE, VERIFICATION_EXPIRING / EXPIRED). TRANSACTIONAL + SECURITY locked (<code>422 CATEGORY_NOT_OPTIONAL</code>). Quiet hours 21:00–07:00 IST apply to reminders only. Offers are HIGH priority on Android channel <code>job_offers</code> (loud); the only way to stop them is going offline (LLD-007 D2). No MARKETING row (P20).</div>
+
+  <!-- W-14c Help & support -->
+  <div class="phone">
+    <span class="label">W-14c Help & support · new</span>
+    <div class="hero">
+      <div class="statusbar clear" style="padding:0 2px"><span>9:41</span><span>▮▮ 4G</span></div>
+      <div class="row"><span style="font-size:20px">←</span><b class="h4 grow">Help & support</b></div>
+      <div class="h2">How can we help, Sujit?</div>
+      <div class="row" style="gap:10px">
+        <a class="btn accent" style="flex:1;padding:0 10px">📞 Call us</a>
+        <a class="btn ghostbtn" style="flex:1;padding:0 10px">💬 WhatsApp</a>
+      </div>
+      <p class="sm" style="opacity:.9">033 4000 1234 · every day 8 am – 9 pm</p>
+    </div>
+    <div class="content" style="padding-top:12px;gap:8px">
+      <p class="sec">Problem with a job?</p>
+      <div class="list">
+        <div class="li tight"><span class="tradeicon" style="width:40px;height:40px;font-size:20px">🚰</span><div class="t"><b>Kitchen sink · Sen</b><small>Marked "you didn't come" · 29 Sep</small></div><a class="btn ghost sm" style="padding:0 6px">Report</a></div>
+        <div class="li tight"><span class="tradeicon" style="width:40px;height:40px;font-size:20px">🚰</span><div class="t"><b>Tap leaking · Bose</b><small>⚖️ Answer in 41 h</small></div><span class="chev">›</span></div>
+      </div>
+      <p class="sec">Common questions</p>
+      <div class="list">
+        <div class="li tight"><span class="ic">🏦</span><div class="t">When does money reach my bank?</div><span class="chev">›</span></div>
+        <div class="li tight"><span class="ic">⚠️</span><div class="t">What is a strike?</div><span class="chev">›</span></div>
+        <div class="li tight"><span class="ic">📥</span><div class="t">Why am I not getting offers?</div><span class="chev">›</span></div>
+      </div>
+    </div>
+    <nav class="tabbar"><a><span class="ico">🏠</span>Home</a><a><span class="ico">📥</span>Offers</a><a><span class="ico">🧰</span>Jobs</a><a><span class="ico">💰</span>Earnings</a><a class="on"><span class="ico">👤</span>Profile</a></nav>
+  </div>
+  <div class="note"><b>Help (P1, P19, LLD-018 §4.1)</b>No chat, no call-back, no article search. Call = <code>tel:</code>, WhatsApp = <code>wa.me</code> link to the support number (number and hours are placeholders, same as customer C-70). Support can open a dispute for the worker after a call (<code>opened_via = SUPPORT</code>). Job list = my jobs still inside the dispute window (LLD-018 D2) + disputes I'm in (<code>GET /disputes</code>, as opener or respondent; "Answer in 41 h" = respondent, countdown to <code>response_due_at</code>). FAQs are static text bundled in en/bn/hi.</div>
+
+  <!-- W-14d Report a problem · what -->
+  <div class="phone">
+    <span class="label">W-14d Report a problem · 1 What · new</span>
+    <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><div class="grow"><h1>Report a problem</h1><span class="sub">Kitchen sink · Sen · Shibpur</span></div></div>
+    <div class="content" style="gap:10px">
+      <div class="banner warning"><span class="ico">⏳</span><span>You can report until <b>6 Oct</b> (7 days after the job ended).</span></div>
+      <span class="label-t">About what?</span>
+      <div class="seg"><a>🧰 Whole job</a><a class="on">📅 A visit</a></div>
+      <div class="card selected" style="flex-direction:row;align-items:center;gap:10px"><span style="font-size:24px">📅</span><div class="grow"><b>Mon 29 Sep · 10 am</b><div class="sm muted">Marked "Worker didn't come"</div></div><span class="radio on"></span></div>
+      <span class="label-t">What went wrong?</span>
+      <div class="reason on"><i>🙋</i>I was there — marked wrongly</div>
+      <div class="reason"><i>❔</i>Something else</div>
+      <p class="sm muted">💥 Damage or 😠 bad behaviour? Choose <b>Whole job</b>.</p>
+    </div>
+    <div class="footer"><a class="btn primary">Next ›</a></div>
+  </div>
+
+  <!-- W-14e Report a problem · details -->
+  <div class="phone soft">
+    <span class="label">W-14e Report a problem · 2 Details + photos · new</span>
+    <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><div class="grow"><h1>Tell us what happened</h1><span class="sub">Marked wrongly · Mon 29 Sep</span></div></div>
+    <div class="content" style="gap:10px">
+      <label class="field"><span>📝 What happened?</span><div class="input area focus" style="min-height:112px">I reached at 9:55. Gate locked. Called Mr Sen 3 times, no answer. 🎙️</div><span class="help" style="text-align:right">72 / 2,000</span></label>
+      <span class="label-t">📷 Photos or videos <em style="font-weight:400;color:var(--text-2)">· up to 10</em></span>
+      <div class="row">
+        <div class="ph">🚪<small>gate</small></div>
+        <div class="ph">📞<small>call list</small></div>
+        <div class="ph">🎬<small>0:18</small></div>
+        <div class="ph add">📷</div>
+      </div>
+      <span class="help">Videos up to 60 seconds.</span>
+      <div class="card hero" style="gap:4px">
+        <b>What happens next</b>
+        <span class="sm" style="opacity:.94">Mr Sen has <b>48 hours</b> to reply. Then our team decides. If we agree with you, the strike is removed.</span>
+      </div>
+    </div>
+    <div class="footer"><a class="btn primary">📨 Send report</a></div>
+  </div>
+
+  <!-- W-14f Report sent -->
+  <div class="phone soft">
+    <span class="label">W-14f Report sent · customer has 48 h · new</span>
+    <div class="statusbar"><span>9:42</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><div class="grow"><h1>Your report</h1><span class="sub">Kitchen sink · Ref 4D82A1</span></div></div>
+    <div class="content" style="gap:10px">
+      <div class="illus sm teal">📨</div>
+      <div class="h2 center">Report sent</div>
+      <div class="card warm" style="gap:2px"><div class="row between"><b class="h4">Waiting for Mr Sen</b><span class="chip" style="background:rgba(255,255,255,.7);color:var(--ink)">⏱ 48 h</span></div><span class="sm">He can reply until 9:42 am, Wed 8 Oct.</span></div>
+      <div class="timeline card flat" style="gap:0;padding:12px 14px 0">
+        <div class="tl done"><div class="dot"><i></i><b></b></div><div class="t"><b>You reported</b><small>3 photos / videos · today 9:42 am</small></div></div>
+        <div class="tl now"><div class="dot"><i></i><b></b></div><div class="t"><b>Customer replies</b><small>Up to 48 hours</small></div></div>
+        <div class="tl"><div class="dot"><i></i></div><div class="t"><b>Our team decides</b><small>We may call you. You get an alert.</small></div></div>
+      </div>
+    </div>
+    <div class="footer"><a class="btn secondary">➕ Add more info or photos</a><a class="btn primary">👍 OK</a></div>
+  </div>
+  <div class="note"><b>Report a problem = open dispute (LLD-018 D1–D5, §1, §4.1, LLD-014)</b><code>POST /api/v1/disputes</code> {subjectType JOB | VISIT, jobId, visitId, category, statement, mediaIds} + Idempotency-Key → 201 <code>AWAITING_RESPONSE</code>, <code>responseDueAt</code> = +48 h. Worker categories: <code>NO_SHOW_DISAGREEMENT</code> (VISIT with WORKER_NO_SHOW / CUSTOMER_NO_SHOW only), <code>DAMAGE</code>, <code>BEHAVIOUR</code> (JOB only), <code>OTHER</code> (any; statement required → <code>422 NOTE_REQUIRED</code>). Chips are filtered by subject (<code>422 CATEGORY_NOT_ALLOWED</code>). Window D2: done visit → until confirmed (≤24 h); job WORK_COMPLETED → until confirmed (≤24 h); else 7 days after the job ended → <code>409 DISPUTE_WINDOW_CLOSED</code>. <code>409 DISPUTE_ALREADY_EXISTS</code> → open that case (customer already reported) and add a statement. Statement ≤2,000 chars, ≤10 media per party (jpeg/png/webp/mp4, video ≤60 s), voice = phone dictation. NO_SHOW upheld → <code>REVOKE_STRIKE</code>. Limits: 5 opens / day, 3 live (<code>429 RATE_LIMITED</code>). Status page = same timeline as customer C-73.</div>
+
+  <!-- W-14g Account paused · can log in -->
+  <div class="phone">
+    <span class="label">W-14g Account paused · can log in · new</span>
+    <div class="hero redhero" style="align-items:center;text-align:center;padding-bottom:18px">
+      <div class="statusbar clear" style="padding:0 2px;align-self:stretch"><span>9:41</span><span>▮▮ 4G</span></div>
+      <div class="illus sm glass">⛔</div>
+      <div class="h2">Your account is paused</div>
+      <span style="opacity:.92">No new offers or jobs for now.</span>
+    </div>
+    <div class="content" style="padding-top:12px;gap:10px">
+      <div class="card flat" style="flex-direction:row;align-items:center;gap:10px"><span style="font-size:26px">⚠️</span><div class="grow"><span class="sm muted">Reason</span><b class="h4" style="display:block">Too many strikes</b></div></div>
+      <div class="card flat" style="gap:4px">
+        <div class="row"><span style="font-size:22px">🔁</span><b>Your 2 booked jobs</b></div>
+        <span class="sm muted">Were cancelled and given to other workers. You get no strike for these.</span>
+      </div>
+      <div class="list">
+        <div class="li tight"><span class="ic">💰</span><div class="t"><b>See my earnings & dues</b></div><span class="chev">›</span></div>
+        <div class="li tight"><span class="ic">✅</span><div class="t"><b>Finish today's job</b><small>Check-out still works</small></div><span class="chev">›</span></div>
+      </div>
+    </div>
+    <div class="footer"><a class="btn primary">📞 Call support · 033 4000 1234</a><a class="btn secondary">💬 WhatsApp support</a></div>
+  </div>
+
+  <!-- W-14h Can't log in · blockLogin -->
+  <div class="phone">
+    <span class="label">W-14h Can't log in (blockLogin) · new</span>
+    <div class="hero redhero" style="align-items:center;text-align:center;padding:8px 16px 24px">
+      <div class="statusbar clear" style="padding:0 2px;align-self:stretch"><span>9:41</span><span>▮▮ 4G</span></div>
+      <div class="illus glass">🔒</div>
+      <div class="h2">You can't log in</div>
+      <span style="opacity:.92">Your Karigar account is stopped.</span>
+    </div>
+    <div class="content" style="padding-top:16px;gap:10px">
+      <div class="card flat" style="gap:6px">
+        <div class="row"><span style="font-size:22px">📧</span><b>Why?</b></div>
+        <span class="sm muted">We emailed the reason to <b style="color:var(--text)">s***@gmail.com</b>.</span>
+        <div class="hr"></div>
+        <div class="row"><span style="font-size:22px">🔁</span><b>Your booked jobs</b></div>
+        <span class="sm muted">Given to other workers. Customers were told.</span>
+      </div>
+      <p class="sm muted center">Think this is a mistake? Talk to us.</p>
+    </div>
+    <div class="footer"><a class="btn primary">📞 Call support · 033 4000 1234</a><a class="btn secondary">💬 WhatsApp support</a></div>
+  </div>
+  <div class="note"><b>Account paused (LLD-020 D6, D10; LLD-004 §7; LLD-009 §8; LLD-002 D4; LLD-013 row 6)</b>Default suspend = <code>workers.account_status = SUSPENDED</code> only: login works, matching stops new offers at once, <code>WorkerSuspended</code> → LLD-009 cancels every CONFIRMED booking and re-matches it (worker excluded); a visit already IN_PROGRESS can still be checked out. Worker can see earnings / dues. Reason = label of the admin <code>reasonCode</code> (category <code>WORKER_SUSPENSION</code>, e.g. strike threshold, <code>SAFETY_CONCERN</code>, <code>FRAUD_SUSPECTED</code>) — shown behind login only, never in push (D5).<br><b>blockLogin: true</b> also sets <code>users.status = SUSPENDED</code> + <code>revokeAll(SUSPENDED)</code> + deny-list → login / refresh return <code>403 ACCOUNT_SUSPENDED</code> → W-14h. The reason goes only by email (WORKER_SUSPENDED is P A E). Support = phone / WhatsApp (number placeholder). No appeal flow (LLD-018 out of scope).</div>
+
+  <!-- W-14i Forgot password -->
+  <div class="phone soft">
+    <span class="label">W-14i Forgot password · new</span>
+    <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><h1>Forgot password</h1></div>
+    <div class="content" style="gap:12px">
+      <div class="illus sm teal">🔐</div>
+      <p class="body-lg center">Type the email you signed up with. We send a link to make a new password.</p>
+      <label class="field"><span>📧 Email</span><div class="input focus">sujit.das84@gmail.com</div></label>
+      <div class="banner success"><span class="ico">📧</span><span><b>Link sent.</b> If this email has an account, the link is coming. It works for <b>30 minutes</b>.</span></div>
+      <p class="sm muted">Not there? Look in Spam, or send again after 1 minute.</p>
+      <div class="grow"></div>
+      <p class="sm muted center">Forgot your email? Call <b style="color:var(--primary)">033 4000 1234</b></p>
+    </div>
+    <div class="footer"><a class="btn primary">📨 Send link again</a><a class="btn ghost" style="min-height:48px">Back to log in</a></div>
+  </div>
+
+  <!-- W-14j Reset password -->
+  <div class="phone soft">
+    <span class="label">W-14j Reset password · new</span>
+    <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><h1 style="padding-left:8px">🔑 New password</h1></div>
+    <div class="content" style="gap:12px">
+      <p class="muted">For <b style="color:var(--text)">sujit.das84@gmail.com</b></p>
+      <label class="field"><span>New password</span><div class="input err">12345678 <span class="grow"></span><span class="muted">🙈 Hide</span></div><span class="help err">⚠️ Too easy to guess. Try a short sentence, like "<i>sujit plumber shibpur 14</i>".</span></label>
+      <div class="card flat" style="gap:6px">
+        <b class="label-t">A good password</b>
+        <span class="sm">✓ 8 or more letters — spaces are OK</span>
+        <span class="sm">✓ Not your email or mobile number</span>
+        <span class="sm">✓ Not a common one like "12345678"</span>
+      </div>
+      <div class="banner info"><span class="ico">📱</span><span>After this, you are logged out on <b>all phones</b>. Log in again with the new password.</span></div>
+      <div class="grow"></div>
+      <div class="banner neutral"><span class="ico">⌛</span><span><b>Link not working?</b> It works once, for 30 minutes. <u>Send a new link</u></span></div>
+    </div>
+    <div class="footer"><a class="btn primary">💾 Save new password</a></div>
+  </div>
+  <div class="note"><b>Forgot / reset (LLD-001 §4.4, D3, D6, D7, §5.3)</b><code>POST /auth/password/forgot {email}</code> → always 202, same text whether or not the account exists; 3 / hour per email (still 202). Link opens the app at <code>/reset?token=…</code>. <code>POST /auth/password/reset {token, newPassword}</code> → 204. Rules: 8–128 chars, no composition rules; <code>400 WEAK_PASSWORD</code> if on the top-100k list or equal to email / phone. Show / hide instead of a confirm field. Success → all sessions revoked (<code>PASSWORD_CHANGED</code>), push tokens cleared, PASSWORD_CHANGED email + inbox row → Log in with a toast. <code>410 TOKEN_INVALID_OR_EXPIRED</code> → "Link not working · Send a new link".</div>
+
+  <!-- W-14k Session expired / logged out elsewhere · Bengali -->
+  <div class="phone soft" lang="bn">
+    <span class="label">W-14k Logged out on this phone · Bengali · new</span>
+    <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="content" style="gap:14px;padding-top:44px;text-align:center">
+      <div class="illus">📱</div>
+      <h1 class="h2">আবার লগইন করুন</h1>
+      <p class="body-lg muted">এই ফোনে আপনি লগআউট হয়ে গেছেন। পাসওয়ার্ড বদলালে, অন্য ফোন থেকে "সব ফোন থেকে লগআউট" করলে, বা অনেক দিন অ্যাপ না খুললে এমন হয়।</p>
+      <div class="card flat" style="text-align:left"><span class="sm">💰 আপনার কাজ আর টাকা সব ঠিক আছে।</span></div>
+      <div class="banner warning" style="text-align:left"><span class="ico">🔔</span><span>লগইন না করলে <b>নতুন কাজের খবর আসবে না</b>।</span></div>
+      <div class="banner error" style="text-align:left"><span class="ico">⚠️</span><span><b>আপনি করেননি?</b> এখনই পাসওয়ার্ড বদলান।</span></div>
+    </div>
+    <div class="footer"><a class="btn primary" style="min-height:60px;font-size:18px">🔑 লগইন করুন</a><a class="btn secondary">পাসওয়ার্ড বদলান</a></div>
+  </div>
+  <div class="note"><b>Session states (LLD-002 D2, D4, §4.3, §7)</b>One screen for both causes on a worker phone (shared / handed-down phones are common): <code>REFRESH_TOKEN_INVALID</code> (idle 30 days / login older than 90 days) and <code>SESSION_REVOKED</code> / <code>REFRESH_TOKEN_REUSED</code> (logout-all, password change, device removed, reuse detected). 401 <code>TOKEN_EXPIRED</code> alone is silent — the app refreshes once (single-flight) and retries. Logout / revoke clears this phone's push token (LLD-002 §7), so the "no offer alerts" warning is true until the worker logs in and the app re-registers the token (<code>PUT /me/devices/current/push-token</code>). 403 <code>ACCOUNT_SUSPENDED</code> → W-14h. Bengali copy is a draft for native review; Latin digits (P25).</div>
+</div>
+</body>
+</html>

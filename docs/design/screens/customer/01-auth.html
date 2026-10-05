@@ -11,6 +11,23 @@
 <div class="canvas">
   <p class="canvas-title"><b>Customer · Sign up & log in</b>Replaces Phone login + OTP (ADR 0016, LLD-001). Email + password; mobile collected but not verified; no SMS.</p>
 
+  <!-- C-01 Splash (new) -->
+  <div class="phone">
+    <span class="label">C-01 Splash · new</span>
+    <div class="statusbar clear" style="position:absolute;inset:0 0 auto 0;z-index:1"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="content tools" style="color:#fff;padding:36px 24px 28px;gap:18px;align-items:center;text-align:center">
+      <div class="grow"></div>
+      <div class="illus glass">🛠️</div>
+      <p style="font-size:44px;line-height:50px;font-weight:800;letter-spacing:.5px">Karigar</p>
+      <p class="body-lg" style="opacity:.92;max-width:260px">Skilled hands for every home job in Howrah</p>
+      <div class="grow"></div>
+      <div style="width:140px;height:6px;border-radius:3px;background:rgba(255,255,255,.2);overflow:hidden"><div style="width:55%;height:100%;border-radius:3px;background:var(--grad-warm)"></div></div>
+      <p class="sm" style="opacity:.85">Loading…</p>
+      <p class="sm" style="opacity:.7">English · <span lang="bn">বাংলা</span> · <span lang="hi">हिंदी</span></p>
+    </div>
+  </div>
+  <div class="note"><b>Splash (LLD-002 D1–D3, LLD-003 D1)</b>Shown only while the app starts. If a refresh token is stored the app calls <code>POST /auth/refresh</code>: success → Home (C-10a); <code>REFRESH_TOKEN_INVALID</code> → C-06a; revoked → C-06b; 403 suspended → C-06c. No token → C-02 Welcome. Wordmark and tagline come from the phone's language before login (<code>Accept-Language</code>), else <code>users.preferred_locale</code>. Tagline is trade-neutral (same as C-02). No progress number: the bar only shows the app is alive on slow phones.</div>
+
   <!-- C-02 Welcome (fixed) -->
   <div class="phone">
     <span class="label">C-02 Welcome · fixed</span>
