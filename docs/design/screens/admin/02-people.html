@@ -36,9 +36,9 @@
 
 <p class="canvas-title"><b>Admin · People: user lookup, customer &amp; worker detail</b>Search-first lookup (P6, LLD-020 §4.2): no paged list of all customers/workers. PII masked by default (D7); reveal needs <code>user.pii.reveal</code> + reason, audited, 20/h. Suspend / reinstate / restrictions per LLD-020 §4.2 and §6.</p>
 
-<!-- A-10 User lookup -->
+<!-- A-02a User lookup -->
 <div class="web">
-  <span class="label">A-10 User lookup (search-first) · fixed</span>
+  <span class="label">A-02a User lookup (search-first) · fixed</span>
   <nav class="side" data-on="users"></nav>
   <div class="main">
     <header class="topbar" data-std><h1>User lookup</h1></header>
@@ -72,9 +72,9 @@
   <div class="note"><b>Fixes vs PNG (Customers / Workers tables)</b>No paged list, no export, no "Invite worker", no "needs Support role". Columns limited to open dispute + restrictions (review §3.5). Worker area = base locality + radius (P10). DEACTIVATED shown.</div>
 </div>
 
-<!-- A-11 Customer detail -->
+<!-- A-02b Customer detail -->
 <div class="web">
-  <span class="label">A-11 Customer detail · fixed</span>
+  <span class="label">A-02b Customer detail · fixed</span>
   <nav class="side" data-on="users"></nav>
   <div class="main">
     <header class="topbar" data-std><h1>User lookup › Rina Das</h1></header>
@@ -136,9 +136,9 @@
   <div class="note"><b>Removed vs PNG</b>Free-text notes / support cases (later), dispute as a booking status, email shown half-unmasked.</div>
 </div>
 
-<!-- A-12 Reveal modal -->
+<!-- A-02c Reveal modal -->
 <div class="web">
-  <span class="label">A-12 Reveal contact details (PII reveal) · new</span>
+  <span class="label">A-02c Reveal contact details (PII reveal) · new</span>
   <nav class="side" data-on="users"></nav>
   <div class="main">
     <header class="topbar" data-std><h1>User lookup › Rina Das</h1></header>
@@ -164,9 +164,9 @@
   <div class="note"><b>Re-mask</b>Revealed values live only in page memory; navigating away re-masks. No copy-to-clipboard shortcut for revealed values.</div>
 </div>
 
-<!-- A-13 Customer suspend + restriction dialogs -->
+<!-- A-02d Customer suspend + restriction dialogs -->
 <div class="web">
-  <span class="label">A-13 Customer · suspend &amp; add / lift restriction dialogs · new</span>
+  <span class="label">A-02d Customer · suspend &amp; add / lift restriction dialogs · new</span>
   <nav class="side" data-on="users"></nav>
   <div class="main">
     <header class="topbar" data-std><h1>User lookup › Rina Das</h1></header>
@@ -202,9 +202,9 @@
   <div class="note"><b>Rules</b>Customer suspend always suspends the user account (revokeAll + deny-list). Confirmed bookings are listed, not auto-cancelled (LLD-020 §11 default). Repeat suspend = 200, no second audit row.</div>
 </div>
 
-<!-- A-14 Worker detail -->
+<!-- A-02e Worker detail -->
 <div class="web">
-  <span class="label">A-14 Worker detail · fixed</span>
+  <span class="label">A-02e Worker detail · fixed</span>
   <nav class="side" data-on="users"></nav>
   <div class="main">
     <header class="topbar" data-std><h1>User lookup › Sujit Das</h1></header>
@@ -279,9 +279,9 @@
   <div class="note"><b>Fixes vs PNG</b>No "Invite worker", no multi-locality areas, no "online" dot — ACCEPTING_JOBS chip. Skills are profile info only (P12).</div>
 </div>
 
-<!-- A-15 Worker suspend dialog -->
+<!-- A-02f Worker suspend dialog -->
 <div class="web">
-  <span class="label">A-15 Worker · suspend dialog (blockLogin + bookings to cancel) · new</span>
+  <span class="label">A-02f Worker · suspend dialog (blockLogin + bookings to cancel) · new</span>
   <nav class="side" data-on="users"></nav>
   <div class="main">
     <header class="topbar" data-std><h1>User lookup › Sujit Das</h1></header>

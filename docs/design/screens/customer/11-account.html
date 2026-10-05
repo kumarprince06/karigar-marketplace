@@ -18,9 +18,9 @@
 <div class="canvas">
   <p class="canvas-title"><b>Customer · Account, notifications & privacy</b>Account hub without payment methods (B6), language at launch (B9), email-verified state (LLD-001 D1), devices / logout-all (LLD-002), DPDP rights (security/03 §40–42, §96–98).</p>
 
-  <!-- C-50 Account -->
+  <!-- C-03a Account -->
   <div class="phone">
-    <span class="label">C-50 Account · fixed</span>
+    <span class="label">C-11a Account · fixed</span>
     <div class="statusbar clear" style="position:absolute;inset:0 0 auto 0;z-index:1"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="hero" style="padding-top:40px">
       <p class="h2">Account</p>
@@ -47,9 +47,9 @@
   </div>
   <div class="note"><b>Account (B6, LLD-001 D1, LLD-003)</b>Removed "Payment methods · Visa ••42" — we store no cards or UPI IDs (LLD-011 §8); past payments live on each booking. Added Language, email + verified chip, Notification settings. When <code>emailVerified=false</code> the chip reads "Not verified" (warning) and a "Verify your email · Resend" banner sits above the list. "My reviews" left out until P9 is decided (no endpoint). Log out = <code>POST /auth/logout</code> for this device only.</div>
 
-  <!-- C-51 Edit profile -->
+  <!-- C-03b Edit profile -->
   <div class="phone soft">
-    <span class="label">C-51 Edit profile · fixed</span>
+    <span class="label">C-11b Edit profile · fixed</span>
     <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>Edit profile</h1></div>
     <div class="content">
@@ -63,9 +63,9 @@
   </div>
   <div class="note"><b>Edit profile (ADR 0016, LLD-001 §3, api/01)</b><code>PATCH /api/v1/me</code> {fullName, phone}. Phone is <strong>never verified</strong> in MVP (no OTP, no "Verified" chip); a change applies at once; <strong>409 PHONE_ALREADY_IN_USE</strong> → inline error (shown above as the error state). Email is mandatory and read-only with its verified state; "optional / for receipts" copy removed (no email receipts, LLD-013 D12). Changing email needs doc change D1 (no endpoint yet) — not offered.</div>
 
-  <!-- C-52 Language -->
+  <!-- C-03c Language -->
   <div class="phone soft">
-    <span class="label">C-52 Language · new</span>
+    <span class="label">C-11c Language · new</span>
     <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>Language · ভাষা · भाषा</h1></div>
     <div class="content" style="gap:12px">
@@ -78,11 +78,11 @@
     </div>
     <div class="footer"><a class="btn primary">Use English</a></div>
   </div>
-  <div class="note"><b>Language (LLD-003 D1/D2, B9, P25)</b>Options come from <code>GET /catalog/locales</code> (en, bn, hi at launch; a new row = new language, no app change). Each option is written in its own script. Saving sets <code>users.preferred_locale</code>; the next token refresh carries it in <code>loc</code>, so API texts, push and email follow it (LLD-013 D4). Same picker on first launch (C-02 segment). Latin digits in all locales (P25).</div>
+  <div class="note"><b>Language (LLD-003 D1/D2, B9, P25)</b>Options come from <code>GET /catalog/locales</code> (en, bn, hi at launch; a new row = new language, no app change). Each option is written in its own script. Saving sets <code>users.preferred_locale</code>; the next token refresh carries it in <code>loc</code>, so API texts, push and email follow it (LLD-013 D4). Same picker on first launch (C-01b segment). Latin digits in all locales (P25).</div>
 
-  <!-- C-53 Notification settings -->
+  <!-- C-03d Notification settings -->
   <div class="phone soft">
-    <span class="label">C-53 Notification settings · fixed</span>
+    <span class="label">C-11d Notification settings · fixed</span>
     <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>Notifications</h1></div>
     <div class="content">
@@ -102,9 +102,9 @@
   </div>
   <div class="note"><b>Notification settings (LLD-013 D9, D10)</b><code>GET|PUT /api/v1/me/notification-preferences</code> — only <code>REMINDER</code> push is switchable. <code>TRANSACTIONAL</code> and <code>SECURITY</code> are shown locked (filled, faded). Inbox rows are always written. No "Offers / promotional" row: <code>MARKETING</code> does not exist in MVP (P20). Quiet hours apply to reminder push only.</div>
 
-  <!-- C-54 Inbox -->
+  <!-- C-03e Inbox -->
   <div class="phone">
-    <span class="label">C-54 Notifications inbox · fixed</span>
+    <span class="label">C-11e Notifications inbox · fixed</span>
     <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>Notifications</h1><a class="btn ghost sm" style="padding:0 8px">Mark all read</a></div>
     <div class="content" style="gap:8px">
@@ -124,9 +124,9 @@
   </div>
   <div class="note"><b>Inbox (LLD-013 §4, D5, D13)</b><code>GET /api/v1/notifications</code> (cursor), <code>/unread-count</code>, <code>POST /{id}/read</code>, <code>/read-all</code>. Texts follow the rule table (types WORKER_ON_THE_WAY, CONFIRM_VISIT, REFUND_DONE, WORKER_INTERESTED…). Amounts may appear in the inbox (behind login) but never in push. Removed "Receipt sent" (no receipts) and per-job grouping. No short booking code exists (ADR 0018, P4 open): "Ref" = last 6 chars of the booking UUID.</div>
 
-  <!-- C-55 Privacy & security -->
+  <!-- C-03f Privacy & security -->
   <div class="phone soft">
-    <span class="label">C-55 Privacy & security · fixed</span>
+    <span class="label">C-11f Privacy & security · fixed</span>
     <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>Privacy & security</h1></div>
     <div class="content" style="gap:8px">
@@ -152,9 +152,9 @@
   </div>
   <div class="note"><b>Privacy & security (LLD-002 §4.2, security/03 §96–98)</b>Devices = <code>GET /me/sessions</code> (deviceLabel, platform, lastUsedAt, approxLocation city only — never IP). Log out one = <code>DELETE /me/sessions/{familyId}</code>; all = <code>POST /auth/logout-all</code> (confirm dialog, this phone included). Removed "Promotional · SMS" (P20) and the in-app Location toggle (OS permission → "Open phone settings"); "Download my data by email" → in-app data summary. The old "New login on 30 Sep" banner needs <code>createdAt</code> in <code>/me/sessions</code> (doc change D2) — left out until added.</div>
 
-  <!-- C-55b Consents -->
+  <!-- C-03g Consents -->
   <div class="phone soft">
-    <span class="label">C-55b Your consents · new</span>
+    <span class="label">C-11g Your consents · new</span>
     <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>Your consents</h1></div>
     <div class="content">
@@ -169,11 +169,11 @@
       <a class="btn ghost" style="color:var(--error);min-height:48px">Withdraw consent and delete account</a>
     </div>
   </div>
-  <div class="note"><b>Consents (security/03 §96, §97)</b><code>GET /api/v1/me/consents</code> → purpose_code, notice version, locale, granted at. Only the three required purposes exist for a customer in MVP; optional <code>MARKETING_*</code> rows are hidden (P20). Withdrawing <code>TERMS_OF_SERVICE</code> / <code>PRIVACY_NOTICE</code> starts erasure (§40), so the button leads to C-58 Delete account, not a toggle.</div>
+  <div class="note"><b>Consents (security/03 §96, §97)</b><code>GET /api/v1/me/consents</code> → purpose_code, notice version, locale, granted at. Only the three required purposes exist for a customer in MVP; optional <code>MARKETING_*</code> rows are hidden (P20). Withdrawing <code>TERMS_OF_SERVICE</code> / <code>PRIVACY_NOTICE</code> starts erasure (§40), so the button leads to C-11j Delete account, not a toggle.</div>
 
-  <!-- C-56 Change password -->
+  <!-- C-03h Change password -->
   <div class="phone soft">
-    <span class="label">C-56 Change password · new</span>
+    <span class="label">C-11h Change password · new</span>
     <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>Change password</h1></div>
     <div class="content">
@@ -186,9 +186,9 @@
   </div>
   <div class="note"><b>Change password (doc change D1 — not in LLD yet)</b>Design review §5 D1 adds <code>PUT /me/password</code> {currentPassword, newPassword}. Assumed rules, same as reset (LLD-001 D3): 8–128, <code>WEAK_PASSWORD</code>, wrong current → <code>INVALID_CREDENTIALS</code> with the login rate limit. Assumed effect: other sessions revoked with <code>PASSWORD_CHANGED</code> and a SECURITY email + inbox row. Confirm when LLD-001/002 are updated.</div>
 
-  <!-- C-57 Data summary -->
+  <!-- C-03i Data summary -->
   <div class="phone soft">
-    <span class="label">C-57 Your data summary · new</span>
+    <span class="label">C-11i Your data summary · new</span>
     <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>What we hold</h1></div>
     <div class="content" style="gap:8px">
@@ -209,9 +209,9 @@
   </div>
   <div class="note"><b>Data summary (security/03 §42, §97)</b>In-app, instant: <code>GET /api/v1/me/data-summary</code> — categories held (profile, addresses, requests, bookings, jobs, reviews, notifications, own financial records, consents) and the processors / fiduciaries it went to with what was shared (from <code>data_processors</code>). Never other people's data, risk scores or internal notes. Replaces "Download my data by email". JSON export is optional, not promised (left out). Written requests: 30 days via Grievance Officer.</div>
 
-  <!-- C-58a Delete account blocked -->
+  <!-- C-11j Delete account blocked -->
   <div class="phone soft">
-    <span class="label">C-58a Delete account · blocked · fixed</span>
+    <span class="label">C-11j Delete account · blocked · fixed</span>
     <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>Delete account</h1></div>
     <div class="content">
@@ -227,9 +227,9 @@
     <div class="footer"><a class="btn disabled">Delete my account</a></div>
   </div>
 
-  <!-- C-58b Delete account confirm -->
+  <!-- C-11k Delete account confirm -->
   <div class="phone soft">
-    <span class="label">C-58b Delete account · confirm · fixed</span>
+    <span class="label">C-11k Delete account · confirm · fixed</span>
     <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>Delete account</h1></div>
     <div class="content" style="gap:10px">
@@ -245,9 +245,9 @@
   </div>
   <div class="note"><b>Delete account (security/03 §40, §97)</b><code>POST /api/v1/me/erasure-request</code> → <code>data_principal_requests</code> row; status at <code>GET /me/privacy-requests/{id}</code>. Blockers (shown, button disabled): active booking, unpaid cash-job fees, open dispute, legal hold (legal hold shown as "Your account is under review — contact support", no detail). Completed 30 days after blockers clear; the reply states what was kept, why and until when. Removed "closes the open issue", "removes payment methods", "Type DELETE" → password re-entry (works in every language). Whether the password check is server-side is not specified in the docs.</div>
 
-  <!-- C-59 Terms & policies -->
+  <!-- C-11l Terms & policies -->
   <div class="phone soft">
-    <span class="label">C-59 Terms & policies · fixed</span>
+    <span class="label">C-11l Terms & policies · fixed</span>
     <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>Terms & policies</h1></div>
     <div class="content">
@@ -266,7 +266,7 @@
       <p class="sm muted">Not happy with our answer? You can then complain to the <b>Data Protection Board of India</b>.</p>
     </div>
   </div>
-  <div class="note"><b>Terms & policies (security/03 §96, §98)</b>Documents open in the user's language (<code>preferred_locale</code>, en/bn/hi). Grievance Officer contact (name, designation, email, phone) is required in the app (DPDP s.8(9)); the same person covers the e-commerce grievance duty (verify with legal). Board reference shown after our own process (s.13(3)). Name, email and phones are placeholders. "Write a complaint" → C-74 Grievance form (04-support.html).</div>
+  <div class="note"><b>Terms & policies (security/03 §96, §98)</b>Documents open in the user's language (<code>preferred_locale</code>, en/bn/hi). Grievance Officer contact (name, designation, email, phone) is required in the app (DPDP s.8(9)); the same person covers the e-commerce grievance duty (verify with legal). Board reference shown after our own process (s.13(3)). Name, email and phones are placeholders. "Write a complaint" → C-13h Grievance form (13-support.html).</div>
 </div>
 </body>
 </html>

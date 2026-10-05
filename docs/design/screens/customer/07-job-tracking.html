@@ -32,9 +32,9 @@
 <div class="canvas">
   <p class="canvas-title"><b>Customer · Job tracking — visits, start code, quotes, materials, completion</b>No live map (LLD-009 D1): status changes arrive by push. Worker's real phone + Call (no chat, no masked calling). Approvals happen only in the customer app (LLD-017 D11).</p>
 
-  <!-- C-21a On the way -->
+  <!-- C-07a On the way -->
   <div class="phone">
-    <span class="label">C-21a Worker on the way · fixed</span>
+    <span class="label">C-07a Worker on the way · fixed</span>
     <div class="hero" style="padding-top:0">
       <div class="statusbar clear" style="padding:0 2px"><span>4:12</span><span>▮▮ 4G</span></div>
       <div class="row"><button class="iconbtn" style="color:#fff">←</button><div class="grow"><b>Fan not working</b><p class="sm muted">Ref 9C41E7 · Visit 1</p></div></div>
@@ -60,11 +60,11 @@
     </div>
     <div class="footer"><a class="btn danger-o">Cancel booking · fee up to ₹99</a></div>
   </div>
-  <div class="note"><b>Data (LLD-009 D1, §5.2, §8)</b>Visit EN_ROUTE: en_route_at, eta_minutes (worker picks 15/30/45/60) → push "Rakesh is on the way, ~25 min". No GPS shown to the customer. Start code visible from booking until the visit is IN_PROGRESS. Cancelling now = after "On my way" → visit charge capped at the advance (preview on C-20d).</div>
+  <div class="note"><b>Data (LLD-009 D1, §5.2, §8)</b>Visit EN_ROUTE: en_route_at, eta_minutes (worker picks 15/30/45/60) → push "Rakesh is on the way, ~25 min". No GPS shown to the customer. Start code visible from booking until the visit is IN_PROGRESS. Cancelling now = after "On my way" → visit charge capped at the advance (preview on C-06d).</div>
 
-  <!-- C-21b Arrived: start code -->
+  <!-- C-07b Arrived: start code -->
   <div class="phone soft">
-    <span class="label">C-21b Arrived — show start code · new</span>
+    <span class="label">C-07b Arrived — show start code · new</span>
     <div class="statusbar"><span>4:33</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><div class="grow"><h1>Fan not working</h1><p class="sub">Ref 9C41E7 · Visit 1</p></div></div>
     <div class="content" style="gap:12px">
@@ -84,9 +84,9 @@
     <div class="footer"><a class="btn primary">📞 Call Rakesh</a></div>
   </div>
 
-  <!-- C-21c Code locked -->
+  <!-- C-07c Code locked -->
   <div class="phone">
-    <span class="label">C-21c Start code locked · new</span>
+    <span class="label">C-07c Start code locked · new</span>
     <div class="statusbar"><span>4:36</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><div class="grow"><h1>Fan not working</h1><p class="sub">Ref 9C41E7 · Visit 1</p></div></div>
     <div class="content" style="justify-content:center;text-align:center;gap:14px">
@@ -101,9 +101,9 @@
   </div>
   <div class="note"><b>Data (LLD-009 D3, §5.2, §5.5)</b><code>GET /visits/{id}/start-code</code> → {code, attemptsLeft}; worker <code>POST /visits/{id}/start {code}</code>: 422 START_CODE_INVALID (attemptsLeft), 423 START_CODE_LOCKED after 5. Customer <code>POST /start-code/regenerate</code> (only after a lock) → new code, attempts reset. Correct code → visit IN_PROGRESS, job SCHEDULED → IN_PROGRESS (start_code_verified_at). Customer tells the on-site contact by phone (SMS/WhatsApp later).</div>
 
-  <!-- C-21d Work in progress -->
+  <!-- C-07d Work in progress -->
   <div class="phone">
-    <span class="label">C-21d Work in progress · fixed</span>
+    <span class="label">C-07d Work in progress · fixed</span>
     <div class="statusbar"><span>5:02</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><div class="grow"><h1>Fan not working</h1><p class="sub">Ref 9C41E7 · Visit 1</p></div></div>
     <div class="content" style="gap:10px;padding-top:0">
@@ -127,11 +127,11 @@
       <a class="btn ghost" style="min-height:48px">⚠️ Report a problem</a>
     </div>
   </div>
-  <div class="note"><b>Data (LLD-009 §7, LLD-017 D2/D11, LLD-018)</b>Visit IN_PROGRESS, job IN_PROGRESS. Panels appear from job state: quote SUBMITTED → "Extra work quote" (C-21h); material bill PENDING_ACK → "Material bill" (C-21i). Job ON_HOLD shows the worker's reason ("waiting for material"). Report a problem → dispute (LLD-018, subject JOB / VISIT, window per D2).</div>
+  <div class="note"><b>Data (LLD-009 §7, LLD-017 D2/D11, LLD-018)</b>Visit IN_PROGRESS, job IN_PROGRESS. Panels appear from job state: quote SUBMITTED → "Extra work quote" (C-07h); material bill PENDING_ACK → "Material bill" (C-07i). Job ON_HOLD shows the worker's reason ("waiting for material"). Report a problem → dispute (LLD-018, subject JOB / VISIT, window per D2).</div>
 
-  <!-- C-21e Multi-day -->
+  <!-- C-07e Multi-day -->
   <div class="phone soft">
-    <span class="label">C-21e Multi-day · Day 2 of 3 · new</span>
+    <span class="label">C-07e Multi-day · Day 2 of 3 · new</span>
     <div class="statusbar"><span>6:15</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><div class="grow"><h1>Bathroom pipe leak</h1><p class="sub">Sujit Mondal · Plumber · Ref 2B7D10</p></div></div>
     <div class="content" style="gap:10px;padding-top:0">
@@ -152,11 +152,11 @@
       </div>
     </div>
   </div>
-  <div class="note"><b>Data (LLD-009 D4, §4, §6.1)</b>MULTI_DAY booking (via quote or ADD_DAYS, C-20g); one job_visit per day with its own start code. Visit DONE → push "Confirm today's work"; labour_amount (FULL_DAY = daily rate) + helper_amount (helpers_present × helper_day_rate). payment_schedule DAILY → each VisitConfirmed creates a payment due (C-22). Chips: visit status (SCHEDULED / DONE+confirmed …) and payment status as separate enums.</div>
+  <div class="note"><b>Data (LLD-009 D4, §4, §6.1)</b>MULTI_DAY booking (via quote or ADD_DAYS, C-06g); one job_visit per day with its own start code. Visit DONE → push "Confirm today's work"; labour_amount (FULL_DAY = daily rate) + helper_amount (helpers_present × helper_day_rate). payment_schedule DAILY → each VisitConfirmed creates a payment due (C-08a). Chips: visit status (SCHEDULED / DONE+confirmed …) and payment status as separate enums.</div>
 
-  <!-- C-21f Visit confirm sheet -->
+  <!-- C-07f Visit confirm sheet -->
   <div class="phone">
-    <span class="label">C-21f Confirm today's work · new</span>
+    <span class="label">C-07f Confirm today's work · new</span>
     <div class="statusbar"><span>6:16</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>Bathroom pipe leak</h1></div>
     <div class="content"><div class="skel" style="width:70%"></div><div class="skel"></div></div>
@@ -178,9 +178,9 @@
   </div>
   <div class="note"><b>Data (LLD-009 D4, §5.2; LLD-018 D2)</b>Check-out: day_type, helpers_present, work_summary, photos (job_media AFTER/PROGRESS), amounts from VisitAmountCalculator (§4; client never sends amounts). <code>POST /visits/{id}/confirm</code> → customer_confirmed_at, confirmed_by CUSTOMER; timer auto-confirms 24 h after check-out unless disputed_at set. "Report" = <code>POST /disputes {subjectType: VISIT}</code>, holds the visit.</div>
 
-  <!-- C-21g Worker didn't come -->
+  <!-- C-07g Worker didn't come -->
   <div class="phone">
-    <span class="label">C-21g Worker didn't come · new</span>
+    <span class="label">C-07g Worker didn't come · new</span>
     <div class="statusbar"><span>5:05</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><div class="grow"><h1>Fan not working</h1><p class="sub">Visit was due 4:00 PM</p></div></div>
     <div class="content" style="gap:12px">
@@ -200,9 +200,9 @@
   </div>
   <div class="note"><b>Data (LLD-009 D7, §5.2, §8)</b>Shown when visit SCHEDULED / EN_ROUTE and now ≥ start + 60 min, not checked in (earlier → 409 NO_SHOW_TOO_EARLY, button hidden). <code>POST /visits/{id}/report-worker-no-show</code> → WORKER_NO_SHOW, NO_SHOW strike, customer pays 0. Single-visit job → request BOOKED → MATCHING (worker excluded) or cancel with advance refund. Timer does it at 2 h.</div>
 
-  <!-- C-21h Quote approval -->
+  <!-- C-07h Quote approval -->
   <div class="phone">
-    <span class="label">C-21h Quote approval · new</span>
+    <span class="label">C-07h Quote approval · new</span>
     <div class="statusbar"><span>5:04</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><div class="grow"><h1>Extra work quote</h1><p class="sub">From Rakesh · expires in 23 h</p></div></div>
     <div class="content" style="gap:10px;padding-top:0">
@@ -227,9 +227,9 @@
   </div>
   <div class="note"><b>Data (LLD-017 D2–D8, D11, §5)</b>Quote SUBMITTED (one per job), lines: line_type LABOUR / MATERIAL (supplied_by) / HELPER / VISIT_CHARGE / TRANSPORT / DISCOUNT / OTHER, description, brand_spec, quantity × unit_price → amount (backend). Expires 24 h; silence never accepts. <code>POST /quotes/{id}/accept</code> or <code>/reject {reasonCode}</code> — reject sheet: TOO_EXPENSIVE, NOT_NEEDED, WILL_ARRANGE_MYSELF, OTHER. Material is a ceiling (D7); bill line QUOTE = total − material. Revision supersedes ("Rakesh changed the quote"). Only the account holder approves, never the on-site contact.</div>
 
-  <!-- C-21i Material bill acknowledge -->
+  <!-- C-07i Material bill acknowledge -->
   <div class="phone">
-    <span class="label">C-21i Material bill — acknowledge · new</span>
+    <span class="label">C-07i Material bill — acknowledge · new</span>
     <div class="statusbar"><span>5:40</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><div class="grow"><h1>Material bill</h1><p class="sub">Maa Tara Hardware, Shibpur · 5 Oct</p></div></div>
     <div class="content" style="gap:10px;padding-top:0">
@@ -251,9 +251,9 @@
   </div>
   <div class="note"><b>Data (LLD-017 D8, §3 material_bills)</b>Bill: vendor_name, bill_date, amount, receipt photo (signed URL), quote_id, covered_minor 70000 + excess_minor 10000, status PENDING_ACK, ack_due_at = +24 h. <code>POST /material-bills/{id}/acknowledge</code> → ACKNOWLEDGED (bill ₹800) or <code>/reject</code> → EXCESS_REJECTED (₹700); 24 h silence → EXCESS_REJECTED. A bill without photo or quote needs acknowledgement in full. COVERED bills need no action (info row only).</div>
 
-  <!-- C-21j Work done -->
+  <!-- C-07j Work done -->
   <div class="phone soft">
-    <span class="label">C-21j Work done — confirm or report · new</span>
+    <span class="label">C-07j Work done — confirm or report · new</span>
     <div class="statusbar"><span>6:05</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><div class="grow"><h1>Fan not working</h1><p class="sub">Ref 9C41E7</p></div></div>
     <div class="content" style="gap:12px">
@@ -276,7 +276,7 @@
       <a class="btn danger-o">Report a problem</a>
     </div>
   </div>
-  <div class="note"><b>Data (LLD-009 D9, §6.3; LLD-018 D2/D3)</b>Job WORK_COMPLETED (completion notes + after photos). <code>POST /jobs/{id}/confirm-completion</code> → job/booking/request COMPLETED, warranty_until = +30 d, then bill (C-22a) and review (C-23a). "Report a problem" = <code>POST /disputes {subjectType: JOB, category …}</code> → jobs.disputed_at, nothing auto-confirms; booking shows "Issue · awaiting response / in review". Worker can't mark done while a quote is SUBMITTED or a bill PENDING_ACK (D12).</div>
+  <div class="note"><b>Data (LLD-009 D9, §6.3; LLD-018 D2/D3)</b>Job WORK_COMPLETED (completion notes + after photos). <code>POST /jobs/{id}/confirm-completion</code> → job/booking/request COMPLETED, warranty_until = +30 d, then bill (C-08a) and review (C-09a). "Report a problem" = <code>POST /disputes {subjectType: JOB, category …}</code> → jobs.disputed_at, nothing auto-confirms; booking shows "Issue · awaiting response / in review". Worker can't mark done while a quote is SUBMITTED or a bill PENDING_ACK (D12).</div>
 </div>
 </body>
 </html>

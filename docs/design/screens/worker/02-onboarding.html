@@ -61,9 +61,9 @@
 <div class="canvas">
   <p class="canvas-title"><b>Worker · Onboarding (readiness checklist)</b>Replaces Onboarding · skills / service area / Availability. 7 readiness steps; account moves ONBOARDING → ACTIVE by itself when all are done (LLD-004 D5). Bengali first.</p>
 
-  <!-- W-10 Readiness checklist (en) -->
+  <!-- W-02a Readiness checklist (en) -->
   <div class="phone soft">
-    <span class="label">W-10 Readiness checklist · new</span>
+    <span class="label">W-02a Readiness checklist · new</span>
     <div class="hero" style="padding-top:0">
       <div class="statusbar clear" style="padding:0 2px"><span>9:41</span><span>▮▮ 4G</span></div>
       <div class="row between"><b style="font-size:20px">Get ready for jobs</b><span class="pill">🔒 Offline</span></div>
@@ -84,9 +84,9 @@
     <div class="footer"><a class="btn primary">Next: Work area →</a></div>
   </div>
 
-  <!-- W-10b Readiness checklist (bn) -->
+  <!-- W-02b Readiness checklist (bn) -->
   <div class="phone soft" lang="bn">
-    <span class="label">W-10b Readiness checklist (বাংলা) · new</span>
+    <span class="label">W-02b Readiness checklist (বাংলা) · new</span>
     <div class="hero" style="padding-top:0">
       <div class="statusbar clear" style="padding:0 2px"><span>9:41</span><span>▮▮ 4G</span></div>
       <div class="row between"><b style="font-size:20px">কাজ পেতে তৈরি হন</b><span class="pill">🔒 অফলাইন</span></div>
@@ -108,9 +108,9 @@
   </div>
   <div class="note"><b>Data (LLD-004 §4 readiness, D5, D8)</b><code>GET /workers/me/readiness</code> → 7 steps in fixed order: EMAIL_VERIFIED, PROFILE_BASICS, TRADE_WITH_RATE, SERVICE_AREA, WORKING_HOURS, MANDATORY_VERIFICATIONS (<code>missing: ["ID_PROOF", "ELECTRICAL_LICENSE"]</code> shown as sub-text), BANK_ACCOUNT_VERIFIED. Labels localised by backend (LLD-003). Steps can be done in any order; the CTA opens the first open one. No percentage. When all done → <code>WorkerActivated</code> (outbox, push) and the online toggle unlocks (LLD-007 D2). Digits stay Latin in bn/hi (P25).</div>
 
-  <!-- W-11 Profile basics -->
+  <!-- W-02c Profile basics -->
   <div class="phone soft">
-    <span class="label">W-11 Profile basics · new</span>
+    <span class="label">W-02c Profile basics · new</span>
     <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>About you</h1><span class="sub">Step 2 of 7</span></div>
     <div class="content" style="gap:12px">
@@ -128,9 +128,9 @@
   </div>
   <div class="note"><b>Data (LLD-004 §3, D6; LLD-014 PROFILE_PHOTO)</b><code>PATCH /workers/me</code>: <code>displayName</code> (≤100), <code>bio</code> (≤500), <code>spokenLanguages</code> (ISO 639 codes into <code>worker_spoken_languages</code>; separate from app locale). Phone / email / link / "WhatsApp me" in name or bio → <code>400 CONTACT_INFO_NOT_ALLOWED</code> (shown inline). Photo: compressed to ~1600 px on phone, presigned upload, purpose <code>PROFILE_PHOTO</code> (public copy, EXIF stripped); "Save" waits for AVAILABLE. PROFILE_BASICS done = name + photo (bio optional).</div>
 
-  <!-- W-12 Trades -->
+  <!-- W-02d Trades -->
   <div class="phone soft">
-    <span class="label">W-12 Trades · new</span>
+    <span class="label">W-02d Trades · new</span>
     <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>Your work</h1><span class="sub">Step 3 of 7</span></div>
     <div class="content" style="gap:10px">
@@ -152,9 +152,9 @@
   </div>
   <div class="note"><b>Data (LLD-004 D1, D2, §4)</b><code>PUT /workers/me/professions</code> with the full list: <code>professionId, isPrimary, experienceYears (0–60, integer — P11), status</code> + <code>version</code>. Max 3 live trades (<code>TOO_MANY_TRADES</code>), exactly one primary (<code>PRIMARY_TRADE_REQUIRED</code>). A trade with no rate is saved PAUSED until rates are added. Only ELECTRICIAN + PLUMBER are active at launch; others are shown greyed (<code>PROFESSION_NOT_AVAILABLE</code>). Years are self-declared, shown without a verified mark.</div>
 
-  <!-- W-13 Rates (bn) -->
+  <!-- W-02e Rates (bn) -->
   <div class="phone soft" lang="bn">
-    <span class="label">W-13 Your charges per trade (বাংলা) · new</span>
+    <span class="label">W-02e Your charges per trade (বাংলা) · new</span>
     <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>আপনার রেট</h1><span class="sub">ধাপ 3 / 7</span></div>
     <div class="content" style="gap:10px">
@@ -174,9 +174,9 @@
   </div>
   <div class="note"><b>Data (LLD-004 D2–D4, §3 bounds)</b><code>PUT /workers/me/professions/{id}/rates</code> = full list per trade: <code>rateType</code> VISIT / HOURLY / HALF_DAY / DAILY / PER_UNIT (+ <code>unit</code>: POINT, SQ_FT, RUNNING_FT, PIECE, TAP, FIXTURE, KG, TANK) / MINIMUM, <code>amountMinor</code>, optional <code>note</code> (≤200). Bounds: VISIT & HOURLY ₹50–2,000 · HALF_DAY ₹200–5,000 · DAILY ₹300–10,000 · PER_UNIT ₹1–10,000 · MINIMUM ₹50–5,000 → <code>422 RATE_OUT_OF_RANGE</code> with min/max, checked on the phone first. Whole rupees only, numeric keypad. "!" on Plumber = no rate yet → trade PAUSED. Old rate rows closed, never edited; bookings keep their snapshot.</div>
 
-  <!-- W-14 Skills -->
+  <!-- W-02f Skills -->
   <div class="phone soft">
-    <span class="label">W-14 Skills per trade · new</span>
+    <span class="label">W-02f Skills per trade · new</span>
     <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>What can you do?</h1><span class="sub">Step 3 of 7</span></div>
     <div class="content" style="gap:12px">
@@ -193,9 +193,9 @@
   </div>
   <div class="note"><b>Data (LLD-004 §4, P12)</b><code>PUT /workers/me/professions/{id}/skills</code> = full list of skill ids from the catalog for that trade (<code>SKILL_NOT_IN_TRADE</code> otherwise). Skills are profile information only — matching is by trade (P12), so no "only matching requests" claim. Skill names come localised from the catalog (LLD-003).</div>
 
-  <!-- W-15 Service area -->
+  <!-- W-02g Service area -->
   <div class="phone soft">
-    <span class="label">W-15 Service area · fixed</span>
+    <span class="label">W-02g Service area · fixed</span>
     <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>Where do you work?</h1><span class="sub">Step 4 of 7</span></div>
     <div class="content" style="gap:12px">
@@ -218,9 +218,9 @@
   </div>
   <div class="note"><b>Data (LLD-007 D1, P10)</b>One service area: home base point (lat/lng from GPS or pin) + travel radius <b>1–20 km, default 5</b>. Distance is from the base, never live GPS. Locality label ("Shibpur") from reverse geocode/zone, shown on profile; exact point never public (LLD-004 §8). No locality chips / several areas (P10). Location permission asked only on "Use my location"; pin works without it.</div>
 
-  <!-- W-16 Working hours presets (bn) -->
+  <!-- W-02h Working hours presets (bn) -->
   <div class="phone soft" lang="bn">
-    <span class="label">W-16 Working hours · presets (বাংলা) · new</span>
+    <span class="label">W-02h Working hours · presets (বাংলা) · new</span>
     <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>কবে কাজ করেন?</h1><span class="sub">ধাপ 5 / 7</span></div>
     <div class="content" style="gap:10px">
@@ -234,9 +234,9 @@
   </div>
   <div class="note"><b>Data (LLD-015 D1, D2, §4.3)</b>Presets first, from server config with localised labels: MON_SAT_9_6 (suggested), MON_SAT_8_8, EVERY_DAY_8_8, MON_SAT_SPLIT. <code>PUT /workers/me/schedule/working-hours {"preset":"MON_SAT_9_6"}</code> replaces the whole week; readiness WORKING_HOURS = at least one working day. Times shown in Latin digits (P25). Day chips: সো ম বু বৃ শু শ র (Mon → Sun).</div>
 
-  <!-- W-17 Custom hours -->
+  <!-- W-02i Custom hours -->
   <div class="phone soft">
-    <span class="label">W-17 Working hours · custom · new</span>
+    <span class="label">W-02i Working hours · custom · new</span>
     <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>Your hours</h1></div>
     <div class="content" style="gap:10px">
@@ -255,9 +255,9 @@
   </div>
   <div class="note"><b>Data (LLD-015 D1, §4.2, §4.4)</b><code>{"days":[{"day":"MON","ranges":[{"from":"09:00","to":"13:00"},{"from":"16:00","to":"20:00"}]}, …]}</code>. Up to 2 ranges per ISO weekday, no midnight crossing, no overlap; missing day = day off; empty week refused → <code>422 INVALID_WORKING_HOURS</code>. Time zone Asia/Kolkata (D10). Requests are offered when hours overlap the customer window by ≥ 60 min (D3).</div>
 
-  <!-- W-18 Time off & capacity -->
+  <!-- W-02j Time off & capacity -->
   <div class="phone soft">
-    <span class="label">W-18 Time off & capacity · new</span>
+    <span class="label">W-02j Time off & capacity · new</span>
     <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>Breaks and job limit</h1></div>
     <div class="content" style="gap:12px">
@@ -279,9 +279,9 @@
   </div>
   <div class="note"><b>Data (LLD-015 D5–D7, §4)</b>Time off: <code>POST /workers/me/time-off</code> with preset REST_OF_TODAY / TOMORROW or <code>fromDate–toDate</code> + <code>reasonCode</code> (LEAVE, FESTIVAL, SICK, PERSONAL, OTHER; private). Whole days, ≤60 days each, ≤180 days ahead, ≤10 upcoming. Covering a booked visit → <code>409 TIME_OFF_OVERLAPS_BOOKING</code> listing the visits (shown above); we never auto-cancel. Remove ongoing = "I'm back". Capacity: <code>PUT …/capacity {"maxOpenJobs":3}</code>, default 3, range 1–10; counts SCHEDULED / IN_PROGRESS / ON_HOLD jobs, not WORK_COMPLETED.</div>
 
-  <!-- W-19 Emergency opt-in -->
+  <!-- W-02k Emergency opt-in -->
   <div class="phone soft">
-    <span class="label">W-19 Emergency jobs opt-in · new</span>
+    <span class="label">W-02k Emergency jobs opt-in · new</span>
     <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>Emergency jobs</h1></div>
     <div class="content" style="gap:14px">

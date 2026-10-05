@@ -35,9 +35,9 @@
 
 <p class="canvas-title"><b>Admin · Marketplace: requests, bookings, booking detail</b>Request, booking, job and visit are separate state machines (ADR 0009, B8) and are shown as separate chips. Requests are read-only in MVP (P24). Admin cancel needs <code>booking.manage</code> (LLD-009 §5.3).</p>
 
-<!-- A-20 Requests -->
+<!-- A-03a Requests -->
 <div class="web">
-  <span class="label">A-20 Requests (read-only) · fixed</span>
+  <span class="label">A-03a Requests (read-only) · fixed</span>
   <nav class="side" data-on="requests"></nav>
   <div class="main">
     <header class="topbar" data-std><h1>Requests</h1></header>
@@ -80,9 +80,9 @@
   <div class="note"><b>Open doc gap</b>No admin request list endpoint exists yet — review §3.5 says add one (<code>GET /admin/requests</code>, <code>booking.view</code> assumed). No "notify more workers / widen radius" actions (P24).</div>
 </div>
 
-<!-- A-21 Bookings -->
+<!-- A-03b Bookings -->
 <div class="web">
-  <span class="label">A-21 Bookings · fixed</span>
+  <span class="label">A-03b Bookings · fixed</span>
   <nav class="side" data-on="bookings"></nav>
   <div class="main">
     <header class="topbar" data-std><h1>Bookings</h1></header>
@@ -112,9 +112,9 @@
   <div class="note"><b>Fixes vs PNG</b>No "Awaiting worker", no single merged status, no bulk select / export. Ids are UUID tails with copy (P4 short display code pending).</div>
 </div>
 
-<!-- A-22 Booking detail -->
+<!-- A-03c Booking detail -->
 <div class="web">
-  <span class="label">A-22 Booking / job detail · fixed (was "Booking detail (2)")</span>
+  <span class="label">A-03c Booking / job detail · fixed (was "Booking detail (2)")</span>
   <nav class="side" data-on="bookings"></nav>
   <div class="main">
     <header class="topbar" data-std><h1>Bookings › …3f9a1c</h1></header>
@@ -190,9 +190,9 @@
   <div class="note"><b>Fixes vs PNG</b>Amount is agreed rate + bill breakdown, not "set by worker" (B4). "8 offered · 3 interested", check-in distance, start-code attempts, ETA, advance added. No Messages tab.</div>
 </div>
 
-<!-- A-23 Admin cancel -->
+<!-- A-03d Admin cancel -->
 <div class="web">
-  <span class="label">A-23 Admin cancel booking dialog · new</span>
+  <span class="label">A-03d Admin cancel booking dialog · new</span>
   <nav class="side" data-on="bookings"></nav>
   <div class="main">
     <header class="topbar" data-std><h1>Bookings › …b4e0a7</h1></header>

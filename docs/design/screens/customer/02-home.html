@@ -24,9 +24,9 @@
 <div class="canvas">
   <p class="canvas-title"><b>Customer · Home, catalog search & drafts</b>Home gets the Emergency 24×7 entry, "Continue your draft", saved-address picker and the real booked window (review §3.3 Home). Search works in any language (LLD-003 D3). Live trades at launch: Electrician and Plumber only.</p>
 
-  <!-- C-10a Home (fixed) -->
+  <!-- C-02a Home (fixed) -->
   <div class="phone">
-    <span class="label">C-10a Home · fixed</span>
+    <span class="label">C-02a Home · fixed</span>
     <div class="hero" style="padding-top:0">
       <div class="statusbar clear" style="padding:0 2px"><span>9:41</span><span>▮▮ 4G</span></div>
       <div class="row between">
@@ -61,9 +61,9 @@
     <div class="tabbar"><a class="on"><span class="ico">🏠</span>Home</a><a><span class="ico">📋</span>Requests</a><a><span class="ico">📅</span>Bookings</a><a><span class="ico">👤</span>Account</a></div>
   </div>
 
-  <!-- C-10b Saved-address picker (new) -->
+  <!-- C-02b Saved-address picker (new) -->
   <div class="phone">
-    <span class="label">C-10b Saved-address picker · new</span>
+    <span class="label">C-02b Saved-address picker · new</span>
     <div class="hero" style="padding-top:0;opacity:.6">
       <div class="statusbar clear" style="padding:0 2px"><span>9:41</span><span>▮▮ 4G</span></div>
       <div class="addr-pick"><span style="font-size:22px">📍</span><span><small>Service at</small><b>Home · Shibpur ▾</b></span></div>
@@ -85,9 +85,9 @@
   </div>
   <div class="note"><b>Home data (LLD-005, LLD-006, LLD-009)</b>Address chip = <code>addresses.label</code> + locality; picker lists saved addresses (max 20, D5), default first. Addresses outside an ACTIVE zone can be saved (D3) but can't be used for a request; "Notify me" → <code>POST /service-areas/waitlist</code>. Emergency card shows only when <code>GET /service-areas/emergency-availability</code> = true for this address (LLD-007 §5.3). Booking card shows the real first-visit window (≥2 h) + visit status chip. Draft card = newest <code>service_request_drafts</code> row. Language "EN" opens the language picker (LLD-003 D1).</div>
 
-  <!-- C-10c Home loading skeleton (fixed) -->
+  <!-- C-02c Home loading skeleton (fixed) -->
   <div class="phone">
-    <span class="label">C-10c Home · loading skeleton · fixed</span>
+    <span class="label">C-02c Home · loading skeleton · fixed</span>
     <div class="hero" style="padding-top:0">
       <div class="statusbar clear" style="padding:0 2px"><span>9:41</span><span>▮▮ 4G</span></div>
       <div class="row between" style="min-height:48px"><div class="skel" style="width:150px;height:18px;opacity:.35"></div><div class="skel" style="width:40px;height:40px;border-radius:50%;opacity:.35"></div></div>
@@ -104,9 +104,9 @@
     <div class="tabbar"><a class="on"><span class="ico">🏠</span>Home</a><a><span class="ico">📋</span>Requests</a><a><span class="ico">📅</span>Bookings</a><a><span class="ico">👤</span>Account</a></div>
   </div>
 
-  <!-- C-10d Catalog search results, English UI, romanised query (new) -->
+  <!-- C-02d Catalog search results, English UI, romanised query (new) -->
   <div class="phone soft">
-    <span class="label">C-10d Catalog search · "pakha" · new</span>
+    <span class="label">C-02d Catalog search · "pakha" · new</span>
     <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><div class="input focus grow" style="min-height:48px">🔎 pakha<span class="grow"></span><span class="muted">✕</span></div></div>
     <div class="content">
@@ -126,9 +126,9 @@
     </div>
   </div>
 
-  <!-- C-10e Catalog search, Bengali UI (new) -->
+  <!-- C-02e Catalog search, Bengali UI (new) -->
   <div class="phone soft" lang="bn">
-    <span class="label" lang="en">C-10e Catalog search · "পাখা" (bn) · new</span>
+    <span class="label" lang="en">C-02e Catalog search · "পাখা" (bn) · new</span>
     <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><div class="input focus grow" style="min-height:48px">🔎 পাখা<span class="grow"></span><span class="muted">✕</span></div></div>
     <div class="content">
@@ -146,9 +146,9 @@
   </div>
   <div class="note"><b>Search (LLD-003 §4.1, D3, D6)</b><code>GET /catalog/search?q=pakha&limit=10</code> → mixed PROBLEM + PROFESSION results from <code>catalog_search_terms</code> (prefix + trigram, romanised keywords such as <i>pankha, pakha</i>). Titles always come back in the resolved language (token <code>loc</code> → Accept-Language → en), even when the keyword matched another language. Price guide = <code>typical_min/max_minor</code> or "Price after inspection" (<code>needs_inspection</code>). Tapping a problem opens Request step 1 with the trade + problem pre-selected. No result → row in <code>catalog_search_misses</code>; show trade picker. Digits stay Latin in all locales (P25).</div>
 
-  <!-- C-10f Drafts list (new) -->
+  <!-- C-02f Drafts list (new) -->
   <div class="phone soft">
-    <span class="label">C-10f Drafts list · new</span>
+    <span class="label">C-02f Drafts list · new</span>
     <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>Saved drafts</h1><span class="chip neutral">3 of 5</span></div>
     <div class="content">
@@ -172,9 +172,9 @@
   </div>
   <div class="note"><b>Drafts (LLD-006 D1, §4.2)</b><code>service_request_drafts</code>: JSON payload (any subset of the create body; trade required), <code>updated_at</code>, <code>expires_at = updated_at + 30 days</code>, <code>version</code>. Max 5 per customer — 6th save → 422 <code>TOO_MANY_DRAFTS</code> ("Delete a draft to save this one"). List newest first. Draft media is kept with <code>keepUntil</code> (LLD-014 D5). "Continue" re-opens the step; submit runs full validation and deletes the draft in the same transaction. Step label is derived client-side from which fields are filled.</div>
 
-  <!-- C-10g Tablet home 768 (fixed) -->
+  <!-- C-02g Tablet home 768 (fixed) -->
   <div class="phone tablet">
-    <span class="label">C-10g Tablet · customer home (768) · fixed</span>
+    <span class="label">C-02g Tablet · customer home (768) · fixed</span>
     <div class="hero" style="padding:0 32px 28px">
       <div class="statusbar clear" style="padding:0 2px"><span>9:41</span><span>▮▮ Wi-Fi</span></div>
       <div class="row between">

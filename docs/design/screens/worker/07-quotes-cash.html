@@ -35,9 +35,9 @@
 <div class="canvas">
   <p class="canvas-title"><b>Worker · Extra work price, shop bills, finish job, cash</b>Every new price is a quote the customer approves (LLD-017); material is billed from the shop bill; the job bill and the cash amount are computed by the backend (LLD-009 §5.4, LLD-010 D3) — the worker never types the final amount. Fixes design review B4, §3.4 Final amount / Active job.</p>
 
-  <!-- W-12a Quote builder -->
+  <!-- W-07a Quote builder -->
   <div class="phone">
-    <span class="label">W-12a Extra work price · build · new</span>
+    <span class="label">W-07a Extra work price · build · new</span>
     <div class="statusbar"><span>11:20</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>➕ Extra work price</h1></div>
     <div class="content" style="gap:10px">
@@ -57,9 +57,9 @@
     </div>
   </div>
 
-  <!-- W-12b Quote waiting -->
+  <!-- W-07b Quote waiting -->
   <div class="phone soft">
-    <span class="label">W-12b Price sent · waiting · new</span>
+    <span class="label">W-07b Price sent · waiting · new</span>
     <div class="statusbar"><span>11:22</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>Extra work price</h1></div>
     <div class="content" style="gap:12px">
@@ -76,9 +76,9 @@
   </div>
   <div class="note"><b>Data (LLD-017 D1–D7, §4)</b><code>POST /jobs/{id}/quotes {reason, lines[{lineType LABOUR / MATERIAL / HELPER / VISIT_CHARGE / TRANSPORT / DISCOUNT / OTHER, description, quantity, unit, unitPriceMinor, suppliedBy}]}</code> → SUBMITTED directly (draft kept in app). Only while job IN_PROGRESS / ON_HOLD; one SUBMITTED per job. Backend computes line amounts + totals (client totals ignored); bounds ≤ 30 lines, line ≤ ₹1,00,000, total ≤ ₹2,00,000. Expires 24 h (never auto-accepts). Change price = <code>/revise</code> (old → SUPERSEDED); Take back = <code>/withdraw</code>. Only the customer (account holder) approves — not the on-site contact.</div>
 
-  <!-- W-12c Quote approved -->
+  <!-- W-07c Quote approved -->
   <div class="phone soft">
-    <span class="label">W-12c Price approved · new</span>
+    <span class="label">W-07c Price approved · new</span>
     <div class="statusbar"><span>11:48</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>Extra work price</h1></div>
     <div class="content" style="gap:12px">
@@ -92,9 +92,9 @@
     <div class="footer"><a class="btn primary">🔨 Start extra work</a><a class="btn secondary">🧾 Add shop bill</a></div>
   </div>
 
-  <!-- W-12d Quote rejected -->
+  <!-- W-07d Quote rejected -->
   <div class="phone soft">
-    <span class="label">W-12d Price not approved · new</span>
+    <span class="label">W-07d Price not approved · new</span>
     <div class="statusbar"><span>11:48</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>Extra work price</h1></div>
     <div class="content" style="gap:12px">
@@ -106,9 +106,9 @@
   </div>
   <div class="note"><b>Data (LLD-017 D3/D4/D7/D11, quote statuses)</b>SUBMITTED → ACCEPTED / REJECTED (<code>reject_reason_code</code> TOO_EXPENSIVE / NOT_NEEDED / WILL_ARRANGE_MYSELF / OTHER) / EXPIRED (24 h) / SUPERSEDED / WITHDRAWN. ACCEPTED is final — more work = another quote. On the bill an accepted quote shows <code>total − material_total</code> (₹820); material only via shop bills, up to the quoted ₹350 (ceiling, not a charge).</div>
 
-  <!-- W-12e Material bill form -->
+  <!-- W-07e Material bill form -->
   <div class="phone">
-    <span class="label">W-12e Shop bill · add · new</span>
+    <span class="label">W-07e Shop bill · add · new</span>
     <div class="statusbar"><span>12:30</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>🧾 Shop bill</h1></div>
     <div class="content" style="gap:10px">
@@ -124,9 +124,9 @@
     <div class="footer"><a class="btn primary">🧾 Add bill</a></div>
   </div>
 
-  <!-- W-12f Material bills list -->
+  <!-- W-07f Material bills list -->
   <div class="phone soft">
-    <span class="label">W-12f Shop bills · covered vs needs OK · new</span>
+    <span class="label">W-07f Shop bills · covered vs needs OK · new</span>
     <div class="statusbar"><span>2:10</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>🧾 Shop bills</h1></div>
     <div class="content" style="gap:10px">
@@ -149,9 +149,9 @@
   </div>
   <div class="note"><b>Data (LLD-017 D8/D12, material_bills)</b><code>POST /jobs/{id}/material-bills {quoteId?, amountMinor, billDate, vendorName, billNo, photoMediaId}</code> — amount is typed from the shop receipt (≤ ₹50,000; date from booking −1 day to today). Backend splits <code>covered</code> (photo + accepted quote, up to the remaining allowance) and <code>excess</code>. Status COVERED / PENDING_ACK (customer OK within 24 h) / ACKNOWLEDGED / EXCESS_REJECTED / VOID (worker "wrong entry"). No photo or no quote → whole bill needs OK. Job can't be completed while a bill is PENDING_ACK or a quote SUBMITTED (409 PRICE_CHANGE_PENDING).</div>
 
-  <!-- W-12g Complete job -->
+  <!-- W-07g Complete job -->
   <div class="phone">
-    <span class="label">W-12g Finish job · new</span>
+    <span class="label">W-07g Finish job · new</span>
     <div class="statusbar"><span>5:55</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>🏁 Finish the job</h1></div>
     <div class="content" style="gap:10px">
@@ -168,9 +168,9 @@
     <div class="footer"><a class="btn accent" style="min-height:60px;font-size:18px">🏁 Work is done</a></div>
   </div>
 
-  <!-- W-12h Waiting for customer -->
+  <!-- W-07h Waiting for customer -->
   <div class="phone soft">
-    <span class="label">W-12h Work done · waiting for customer · new</span>
+    <span class="label">W-07h Work done · waiting for customer · new</span>
     <div class="statusbar"><span>5:56</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>Bathroom pipe line</h1></div>
     <div class="content" style="gap:12px">
@@ -182,9 +182,9 @@
   </div>
   <div class="note"><b>Data (LLD-009 D9, §5.3, §6.3)</b><code>POST /jobs/{id}/complete {notes, mediaIds}</code> → job WORK_COMPLETED, push to customer "Work done? Confirm within 24 h". Guards: all visits DONE or terminal (409 JOB_NOT_COMPLETABLE), no SUBMITTED quote / PENDING_ACK bill (409 PRICE_CHANGE_PENDING) — checklist shows each guard. Customer confirms or opens a dispute within 24 h, else auto COMPLETED; warranty 30 days. Photos = <code>job_media</code> AFTER.</div>
 
-  <!-- W-12i Bill for the job -->
+  <!-- W-07i Bill for the job -->
   <div class="phone">
-    <span class="label">W-12i Bill for the job · fixed</span>
+    <span class="label">W-07i Bill for the job · fixed</span>
     <div class="statusbar"><span>5:57</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>🧾 Bill</h1><span class="chip warning">🏁 Work done</span></div>
     <div class="content" style="gap:10px">
@@ -205,9 +205,9 @@
   </div>
   <div class="note"><b>Data (LLD-009 §5.4)</b><code>GET /jobs/{id}/bill</code> — computed, never stored: VISIT_LABOUR + HELPER per CONFIRMED visit, QUOTE (labour = total − material), MATERIAL per covered / acknowledged bill, EMERGENCY_SURCHARGE (0, hidden), ADVANCE_PAID, ALREADY_PAID (daily payment). total ₹3,400, paid ₹1,449, <code>dueMinor</code> 195100 → ₹1,951. No paise shown (P25). Read-only for both sides.</div>
 
-  <!-- W-12j Cash sheet -->
+  <!-- W-07j Cash sheet -->
   <div class="phone">
-    <span class="label">W-12j Customer paid me cash · new</span>
+    <span class="label">W-07j Customer paid me cash · new</span>
     <div class="statusbar"><span>6:05</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>Bathroom pipe line</h1></div>
     <div class="content"></div>
@@ -223,9 +223,9 @@
     </div>
   </div>
 
-  <!-- W-12k Cash waiting -->
+  <!-- W-07k Cash waiting -->
   <div class="phone soft">
-    <span class="label">W-12k Cash · waiting for customer · new</span>
+    <span class="label">W-07k Cash · waiting for customer · new</span>
     <div class="statusbar"><span>6:06</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>💵 Cash</h1></div>
     <div class="content" style="gap:12px">
@@ -239,9 +239,9 @@
     </div>
   </div>
 
-  <!-- W-12l Cash confirmed -->
+  <!-- W-07l Cash confirmed -->
   <div class="phone soft">
-    <span class="label">W-12l Cash · confirmed · new</span>
+    <span class="label">W-07l Cash · confirmed · new</span>
     <div class="statusbar"><span>6:20</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>💵 Cash</h1></div>
     <div class="content" style="gap:14px;justify-content:center">

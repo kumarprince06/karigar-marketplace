@@ -23,9 +23,9 @@
 <div class="canvas">
   <p class="canvas-title"><b>Worker · Sign up & log in</b>Replaces Worker login (phone + SMS code). Email + password, email link, mobile collected but not verified, no SMS (ADR 0016, LLD-001). Bengali first; language picked before anything else (LLD-003).</p>
 
-  <!-- W-01 Splash -->
+  <!-- W-01a Splash -->
   <div class="phone">
-    <span class="label">W-01 Splash · fixed</span>
+    <span class="label">W-01a Splash · fixed</span>
     <div class="statusbar clear" style="position:absolute;inset:0 0 auto 0;z-index:1"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="content tools" style="color:#fff;align-items:center;justify-content:center;gap:18px;text-align:center" lang="bn">
       <div class="illus" style="width:150px;height:150px;font-size:72px">🧰</div>
@@ -39,9 +39,9 @@
     </div>
   </div>
 
-  <!-- W-02 Welcome + language -->
+  <!-- W-01b Welcome + language -->
   <div class="phone" lang="bn">
-    <span class="label">W-02 Welcome + language · fixed</span>
+    <span class="label">W-01b Welcome + language · fixed</span>
     <div class="statusbar clear" style="position:absolute;inset:0 0 auto 0;z-index:1"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="content tools" style="color:#fff;padding-top:40px;gap:12px">
       <div class="row"><span style="font-size:26px">🧰</span><b style="font-size:22px">কারিগর</b><span class="grow"></span><span class="pill">কর্মীদের অ্যাপ</span></div>
@@ -61,9 +61,9 @@
   </div>
   <div class="note"><b>Data (LLD-003 D1/D2, LLD-001 §4.1)</b>Language is chosen first and sent as <code>preferredLocale</code> (bn / hi / en) at sign-up; the app switches fonts to Anek Bangla / Devanagari. Can be changed later in Settings. Perks copy follows LLD-019 D6 (online-job money paid daily at 11:00 when ≥ ₹100; cash jobs are paid by hand) — not "payouts for everything". Only Electrician + Plumber are active at launch (LLD-003 seed).</div>
 
-  <!-- W-03 Sign up -->
+  <!-- W-01c Sign up -->
   <div class="phone soft">
-    <span class="label">W-03 Sign up · new</span>
+    <span class="label">W-01c Sign up · new</span>
     <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>Create worker account</h1></div>
     <div class="content" style="gap:10px">
@@ -81,9 +81,9 @@
   </div>
   <div class="note"><b>Data (LLD-001 §4.1, D3, D7; security/03 §96)</b><code>role: WORKER</code>, name (becomes <code>workers.display_name</code>, LLD-004), email (unique, lower-cased, <b>mandatory</b>), phone (E.164, unique, not verified), password 8–128, no composition rules, common-password list → <code>WEAK_PASSWORD</code>. Four separate, unticked consents → <code>user_consents</code> rows: TERMS_OF_SERVICE, PRIVACY_NOTICE, AGE_18_PLUS_DECLARATION, <b>WORKER_KYC</b> (needed to submit documents: LLD-016 <code>403 KYC_CONSENT_REQUIRED</code>). Marketing ticks hidden in MVP (P20). 409 EMAIL_ALREADY_IN_USE / PHONE_ALREADY_IN_USE → "Log in instead".</div>
 
-  <!-- W-04 Check your email -->
+  <!-- W-01d Check your email -->
   <div class="phone soft">
-    <span class="label">W-04 Check your email · new</span>
+    <span class="label">W-01d Check your email · new</span>
     <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="appbar"><span class="grow"></span><a class="btn ghost sm">Skip for now</a></div>
     <div class="content" style="gap:16px;text-align:center">
@@ -99,9 +99,9 @@
   </div>
   <div class="note"><b>Data (LLD-001 D1, D6, §4.3)</b>User is logged in straight away; token carries <code>emailVerified=false</code>. Readiness step <code>EMAIL_VERIFIED</code> (LLD-004) stays open until the link is opened (<code>POST /auth/email/verify</code>). Resend: <code>POST /auth/email/verify/resend</code>, always 202, old token revoked; button cooled down 60 s client-side, server rate limit → 429. Link expired → <code>410 TOKEN_INVALID_OR_EXPIRED</code> → "Send a new link".</div>
 
-  <!-- W-05 Log in -->
+  <!-- W-01e Log in -->
   <div class="phone soft">
-    <span class="label">W-05 Log in · new</span>
+    <span class="label">W-01e Log in · new</span>
     <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>Log in</h1><div class="seg" style="padding:3px"><a class="on" style="min-height:40px">EN</a><a lang="bn" style="min-height:40px">বাং</a><a lang="hi" style="min-height:40px">हि</a></div></div>
     <div class="content" style="gap:14px">

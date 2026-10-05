@@ -19,9 +19,9 @@
 <div class="canvas">
   <p class="canvas-title"><b>Customer · Reviews — rate worker, submitted, my reviews, edit</b>Only after the job is COMPLETED (LLD-012 D3). One review per job, 1–5 stars + text ≤ 1,000 chars; no aspect tags or photos (P9). Double-blind: shown when Rakesh also reviews you, or after the 7-day window.</p>
 
-  <!-- C-23a Rate worker -->
+  <!-- C-09a Rate worker -->
   <div class="phone">
-    <span class="label">C-23a Rate worker · fixed</span>
+    <span class="label">C-09a Rate worker · fixed</span>
     <div class="hero" style="padding-top:0;align-items:center;text-align:center">
       <div class="statusbar clear" style="width:100%;padding:0 2px"><span>6:18</span><span>▮▮ 4G</span></div>
       <div class="row" style="width:100%"><button class="iconbtn" style="color:#fff">✕</button><span class="grow"></span><span class="pill">⏳ Until 12 Oct</span></div>
@@ -41,9 +41,9 @@
   </div>
   <div class="note"><b>Data (LLD-012 D2–D6, D13, §5)</b><code>POST /jobs/{jobId}/reviews</code> (Idempotency-Key) {rating 1–5, comment ≤ 1,000}. Eligibility at submit: job COMPLETED, caller is the booking's customer; FAILED/CANCELLED → no review. Window = completed_at + 7 days (stays open during an open dispute). Text stored as written, comment_locale from script. Entry points: payment success, "Rate worker" badge, push.</div>
 
-  <!-- C-23b Review submitted -->
+  <!-- C-09b Review submitted -->
   <div class="phone soft">
-    <span class="label">C-23b Review submitted · fixed</span>
+    <span class="label">C-09b Review submitted · fixed</span>
     <div class="statusbar"><span>6:19</span><span>▮▮ 4G</span></div>
     <div class="content" style="justify-content:center;text-align:center;gap:14px">
       <div class="illus">⭐</div>
@@ -60,9 +60,9 @@
   </div>
   <div class="note"><b>Data (LLD-012 D5/D6/D8, §5)</b><code>201</code> {status PENDING_REVEAL, revealDueAt, editable true}. Filter hit → same 201 with status UNDER_MODERATION, moderationReason CONTACT_DETAILS → copy "We'll check your review before it's shown". Reveal job (every 5 min) sets visible_at when both sides are in or the window closes → PUBLISHED.</div>
 
-  <!-- C-23c My reviews -->
+  <!-- C-09c My reviews -->
   <div class="phone">
-    <span class="label">C-23c My reviews · fixed</span>
+    <span class="label">C-09c My reviews · fixed</span>
     <div class="statusbar"><span>7:02</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>My reviews</h1></div>
     <div class="content" style="gap:10px;padding-top:0">
@@ -90,9 +90,9 @@
   </div>
   <div class="note"><b>Data (LLD-012 §3 reviews, D8/D9; review doc D4)</b>Status chip per enum: PENDING_REVEAL "Waiting", PUBLISHED "Published", UNDER_MODERATION "Being checked", HIDDEN "Hidden — broke the rules" (stars still count), REMOVED "Removed". Edit only while unrevealed. Worker reply (one, ≤500 chars) shown under published reviews. List needs <code>GET /customers/me/reviews</code> — not in LLD-012 yet (design review P9 / D4).</div>
 
-  <!-- C-23d Edit review -->
+  <!-- C-09d Edit review -->
   <div class="phone">
-    <span class="label">C-23d Edit review · fixed</span>
+    <span class="label">C-09d Edit review · fixed</span>
     <div class="statusbar"><span>7:04</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><div class="grow"><h1>Edit review</h1><p class="sub">Rakesh Das · Fan not working</p></div></div>
     <div class="content" style="gap:12px">

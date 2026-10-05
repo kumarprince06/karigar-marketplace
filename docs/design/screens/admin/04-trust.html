@@ -44,9 +44,9 @@ mark{background:var(--error-subtle);color:var(--error);padding:0 3px;border-radi
 
 <p class="canvas-title"><b>Admin · Trust: verification, disputes, review moderation</b>Verification per LLD-016 (manual review, claim, ID_PROOF with selfie, no Aadhaar uploads, 60 s signed URLs audited, two-admin revoke). Disputes per LLD-018 (claim → IN_REVIEW, decision = outcome + at-fault + summary + actions, internal notes separate). Review moderation per LLD-012.</p>
 
-<!-- A-30 Verification queue -->
+<!-- A-04a Verification queue -->
 <div class="web">
-  <span class="label">A-30 Verification queue · new</span>
+  <span class="label">A-04a Verification queue · new</span>
   <nav class="side" data-on="verif" data-me="Arif Khan|VERIFICATION_AGENT|AK"></nav>
   <div class="main">
     <header class="topbar" data-std><h1>Verifications</h1></header>
@@ -79,9 +79,9 @@ mark{background:var(--error-subtle);color:var(--error);padding:0 3px;border-radi
   <div class="note"><b>Types</b>ID_PROOF (VOTER_ID / DRIVING_LICENCE / PASSPORT + SELFIE), PAN, POLICE_VERIFICATION, SKILL_CERTIFICATE, ELECTRICAL_LICENSE. No "Address proof" (P13). Max 3 submissions / type / 30 days.</div>
 </div>
 
-<!-- A-31 Verification review -->
+<!-- A-04b Verification review -->
 <div class="web">
-  <span class="label">A-31 Verification review · fixed</span>
+  <span class="label">A-04b Verification review · fixed</span>
   <nav class="side" data-on="verif" data-me="Arif Khan|VERIFICATION_AGENT|AK"></nav>
   <div class="main">
     <header class="topbar" data-std><h1>Verifications › Rakesh Das · ID_PROOF</h1></header>
@@ -131,9 +131,9 @@ mark{background:var(--error-subtle);color:var(--error);padding:0 3px;border-radi
   <div class="note"><b>Fixes vs PNG</b>No "Request info", no free-text note (OTHER only), approve the <i>check</i> with confirmed fields (not "approve document"), selfie vs document, doc kind, one-click AADHAAR_NOT_ACCEPTED (file deleted immediately, D2), duplicate warning, claim + SLA.</div>
 </div>
 
-<!-- A-32 Two-admin revoke -->
+<!-- A-04c Two-admin revoke -->
 <div class="web">
-  <span class="label">A-32 Revoke a verified check (two admins) · new</span>
+  <span class="label">A-04c Revoke a verified check (two admins) · new</span>
   <nav class="side" data-on="verif" data-me="Arif Khan|VERIFICATION_AGENT|AK"></nav>
   <div class="main">
     <header class="topbar" data-std><h1>Verifications › Sujit Das · history</h1></header>
@@ -172,9 +172,9 @@ mark{background:var(--error-subtle);color:var(--error);padding:0 3px;border-radi
   <div class="note"><b>API</b><code>POST /admin/verifications/{id}/revoke {reasonCode, note}</code> → revocation requested; <code>…/revoke/confirm</code> (different admin, checked in code and DB) · <code>…/revoke/cancel</code>. SYSTEM revocations (consent withdrawn) need none (LLD-016 D9, §4.2).</div>
 </div>
 
-<!-- A-33 Dispute queue -->
+<!-- A-04d Dispute queue -->
 <div class="web">
-  <span class="label">A-33 Dispute queue · new</span>
+  <span class="label">A-04d Dispute queue · new</span>
   <nav class="side" data-on="disputes" data-me="Kabir Ali|DISPUTE_AGENT|KA"></nav>
   <div class="main">
     <header class="topbar" data-std><h1>Disputes</h1><a class="btn secondary sm">📞 Open on behalf of a caller</a></header>
@@ -200,9 +200,9 @@ mark{background:var(--error-subtle);color:var(--error);padding:0 3px;border-radi
   <div class="note"><b>API</b><code>GET /admin/disputes?status=&amp;zoneId=&amp;priority=&amp;cursor=</code>, <code>POST /admin/disputes</code> (open on behalf, <code>opened_via=SUPPORT</code>), <code>/claim</code> — <code>dispute.manage</code> (OPS_MANAGER, SUPPORT_AGENT, DISPUTE_AGENT). Categories WORK_NOT_DONE · POOR_QUALITY · OVERCHARGED · CASH_NOT_PAID · NO_SHOW_DISAGREEMENT · DAMAGE · BEHAVIOUR · OTHER; HIGH for DAMAGE / BEHAVIOUR (LLD-018 D12).</div>
 </div>
 
-<!-- A-34 Dispute investigation -->
+<!-- A-04e Dispute investigation -->
 <div class="web">
-  <span class="label">A-34 Dispute investigation + decision · fixed</span>
+  <span class="label">A-04e Dispute investigation + decision · fixed</span>
   <nav class="side" data-on="disputes" data-me="Kabir Ali|DISPUTE_AGENT|KA"></nav>
   <div class="main">
     <header class="topbar" data-std><h1>Disputes › …d71e02</h1></header>
@@ -272,9 +272,9 @@ mark{background:var(--error-subtle);color:var(--error);padding:0 3px;border-radi
   <div class="note"><b>Fixes vs PNG</b>No resolution radios / "reassign" / "free revisit" (P24), no contradictory states, no free-text title; statuses AWAITING_RESPONSE → IN_REVIEW → RESOLVED | REJECTED | WITHDRAWN; parties never see GPS points or internal notes.</div>
 </div>
 
-<!-- A-35 Dispute actions status -->
+<!-- A-04f Dispute actions status -->
 <div class="web">
-  <span class="label">A-35 Resolved dispute · action status &amp; retry · new</span>
+  <span class="label">A-04f Resolved dispute · action status &amp; retry · new</span>
   <nav class="side" data-on="disputes" data-me="Kabir Ali|DISPUTE_AGENT|KA"></nav>
   <div class="main">
     <header class="topbar" data-std><h1>Disputes › …6a0e1c</h1></header>
@@ -298,9 +298,9 @@ mark{background:var(--error-subtle);color:var(--error);padding:0 3px;border-radi
   <div class="note"><b>API</b><code>POST /admin/disputes/{id}/actions/{actionId}/retry</code> · <code>/cancel</code> (<code>dispute.resolve</code>). Action status PENDING → DONE | FAILED | CANCELLED; auto-retry 5×, 1 → 30 min (LLD-018 D7, D8).</div>
 </div>
 
-<!-- A-36 Review moderation -->
+<!-- A-04g Review moderation -->
 <div class="web">
-  <span class="label">A-36 Review moderation · new</span>
+  <span class="label">A-04g Review moderation · new</span>
   <nav class="side" data-on="reviews"></nav>
   <div class="main">
     <header class="topbar" data-std><h1>Reviews</h1></header>

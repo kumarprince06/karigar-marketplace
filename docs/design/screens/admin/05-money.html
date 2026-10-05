@@ -38,9 +38,9 @@
 
 <p class="canvas-title"><b>Admin · Money: payments, refunds, finance queues, payouts, ledger</b>Real statuses from LLD-010/011/019. Refunds only from online payments, with reason + note + idempotency and a pro-rata preview (LLD-011 D7/D8). Admins see amounts, statuses and provider references only. Persona: FINANCE.</p>
 
-<!-- A-40 Payments -->
+<!-- A-05a Payments -->
 <div class="web">
-  <span class="label">A-40 Payments &amp; refunds · fixed</span>
+  <span class="label">A-05a Payments &amp; refunds · fixed</span>
   <nav class="side" data-on="payments" data-me="Meera Iyer|FINANCE|MI"></nav>
   <div class="main">
     <header class="topbar" data-std><h1>Payments &amp; refunds</h1></header>
@@ -81,9 +81,9 @@
   <div class="note"><b>Fixes vs PNG</b>No "Paid / Refund initiated / awaiting approval" labels, no Stripe-like ids as primary key (UUID tail; provider ref shown as a field), no "retry payment" button (customer retries in checkout). VPA stays masked.</div>
 </div>
 
-<!-- A-41 Refund dialog -->
+<!-- A-05b Refund dialog -->
 <div class="web">
-  <span class="label">A-41 Refund dialog (pro-rata preview) · new</span>
+  <span class="label">A-05b Refund dialog (pro-rata preview) · new</span>
   <nav class="side" data-on="payments" data-me="Meera Iyer|FINANCE|MI"></nav>
   <div class="main">
     <header class="topbar" data-std><h1>Payments &amp; refunds › …be72</h1></header>
@@ -114,9 +114,9 @@
   <div class="note"><b>Open question</b>Dual control for large refunds is not in MVP (P23); amounts audited and alerted. The preview endpoint itself is not in LLD-011 — the split must come from the backend (D9), never computed in the browser.</div>
 </div>
 
-<!-- A-42 Finance queues -->
+<!-- A-05c Finance queues -->
 <div class="web">
-  <span class="label">A-42 Queues · stuck refunds, parked provider events, disputed cash · new</span>
+  <span class="label">A-05c Queues · stuck refunds, parked provider events, disputed cash · new</span>
   <nav class="side" data-on="ops" data-me="Meera Iyer|FINANCE|MI"></nav>
   <div class="main">
     <header class="topbar" data-std><h1>Ops queues › Money</h1></header>
@@ -153,9 +153,9 @@
   <div class="note"><b>Persona note</b>FINANCE has <code>ops.view</code> but not <code>ops.act</code> in LLD-020 §3.2 — so Ack buttons are hidden here (OPS_MANAGER / SUPER_ADMIN ack). Flag: finance may need <code>ops.act</code> for its own queues.</div>
 </div>
 
-<!-- A-43 Payout accounts review -->
+<!-- A-05d Payout accounts review -->
 <div class="web">
-  <span class="label">A-43 Payout accounts review + payout hold · new</span>
+  <span class="label">A-05d Payout accounts review + payout hold · new</span>
   <nav class="side" data-on="payouts" data-me="Meera Iyer|FINANCE|MI"></nav>
   <div class="main">
     <header class="topbar" data-std><h1>Payout accounts</h1></header>
@@ -208,9 +208,9 @@
   <div class="note"><b>Masking</b>Account number shown as last 4 + IFSC only; no UPI payout accounts in MVP (D2).</div>
 </div>
 
-<!-- A-44 Ledger -->
+<!-- A-05e Ledger -->
 <div class="web">
-  <span class="label">A-44 Ledger · worker balance &amp; manual adjustment · new</span>
+  <span class="label">A-05e Ledger · worker balance &amp; manual adjustment · new</span>
   <nav class="side" data-on="ledger" data-me="Meera Iyer|FINANCE|MI"></nav>
   <div class="main">
     <header class="topbar" data-std><h1>Ledger › Rinku Paul</h1></header>

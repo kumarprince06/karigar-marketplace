@@ -37,9 +37,9 @@
 <div class="canvas">
   <p class="canvas-title"><b>Worker · Jobs & visit flow</b>On my way + ETA → GPS check-in (≤300 m or "check in anyway") → 4-digit start code (5 tries) → working → check-out; can't complete, customer not home, cancel with strike warning, offline. LLD-009 D1–D9, §5.2–5.3, §7. Fixes design review B7, §3.4 Jobs / Active job · offline. No chat — Call only (B5).</p>
 
-  <!-- W-11a Jobs · Today -->
+  <!-- W-06a Jobs · Today -->
   <div class="phone">
-    <span class="label">W-11a Jobs · Today · fixed</span>
+    <span class="label">W-06a Jobs · Today · fixed</span>
     <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="appbar"><h1>🧰 My jobs</h1></div>
     <div class="content" style="gap:10px">
@@ -62,9 +62,9 @@
     <nav class="tabbar"><a><span class="ico">🏠</span>Home</a><a><span class="ico">📥</span>Offers</a><a class="on"><span class="ico">🧰</span>Jobs</a><a><span class="ico">💰</span>Earnings</a><a><span class="ico">👤</span>Profile</a></nav>
   </div>
 
-  <!-- W-11b Jobs · Waiting for customer -->
+  <!-- W-06b Jobs · Waiting for customer -->
   <div class="phone">
-    <span class="label">W-11b Jobs · Waiting for customer · new</span>
+    <span class="label">W-06b Jobs · Waiting for customer · new</span>
     <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="appbar"><h1>🧰 My jobs</h1></div>
     <div class="content" style="gap:10px">
@@ -91,9 +91,9 @@
     <nav class="tabbar"><a><span class="ico">🏠</span>Home</a><a><span class="ico">📥</span>Offers</a><a class="on"><span class="ico">🧰</span>Jobs</a><a><span class="ico">💰</span>Earnings</a><a><span class="ico">👤</span>Profile</a></nav>
   </div>
 
-  <!-- W-11c Jobs · Upcoming -->
+  <!-- W-06c Jobs · Upcoming -->
   <div class="phone">
-    <span class="label">W-11c Jobs · Upcoming · fixed</span>
+    <span class="label">W-06c Jobs · Upcoming · fixed</span>
     <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="appbar"><h1>🧰 My jobs</h1></div>
     <div class="content" style="gap:10px">
@@ -116,9 +116,9 @@
     <nav class="tabbar"><a><span class="ico">🏠</span>Home</a><a><span class="ico">📥</span>Offers</a><a class="on"><span class="ico">🧰</span>Jobs</a><a><span class="ico">💰</span>Earnings</a><a><span class="ico">👤</span>Profile</a></nav>
   </div>
 
-  <!-- W-11d Jobs · Done -->
+  <!-- W-06d Jobs · Done -->
   <div class="phone">
-    <span class="label">W-11d Jobs · Done · fixed</span>
+    <span class="label">W-06d Jobs · Done · fixed</span>
     <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="appbar"><h1>🧰 My jobs</h1></div>
     <div class="content" style="gap:10px">
@@ -145,9 +145,9 @@
   </div>
   <div class="note"><b>Data (LLD-009 §3, §7; LLD-010; LLD-017; LLD-018)</b><code>GET /bookings?role=worker</code>. Labels map to one enum each: Booked = booking CONFIRMED + visit SCHEDULED; Day n of m = <code>visit_no</code>/<code>planned_days</code>; "Day done · customer to OK" = visit DONE, <code>customer_confirmed_at</code> null (auto 24 h); "Work done · customer to confirm" = job WORK_COMPLETED (auto 24 h); On hold = job ON_HOLD; Completed = COMPLETED (+ <code>warranty_until</code>); Could not finish = FAILED; Cancelled = booking CANCELLED. "Cash to collect" = bill <code>dueMinor</code> &gt; 0 with no open cash payment; "Cash · customer to confirm" = payment CASH PENDING. Quote waiting = quote SUBMITTED. Complaint = dispute open → earnings ON_HOLD. Amounts shown are what I get before fee (no paise).</div>
 
-  <!-- W-11e Booking detail -->
+  <!-- W-06e Booking detail -->
   <div class="phone">
-    <span class="label">W-11e Booking detail · fixed</span>
+    <span class="label">W-06e Booking detail · fixed</span>
     <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>Bathroom pipe line</h1><span class="chip info">Day 2 of 2</span></div>
     <div class="content" style="gap:10px">
@@ -172,9 +172,9 @@
     <div class="footer" style="flex-direction:row"><a class="btn danger-o" style="flex:1">✖ Cancel</a><a class="btn primary" style="flex:2">🛵 On my way</a></div>
   </div>
 
-  <!-- W-11f On my way ETA -->
+  <!-- W-06f On my way ETA -->
   <div class="phone">
-    <span class="label">W-11f On my way + ETA · new</span>
+    <span class="label">W-06f On my way + ETA · new</span>
     <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>Bathroom pipe line</h1></div>
     <div class="content"><div class="map"></div></div>
@@ -193,11 +193,11 @@
       </div>
     </div>
   </div>
-  <div class="note"><b>Data (LLD-009 §5.1, §5.2, D1)</b>Worker view of <code>GET /bookings/{id}</code> after selection: full address (house no, landmark), floor/lift, <code>location</code>, <code>contactName</code> + <code>contactPhone</code>, customer phone — Call uses the real number (no masking, no chat). Shown while CONFIRMED and 7 days after completion. Agreed rate snapshot + helper day rate; urgency. On my way: <code>POST /visits/{id}/en-route {etaMinutes}</code> → EN_ROUTE, push to customer; only ≤ 3 h before start. No live tracking. Cancel → W-11p.</div>
+  <div class="note"><b>Data (LLD-009 §5.1, §5.2, D1)</b>Worker view of <code>GET /bookings/{id}</code> after selection: full address (house no, landmark), floor/lift, <code>location</code>, <code>contactName</code> + <code>contactPhone</code>, customer phone — Call uses the real number (no masking, no chat). Shown while CONFIRMED and 7 days after completion. Agreed rate snapshot + helper day rate; urgency. On my way: <code>POST /visits/{id}/en-route {etaMinutes}</code> → EN_ROUTE, push to customer; only ≤ 3 h before start. No live tracking. Cancel → W-06p.</div>
 
-  <!-- W-11g Check-in · Bengali -->
+  <!-- W-06g Check-in · Bengali -->
   <div class="phone" lang="bn">
-    <span class="label">W-11g Check-in · GPS ok · Bengali · new</span>
+    <span class="label">W-06g Check-in · GPS ok · Bengali · new</span>
     <div class="hero">
       <div class="statusbar clear" style="padding:0 2px"><span>10:05</span><span>▮▮ 4G</span></div>
       <div class="row"><span style="font-size:20px">←</span><b class="h4 grow">বাথরুমের পাইপ · দিন 2 / 2</b></div>
@@ -212,9 +212,9 @@
     <div class="footer"><a class="btn primary" style="min-height:60px;font-size:18px">📍 পৌঁছে গেছি</a></div>
   </div>
 
-  <!-- W-11h Check-in · too far -->
+  <!-- W-06h Check-in · too far -->
   <div class="phone">
-    <span class="label">W-11h Check-in · too far → check in anyway · new</span>
+    <span class="label">W-06h Check-in · too far → check in anyway · new</span>
     <div class="statusbar"><span>10:05</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>Check in</h1></div>
     <div class="content">
@@ -235,9 +235,9 @@
   </div>
   <div class="note"><b>Data (LLD-009 D2, §5.2, §5.5, §10)</b><code>POST /visits/{id}/check-in {latitude, longitude, accuracyM, anywayReason}</code>. ≤ 300 m and accuracy ≤ 100 m → ARRIVED (<code>check_in_distance_m</code>). Farther without reason → 422 TOO_FAR_FROM_SITE (<code>details.distanceM</code>). With reason → ARRIVED + <code>check_in_flagged = true</code> → ops FLAGGED_CHECK_IN queue. Needs network (P16). <code>anywayReason</code> is free text in the API — the three chips are app presets (no reason-code list in docs).</div>
 
-  <!-- W-11i Start code · Bengali -->
+  <!-- W-06i Start code · Bengali -->
   <div class="phone" lang="bn">
-    <span class="label">W-11i Enter start code · Bengali · new</span>
+    <span class="label">W-06i Enter start code · Bengali · new</span>
     <div class="hero">
       <div class="statusbar clear" style="padding:0 2px"><span>10:12</span><span>▮▮ 4G</span></div>
       <div class="row"><span style="font-size:20px">←</span><b class="h4 grow">বাথরুমের পাইপ · দিন 2 / 2</b></div>
@@ -254,9 +254,9 @@
     <div class="footer"><a class="btn primary" style="min-height:60px;font-size:18px">▶️ কাজ শুরু করুন</a></div>
   </div>
 
-  <!-- W-11j Start code locked -->
+  <!-- W-06j Start code locked -->
   <div class="phone soft">
-    <span class="label">W-11j Start code · locked · new</span>
+    <span class="label">W-06j Start code · locked · new</span>
     <div class="statusbar"><span>10:20</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>Start code</h1></div>
     <div class="content" style="justify-content:center;gap:14px">
@@ -268,11 +268,11 @@
       <a class="btn secondary">🔄 I have the new code</a>
     </div>
   </div>
-  <div class="note"><b>Data (LLD-009 D3, §5.2, §5.5, §10)</b><code>POST /visits/{id}/start {code}</code>. Wrong → 422 START_CODE_INVALID (<code>details.attemptsLeft</code>); 5th wrong → 423 START_CODE_LOCKED; customer regenerates (<code>/start-code/regenerate</code>), attempts reset. Correct → visit IN_PROGRESS, job SCHEDULED → IN_PROGRESS. Code never sent to the worker. Needs network (P16). "Customer not home?" link opens W-11o (enabled 30 min after check-in).</div>
+  <div class="note"><b>Data (LLD-009 D3, §5.2, §5.5, §10)</b><code>POST /visits/{id}/start {code}</code>. Wrong → 422 START_CODE_INVALID (<code>details.attemptsLeft</code>); 5th wrong → 423 START_CODE_LOCKED; customer regenerates (<code>/start-code/regenerate</code>), attempts reset. Correct → visit IN_PROGRESS, job SCHEDULED → IN_PROGRESS. Code never sent to the worker. Needs network (P16). "Customer not home?" link opens W-06o (enabled 30 min after check-in).</div>
 
-  <!-- W-11k Working · Bengali -->
+  <!-- W-06k Working · Bengali -->
   <div class="phone" lang="bn">
-    <span class="label">W-11k Working · Bengali · new</span>
+    <span class="label">W-06k Working · Bengali · new</span>
     <div class="hero">
       <div class="statusbar clear" style="padding:0 2px"><span>1:40</span><span>▮▮ 4G</span></div>
       <div class="row"><span style="font-size:20px">←</span><b class="h4 grow">বাথরুমের পাইপ · দিন 2 / 2</b><span class="callbtn" style="width:40px;height:40px;background:rgba(255,255,255,.2)">📞</span></div>
@@ -292,9 +292,9 @@
     <div class="footer"><a class="btn accent" style="min-height:60px;font-size:18px">✅ আজকের কাজ শেষ</a></div>
   </div>
 
-  <!-- W-11l Check-out sheet -->
+  <!-- W-06l Check-out sheet -->
   <div class="phone">
-    <span class="label">W-11l Check-out sheet · new</span>
+    <span class="label">W-06l Check-out sheet · new</span>
     <div class="statusbar"><span>5:50</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>Bathroom pipe line</h1></div>
     <div class="content"></div>
@@ -316,9 +316,9 @@
   </div>
   <div class="note"><b>Data (LLD-009 §4, §5.2, D4; LLD-014)</b><code>POST /visits/{id}/check-out {dayType FULL_DAY / HALF_DAY, helpersPresent, quantity, workSummary, mediaIds}</code> → visit DONE; amount by <code>VisitAmountCalculator</code> (DAILY: full = ₹850, half = half-day rate or 50 %; helpers × ₹500 full / half). Quantity row appears only for PER_UNIT rates (e.g. "120 sq ft"); VISIT rate has no day-type choice. Photos = <code>job_media</code> kind AFTER/PROGRESS (no captions). Customer confirms the day (auto 24 h). Check-out is idempotent → can retry offline.</div>
 
-  <!-- W-11m Add days proposal -->
+  <!-- W-06m Add days proposal -->
   <div class="phone">
-    <span class="label">W-11m Add days / move a day · new</span>
+    <span class="label">W-06m Add days / move a day · new</span>
     <div class="statusbar"><span>1:40</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>📆 More days needed</h1></div>
     <div class="content" style="gap:10px">
@@ -340,9 +340,9 @@
   </div>
   <div class="note"><b>Data (LLD-009 §5.3, §7, visit_change_proposals)</b><code>POST /jobs/{id}/proposals</code> ADD_DAYS: <code>visits[{date, dayType, start, end}]</code>, <code>helperCount</code>, <code>paymentSchedule</code> (DAILY / ON_COMPLETION shown as "Every day" / "At the end"), <code>reason</code>. RESCHEDULE: one visit's new start/end (≤ 2 per visit). One PENDING proposal per job (409 PROPOSAL_PENDING); expires in 12 h or 1 h before earliest proposed start; overlap → 422 WORKER_BUSY_AT_TIME. Accepted → booking MULTI_DAY. Days I don't work show dashed.</div>
 
-  <!-- W-11n Cannot complete -->
+  <!-- W-06n Cannot complete -->
   <div class="phone">
-    <span class="label">W-11n Can't complete the job · new</span>
+    <span class="label">W-06n Can't complete the job · new</span>
     <div class="statusbar"><span>1:40</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>Bathroom pipe line</h1></div>
     <div class="content"></div>
@@ -362,9 +362,9 @@
   </div>
   <div class="note"><b>Data (LLD-009 §5.3, §7, §8; LLD-017 D10)</b><code>POST /jobs/{id}/cannot-complete {reasonCode PART_UNAVAILABLE / NEEDS_OTHER_TRADE / SITE_NOT_READY / OTHER, notes, mediaIds}</code> from IN_PROGRESS / ON_HOLD, after today's check-out → job FAILED, booking + request CANCELLED, <code>JobFailed</code>. Money: failed visit charge capped at the advance + earlier confirmed visits + covered/acknowledged material bills; accepted-quote labour not paid. No strike.</div>
 
-  <!-- W-11o Customer not home -->
+  <!-- W-06o Customer not home -->
   <div class="phone soft">
-    <span class="label">W-11o Customer not home (after 30 min) · new</span>
+    <span class="label">W-06o Customer not home (after 30 min) · new</span>
     <div class="statusbar"><span>4:35</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>Tap leaking</h1></div>
     <div class="content" style="gap:12px">
@@ -381,9 +381,9 @@
     <div class="footer"><a class="btn danger">🚪 Customer not home — leave</a></div>
   </div>
 
-  <!-- W-11p Cancel with strike warning -->
+  <!-- W-06p Cancel with strike warning -->
   <div class="phone">
-    <span class="label">W-11p Cancel booking · strike warning · new</span>
+    <span class="label">W-06p Cancel booking · strike warning · new</span>
     <div class="statusbar"><span>3:10</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>Tap leaking</h1></div>
     <div class="content"></div>
@@ -401,11 +401,11 @@
       </div>
     </div>
   </div>
-  <div class="note"><b>Data (LLD-009 D6–D8, §5.2, §5.3, §8)</b>Customer no-show: <code>POST /visits/{id}/customer-no-show</code> only from ARRIVED, ≥ 30 min after check-in with valid GPS (else 409 NO_SHOW_TOO_EARLY) → CUSTOMER_NO_SHOW; worker gets visit charge capped at the advance, less commission. Cancel: <code>POST /bookings/{id}/cancel?preview=true</code> shows the effect first; reasons from <code>reason_codes</code> WORKER_CANCELLATION (PERSONAL_EMERGENCY, CUSTOMER_UNREACHABLE, LOCATION_TOO_FAR, MATERIAL_NOT_READY, OTHER); &lt; 2 h before start → LATE_CANCELLATION strike; request goes back to matching, customer's advance kept. ≥ 2 h → no strike, no warning card. Not cancellable once IN_PROGRESS (409) — use W-11n.</div>
+  <div class="note"><b>Data (LLD-009 D6–D8, §5.2, §5.3, §8)</b>Customer no-show: <code>POST /visits/{id}/customer-no-show</code> only from ARRIVED, ≥ 30 min after check-in with valid GPS (else 409 NO_SHOW_TOO_EARLY) → CUSTOMER_NO_SHOW; worker gets visit charge capped at the advance, less commission. Cancel: <code>POST /bookings/{id}/cancel?preview=true</code> shows the effect first; reasons from <code>reason_codes</code> WORKER_CANCELLATION (PERSONAL_EMERGENCY, CUSTOMER_UNREACHABLE, LOCATION_TOO_FAR, MATERIAL_NOT_READY, OTHER); &lt; 2 h before start → LATE_CANCELLATION strike; request goes back to matching, customer's advance kept. ≥ 2 h → no strike, no warning card. Not cancellable once IN_PROGRESS (409) — use W-06n.</div>
 
-  <!-- W-11q Offline -->
+  <!-- W-06q Offline -->
   <div class="phone">
-    <span class="label">W-11q Active job · offline · fixed</span>
+    <span class="label">W-06q Active job · offline · fixed</span>
     <div class="statusbar"><span>10:03</span><span>✕ No net</span></div>
     <div class="banner offline" style="border-radius:0"><span class="ico">📵</span><span><b>No internet.</b> We'll retry when you're back online.</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>Bathroom pipe line</h1><span class="chip info">Day 2 of 2</span></div>
@@ -424,9 +424,9 @@
   </div>
   <div class="note"><b>Data (LLD-009 §9, design review P16 / §3.1 Offline)</b>Only idempotent actions are queued and retried with the same request (en-route, check-out, photos upload, complete, cash mark with its <code>Idempotency-Key</code>); repeat → 200 with current state. Check-in and start code are blocked offline (need GPS + server check). Times are server time — never the phone clock. Copy: "We'll retry when you're back online", never "saved". Phone calls use the normal dialer.</div>
 
-  <!-- W-11r Customer asked to move a day -->
+  <!-- W-06r Customer asked to move a day -->
   <div class="phone soft">
-    <span class="label">W-11r Customer asked to move a day · new</span>
+    <span class="label">W-06r Customer asked to move a day · new</span>
     <div class="statusbar"><span>8:20</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>House wiring</h1><span class="chip info">Day 3 of 3</span></div>
     <div class="content" style="gap:10px">
@@ -446,9 +446,9 @@
     <div class="footer" style="flex-direction:row"><a class="btn danger-o" style="flex:1">✖ No</a><a class="btn primary" style="flex:2">✅ Yes, Saturday</a></div>
   </div>
 
-  <!-- W-11s Busy at that time -->
+  <!-- W-06s Busy at that time -->
   <div class="phone">
-    <span class="label">W-11s Busy at that time (WORKER_BUSY_AT_TIME) · new</span>
+    <span class="label">W-06s Busy at that time (WORKER_BUSY_AT_TIME) · new</span>
     <div class="statusbar"><span>8:21</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>House wiring</h1></div>
     <div class="content"></div>
@@ -464,7 +464,7 @@
       </div>
     </div>
   </div>
-  <div class="note"><b>Data (LLD-009 §4 visit_change_proposals, §5.3, §7, §10)</b>Customer RESCHEDULE proposal: <code>kind RESCHEDULE</code>, <code>visit_id</code>, payload {start, end}, <code>reason</code> (≤300), <code>proposed_by CUSTOMER</code>. Push + inbox CHANGE_PROPOSED (LLD-013 row 23). Countdown to <code>expires_at</code> = created + 12 h, or 1 h before the earliest proposed start (whichever first); timer → EXPIRED, visit unchanged, proposer gets CHANGE_RESOLVED. <code>POST /proposals/{id}/accept</code> → old visit RESCHEDULED, new SCHEDULED (≤ 2 reschedules per visit); <code>/reject</code> → REJECTED (no reason field). Same screen for a customer ADD_DAYS proposal (list of days instead of old → new). Accept that overlaps another visit of mine → <code>422 WORKER_BUSY_AT_TIME</code> (<code>ex_job_visits_worker_overlap</code>) → W-11s; the clashing job is found in my own job list (the error has no details). After "No", the worker may propose a time with W-11m "Move a day" (one PENDING per job, <code>409 PROPOSAL_PENDING</code>).</div>
+  <div class="note"><b>Data (LLD-009 §4 visit_change_proposals, §5.3, §7, §10)</b>Customer RESCHEDULE proposal: <code>kind RESCHEDULE</code>, <code>visit_id</code>, payload {start, end}, <code>reason</code> (≤300), <code>proposed_by CUSTOMER</code>. Push + inbox CHANGE_PROPOSED (LLD-013 row 23). Countdown to <code>expires_at</code> = created + 12 h, or 1 h before the earliest proposed start (whichever first); timer → EXPIRED, visit unchanged, proposer gets CHANGE_RESOLVED. <code>POST /proposals/{id}/accept</code> → old visit RESCHEDULED, new SCHEDULED (≤ 2 reschedules per visit); <code>/reject</code> → REJECTED (no reason field). Same screen for a customer ADD_DAYS proposal (list of days instead of old → new). Accept that overlaps another visit of mine → <code>422 WORKER_BUSY_AT_TIME</code> (<code>ex_job_visits_worker_overlap</code>) → W-06s; the clashing job is found in my own job list (the error has no details). After "No", the worker may propose a time with W-06m "Move a day" (one PENDING per job, <code>409 PROPOSAL_PENDING</code>).</div>
 </div>
 </body>
 </html>

@@ -24,9 +24,9 @@
 <div class="canvas">
   <p class="canvas-title"><b>Customer · Bill &amp; payment — online, cash, receipt</b>Bill = LLD-009 §5.4 (computed, never typed by the worker). Online = provider checkout SDK (UPI first, then card / net banking); we store no cards or UPI IDs (LLD-011). Cash: worker marks it, customer confirms (LLD-010 D3/D4). No receipt PDF (P17).</p>
 
-  <!-- C-22a Bill & pay -->
+  <!-- C-08a Bill & pay -->
   <div class="phone">
-    <span class="label">C-22a Bill &amp; pay · fixed</span>
+    <span class="label">C-08a Bill &amp; pay · fixed</span>
     <div class="statusbar"><span>6:12</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><div class="grow"><h1>Bill &amp; pay</h1><p class="sub">Fan not working · Rakesh Das · Ref 9C41E7</p></div></div>
     <div class="content" style="gap:10px;padding-top:0">
@@ -47,11 +47,11 @@
     </div>
     <div class="footer"><a class="btn accent">Pay ₹1,951 online</a></div>
   </div>
-  <div class="note"><b>Data (LLD-009 §5.4, LLD-010 D3, LLD-011 D9)</b><code>GET /jobs/{id}/bill</code> → lines VISIT_LABOUR (per confirmed visit), HELPER, QUOTE (labour = total − material), MATERIAL (covered / acknowledged bills), EMERGENCY_SURCHARGE (shown only if &gt; 0), ADVANCE_PAID −₹99, ALREADY_PAID (daily/weekly payments, negative) → totalMinor 205000 (before advance), paidMinor 9900, dueMinor 195100. Only confirmed visits + accepted quotes appear. The app never sends an amount. Cash allowed for everything except the advance. Shown after "Confirm work done" (C-21j); for DAILY schedules, after each visit confirm.</div>
+  <div class="note"><b>Data (LLD-009 §5.4, LLD-010 D3, LLD-011 D9)</b><code>GET /jobs/{id}/bill</code> → lines VISIT_LABOUR (per confirmed visit), HELPER, QUOTE (labour = total − material), MATERIAL (covered / acknowledged bills), EMERGENCY_SURCHARGE (shown only if &gt; 0), ADVANCE_PAID −₹99, ALREADY_PAID (daily/weekly payments, negative) → totalMinor 205000 (before advance), paidMinor 9900, dueMinor 195100. Only confirmed visits + accepted quotes appear. The app never sends an amount. Cash allowed for everything except the advance. Shown after "Confirm work done" (C-07j); for DAILY schedules, after each visit confirm.</div>
 
-  <!-- C-22b Provider checkout -->
+  <!-- C-08b Provider checkout -->
   <div class="phone">
-    <span class="label">C-22b Provider checkout hand-off · fixed</span>
+    <span class="label">C-08b Provider checkout hand-off · fixed</span>
     <div class="statusbar"><span>6:13</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>Bill &amp; pay</h1></div>
     <div class="content"><div class="skel" style="width:70%"></div><div class="skel"></div><div class="skel" style="width:40%"></div></div>
@@ -71,9 +71,9 @@
   </div>
   <div class="note"><b>Data (LLD-011 D1/D2/§8)</b><code>POST /jobs/{id}/payments/online</code> (Idempotency-Key) → payments row (purpose JOB, status CREATED, expires_at +30 min) + provider order id; app opens the provider SDK with it. Retries reuse the same order (D1). SDK success only starts polling <code>GET /payments/{id}</code>; truth = signed webhook or server-to-server fetch (D2). We keep only method + masked VPA. No saved methods (P3).</div>
 
-  <!-- C-22c Payment pending -->
+  <!-- C-08c Payment pending -->
   <div class="phone">
-    <span class="label">C-22c Payment pending · fixed</span>
+    <span class="label">C-08c Payment pending · fixed</span>
     <div class="content tools" style="color:#fff;padding-top:0;justify-content:center;gap:16px;text-align:center">
       <div class="statusbar clear" style="position:absolute;inset:0 0 auto 0"><span>6:14</span><span>▮▮ 4G</span></div>
       <div class="spinner"></div>
@@ -90,9 +90,9 @@
     <div class="footer"><a class="btn secondary">Go to booking — we'll notify you</a></div>
   </div>
 
-  <!-- C-22d Payment failed -->
+  <!-- C-08d Payment failed -->
   <div class="phone soft">
-    <span class="label">C-22d Payment failed · fixed</span>
+    <span class="label">C-08d Payment failed · fixed</span>
     <div class="statusbar"><span>6:16</span><span>▮▮ 4G</span></div>
     <div class="content" style="justify-content:center;gap:14px;text-align:center">
       <div class="illus" style="background:var(--grad-danger);box-shadow:0 12px 32px rgba(198,46,37,.3)">✖</div>
@@ -112,9 +112,9 @@
   </div>
   <div class="note"><b>Data (LLD-011 D4–D6)</b>Pending: payment PENDING, app polls; leaving is safe (push on success). Failed: a <code>payment.failed</code> attempt does not fail the payment — "Try again" reopens checkout on the same order until expires_at (30 min). Expired without capture → CANCELLED, a new order is created. Late capture after expiry → SUCCEEDED + automatic refund ("we got your money late — refund started"). Ref = last 6 chars of the payment UUID (P4). If UPI success rate drops, the app promotes "Pay cash".</div>
 
-  <!-- C-22e Cash confirm -->
+  <!-- C-08e Cash confirm -->
   <div class="phone">
-    <span class="label">C-22e Cash — confirm you paid · new</span>
+    <span class="label">C-08e Cash — confirm you paid · new</span>
     <div class="statusbar"><span>6:20</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><div class="grow"><h1>Fan not working</h1><p class="sub">Ref 9C41E7</p></div></div>
     <div class="content"><div class="skel" style="width:70%"></div><div class="skel"></div></div>
@@ -131,9 +131,9 @@
   </div>
   <div class="note"><b>Data (LLD-010 D3/D4, LLD-018)</b>Worker "cash received" → payments row method CASH, status PENDING, amount = bill due (backend), cash_marked_by_worker_at. Customer <code>POST /payments/{id}/confirm-cash</code> → SUCCEEDED; 24 h silence → auto-confirmed. "I didn't pay" → <code>POST /disputes {subjectType: PAYMENT, category: CASH_NOT_PAID}</code> → payment DISPUTED, no ledger postings until resolved; booking list shows "Issue · awaiting response".</div>
 
-  <!-- C-22f Payment success -->
+  <!-- C-08f Payment success -->
   <div class="phone">
-    <span class="label">C-22f Payment success · fixed</span>
+    <span class="label">C-08f Payment success · fixed</span>
     <div class="content tools" style="color:#fff;padding-top:0;justify-content:center;gap:14px;text-align:center">
       <div class="statusbar clear" style="position:absolute;inset:0 0 auto 0"><span>6:15</span><span>▮▮ 4G</span></div>
       <div class="illus">🎉</div>
@@ -152,9 +152,9 @@
     </div>
   </div>
 
-  <!-- C-22g Receipt -->
+  <!-- C-08g Receipt -->
   <div class="phone">
-    <span class="label">C-22g Receipt (in app) · fixed</span>
+    <span class="label">C-08g Receipt (in app) · fixed</span>
     <div class="statusbar"><span>6:17</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><div class="grow"><h1>Receipt</h1><p class="sub">Booking Ref 9C41E7</p></div></div>
     <div class="content" style="gap:10px;padding-top:0">
@@ -181,7 +181,7 @@
     </div>
     <div class="footer"><a class="btn secondary">⚠️ Report a problem with a payment</a></div>
   </div>
-  <div class="note"><b>Data (LLD-009 §5.4, LLD-011 §5, P17)</b>Same bill lines as C-22a + payments of the job (<code>GET /jobs/{id}/payments</code>, <code>GET /payments/{id}</code>: amount, method, masked VPA, status, refunds). Refund rows when present: amount, reason, status REQUESTED / PROCESSING / SUCCEEDED / FAILED ("₹99 refunded to your UPI · 5–7 days"). In-app only — no PDF, share, email or SMS receipt in MVP. Payment problems → dispute subject PAYMENT within 7 days of the job ending (LLD-018 D2).</div>
+  <div class="note"><b>Data (LLD-009 §5.4, LLD-011 §5, P17)</b>Same bill lines as C-08a + payments of the job (<code>GET /jobs/{id}/payments</code>, <code>GET /payments/{id}</code>: amount, method, masked VPA, status, refunds). Refund rows when present: amount, reason, status REQUESTED / PROCESSING / SUCCEEDED / FAILED ("₹99 refunded to your UPI · 5–7 days"). In-app only — no PDF, share, email or SMS receipt in MVP. Payment problems → dispute subject PAYMENT within 7 days of the job ending (LLD-018 D2).</div>
 </div>
 </body>
 </html>

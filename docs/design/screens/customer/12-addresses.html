@@ -20,9 +20,9 @@
 <div class="canvas">
   <p class="canvas-title"><b>Customer · Saved addresses & service area</b>LLD-005: separate address fields, map pin always, site contact for someone else's place, floor / lift, service-zone result and "Notify me" waitlist. Up to 20 addresses.</p>
 
-  <!-- C-60 Saved addresses -->
+  <!-- C-04a Saved addresses -->
   <div class="phone soft">
-    <span class="label">C-60 Saved addresses · fixed</span>
+    <span class="label">C-12a Saved addresses · fixed</span>
     <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>Saved addresses</h1><span class="sub">3 of 20</span></div>
     <div class="content" style="gap:10px">
@@ -48,9 +48,9 @@
   </div>
   <div class="note"><b>Saved addresses (LLD-005 D3–D6, §4.1)</b><code>GET /customer/addresses</code>, default first; shows <code>formattedAddress</code> (built by the backend), floor / lift, property type, <code>serviceArea.status</code>. Site contact (name, mobile, relation) only when <code>addressFor ≠ SELF</code>. Outside an active zone → "Not served yet" + Notify me (waitlist). Counter "3 of 20"; at 20 the add button is disabled with "Delete an address to add a new one" (<code>422 ADDRESS_LIMIT_REACHED</code>). Deleting the default does <strong>not</strong> pick a new default (D6) — the app asks at the next request.</div>
 
-  <!-- C-61a Set pin -->
+  <!-- C-04b Set pin -->
   <div class="phone">
-    <span class="label">C-61a Add address · 1 Set the pin · fixed</span>
+    <span class="label">C-12b Add address · 1 Set the pin · fixed</span>
     <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><div class="grow"><h1>Add address</h1><span class="sub">Step 1 of 2 · Pin</span></div></div>
     <div class="map" style="height:300px;border-radius:0;border-left:0;border-right:0">
@@ -65,9 +65,9 @@
     <div class="footer"><a class="btn primary">Confirm pin</a></div>
   </div>
 
-  <!-- C-61b Address details -->
+  <!-- C-04c Address details -->
   <div class="phone soft">
-    <span class="label">C-61b Add address · 2 Details · fixed</span>
+    <span class="label">C-12c Add address · 2 Details · fixed</span>
     <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><div class="grow"><h1>Address details</h1><span class="sub">Step 2 of 2 · Shibpur pin set ✓</span></div></div>
     <div class="content" style="gap:8px">
@@ -89,9 +89,9 @@
     <div class="footer"><a class="btn primary">Next</a></div>
   </div>
 
-  <!-- C-61c Who & label -->
+  <!-- C-04d Who & label -->
   <div class="phone soft">
-    <span class="label">C-61c Add address · 2 Details (cont.) · fixed</span>
+    <span class="label">C-12d Add address · 2 Details (cont.) · fixed</span>
     <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>Whose place is this?</h1></div>
     <div class="content" style="gap:8px">
@@ -113,9 +113,9 @@
   </div>
   <div class="note"><b>Add address (LLD-005 §3, D1, D4, §8; security/03 §100)</b>Pin first: GPS or map pin from the phone (<code>location_source</code> GPS / MAP_PIN, accuracy m); the app may reverse-geocode to pre-fill fields — the backend never geocodes. Typed-only addresses must still confirm a pin (location is NOT NULL). Coverage shown after the pin via <code>GET /service-areas/check?latitude&amp;longitude&amp;pincode</code>.<br>Fields: house_no*, building, street, locality*, landmark, PIN* (6 digits, not starting with 0 → <code>INVALID_PINCODE</code>), city/district/state prefilled, floor (−2…100) + lift, property type FLAT / INDEPENDENT_HOUSE / SHOP / OFFICE / OTHER, free label (≤40).<br><strong>Address for</strong> SELF / FAMILY / RELATIVE / TENANT / BUSINESS / OTHER. Not "Mine" → contact name + Indian mobile + consent tick, all required (<code>400 SITE_CONTACT_REQUIRED</code>); consent time stored. Make default: off by default; saving with it on clears the old default.</div>
 
-  <!-- C-62 Not in service area -->
+  <!-- C-04e Not in service area -->
   <div class="phone soft">
-    <span class="label">C-62 Not in service area · new</span>
+    <span class="label">C-12e Not in service area · new</span>
     <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>Add address</h1></div>
     <div class="map" style="height:150px;margin:0 16px"></div>
@@ -134,9 +134,9 @@
     <div class="footer"><a class="btn secondary">Save address anyway</a></div>
   </div>
 
-  <!-- C-62b Waitlist joined -->
+  <!-- C-04f Waitlist joined -->
   <div class="phone">
-    <span class="label">C-62b You're on the list · new</span>
+    <span class="label">C-12f You're on the list · new</span>
     <div class="statusbar clear" style="position:absolute;inset:0 0 auto 0;z-index:1"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="content tools" style="color:#fff;padding-top:60px;gap:16px;text-align:center">
       <div class="grow"></div>
@@ -153,9 +153,9 @@
   </div>
   <div class="note"><b>Waitlist (LLD-005 §4.2–4.3, D3)</b><code>POST /service-areas/waitlist {pincode}</code> → 202 (email optional when logged in; required on the logged-out coverage check). Unique per user + PIN, so a second tap is harmless (ON CONFLICT DO NOTHING). Zone message comes localized from the API (<code>message</code>). When the zone becomes ACTIVE, one "We're now in your area" notification (push / inbox; email if logged out, LLD-013 D12). The address can be saved outside a zone; only placing a request is blocked (<code>SERVICE_AREA_NOT_AVAILABLE</code> in LLD-006).</div>
 
-  <!-- C-63 Saved outside zone -->
+  <!-- C-12g Saved outside zone -->
   <div class="phone soft">
-    <span class="label">C-63 Address saved outside zone · new</span>
+    <span class="label">C-12g Address saved outside zone · new</span>
     <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>Saved addresses</h1><span class="sub">4 of 20</span></div>
     <div class="content" style="gap:10px">

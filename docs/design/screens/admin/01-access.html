@@ -33,9 +33,9 @@
 <div class="canvas">
   <p class="canvas-title"><b>Admin · Access, MFA &amp; ops dashboard</b>Staff log in with email + password (LLD-001) and then TOTP MFA for every admin call (LLD-020 D2). No SMS anywhere. The dashboard's main block is the 7 ops queues (LLD-020 §3.3), filtered by the caller's permissions; KPIs and system health are a Grafana link (P5).</p>
 
-  <!-- A-01 Login -->
+  <!-- A-01a Login -->
   <div class="web">
-    <span class="label">A-01 Staff login · fixed</span>
+    <span class="label">A-01a Staff login · fixed</span>
     <div class="tools" style="width:620px;color:#fff;padding:56px;display:flex;flex-direction:column;gap:20px">
       <b style="font-size:22px">🛠️ Karigar Ops</b>
       <div class="grow"></div>
@@ -64,9 +64,9 @@
     <div class="note"><b>Fixes vs PNG</b>No phone/OTP (B1). No "remember this device": MFA is per login session (<code>sid</code>), 12 h window.</div>
   </div>
 
-  <!-- A-02 MFA enroll -->
+  <!-- A-01b MFA enroll -->
   <div class="web">
-    <span class="label">A-02 Set up authenticator (MFA enrol) · new</span>
+    <span class="label">A-01b Set up authenticator (MFA enrol) · new</span>
     <div class="auth tools-soft">
       <div class="authcard" style="width:760px;flex-direction:row;gap:32px;padding:36px">
         <div class="col" style="gap:14px;width:220px;align-items:center">
@@ -97,9 +97,9 @@
     <div class="note"><b>Who sees it</b>Any active staff member with <code>mfa_enabled=false</code>, incl. after an MFA reset (<code>/staff/{id}/mfa/reset</code>, Super Admin only).</div>
   </div>
 
-  <!-- A-03 MFA prompt -->
+  <!-- A-01c MFA prompt -->
   <div class="web">
-    <span class="label">A-03 Enter authenticator code · new</span>
+    <span class="label">A-01c Enter authenticator code · new</span>
     <div class="auth tools-soft">
       <div class="authcard" style="align-items:center;text-align:center">
         <div class="illus teal sm">🔐</div>
@@ -115,12 +115,12 @@
   </div>
   <div class="notes">
     <div class="note"><b>When shown</b>Any admin call returns <code>403 MFA_REQUIRED</code> (window closed, Redis flushed → fails closed). Same screen re-prompts after 12 h. Wrong / reused code → <code>422 MFA_CODE_INVALID</code> (±1 time-step, replay guard). LLD-020 D2, §5.1, §7.</div>
-    <div class="note"><b>Step-up</b><code>staff.manage</code> calls need a code from the last 15 min — shown as a modal on the Staff page (A-66, 06-config).</div>
+    <div class="note"><b>Step-up</b><code>staff.manage</code> calls need a code from the last 15 min — shown as a modal on the Staff page (A-06g, 06-config).</div>
   </div>
 
-  <!-- A-04 MFA lockout -->
+  <!-- A-01d MFA lockout -->
   <div class="web">
-    <span class="label">A-04 Too many wrong codes (MFA lockout) · new</span>
+    <span class="label">A-01d Too many wrong codes (MFA lockout) · new</span>
     <div class="auth tools-soft">
       <div class="authcard" style="align-items:center;text-align:center">
         <div class="illus sm" style="background:var(--grad-danger)">🔒</div>
@@ -139,9 +139,9 @@
     <div class="note"><b>Rule</b><code>429 MFA_LOCKED</code>: 5 wrong codes in 15 min for this staff member → 15 min lock (LLD-020 §4.2 errors, §8). Metric <code>admin_mfa_verify_total{result=locked}</code>.</div>
   </div>
 
-  <!-- A-05 Ops dashboard -->
+  <!-- A-01e Ops dashboard -->
   <div class="web">
-    <span class="label">A-05 Ops dashboard · ops queues · fixed</span>
+    <span class="label">A-01e Ops dashboard · ops queues · fixed</span>
     <nav class="side" data-on="ops"></nav>
     <div class="main">
       <header class="topbar" data-std><h1>Ops queues</h1></header>
@@ -207,9 +207,9 @@
     <div class="note"><b>Removed vs PNG</b>SMS failures, "Address proof", provider latency, area health / undersupply table, 7/30-day KPI toggle (P5 → Grafana). "Today so far" = simple counts only; any chart lives in Grafana.</div>
   </div>
 
-  <!-- A-06 Flagged check-in queue + ack -->
+  <!-- A-01f Flagged check-in queue + ack -->
   <div class="web">
-    <span class="label">A-06 Queue · flagged check-ins + acknowledge · new</span>
+    <span class="label">A-01f Queue · flagged check-ins + acknowledge · new</span>
     <nav class="side" data-on="ops"></nav>
     <div class="main">
       <header class="topbar" data-std><h1>Ops queues › Flagged check-ins</h1></header>
@@ -238,7 +238,7 @@
   </div>
   <div class="notes">
     <div class="note"><b>Data</b><code>GET /admin/ops/queues/FLAGGED_CHECK_IN?cursor=</code> (job_visits with <code>check_in_flagged</code>, last 30 days, oldest first; 200 max). Ack: <code>POST …/items/{itemId}/ack {outcome, note}</code>, needs <code>ops.act</code> + view perm; second ack returns the first (LLD-020 §3.1, §7). Item carries <code>actionPath</code> to the booking.</div>
-    <div class="note"><b>Other tabs</b>Disputed cash / stuck refunds / parked events → 05-money (A-42). Verification → A-30, disputes → A-33, outbox → A-64. Tabs without permission are not rendered.</div>
+    <div class="note"><b>Other tabs</b>Disputed cash / stuck refunds / parked events → 05-money (A-05c). Verification → A-04a, disputes → A-04d, outbox → A-06e. Tabs without permission are not rendered.</div>
   </div>
 </div>
 

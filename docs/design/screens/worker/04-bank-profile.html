@@ -33,9 +33,9 @@
 <div class="canvas">
   <p class="canvas-title"><b>Worker · Bank account, profile, settings</b>Replaces Bank details, Profile hub, Edit profile (2), Settings & security. Bank account only, penny-drop + name match, no UPI payout (LLD-019 D2–D5). Profile per LLD-004; privacy per security/03 §96–97.</p>
 
-  <!-- W-40 Bank account form -->
+  <!-- W-04a Bank account form -->
   <div class="phone soft">
-    <span class="label">W-40 Bank account · fixed</span>
+    <span class="label">W-04a Bank account · fixed</span>
     <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>Bank account</h1><span class="sub">Step 7 of 7</span></div>
     <div class="content" style="gap:10px">
@@ -50,9 +50,9 @@
   </div>
   <div class="note"><b>Data (LLD-019 D2–D6, §5)</b><code>POST /worker/payout-accounts</code> (Idempotency-Key): <code>accountType BANK, accountHolderName, accountNumber</code> (9–18 digits, numeric keypad, typed twice, write-only), <code>ifsc</code> (regex; bank name shown from IFSC prefix only — no branch lookup, open decision). Stored: last 4 + IFSC. UPI → <code>422 UPI_PAYOUT_NOT_SUPPORTED</code>. Max 3 attempts / 24 h (<code>429 TOO_MANY_ACCOUNT_ATTEMPTS</code>). Required before first job (LLD-004 D8). Hint says "passbook + profile name", not "ID".</div>
 
-  <!-- W-41 Verifying -->
+  <!-- W-04b Verifying -->
   <div class="phone soft">
-    <span class="label">W-41 Verifying (penny drop) · new</span>
+    <span class="label">W-04b Verifying (penny drop) · new</span>
     <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>Bank account</h1></div>
     <div class="content" style="gap:16px;text-align:center;padding-top:30px">
@@ -67,9 +67,9 @@
   </div>
   <div class="note"><b>Data (LLD-019 D3, §6)</b>Provider penny-drop. Provider replies PENDING → row <code>PENDING_VERIFICATION</code>; <code>ACCOUNT_VALIDATED</code> webhook finishes it. Beneficiary name from the bank vs <code>workers.display_name</code>: score ≥ 80 → ACTIVE · 50–79 → NEEDS_REVIEW · &lt; 50 → DISABLED (NAME_MISMATCH). Adding another while one is pending → <code>409 ACCOUNT_VERIFICATION_PENDING</code>. Provider down → <code>503</code>, nothing saved, "Try again".</div>
 
-  <!-- W-42 Under review -->
+  <!-- W-04c Under review -->
   <div class="phone soft">
-    <span class="label">W-42 Under review (name check) · new</span>
+    <span class="label">W-04c Under review (name check) · new</span>
     <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>Bank account</h1></div>
     <div class="content" style="gap:14px">
@@ -85,9 +85,9 @@
   </div>
   <div class="note"><b>Data (LLD-019 D3, §5 admin)</b>Status <code>NEEDS_REVIEW</code> (score 50–79). Ops approve → ACTIVE, or reject (reason required) → DISABLED (<code>REJECTED_BY_OPS</code>). No SLA defined in the LLD, so no time promise is shown. Readiness step BANK_ACCOUNT_VERIFIED stays open meanwhile. Which name is matched after a profile name change is open (P22).</div>
 
-  <!-- W-43 Failed -->
+  <!-- W-04d Failed -->
   <div class="phone soft">
-    <span class="label">W-43 Failed · new</span>
+    <span class="label">W-04d Failed · new</span>
     <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>Bank account</h1></div>
     <div class="content" style="gap:14px">
@@ -106,9 +106,9 @@
   </div>
   <div class="note"><b>Data (LLD-019 §5–6)</b><code>DISABLED</code> with <code>disabled_reason</code>: PENNY_DROP_FAILED (shown: <code>422 PENNY_DROP_FAILED</code>) or NAME_MISMATCH (score &lt; 50: card text "Name in bank is different from your profile name — use your own account"). Tries left from the 3 / 24 h limit. Form re-opens with IFSC kept, account number cleared.</div>
 
-  <!-- W-44 Active (bn) -->
+  <!-- W-04e Active (bn) -->
   <div class="phone" lang="bn">
-    <span class="label">W-44 Active (বাংলা) · new</span>
+    <span class="label">W-04e Active (বাংলা) · new</span>
     <div class="hero" style="padding-top:0;padding-bottom:26px;align-items:center;text-align:center">
       <div class="statusbar clear" style="padding:0 2px;align-self:stretch"><span>9:41</span><span>▮▮ 4G</span></div>
       <div class="illus" style="width:116px;height:116px;font-size:54px">✅</div>
@@ -127,9 +127,9 @@
   </div>
   <div class="note"><b>Data (LLD-019 D4–D7)</b><code>ACTIVE</code>, primary; replaces any older account (old → DISABLED REPLACED). <code>payoutsAllowedFrom</code> = activation + 24 h (cooling-off), shown as a time. Email + push at add and at activation. Daily batch 11:00 IST, amount ≥ ₹100, cash-job fees recovered from payouts. Completes readiness BANK_ACCOUNT_VERIFIED.</div>
 
-  <!-- W-45 Profile hub -->
+  <!-- W-04f Profile hub -->
   <div class="phone soft">
-    <span class="label">W-45 Profile hub · fixed</span>
+    <span class="label">W-04f Profile hub · fixed</span>
     <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="appbar"><h1 style="font-size:24px;padding-left:4px">Profile</h1><a class="btn ghost sm">👁 See as customer</a></div>
     <div class="content" style="gap:10px">
@@ -152,9 +152,9 @@
   </div>
   <div class="note"><b>Data (LLD-004 §4, LLD-007 D1, LLD-015, LLD-016, LLD-019)</b><code>GET /workers/me</code> + readiness: "3 / 7" checklist count, not a %. Account chip maps <code>account_status</code>: ONBOARDING "Setting up", ACTIVE "Active", SUSPENDED "Paused". Rating / jobs done appear only once there are reviews (LLD-012). Area = locality label + radius (one base, P10). "See as customer" renders the public profile fields only (no phone, exact location, documents).</div>
 
-  <!-- W-46 Edit profile -->
+  <!-- W-04g Edit profile -->
   <div class="phone soft">
-    <span class="label">W-46 Edit profile · fixed</span>
+    <span class="label">W-04g Edit profile · fixed</span>
     <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>Edit profile</h1></div>
     <div class="content" style="gap:12px">
@@ -168,9 +168,9 @@
   </div>
   <div class="note"><b>Data (LLD-004 §4, D6, D7; P22)</b><code>PATCH /workers/me</code> (displayName, bio, spokenLanguages) with <code>version</code> → <code>409 CONCURRENT_UPDATE</code> reloads. <code>CONTACT_INFO_NOT_ALLOWED</code> inline. Email/phone are account fields (LLD-001), not edited here. Name change vs ID / bank re-check is an open product decision (P22) — the warning is copy only until decided. Experience years edited per trade under "Trades".</div>
 
-  <!-- W-47 Settings & security -->
+  <!-- W-04h Settings & security -->
   <div class="phone soft">
-    <span class="label">W-47 Settings & security · fixed</span>
+    <span class="label">W-04h Settings & security · fixed</span>
     <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>Settings & security</h1></div>
     <div class="content" style="gap:8px">
@@ -196,9 +196,9 @@
   </div>
   <div class="note"><b>Data (LLD-002, LLD-003, security/03 §96–97)</b>Language → <code>preferredLocale</code>. Change password and <code>POST /auth/logout-all</code> revoke every session + push token. Location toggle = optional consent <code>LOCATION_DURING_JOB</code> (unticked default; off → check-in by start code only). "My permissions" = <code>GET/POST /me/consents</code> one toggle per purpose; withdrawing WORKER_KYC stops new offers and removes badges (confirm dialog). Data summary = <code>GET /me/data-summary</code>. Grievance link inside Help. No marketing toggles in MVP (P20); no chat (B5).</div>
 
-  <!-- W-48 Delete account -->
+  <!-- W-04i Delete account -->
   <div class="phone soft">
-    <span class="label">W-48 Delete account · new</span>
+    <span class="label">W-04i Delete account · new</span>
     <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>Delete account</h1></div>
     <div class="content" style="gap:12px">

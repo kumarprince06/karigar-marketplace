@@ -35,9 +35,9 @@
 <div class="canvas">
   <p class="canvas-title"><b>Worker · Earnings, dues, payouts, reviews, disputes</b>Balance can be negative (cash-job fees = dues); payouts daily at 11:00 to the bank, minimum ₹100; dues paid by UPI through the payment provider. LLD-010 D7/D9, LLD-019 D5–D10, LLD-012 D9, LLD-018 D4–D6. Fixes design review §3.4 Earnings.</p>
 
-  <!-- W-13a Earnings -->
+  <!-- W-08a Earnings -->
   <div class="phone">
-    <span class="label">W-13a Earnings · fixed</span>
+    <span class="label">W-08a Earnings · fixed</span>
     <div class="hero">
       <div class="statusbar clear" style="padding:0 2px"><span>9:41</span><span>▮▮ 4G</span></div>
       <b class="h3">💰 My earnings</b>
@@ -62,9 +62,9 @@
   </div>
   <div class="note"><b>Data (LLD-010 §4 summary, D6/D9; LLD-019 D6/D7)</b><code>GET /worker/earnings/summary</code> → balanceMinor (computed from ledger, can be negative), pendingMinor ("Waiting for customer" = job not yet COMPLETED), eligibleMinor ("Ready"), duesLimitMinor, restricted. Rows <code>GET /worker/earnings</code>: status PENDING / ELIGIBLE / ON_HOLD (dispute open) / PAID_OUT / REVERSED; cash rows show gross collected + fee (10 % + 18 % GST on the fee) as a debt. Next payout = min(eligible owed, balance) = ₹1,022, daily 11:00 IST if ≥ ₹100, ACTIVE bank account past 24 h cooling-off. "On hold" sum is a client total of ON_HOLD rows (not in the summary API).</div>
 
-  <!-- W-13b Earnings · dues -->
+  <!-- W-08b Earnings · dues -->
   <div class="phone">
-    <span class="label">W-13b Earnings · dues over limit · new</span>
+    <span class="label">W-08b Earnings · dues over limit · new</span>
     <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="appbar"><h1>💰 My earnings</h1></div>
     <div class="content" style="gap:10px">
@@ -85,9 +85,9 @@
     <nav class="tabbar"><a><span class="ico">🏠</span>Home</a><a><span class="ico">📥</span>Offers</a><a><span class="ico">🧰</span>Jobs</a><a class="on"><span class="ico">💰</span>Earnings</a><a><span class="ico">👤</span>Profile</a></nav>
   </div>
 
-  <!-- W-13c Pay dues · provider checkout -->
+  <!-- W-08c Pay dues · provider checkout -->
   <div class="phone">
-    <span class="label">W-13c Pay dues by UPI · provider checkout · new</span>
+    <span class="label">W-08c Pay dues by UPI · provider checkout · new</span>
     <div class="statusbar"><span>9:43</span><span>▮▮ 4G</span></div>
     <div class="appbar"><h1>💰 My earnings</h1></div>
     <div class="content"></div>
@@ -103,9 +103,9 @@
     </div>
   </div>
 
-  <!-- W-13d Dues paid -->
+  <!-- W-08d Dues paid -->
   <div class="phone soft">
-    <span class="label">W-13d Dues paid · new</span>
+    <span class="label">W-08d Dues paid · new</span>
     <div class="statusbar"><span>9:45</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>Dues</h1></div>
     <div class="content" style="gap:14px">
@@ -117,9 +117,9 @@
   </div>
   <div class="note"><b>Data (LLD-019 D10, LLD-011, LLD-010 D7)</b>Pay dues = <code>payments</code> row purpose WORKER_DUES, payer = worker, amount = whole amount owed (server-computed; one open dues payment per worker). Uses the LLD-011 provider checkout (UPI intent / QR / VPA inside the provider's UI — no saved methods, no card form, P3 / B6). Success webhook posts P10 → balance back within limit → NO_NEW_OFFERS (source DUES) lifted automatically. Pending/unknown result → "checking" state; sweeper reconciles.</div>
 
-  <!-- W-13e Payout history -->
+  <!-- W-08e Payout history -->
   <div class="phone">
-    <span class="label">W-13e Payouts to bank · new</span>
+    <span class="label">W-08e Payouts to bank · new</span>
     <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>🏦 Payouts</h1></div>
     <div class="content" style="gap:10px">
@@ -135,9 +135,9 @@
   </div>
   <div class="note"><b>Data (LLD-019 D3–D9, payouts)</b>Payout status QUEUED / PROCESSING ("Sending"), PAID, FAILED, REVERSED (failed + reversed → earnings back to ELIGIBLE, balance restored, shown "money back in balance", <code>failure_reason</code> in plain words). One open payout per worker. Destination = one ACTIVE bank account (penny-drop + name match); UPI payout not supported. 24 h cooling-off after a new account. Bank number masked to last 4.</div>
 
-  <!-- W-13f My reviews -->
+  <!-- W-08f My reviews -->
   <div class="phone">
-    <span class="label">W-13f My reviews · fixed</span>
+    <span class="label">W-08f My reviews · fixed</span>
     <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>⭐ My reviews</h1></div>
     <div class="content" style="gap:10px">
@@ -157,9 +157,9 @@
     </div>
   </div>
 
-  <!-- W-13g Reply sheet -->
+  <!-- W-08g Reply sheet -->
   <div class="phone">
-    <span class="label">W-13g Reply to a review · new</span>
+    <span class="label">W-08g Reply to a review · new</span>
     <div class="statusbar"><span>9:42</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>⭐ My reviews</h1></div>
     <div class="content"></div>
@@ -176,9 +176,9 @@
   </div>
   <div class="note"><b>Data (LLD-012 D5/D9/D11)</b>Reviews shown after reveal (double-blind). Rating = raw average of counted reviews, last 12 months, max 50; shown when ≥ 3. Reply: <code>POST /reviews/{id}/reply {text}</code> — one per revealed review, within 30 days, ≤ 500 chars, editable 24 h (PUT). Contact info / bad words → 422 CONTACT_INFO_NOT_ALLOWED (reply rejected, not moderated). Text stored as written (bn/hi/en). No tags or photos (P9). Customer reviews by workers stay private.</div>
 
-  <!-- W-13h Dispute respond -->
+  <!-- W-08h Dispute respond -->
   <div class="phone">
-    <span class="label">W-13h Complaint · answer within 48 h · new</span>
+    <span class="label">W-08h Complaint · answer within 48 h · new</span>
     <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>⚖️ Customer complaint</h1></div>
     <div class="content" style="gap:10px">
@@ -198,9 +198,9 @@
     <div class="footer"><a class="btn primary">📨 Send my answer</a></div>
   </div>
 
-  <!-- W-13i Dispute outcome -->
+  <!-- W-08i Dispute outcome -->
   <div class="phone soft">
-    <span class="label">W-13i Complaint · decision · new</span>
+    <span class="label">W-08i Complaint · decision · new</span>
     <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>⚖️ Decision</h1></div>
     <div class="content" style="gap:12px">

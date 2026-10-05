@@ -39,9 +39,9 @@
 <div class="canvas">
   <p class="canvas-title"><b>Customer · Matching → shortlist → choose a worker</b>Workers who want the job accept with their own rate and arrival time; the customer picks one of up to 3 (ADR 0017, LLD-007, LLD-008). No chat, no direct booking from a profile. Address and phones are shared only after selection (LLD-008 D6).</p>
 
-  <!-- C-13a Matching in progress -->
+  <!-- C-05a Matching in progress -->
   <div class="phone">
-    <span class="label">C-13a Matching in progress · fixed</span>
+    <span class="label">C-05a Matching in progress · fixed</span>
     <div class="hero" style="padding-top:0;gap:12px">
       <div class="statusbar clear" style="padding:0 2px"><span>2:40</span><span>▮▮ 4G</span></div>
       <div class="row between"><button class="iconbtn" style="color:#fff">←</button><span class="pill">💰 Advance paid · ₹99</span></div>
@@ -63,9 +63,9 @@
     </div>
   </div>
 
-  <!-- C-13b Matching held overnight -->
+  <!-- C-05b Matching held overnight -->
   <div class="phone">
-    <span class="label">C-13b Matching · held until 7 AM · new</span>
+    <span class="label">C-05b Matching · held until 7 AM · new</span>
     <div class="hero" style="padding-top:0;gap:12px">
       <div class="statusbar clear" style="padding:0 2px"><span>10:32</span><span>▮▮ 4G</span></div>
       <div class="row between"><button class="iconbtn" style="color:#fff">←</button><span class="pill">💰 Advance paid · ₹99</span></div>
@@ -87,9 +87,9 @@
   </div>
   <div class="note"><b>Matching progress (LLD-007 D4, §5.2; LLD-006 D10)</b><code>GET /service-requests/{id}/matching</code> → <code>round</code>, <code>radiusKm</code>, <code>workersNotified</code>, <code>workersAccepted</code>, <code>nextUpdateInSeconds</code>. Waits shown per urgency (round length = worker response window): NOW 30 min, TODAY 1 h, SCHEDULED 4 h, EMERGENCY 10 min; radius 3 → 6 → 10 km; Book-again worker gets a first round (15 min / 30 min / 2 h; none for emergency). Non-emergency offers are not sent 21:00–07:00 (held to 07:00). Deadline chip = <code>expires_at</code>. Status chip = request status (SUBMITTED / MATCHING → "Finding workers"). Push on each accept (LLD-008 D7).</div>
 
-  <!-- C-13c Shortlist -->
+  <!-- C-05c Shortlist -->
   <div class="phone soft">
-    <span class="label">C-13c Workers found · shortlist · fixed</span>
+    <span class="label">C-05c Workers found · shortlist · fixed</span>
     <div class="statusbar"><span>2:48</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><div class="grow"><h1 style="font-size:18px;line-height:24px">3 workers want this job</h1><div class="sub">Choose one · Fan not working + 1 · Today 4–6 PM</div></div></div>
     <div class="content" style="padding-top:0;gap:10px">
@@ -118,9 +118,9 @@
   </div>
   <div class="note"><b>Shortlist (LLD-008 §4.2, D1, D2, D4; LLD-012 D11; LLD-016 badges)</b><code>GET /service-requests/{id}/shortlist</code> → max 3 ACCEPTED offers: <code>displayName, photoUrl, experienceYears, rating{average,count}</code> (shown only when count ≥ 3, else "New on Karigar"), <code>jobsCompleted, badges</code> (ID_VERIFIED, POLICE_VERIFIED, SKILL_CERTIFIED, LICENSED_ELECTRICIAN), <code>spokenLanguages, distanceKm</code> (rounded 0.5 km), <code>isFavourite</code>, <code>offer{rateType, amountMinor, availableFrom, note}</code>. Rate is one of the worker's own rates (VISIT / HOURLY / …); <code>availableFrom</code> is always inside the window. Default order = ranking score; client sorts by earliest / price / rating. "Why shown" chips come from stored <code>score_reasons</code> (favourite, distance, responsiveness). Expiry = request <code>expires_at</code>; fewer than 3 cards while rounds continue: "Still asking others".</div>
 
-  <!-- C-13d Select confirm sheet -->
+  <!-- C-05d Select confirm sheet -->
   <div class="phone soft">
-    <span class="label">C-13d Select confirm sheet · new</span>
+    <span class="label">C-05d Select confirm sheet · new</span>
     <div class="statusbar"><span>2:50</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1 style="font-size:18px">3 workers want this job</h1></div>
     <div class="content"><div class="skel" style="height:150px"></div><div class="skel" style="height:150px"></div></div>
@@ -142,9 +142,9 @@
   </div>
   <div class="note"><b>Selection (LLD-008 D5, D6, §4.2; LLD-009 D5)</b><code>POST /service-requests/{id}/select-worker {matchId}</code> + Idempotency-Key → 201 booking CONFIRMED (SINGLE_VISIT, <code>agreedRate</code> = offer rate, <code>firstVisit</code> = availableFrom → window end, <code>advancePaidMinor</code> 9900). Request → BOOKED; other workers get "not selected". Cancel rule: free until 2 h before the first visit; later = min(advance, ₹100) = ₹99; after EN_ROUTE = visit charge. 409 <code>MATCH_NO_LONGER_AVAILABLE</code> (withdrew / busy / time off / capacity) → "Sujit can't take it any more" + refreshed list; 409 <code>REQUEST_NOT_AWAITING_SELECTION</code> → request ended. Next screen: Booking confirmed (start code card) — other file.</div>
 
-  <!-- C-13e Worker profile -->
+  <!-- C-05e Worker profile -->
   <div class="phone">
-    <span class="label">C-13e Worker profile (from shortlist) · fixed</span>
+    <span class="label">C-05e Worker profile (from shortlist) · fixed</span>
     <div class="hero" style="padding-top:0;gap:8px">
       <div class="statusbar clear" style="padding:0 2px"><span>2:49</span><span>▮▮ 4G</span></div>
       <div class="row"><button class="iconbtn" style="color:#fff">←</button><b class="grow">Worker profile</b></div>
@@ -165,9 +165,9 @@
     <div class="footer" style="flex-direction:row;align-items:center"><div class="grow"><b class="money">₹200 visit</b><div class="sm muted">Can come at 4:30 PM</div></div><a class="btn primary sm" style="padding:0 28px">Select</a></div>
   </div>
 
-  <!-- C-13f All reviews -->
+  <!-- C-05f All reviews -->
   <div class="phone soft">
-    <span class="label">C-13f All worker reviews · fixed</span>
+    <span class="label">C-05f All worker reviews · fixed</span>
     <div class="statusbar"><span>2:49</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>Sujit Das · reviews</h1></div>
     <div class="content" style="padding-top:0;gap:10px">
@@ -197,9 +197,9 @@
   </div>
   <div class="note"><b>Profile &amp; reviews (LLD-004 §4, LLD-012 §4, D7, D9, D11)</b><code>GET /workers/{id}</code>: trades with experience (self-declared, no tick), rates per trade, skills, languages, badges, rating, jobs, <code>memberSince</code> month. Never: phone, exact area / service radius, documents. "Select" only when opened from a shortlist (this offer's rate + time in the footer); no chat, no "Book" from search. <code>GET /workers/{id}/reviews?cursor</code>: summary (avg, count, histogram) + revealed customer reviews, newest first, month only, worker reply (≤500 chars). Report → <code>POST /reviews/{id}/report {reasonCode}</code> (one per user). Hidden items show stars, no text. No photo filter, no aspect tags (P9).</div>
 
-  <!-- C-13g No workers found -->
+  <!-- C-05g No workers found -->
   <div class="phone soft">
-    <span class="label">C-13g No workers found · fixed</span>
+    <span class="label">C-05g No workers found · fixed</span>
     <div class="statusbar"><span>4:40</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>Request</h1></div>
     <div class="content" style="gap:14px">
@@ -217,9 +217,9 @@
   </div>
   <div class="note"><b>Failed to match (LLD-006 §6, LLD-007 §5.2)</b>Last round ended with 0 accepts → request FAILED_TO_MATCH. "Search again" → <code>POST /service-requests/{id}/search-again</code> (only before <code>expires_at</code>; new run, decliners still excluded); no refund if retried within 10 min. Otherwise <code>AdvanceRefundRequested</code> (FAILED_TO_MATCH). After <code>expires_at</code> only "Create a new request" is shown. Not "nothing charged" (review §3.3).</div>
 
-  <!-- C-13h Cancel request sheet -->
+  <!-- C-05h Cancel request sheet -->
   <div class="phone soft">
-    <span class="label">C-13h Cancel request (before booking) · new</span>
+    <span class="label">C-05h Cancel request (before booking) · new</span>
     <div class="statusbar"><span>2:10</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>Finding workers</h1></div>
     <div class="content"><div class="skel" style="height:200px"></div><div class="skel" style="height:120px"></div></div>
@@ -241,9 +241,9 @@
     </div>
   </div>
 
-  <!-- C-13i Request cancelled -->
+  <!-- C-05i Request cancelled -->
   <div class="phone soft">
-    <span class="label">C-13i Request cancelled · refund · new</span>
+    <span class="label">C-05i Request cancelled · refund · new</span>
     <div class="statusbar"><span>2:11</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">✕</button><h1>Request cancelled</h1></div>
     <div class="content" style="gap:14px">

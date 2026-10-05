@@ -28,9 +28,9 @@
 <div class="canvas">
   <p class="canvas-title"><b>Customer · When plans change — worker cancels, job can't be finished, missed visit, book again</b>Running example: Priya Sen booked Rakesh Das (electrician) for "Fan not working", today 4:00–6:00 PM, Shibpur, Ref 9C41E7, ₹99 advance, ₹350 per visit. Money rules from LLD-009 §8; push text has no amounts (LLD-013 D5), the app shows them behind login.</p>
 
-  <!-- C-24a Worker cancelled -->
+  <!-- C-02a Worker cancelled -->
   <div class="phone">
-    <span class="label">C-24a Worker cancelled → finding someone else · new</span>
+    <span class="label">C-10a Worker cancelled → finding someone else · new</span>
     <div class="hero" style="padding-top:0;gap:10px">
       <div class="statusbar clear" style="padding:0 2px"><span>3:22</span><span>▮▮ 4G</span></div>
       <div class="row between"><button class="iconbtn" style="color:#fff">←</button><span class="pill">💰 Your ₹99 advance is safe</span></div>
@@ -52,11 +52,11 @@
       <a class="btn danger-o">Cancel request · ₹99 refunded</a>
     </div>
   </div>
-  <div class="note"><b>Data (LLD-009 D6, §6.2, §7, §8; LLD-006 §6 BOOKED → MATCHING; LLD-013 #25)</b>Worker <code>POST /bookings/{id}/cancel</code> → booking CANCELLED (cancelled_by WORKER), job + open visits CANCELLED; request <strong>BOOKED → MATCHING</strong>, selected worker cleared, new matching run (attempt + 1) with Rakesh in exclusions. Customer pays 0, advance stays on the request. A late cancel (&lt; 2 h) gives Rakesh a LATE_CANCELLATION strike — never shown to the customer. Push (lock-screen safe): "Rakesh cancelled — we're finding someone else. Your advance is safe." Tapping it opens this screen; then the normal matching screen (C-13a). Cancel = <code>POST /service-requests/{id}/cancel</code> → full refund (C-13h/C-13i).<br><strong>Gap:</strong> LLD-006 allows BOOKED → MATCHING only "not expired"; if <code>expires_at</code> (TODAY = window end) has passed or is minutes away, the docs don't say whether it is extended or the request closes with a refund.</div>
+  <div class="note"><b>Data (LLD-009 D6, §6.2, §7, §8; LLD-006 §6 BOOKED → MATCHING; LLD-013 #25)</b>Worker <code>POST /bookings/{id}/cancel</code> → booking CANCELLED (cancelled_by WORKER), job + open visits CANCELLED; request <strong>BOOKED → MATCHING</strong>, selected worker cleared, new matching run (attempt + 1) with Rakesh in exclusions. Customer pays 0, advance stays on the request. A late cancel (&lt; 2 h) gives Rakesh a LATE_CANCELLATION strike — never shown to the customer. Push (lock-screen safe): "Rakesh cancelled — we're finding someone else. Your advance is safe." Tapping it opens this screen; then the normal matching screen (C-05a). Cancel = <code>POST /service-requests/{id}/cancel</code> → full refund (C-05h/C-05i).<br><strong>Gap:</strong> LLD-006 allows BOOKED → MATCHING only "not expired"; if <code>expires_at</code> (TODAY = window end) has passed or is minutes away, the docs don't say whether it is extended or the request closes with a refund.</div>
 
-  <!-- C-24b Re-matching shortlist -->
+  <!-- C-02b Re-matching shortlist -->
   <div class="phone soft">
-    <span class="label">C-24b New shortlist after re-matching · new</span>
+    <span class="label">C-10b New shortlist after re-matching · new</span>
     <div class="statusbar"><span>3:51</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><div class="grow"><h1 style="font-size:18px;line-height:24px">2 workers want this job</h1><div class="sub">Choose one · Fan not working + 1 · Today 4–6 PM</div></div></div>
     <div class="content" style="padding-top:0;gap:10px">
@@ -77,11 +77,11 @@
       <p class="help center">⏳ Still asking others. Tap a worker to see his profile and reviews.</p>
     </div>
   </div>
-  <div class="note"><b>Shortlist again (LLD-008 §4.2, LLD-007 D7)</b>Same screen and API as C-13c (<code>GET /service-requests/{id}/shortlist</code>) — only the info banner is added when the request's matching attempt &gt; 1 after a worker cancel / no-show. Rakesh is excluded; workers who declined before stay excluded; earlier candidates whose offers simply closed may be asked again. Selecting goes through C-13d and creates a new booking (new Ref, new start code) with the same advance applied — no second advance.</div>
+  <div class="note"><b>Shortlist again (LLD-008 §4.2, LLD-007 D7)</b>Same screen and API as C-05c (<code>GET /service-requests/{id}/shortlist</code>) — only the info banner is added when the request's matching attempt &gt; 1 after a worker cancel / no-show. Rakesh is excluded; workers who declined before stay excluded; earlier candidates whose offers simply closed may be asked again. Selecting goes through C-05d and creates a new booking (new Ref, new start code) with the same advance applied — no second advance.</div>
 
-  <!-- C-24c Job couldn't be finished -->
+  <!-- C-02c Job couldn't be finished -->
   <div class="phone">
-    <span class="label">C-24c Job couldn't be finished · new</span>
+    <span class="label">C-10c Job couldn't be finished · new</span>
     <div class="hero" style="padding-top:0;gap:8px">
       <div class="statusbar clear" style="padding:0 2px"><span>5:20</span><span>▮▮ 4G</span></div>
       <div class="row"><button class="iconbtn" style="color:#fff">←</button><div class="grow"><b>Fan not working</b><p class="sm muted">Ref 9C41E7 · Rakesh Das</p></div></div>
@@ -109,11 +109,11 @@
       <a class="btn danger-o">Report a problem</a>
     </div>
   </div>
-  <div class="note"><b>Data (LLD-009 §5.3 cannot-complete, §7, §8; LLD-017 D10; LLD-018 D2; LLD-013 #30)</b>Worker <code>POST /jobs/{id}/cannot-complete {reasonCode, notes, mediaIds}</code> after checking out the current visit → job <strong>FAILED</strong> (<code>failure_reason</code> PART_UNAVAILABLE / NEEDS_OTHER_TRADE / SITE_NOT_READY / OTHER, translated), booking + request <strong>CANCELLED</strong>. Customer pays: visit charge for the failed visit capped at the advance + earlier confirmed visits + covered/acknowledged material bills; rest of advance refunded (amounts from <code>JobFailed</code>, refund row UNUSED_ADVANCE). With ₹350 &gt; ₹99 the refund is ₹0 — row kept so the rule is visible. Multi-day jobs add "Day 1 · confirmed ₹1,350" and any material rows; amount above the advance → "Pay ₹X" button (C-22). Push: "Your job couldn't be finished. Book again from the app." (no amount). Report a problem → <code>POST /disputes {subjectType: JOB}</code>, open until 7 days after the job ended. Bookings list: Cancelled tab.</div>
+  <div class="note"><b>Data (LLD-009 §5.3 cannot-complete, §7, §8; LLD-017 D10; LLD-018 D2; LLD-013 #30)</b>Worker <code>POST /jobs/{id}/cannot-complete {reasonCode, notes, mediaIds}</code> after checking out the current visit → job <strong>FAILED</strong> (<code>failure_reason</code> PART_UNAVAILABLE / NEEDS_OTHER_TRADE / SITE_NOT_READY / OTHER, translated), booking + request <strong>CANCELLED</strong>. Customer pays: visit charge for the failed visit capped at the advance + earlier confirmed visits + covered/acknowledged material bills; rest of advance refunded (amounts from <code>JobFailed</code>, refund row UNUSED_ADVANCE). With ₹350 &gt; ₹99 the refund is ₹0 — row kept so the rule is visible. Multi-day jobs add "Day 1 · confirmed ₹1,350" and any material rows; amount above the advance → "Pay ₹X" button (C-08a). Push: "Your job couldn't be finished. Book again from the app." (no amount). Report a problem → <code>POST /disputes {subjectType: JOB}</code>, open until 7 days after the job ended. Bookings list: Cancelled tab.</div>
 
-  <!-- C-24d Customer no-show -->
+  <!-- C-02d Customer no-show -->
   <div class="phone soft">
-    <span class="label">C-24d You weren't home (missed visit) · new</span>
+    <span class="label">C-10d You weren't home (missed visit) · new</span>
     <div class="statusbar"><span>5:05</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><div class="grow"><h1>Fan not working</h1><p class="sub">Ref 9C41E7 · Visit 1</p></div></div>
     <div class="content" style="gap:10px;padding-top:0">
@@ -136,9 +136,9 @@
   </div>
   <div class="note"><b>Data (LLD-009 D8, §5.2, §7, §8; LLD-018 categories, D2; LLD-013 #27)</b>Worker <code>POST /visits/{id}/customer-no-show</code> only after check-in with valid GPS (≤ 300 m) and 30 min waiting → visit <strong>CUSTOMER_NO_SHOW</strong>, booking CANCELLED. Customer pays the visit charge capped at the advance (₹99); worker gets it less commission; customer no-show counter +1 (modules/07 §4.5, not shown here). Times from <code>check_in_at</code> + 30 min. Push: "Your visit was marked as missed" (charge only in-app). "Report a problem" opens the dispute form pre-set to <code>{subjectType: VISIT, category: NO_SHOW_DISAGREEMENT}</code>; possible actions REFUND / REVOKE_STRIKE. GPS points are never shown to the customer (LLD-018 D9).<br><strong>Gap:</strong> LLD-009 §7 / LLD-006 don't say what the <em>request</em> becomes after a customer no-show (worker no-show → MATCHING; customer cancel / FAILED → CANCELLED). Shown here as closed + "Book again".</div>
 
-  <!-- C-24e Book again -->
+  <!-- C-02e Book again -->
   <div class="phone soft">
-    <span class="label">C-24e Book again · prefilled request · new</span>
+    <span class="label">C-10e Book again · prefilled request · new</span>
     <div class="statusbar"><span>5:24</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>Book again</h1></div>
     <div class="stephead"><div class="steps"><i class="on"></i><i></i><i></i></div><span class="sm muted"><b>Step 1 of 3</b> · We filled this from your last booking</span></div>
@@ -158,7 +158,7 @@
     </div>
     <div class="footer"><a class="btn primary">Continue</a></div>
   </div>
-  <div class="note"><b>Data (LLD-006 §4.1 repeat-template; LLD-007 favourite round; LLD-009 §7)</b>"Book again" → <code>GET /service-requests/{id}/repeat-template</code> → create body pre-filled (trade, problems, description, address, site contact) with <code>preferredWorkerId</code> = Rakesh; time window is chosen again. Then the normal 3 steps: C-11a/b (editable) → C-11c → C-11h, new advance, new <code>POST /service-requests</code>. Matching starts with the favourite round (only Rakesh; NOW 15 min, TODAY 30 min, SCHEDULED 2 h; none for EMERGENCY), then normal rounds. Toggle off → <code>preferredWorkerId: null</code>. 422 PREFERRED_WORKER_UNAVAILABLE (blocked, suspended, not job-eligible) → hide the card and say "We'll ask workers near you". Also reachable from C-20e, C-24c, C-24d and completed bookings.<br><strong>Gaps:</strong> LLD-006 doesn't say whether the template sets <code>preferredWorkerId</code> to the last worker, carries over photos / voice (media lifetime, LLD-014 D5) or lets the customer turn the preference off. After a NEEDS_OTHER_TRADE failure the template should not offer the same trade or worker — not defined.</div>
+  <div class="note"><b>Data (LLD-006 §4.1 repeat-template; LLD-007 favourite round; LLD-009 §7)</b>"Book again" → <code>GET /service-requests/{id}/repeat-template</code> → create body pre-filled (trade, problems, description, address, site contact) with <code>preferredWorkerId</code> = Rakesh; time window is chosen again. Then the normal 3 steps: C-03a/b (editable) → C-03c → C-03h, new advance, new <code>POST /service-requests</code>. Matching starts with the favourite round (only Rakesh; NOW 15 min, TODAY 30 min, SCHEDULED 2 h; none for EMERGENCY), then normal rounds. Toggle off → <code>preferredWorkerId: null</code>. 422 PREFERRED_WORKER_UNAVAILABLE (blocked, suspended, not job-eligible) → hide the card and say "We'll ask workers near you". Also reachable from C-06e, C-02c, C-02d and completed bookings.<br><strong>Gaps:</strong> LLD-006 doesn't say whether the template sets <code>preferredWorkerId</code> to the last worker, carries over photos / voice (media lifetime, LLD-014 D5) or lets the customer turn the preference off. After a NEEDS_OTHER_TRADE failure the template should not offer the same trade or worker — not defined.</div>
 </div>
 </body>
 </html>

@@ -11,9 +11,9 @@
 <div class="canvas">
   <p class="canvas-title"><b>Customer · Sign up & log in</b>Replaces Phone login + OTP (ADR 0016, LLD-001). Email + password; mobile collected but not verified; no SMS.</p>
 
-  <!-- C-01 Splash (new) -->
+  <!-- C-01a Splash (new) -->
   <div class="phone">
-    <span class="label">C-01 Splash · new</span>
+    <span class="label">C-01a Splash · new</span>
     <div class="statusbar clear" style="position:absolute;inset:0 0 auto 0;z-index:1"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="content tools" style="color:#fff;padding:36px 24px 28px;gap:18px;align-items:center;text-align:center">
       <div class="grow"></div>
@@ -26,17 +26,17 @@
       <p class="sm" style="opacity:.7">English · <span lang="bn">বাংলা</span> · <span lang="hi">हिंदी</span></p>
     </div>
   </div>
-  <div class="note"><b>Splash (LLD-002 D1–D3, LLD-003 D1)</b>Shown only while the app starts. If a refresh token is stored the app calls <code>POST /auth/refresh</code>: success → Home (C-10a); <code>REFRESH_TOKEN_INVALID</code> → C-06a; revoked → C-06b; 403 suspended → C-06c. No token → C-02 Welcome. Wordmark and tagline come from the phone's language before login (<code>Accept-Language</code>), else <code>users.preferred_locale</code>. Tagline is trade-neutral (same as C-02). No progress number: the bar only shows the app is alive on slow phones.</div>
+  <div class="note"><b>Splash (LLD-002 D1–D3, LLD-003 D1)</b>Shown only while the app starts. If a refresh token is stored the app calls <code>POST /auth/refresh</code>: success → Home (C-02a); <code>REFRESH_TOKEN_INVALID</code> → C-01l; revoked → C-01m; 403 suspended → C-01n. No token → C-01b Welcome. Wordmark and tagline come from the phone's language before login (<code>Accept-Language</code>), else <code>users.preferred_locale</code>. Tagline is trade-neutral (same as C-01b). No progress number: the bar only shows the app is alive on slow phones.</div>
 
-  <!-- C-02 Welcome (fixed) -->
+  <!-- C-01b Welcome (fixed) -->
   <div class="phone">
-    <span class="label">C-02 Welcome · fixed</span>
+    <span class="label">C-01b Welcome · fixed</span>
     <div class="statusbar clear" style="position:absolute;inset:0 0 auto 0;z-index:1"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="content tools" style="color:#fff;padding-top:36px;gap:16px">
       <div class="row between"><b style="font-size:20px">Karigar</b>
         <div class="seg" style="background:rgba(255,255,255,.15)"><a class="on">English</a><a style="color:#fff" lang="bn">বাংলা</a><a style="color:#fff" lang="hi">हिंदी</a></div></div>
       <div class="grow"></div>
-      <div class="illus glass">👷🏽‍♂️</div>
+      <div class="scene"><div class="illus glass">🏡</div><span class="float" style="left:-6px;top:14px"><span class="ok">✓</span> 💡 Fan fixed</span><span class="float" style="right:-8px;bottom:12px"><span class="ok">✓</span> 🚰 Leak sorted</span></div>
       <div class="row wrap" style="justify-content:center"><span class="pill">⚡ Electrician</span><span class="pill">🚰 Plumber</span><span class="pill" style="opacity:.75">🧱 Mason · soon</span><span class="pill" style="opacity:.75">🪚 Carpenter · soon</span></div>
       <h1 class="h1">Skilled hands for every home job in Howrah</h1>
       <p class="body-lg" style="opacity:.9">Pick from workers who want your job. See their price before you choose.</p>
@@ -47,9 +47,9 @@
     </div>
   </div>
 
-  <!-- C-03a Sign up (new) -->
+  <!-- C-01c Sign up (new) -->
   <div class="phone soft">
-    <span class="label">C-03a Sign up · new</span>
+    <span class="label">C-01c Sign up · new</span>
     <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>Create account</h1></div>
     <div class="content">
@@ -66,15 +66,15 @@
   <div class="note"><b>Welcome copy (LLD-003)</b>Headline is trade-neutral. Trade chips come from <code>GET /catalog/categories</code> (active trades only: Electrician, Plumber at launch); the "soon" chips show the next trades to be activated — remove if product prefers. </div>
   <div class="note"><b>Data (LLD-001 §3, security/03 §96)</b>name, email (unique, case-insensitive), phone E.164 (unique, not verified), password (8–128, no composition rules). Terms/Privacy and 18+ are separate ticks, recorded with notice version + locale. Errors: 409 EMAIL_ALREADY_IN_USE / PHONE_ALREADY_IN_USE → "Log in instead".</div>
 
-  <!-- C-02 Welcome · Bengali -->
+  <!-- C-01b Welcome · Bengali -->
   <div class="phone" lang="bn">
-    <span class="label">C-02 Welcome (বাংলা) · fixed</span>
+    <span class="label">C-01d Welcome (বাংলা) · fixed</span>
     <div class="statusbar clear" style="position:absolute;inset:0 0 auto 0;z-index:1"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="content tools" style="color:#fff;padding-top:36px;gap:14px">
       <div class="row between"><b style="font-size:20px">কারিগর</b>
         <div class="seg" style="background:rgba(255,255,255,.15)"><a style="color:#fff" lang="en">English</a><a class="on">বাংলা</a><a style="color:#fff" lang="hi">हिंदी</a></div></div>
       <div class="grow"></div>
-      <div class="illus glass">👷🏽‍♂️</div>
+      <div class="scene"><div class="illus glass">🏡</div><span class="float" style="left:-6px;top:14px"><span class="ok">✓</span> 💡 পাখা ঠিক হয়েছে</span><span class="float" style="right:-8px;bottom:12px"><span class="ok">✓</span> 🚰 লিক বন্ধ</span></div>
       <div class="row wrap" style="justify-content:center"><span class="pill">⚡ ইলেকট্রিশিয়ান</span><span class="pill">🚰 প্লাম্বার</span><span class="pill" style="opacity:.75">🧱 রাজমিস্ত্রি · শীঘ্রই</span></div>
       <h1 class="h1" style="line-height:1.5">হাওড়ায় বাড়ির সব কাজের জন্য দক্ষ কারিগর</h1>
       <p class="body-lg" style="opacity:.92;line-height:1.6">যে কারিগররা আপনার কাজ করতে চান, তাঁদের মধ্যে থেকে বেছে নিন। বাছার আগেই দাম দেখুন।</p>
@@ -85,9 +85,9 @@
   </div>
   <div class="note"><b>Bengali Welcome (LLD-003 D1, B9)</b>Same layout as English; Anek Bangla, line-height ≥1.5. The language segment sets the app locale before login (sent as <code>Accept-Language</code>); after sign-up it is saved as <code>users.preferred_locale</code> and carried in the token's <code>loc</code> claim. Copy is a draft for a native-speaker review. Bengali is ~20% longer than English, so the worker link is dropped here (it stays reachable from Log in).</div>
 
-  <!-- C-03b Log in -->
+  <!-- C-01e Log in -->
   <div class="phone soft">
-    <span class="label">C-03b Log in · new</span>
+    <span class="label">C-01e Log in · new</span>
     <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>Log in</h1></div>
     <div class="content">
@@ -102,9 +102,9 @@
     <div class="footer"><a class="btn primary">Log in</a></div>
   </div>
 
-  <!-- C-03b Log in · too many tries -->
+  <!-- C-01e Log in · too many tries -->
   <div class="phone soft">
-    <span class="label">C-03b Log in · too many tries · new</span>
+    <span class="label">C-01f Log in · too many tries · new</span>
     <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>Log in</h1></div>
     <div class="content">
@@ -121,11 +121,11 @@
     </div>
     <div class="footer"><a class="btn disabled">Try again in 14:32</a></div>
   </div>
-  <div class="note"><b>Log in (LLD-001 §4.2, §4.5, §7)</b><code>POST /auth/login {email, password}</code> → tokens + <code>emailVerified</code>.<br>• <strong>401 INVALID_CREDENTIALS</strong> — same message for unknown email, wrong password and deactivated account (no enumeration, D7). Both fields marked; nothing says which is wrong.<br>• <strong>429 TOO_MANY_REQUESTS</strong> — 5 failures / 15 min per email → locked 15 min. Countdown comes from the <code>Retry-After</code> header; button disabled until 0. "Forgot password" stays available.<br>• <strong>403 ACCOUNT_SUSPENDED</strong> → C-06c.<br>• 503 SERVICE_UNAVAILABLE (limiter fails closed) → "Can't log in right now, try again in a minute".<br>Login works before the email is verified (D1).</div>
+  <div class="note"><b>Log in (LLD-001 §4.2, §4.5, §7)</b><code>POST /auth/login {email, password}</code> → tokens + <code>emailVerified</code>.<br>• <strong>401 INVALID_CREDENTIALS</strong> — same message for unknown email, wrong password and deactivated account (no enumeration, D7). Both fields marked; nothing says which is wrong.<br>• <strong>429 TOO_MANY_REQUESTS</strong> — 5 failures / 15 min per email → locked 15 min. Countdown comes from the <code>Retry-After</code> header; button disabled until 0. "Forgot password" stays available.<br>• <strong>403 ACCOUNT_SUSPENDED</strong> → C-01n.<br>• 503 SERVICE_UNAVAILABLE (limiter fails closed) → "Can't log in right now, try again in a minute".<br>Login works before the email is verified (D1).</div>
 
-  <!-- C-03c Check your email -->
+  <!-- C-01g Check your email -->
   <div class="phone soft">
-    <span class="label">C-03c Check your email · new</span>
+    <span class="label">C-01g Check your email · new</span>
     <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="content" style="gap:14px;padding-top:28px">
       <div class="illus">📬</div>
@@ -143,9 +143,9 @@
   </div>
   <div class="note"><b>Check your email (LLD-001 §4.3, D1, D6, §7)</b>Shown right after sign-up and from the "Verify your email · Resend" banner. <code>POST /auth/email/verify/resend</code> always returns 202; a resend revokes the old link (only the newest works). Limit 3 / hour — the button shows a short cooldown; on 429 it shows "Try again in N min".<br><strong>Not in the docs yet:</strong> "Change it" needs the change-email flow listed as doc change D1 in the design review (LLD-001/002 have no endpoint today). Until then, hide the link or route it to support.</div>
 
-  <!-- C-03d Forgot password -->
+  <!-- C-01h Forgot password -->
   <div class="phone soft">
-    <span class="label">C-03d Forgot password · new</span>
+    <span class="label">C-01h Forgot password · new</span>
     <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>Forgot password</h1></div>
     <div class="content">
@@ -160,9 +160,9 @@
     <div class="footer"><a class="btn primary">Send link again</a><a class="btn ghost" style="min-height:48px">Back to log in</a></div>
   </div>
 
-  <!-- C-03e Reset password -->
+  <!-- C-01i Reset password -->
   <div class="phone soft">
-    <span class="label">C-03e Reset password · new</span>
+    <span class="label">C-01i Reset password · new</span>
     <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="appbar"><h1 style="padding-left:8px">Set a new password</h1></div>
     <div class="content">
@@ -182,9 +182,9 @@
   </div>
   <div class="note"><b>Forgot / reset (LLD-001 §4.4, D3, D6, §5.3)</b><code>POST /auth/password/forgot</code> → always 202 with the same text, whether or not the account exists (D7); 3 / hour per email. Link opens <code>/reset?token=…</code> in the app.<br><code>POST /auth/password/reset {token, newPassword}</code> → 204. Rules: 8–128 chars, no composition rules, <strong>400 WEAK_PASSWORD</strong> if on the top-100k list or equal to email/phone. Show/hide instead of a "confirm password" field.<br>On success every session is revoked (<code>PASSWORD_CHANGED</code>) → go to Log in with a success toast. <strong>410 TOKEN_INVALID_OR_EXPIRED</strong> (expired, used, superseded) → the "Link expired" card with "Send a new link".</div>
 
-  <!-- C-03f Email verified -->
+  <!-- C-01j Email verified -->
   <div class="phone">
-    <span class="label">C-03f Email verified · new</span>
+    <span class="label">C-01j Email verified · new</span>
     <div class="statusbar clear" style="position:absolute;inset:0 0 auto 0;z-index:1"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="content tools" style="color:#fff;padding-top:60px;gap:18px;text-align:center">
       <div class="grow"></div>
@@ -201,11 +201,11 @@
       <a class="btn ghost" style="color:#fff">Go to home</a>
     </div>
   </div>
-  <div class="note"><b>Email verified (LLD-001 §4.3, §6)</b>Deep link <code>karigar.in/verify-email?token=…</code> → app posts <code>POST /auth/email/verify</code>. 200 also when already verified (no error for a second tap). The next token refresh carries <code>ev=true</code>, which unlocks placing a request (D1). 410 → "This link has expired · Send a new one" (same card as C-03e). Opening the link on a phone where the user is not logged in still verifies; the button then says "Log in".</div>
+  <div class="note"><b>Email verified (LLD-001 §4.3, §6)</b>Deep link <code>karigar.in/verify-email?token=…</code> → app posts <code>POST /auth/email/verify</code>. 200 also when already verified (no error for a second tap). The next token refresh carries <code>ev=true</code>, which unlocks placing a request (D1). 410 → "This link has expired · Send a new one" (same card as C-01i). Opening the link on a phone where the user is not logged in still verifies; the button then says "Log in".</div>
 
-  <!-- C-05 Location permission -->
+  <!-- C-01k Location permission -->
   <div class="phone">
-    <span class="label">C-05 Location permission · fixed</span>
+    <span class="label">C-01k Location permission · fixed</span>
     <div class="statusbar clear" style="position:absolute;inset:0 0 auto 0;z-index:1"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="hero" style="padding-top:44px;padding-bottom:28px;align-items:center;text-align:center">
       <div class="illus glass">📍</div>
@@ -222,11 +222,11 @@
     </div>
     <div class="footer"><a class="btn primary">📍 Use my location</a><a class="btn secondary">Type address and set pin</a></div>
   </div>
-  <div class="note"><b>Location (LLD-005 D1, §8)</b>Asks the OS "while using the app" permission. Location comes only from the phone (GPS or map pin); the backend never geocodes. Fixed copy: the old "shared only after booking" was wrong — candidates see locality + distance before selection, the exact point only after the customer picks a worker.<br>Manual path: typed fields → <strong>always ends on the map-pin step</strong> (C-61 Add address in 03-addresses.html), because <code>addresses.location</code> is NOT NULL (<code>location_source = MAP_PIN</code>). Denied permission → same manual path; no repeated asking.</div>
+  <div class="note"><b>Location (LLD-005 D1, §8)</b>Asks the OS "while using the app" permission. Location comes only from the phone (GPS or map pin); the backend never geocodes. Fixed copy: the old "shared only after booking" was wrong — candidates see locality + distance before selection, the exact point only after the customer picks a worker.<br>Manual path: typed fields → <strong>always ends on the map-pin step</strong> (C-12b Add address in 12-addresses.html), because <code>addresses.location</code> is NOT NULL (<code>location_source = MAP_PIN</code>). Denied permission → same manual path; no repeated asking.</div>
 
-  <!-- C-06a Session expired -->
+  <!-- C-01l Session expired -->
   <div class="phone soft">
-    <span class="label">C-06a Session expired · fixed</span>
+    <span class="label">C-01l Session expired · fixed</span>
     <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="content" style="gap:16px;padding-top:56px;text-align:center">
       <div class="illus teal">⏰</div>
@@ -238,9 +238,9 @@
     <div class="footer"><a class="btn primary">Log in</a><a class="btn ghost" style="min-height:48px">Forgot password?</a></div>
   </div>
 
-  <!-- C-06b Logged out elsewhere -->
+  <!-- C-01m Logged out elsewhere -->
   <div class="phone soft">
-    <span class="label">C-06b Logged out from another device · new</span>
+    <span class="label">C-01m Logged out from another device · new</span>
     <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="content" style="gap:16px;padding-top:56px;text-align:center">
       <div class="illus">📱</div>
@@ -252,9 +252,9 @@
     <div class="footer"><a class="btn primary">Log in</a><a class="btn secondary">Reset password</a></div>
   </div>
 
-  <!-- C-06c Account suspended -->
+  <!-- C-01n Account suspended -->
   <div class="phone">
-    <span class="label">C-06c Account on hold · new</span>
+    <span class="label">C-01n Account on hold · new</span>
     <div class="statusbar dark"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="hero" style="border-radius:0 0 28px 28px;padding:28px 16px 28px;align-items:center;text-align:center;background-image:var(--tools-light),linear-gradient(150deg,#5E120E 0%,#8E1B15 55%,#B3261E 100%)">
       <div class="illus glass">⛔</div>
@@ -274,7 +274,7 @@
     </div>
     <div class="footer"><a class="btn primary">📞 Call support · 033 4000 1234</a><a class="btn secondary">💬 WhatsApp support</a></div>
   </div>
-  <div class="note"><b>Session states (LLD-002 §4.3, D2, D4)</b>One screen per cause, never "log in with OTP":<br>• <strong>C-06a</strong> <code>REFRESH_TOKEN_INVALID</code> (idle 30 days / login older than 90 days). 401 <code>TOKEN_EXPIRED</code> alone is silent — the app refreshes once and retries.<br>• <strong>C-06b</strong> <code>SESSION_REVOKED</code> / <code>REFRESH_TOKEN_REUSED</code> (logout-all, password change, device removed, reuse detected).<br>• <strong>C-06c</strong> 403 <code>ACCOUNT_SUSPENDED</code> on login or refresh. The reason is never shown on screen or in push (LLD-013 D5, D12) — it goes by email. Support = phone / WhatsApp link (no chat, no call-back, P1/P19). Support number is a placeholder.</div>
+  <div class="note"><b>Session states (LLD-002 §4.3, D2, D4)</b>One screen per cause, never "log in with OTP":<br>• <strong>C-01l</strong> <code>REFRESH_TOKEN_INVALID</code> (idle 30 days / login older than 90 days). 401 <code>TOKEN_EXPIRED</code> alone is silent — the app refreshes once and retries.<br>• <strong>C-01m</strong> <code>SESSION_REVOKED</code> / <code>REFRESH_TOKEN_REUSED</code> (logout-all, password change, device removed, reuse detected).<br>• <strong>C-01n</strong> 403 <code>ACCOUNT_SUSPENDED</code> on login or refresh. The reason is never shown on screen or in push (LLD-013 D5, D12) — it goes by email. Support = phone / WhatsApp link (no chat, no call-back, P1/P19). Support number is a placeholder.</div>
 </div>
 </body>
 </html>

@@ -28,9 +28,9 @@
 <div class="canvas">
   <p class="canvas-title"><b>Worker · Notifications, help & account</b>Inbox and push settings (LLD-013), help = phone / WhatsApp + FAQ (no chat, P1/P19), report a problem = dispute opened by the worker (LLD-018), account paused (LLD-004 / LLD-020 D6), forgot / reset password and session states (LLD-001 / LLD-002). Worker sample: Sujit Das, plumber, Shibpur.</p>
 
-  <!-- W-14a Notifications inbox · Bengali -->
+  <!-- W-09a Notifications inbox · Bengali -->
   <div class="phone" lang="bn">
-    <span class="label">W-14a Notifications inbox · Bengali · new</span>
+    <span class="label">W-09a Notifications inbox · Bengali · new</span>
     <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>🔔 খবর</h1><a class="btn ghost sm" style="padding:0 8px">সব পড়া হয়েছে</a></div>
     <div class="content" style="gap:8px">
@@ -51,9 +51,9 @@
     <nav class="tabbar"><a class="on"><span class="ico">🏠</span>হোম</a><a><span class="ico">📥</span>অফার</a><a><span class="ico">🧰</span>কাজ</a><a><span class="ico">💰</span>আয়</a><a><span class="ico">👤</span>প্রোফাইল</a></nav>
   </div>
 
-  <!-- W-14b Notification settings -->
+  <!-- W-09b Notification settings -->
   <div class="phone soft">
-    <span class="label">W-14b Notification settings · new</span>
+    <span class="label">W-09b Notification settings · new</span>
     <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>🔔 Phone alerts</h1></div>
     <div class="content" style="gap:10px">
@@ -75,9 +75,9 @@
   </div>
   <div class="note"><b>Data (LLD-013 D5–D6, D9–D10, D13, §3 rule table, §5)</b>Inbox: <code>GET /api/v1/notifications</code> (cursor, newest first), <code>/unread-count</code> (badge, cap 99), <code>POST /{id}/read</code>, <code>/read-all</code>; unread = <code>read: false</code> (amber dot, tinted row). Rows shown = worker types JOB_CONFIRMED, CHANGE_PROPOSED, DISPUTE_OPENED, PAYOUT_PAID, VISIT_CONFIRMED, REVIEW_PUBLISHED. Texts are rendered in the user's locale at creation. <b>NEW_JOB_OFFER is push only (no inbox row)</b> — hence the "see Offers" hint. Amounts / bank last 4 only in the inbox, never in push (D5). Kept 90 days.<br>Settings: <code>GET|PUT /me/notification-preferences</code> — only <code>REMINDER</code> push is switchable (MISSED_OFFERS, REVIEW_REMINDER_*, REVIEW_NUDGE, VERIFICATION_EXPIRING / EXPIRED). TRANSACTIONAL + SECURITY locked (<code>422 CATEGORY_NOT_OPTIONAL</code>). Quiet hours 21:00–07:00 IST apply to reminders only. Offers are HIGH priority on Android channel <code>job_offers</code> (loud); the only way to stop them is going offline (LLD-007 D2). No MARKETING row (P20).</div>
 
-  <!-- W-14c Help & support -->
+  <!-- W-09c Help & support -->
   <div class="phone">
-    <span class="label">W-14c Help & support · new</span>
+    <span class="label">W-09c Help & support · new</span>
     <div class="hero">
       <div class="statusbar clear" style="padding:0 2px"><span>9:41</span><span>▮▮ 4G</span></div>
       <div class="row"><span style="font-size:20px">←</span><b class="h4 grow">Help & support</b></div>
@@ -103,11 +103,11 @@
     </div>
     <nav class="tabbar"><a><span class="ico">🏠</span>Home</a><a><span class="ico">📥</span>Offers</a><a><span class="ico">🧰</span>Jobs</a><a><span class="ico">💰</span>Earnings</a><a class="on"><span class="ico">👤</span>Profile</a></nav>
   </div>
-  <div class="note"><b>Help (P1, P19, LLD-018 §4.1)</b>No chat, no call-back, no article search. Call = <code>tel:</code>, WhatsApp = <code>wa.me</code> link to the support number (number and hours are placeholders, same as customer C-70). Support can open a dispute for the worker after a call (<code>opened_via = SUPPORT</code>). Job list = my jobs still inside the dispute window (LLD-018 D2) + disputes I'm in (<code>GET /disputes</code>, as opener or respondent; "Answer in 41 h" = respondent, countdown to <code>response_due_at</code>). FAQs are static text bundled in en/bn/hi.</div>
+  <div class="note"><b>Help (P1, P19, LLD-018 §4.1)</b>No chat, no call-back, no article search. Call = <code>tel:</code>, WhatsApp = <code>wa.me</code> link to the support number (number and hours are placeholders, same as customer C-13a). Support can open a dispute for the worker after a call (<code>opened_via = SUPPORT</code>). Job list = my jobs still inside the dispute window (LLD-018 D2) + disputes I'm in (<code>GET /disputes</code>, as opener or respondent; "Answer in 41 h" = respondent, countdown to <code>response_due_at</code>). FAQs are static text bundled in en/bn/hi.</div>
 
-  <!-- W-14d Report a problem · what -->
+  <!-- W-09d Report a problem · what -->
   <div class="phone">
-    <span class="label">W-14d Report a problem · 1 What · new</span>
+    <span class="label">W-09d Report a problem · 1 What · new</span>
     <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><div class="grow"><h1>Report a problem</h1><span class="sub">Kitchen sink · Sen · Shibpur</span></div></div>
     <div class="content" style="gap:10px">
@@ -123,9 +123,9 @@
     <div class="footer"><a class="btn primary">Next ›</a></div>
   </div>
 
-  <!-- W-14e Report a problem · details -->
+  <!-- W-09e Report a problem · details -->
   <div class="phone soft">
-    <span class="label">W-14e Report a problem · 2 Details + photos · new</span>
+    <span class="label">W-09e Report a problem · 2 Details + photos · new</span>
     <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><div class="grow"><h1>Tell us what happened</h1><span class="sub">Marked wrongly · Mon 29 Sep</span></div></div>
     <div class="content" style="gap:10px">
@@ -146,9 +146,9 @@
     <div class="footer"><a class="btn primary">📨 Send report</a></div>
   </div>
 
-  <!-- W-14f Report sent -->
+  <!-- W-09f Report sent -->
   <div class="phone soft">
-    <span class="label">W-14f Report sent · customer has 48 h · new</span>
+    <span class="label">W-09f Report sent · customer has 48 h · new</span>
     <div class="statusbar"><span>9:42</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><div class="grow"><h1>Your report</h1><span class="sub">Kitchen sink · Ref 4D82A1</span></div></div>
     <div class="content" style="gap:10px">
@@ -163,11 +163,11 @@
     </div>
     <div class="footer"><a class="btn secondary">➕ Add more info or photos</a><a class="btn primary">👍 OK</a></div>
   </div>
-  <div class="note"><b>Report a problem = open dispute (LLD-018 D1–D5, §1, §4.1, LLD-014)</b><code>POST /api/v1/disputes</code> {subjectType JOB | VISIT, jobId, visitId, category, statement, mediaIds} + Idempotency-Key → 201 <code>AWAITING_RESPONSE</code>, <code>responseDueAt</code> = +48 h. Worker categories: <code>NO_SHOW_DISAGREEMENT</code> (VISIT with WORKER_NO_SHOW / CUSTOMER_NO_SHOW only), <code>DAMAGE</code>, <code>BEHAVIOUR</code> (JOB only), <code>OTHER</code> (any; statement required → <code>422 NOTE_REQUIRED</code>). Chips are filtered by subject (<code>422 CATEGORY_NOT_ALLOWED</code>). Window D2: done visit → until confirmed (≤24 h); job WORK_COMPLETED → until confirmed (≤24 h); else 7 days after the job ended → <code>409 DISPUTE_WINDOW_CLOSED</code>. <code>409 DISPUTE_ALREADY_EXISTS</code> → open that case (customer already reported) and add a statement. Statement ≤2,000 chars, ≤10 media per party (jpeg/png/webp/mp4, video ≤60 s), voice = phone dictation. NO_SHOW upheld → <code>REVOKE_STRIKE</code>. Limits: 5 opens / day, 3 live (<code>429 RATE_LIMITED</code>). Status page = same timeline as customer C-73.</div>
+  <div class="note"><b>Report a problem = open dispute (LLD-018 D1–D5, §1, §4.1, LLD-014)</b><code>POST /api/v1/disputes</code> {subjectType JOB | VISIT, jobId, visitId, category, statement, mediaIds} + Idempotency-Key → 201 <code>AWAITING_RESPONSE</code>, <code>responseDueAt</code> = +48 h. Worker categories: <code>NO_SHOW_DISAGREEMENT</code> (VISIT with WORKER_NO_SHOW / CUSTOMER_NO_SHOW only), <code>DAMAGE</code>, <code>BEHAVIOUR</code> (JOB only), <code>OTHER</code> (any; statement required → <code>422 NOTE_REQUIRED</code>). Chips are filtered by subject (<code>422 CATEGORY_NOT_ALLOWED</code>). Window D2: done visit → until confirmed (≤24 h); job WORK_COMPLETED → until confirmed (≤24 h); else 7 days after the job ended → <code>409 DISPUTE_WINDOW_CLOSED</code>. <code>409 DISPUTE_ALREADY_EXISTS</code> → open that case (customer already reported) and add a statement. Statement ≤2,000 chars, ≤10 media per party (jpeg/png/webp/mp4, video ≤60 s), voice = phone dictation. NO_SHOW upheld → <code>REVOKE_STRIKE</code>. Limits: 5 opens / day, 3 live (<code>429 RATE_LIMITED</code>). Status page = same timeline as customer C-13f–C-13g.</div>
 
-  <!-- W-14g Account paused · can log in -->
+  <!-- W-09g Account paused · can log in -->
   <div class="phone">
-    <span class="label">W-14g Account paused · can log in · new</span>
+    <span class="label">W-09g Account paused · can log in · new</span>
     <div class="hero redhero" style="align-items:center;text-align:center;padding-bottom:18px">
       <div class="statusbar clear" style="padding:0 2px;align-self:stretch"><span>9:41</span><span>▮▮ 4G</span></div>
       <div class="illus sm glass">⛔</div>
@@ -188,9 +188,9 @@
     <div class="footer"><a class="btn primary">📞 Call support · 033 4000 1234</a><a class="btn secondary">💬 WhatsApp support</a></div>
   </div>
 
-  <!-- W-14h Can't log in · blockLogin -->
+  <!-- W-09h Can't log in · blockLogin -->
   <div class="phone">
-    <span class="label">W-14h Can't log in (blockLogin) · new</span>
+    <span class="label">W-09h Can't log in (blockLogin) · new</span>
     <div class="hero redhero" style="align-items:center;text-align:center;padding:8px 16px 24px">
       <div class="statusbar clear" style="padding:0 2px;align-self:stretch"><span>9:41</span><span>▮▮ 4G</span></div>
       <div class="illus glass">🔒</div>
@@ -209,11 +209,11 @@
     </div>
     <div class="footer"><a class="btn primary">📞 Call support · 033 4000 1234</a><a class="btn secondary">💬 WhatsApp support</a></div>
   </div>
-  <div class="note"><b>Account paused (LLD-020 D6, D10; LLD-004 §7; LLD-009 §8; LLD-002 D4; LLD-013 row 6)</b>Default suspend = <code>workers.account_status = SUSPENDED</code> only: login works, matching stops new offers at once, <code>WorkerSuspended</code> → LLD-009 cancels every CONFIRMED booking and re-matches it (worker excluded); a visit already IN_PROGRESS can still be checked out. Worker can see earnings / dues. Reason = label of the admin <code>reasonCode</code> (category <code>WORKER_SUSPENSION</code>, e.g. strike threshold, <code>SAFETY_CONCERN</code>, <code>FRAUD_SUSPECTED</code>) — shown behind login only, never in push (D5).<br><b>blockLogin: true</b> also sets <code>users.status = SUSPENDED</code> + <code>revokeAll(SUSPENDED)</code> + deny-list → login / refresh return <code>403 ACCOUNT_SUSPENDED</code> → W-14h. The reason goes only by email (WORKER_SUSPENDED is P A E). Support = phone / WhatsApp (number placeholder). No appeal flow (LLD-018 out of scope).</div>
+  <div class="note"><b>Account paused (LLD-020 D6, D10; LLD-004 §7; LLD-009 §8; LLD-002 D4; LLD-013 row 6)</b>Default suspend = <code>workers.account_status = SUSPENDED</code> only: login works, matching stops new offers at once, <code>WorkerSuspended</code> → LLD-009 cancels every CONFIRMED booking and re-matches it (worker excluded); a visit already IN_PROGRESS can still be checked out. Worker can see earnings / dues. Reason = label of the admin <code>reasonCode</code> (category <code>WORKER_SUSPENSION</code>, e.g. strike threshold, <code>SAFETY_CONCERN</code>, <code>FRAUD_SUSPECTED</code>) — shown behind login only, never in push (D5).<br><b>blockLogin: true</b> also sets <code>users.status = SUSPENDED</code> + <code>revokeAll(SUSPENDED)</code> + deny-list → login / refresh return <code>403 ACCOUNT_SUSPENDED</code> → W-09h. The reason goes only by email (WORKER_SUSPENDED is P A E). Support = phone / WhatsApp (number placeholder). No appeal flow (LLD-018 out of scope).</div>
 
-  <!-- W-14i Forgot password -->
+  <!-- W-09i Forgot password -->
   <div class="phone soft">
-    <span class="label">W-14i Forgot password · new</span>
+    <span class="label">W-09i Forgot password · new</span>
     <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>Forgot password</h1></div>
     <div class="content" style="gap:12px">
@@ -228,9 +228,9 @@
     <div class="footer"><a class="btn primary">📨 Send link again</a><a class="btn ghost" style="min-height:48px">Back to log in</a></div>
   </div>
 
-  <!-- W-14j Reset password -->
+  <!-- W-09j Reset password -->
   <div class="phone soft">
-    <span class="label">W-14j Reset password · new</span>
+    <span class="label">W-09j Reset password · new</span>
     <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="appbar"><h1 style="padding-left:8px">🔑 New password</h1></div>
     <div class="content" style="gap:12px">
@@ -250,9 +250,9 @@
   </div>
   <div class="note"><b>Forgot / reset (LLD-001 §4.4, D3, D6, D7, §5.3)</b><code>POST /auth/password/forgot {email}</code> → always 202, same text whether or not the account exists; 3 / hour per email (still 202). Link opens the app at <code>/reset?token=…</code>. <code>POST /auth/password/reset {token, newPassword}</code> → 204. Rules: 8–128 chars, no composition rules; <code>400 WEAK_PASSWORD</code> if on the top-100k list or equal to email / phone. Show / hide instead of a confirm field. Success → all sessions revoked (<code>PASSWORD_CHANGED</code>), push tokens cleared, PASSWORD_CHANGED email + inbox row → Log in with a toast. <code>410 TOKEN_INVALID_OR_EXPIRED</code> → "Link not working · Send a new link".</div>
 
-  <!-- W-14k Session expired / logged out elsewhere · Bengali -->
+  <!-- W-09k Session expired / logged out elsewhere · Bengali -->
   <div class="phone soft" lang="bn">
-    <span class="label">W-14k Logged out on this phone · Bengali · new</span>
+    <span class="label">W-09k Logged out on this phone · Bengali · new</span>
     <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
     <div class="content" style="gap:14px;padding-top:44px;text-align:center">
       <div class="illus">📱</div>
@@ -264,7 +264,7 @@
     </div>
     <div class="footer"><a class="btn primary" style="min-height:60px;font-size:18px">🔑 লগইন করুন</a><a class="btn secondary">পাসওয়ার্ড বদলান</a></div>
   </div>
-  <div class="note"><b>Session states (LLD-002 D2, D4, §4.3, §7)</b>One screen for both causes on a worker phone (shared / handed-down phones are common): <code>REFRESH_TOKEN_INVALID</code> (idle 30 days / login older than 90 days) and <code>SESSION_REVOKED</code> / <code>REFRESH_TOKEN_REUSED</code> (logout-all, password change, device removed, reuse detected). 401 <code>TOKEN_EXPIRED</code> alone is silent — the app refreshes once (single-flight) and retries. Logout / revoke clears this phone's push token (LLD-002 §7), so the "no offer alerts" warning is true until the worker logs in and the app re-registers the token (<code>PUT /me/devices/current/push-token</code>). 403 <code>ACCOUNT_SUSPENDED</code> → W-14h. Bengali copy is a draft for native review; Latin digits (P25).</div>
+  <div class="note"><b>Session states (LLD-002 D2, D4, §4.3, §7)</b>One screen for both causes on a worker phone (shared / handed-down phones are common): <code>REFRESH_TOKEN_INVALID</code> (idle 30 days / login older than 90 days) and <code>SESSION_REVOKED</code> / <code>REFRESH_TOKEN_REUSED</code> (logout-all, password change, device removed, reuse detected). 401 <code>TOKEN_EXPIRED</code> alone is silent — the app refreshes once (single-flight) and retries. Logout / revoke clears this phone's push token (LLD-002 §7), so the "no offer alerts" warning is true until the worker logs in and the app re-registers the token (<code>PUT /me/devices/current/push-token</code>). 403 <code>ACCOUNT_SUSPENDED</code> → W-09h. Bengali copy is a draft for native review; Latin digits (P25).</div>
 </div>
 </body>
 </html>

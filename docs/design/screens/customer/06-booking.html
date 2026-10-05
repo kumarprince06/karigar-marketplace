@@ -26,9 +26,9 @@
 <div class="canvas">
   <p class="canvas-title"><b>Customer · Booking — confirmed, list, detail, cancel, proposals</b>Booking = <code>CONFIRMED | COMPLETED | CANCELLED</code>; day-to-day progress lives on the job and its visits (LLD-009 D10). Contact released only after the customer chooses (LLD-008 D6). No chat, no masked calling: the worker's real phone + Call.</p>
 
-  <!-- C-20a Booking confirmed -->
+  <!-- C-01l Booking confirmed -->
   <div class="phone">
-    <span class="label">C-20a Booking confirmed · fixed</span>
+    <span class="label">C-06a Booking confirmed · fixed</span>
     <div class="hero" style="padding-top:0;gap:8px">
       <div class="statusbar clear" style="padding:0 2px"><span>2:41</span><span>▮▮ 4G</span></div>
       <div class="row" style="gap:12px">
@@ -61,11 +61,11 @@
       <a class="btn primary" style="flex:1">Track</a>
     </div>
   </div>
-  <div class="note"><b>Data (LLD-008 D5/D6, LLD-009 §5.1, D3, D5)</b>Selection creates a SINGLE_VISIT booking, status CONFIRMED, agreed_rate_type/amount snapshot (VISIT ₹350), advance_paid_minor 9900. Customer view adds worker phone + photo (contact only after selection). Start code: <code>GET /visits/{id}/start-code</code> → {code "4821", attemptsLeft 5}; plain 4 digits, 5 wrong tries lock it. Cancel rule copy from §8 (free ≥ 2 h before start). "Ask to reschedule" = <code>POST /jobs/{id}/proposals {kind: RESCHEDULE}</code> — the worker accepts or rejects (C-20f). Ref = last 6 chars of the booking UUID (ADR 0018; display code is open decision P4).</div>
+  <div class="note"><b>Data (LLD-008 D5/D6, LLD-009 §5.1, D3, D5)</b>Selection creates a SINGLE_VISIT booking, status CONFIRMED, agreed_rate_type/amount snapshot (VISIT ₹350), advance_paid_minor 9900. Customer view adds worker phone + photo (contact only after selection). Start code: <code>GET /visits/{id}/start-code</code> → {code "4821", attemptsLeft 5}; plain 4 digits, 5 wrong tries lock it. Cancel rule copy from §8 (free ≥ 2 h before start). "Ask to reschedule" = <code>POST /jobs/{id}/proposals {kind: RESCHEDULE}</code> — the worker accepts or rejects (C-06f). Ref = last 6 chars of the booking UUID (ADR 0018; display code is open decision P4).</div>
 
-  <!-- C-20b Bookings list -->
+  <!-- C-01m Bookings list -->
   <div class="phone soft">
-    <span class="label">C-20b Bookings · fixed</span>
+    <span class="label">C-06b Bookings · fixed</span>
     <div class="statusbar"><span>5:10</span><span>▮▮ 4G</span></div>
     <div class="appbar"><h1>My bookings</h1></div>
     <div class="content" style="gap:10px">
@@ -102,9 +102,9 @@
   </div>
   <div class="note"><b>Tabs &amp; badges (LLD-009 §6–7, LLD-017, LLD-018, LLD-012)</b><code>GET /bookings?role=customer&amp;status=…</code>. Tabs: <strong>Active</strong> = booking CONFIRMED (job SCHEDULED / IN_PROGRESS / ON_HOLD / WORK_COMPLETED); <strong>Completed</strong> = COMPLETED; <strong>Cancelled</strong> = CANCELLED or job FAILED (shows advance refund). Status chip = job status (one label per enum). Orange action badges: <strong>Confirm work</strong> (job WORK_COMPLETED or visit DONE unconfirmed), <strong>Quote waiting</strong> (quote SUBMITTED), <strong>Payment due</strong> (bill dueMinor &gt; 0), <strong>Rate worker</strong> (job COMPLETED, no review, within 7 days), <strong>Issue · in review</strong> (dispute IN_REVIEW). Title = problem/trade label, never free text.</div>
 
-  <!-- C-20c Booking detail -->
+  <!-- C-01n Booking detail -->
   <div class="phone">
-    <span class="label">C-20c Booking detail · fixed</span>
+    <span class="label">C-06c Booking detail · fixed</span>
     <div class="statusbar"><span>3:05</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><div class="grow"><h1>Fan not working</h1><p class="sub">Ref 9C41E7 · Booked 5 Oct</p></div></div>
     <div class="content" style="gap:10px;padding-top:0">
@@ -134,11 +134,11 @@
       <a class="btn secondary" style="flex:1">📞 Call Rakesh</a>
     </div>
   </div>
-  <div class="note"><b>Data (LLD-009 §5.1, LLD-006, LLD-014)</b>Role-aware <code>GET /bookings/{id}</code>: booking + job + visits (timeline from status timestamps: confirmed_at, en_route_at, check_in_at…), request problems (≤5), description, media counts/thumbnails (photos, voice), address with floor/lift, site contact (contact_name/phone, LLD-006). Separate chips for booking and visit status (B8). "Report a problem" appears once a visit has started (C-21h).</div>
+  <div class="note"><b>Data (LLD-009 §5.1, LLD-006, LLD-014)</b>Role-aware <code>GET /bookings/{id}</code>: booking + job + visits (timeline from status timestamps: confirmed_at, en_route_at, check_in_at…), request problems (≤5), description, media counts/thumbnails (photos, voice), address with floor/lift, site contact (contact_name/phone, LLD-006). Separate chips for booking and visit status (B8). "Report a problem" appears once a visit has started (C-07h).</div>
 
-  <!-- C-20d Cancel booking -->
+  <!-- C-06d Cancel booking -->
   <div class="phone">
-    <span class="label">C-20d Cancel booking · fixed</span>
+    <span class="label">C-06d Cancel booking · fixed</span>
     <div class="statusbar"><span>1:10</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>Cancel booking</h1></div>
     <div class="content" style="gap:10px;padding-top:0">
@@ -169,9 +169,9 @@
   </div>
   <div class="note"><b>Data (LLD-009 D5, §8, §5.3; ERD reason seed)</b>Fee preview first: <code>POST /bookings/{id}/cancel?preview=true</code> → {feeMinor, refundMinor}; button label repeats the outcome. Rules: ≥ 2 h before start = free; &lt; 2 h, not EN_ROUTE = min(advance, ₹100); after "On my way" = visit charge capped at the advance. Reason codes (CUSTOMER_CANCELLATION, API-driven, translated): NO_LONGER_NEEDED, FOUND_SOMEONE_ELSE, PRICE_TOO_HIGH, BOOKED_BY_MISTAKE, WORKER_LATE (shown only after start time), OTHER (+note). 409 BOOKING_NOT_CANCELLABLE once work started → "Report a problem" instead.</div>
 
-  <!-- C-20e Booking cancelled -->
+  <!-- C-06e Booking cancelled -->
   <div class="phone soft">
-    <span class="label">C-20e Booking cancelled · fixed</span>
+    <span class="label">C-06e Booking cancelled · fixed</span>
     <div class="statusbar"><span>1:11</span><span>▮▮ 4G</span></div>
     <div class="content" style="justify-content:center;gap:14px;text-align:center">
       <div class="illus teal">🧾</div>
@@ -193,9 +193,9 @@
   </div>
   <div class="note"><b>Data (LLD-009 §8, LLD-011 refunds, LLD-006)</b>Booking CANCELLED (cancelled_by CUSTOMER, reason code, cancellation_fee_minor 0). Refund row: reason UNUSED_ADVANCE, status REQUESTED → PROCESSING → SUCCEEDED / FAILED (chip per enum). Request BOOKED → CANCELLED; "Book again" pre-fills a new request (P18). If a fee applied: "Fee ₹99 · paid to Rakesh · Refund ₹0".</div>
 
-  <!-- C-20f Ask to reschedule sheet -->
+  <!-- C-06f Ask to reschedule sheet -->
   <div class="phone">
-    <span class="label">C-20f Ask to reschedule · new</span>
+    <span class="label">C-06f Ask to reschedule · new</span>
     <div class="statusbar"><span>2:45</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>Fan not working</h1></div>
     <div class="content"><div class="skel" style="width:70%"></div><div class="skel"></div><div class="skel" style="width:50%"></div></div>
@@ -214,9 +214,9 @@
     </div>
   </div>
 
-  <!-- C-20g Proposal response -->
+  <!-- C-06g Proposal response -->
   <div class="phone">
-    <span class="label">C-20g Add days / reschedule — respond · new</span>
+    <span class="label">C-06g Add days / reschedule — respond · new</span>
     <div class="statusbar"><span>6:20</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><div class="grow"><h1>Bathroom pipe leak</h1><p class="sub">Sujit Mondal · Plumber</p></div></div>
     <div class="content" style="gap:10px;padding-top:0">

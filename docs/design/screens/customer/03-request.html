@@ -37,9 +37,9 @@
 <div class="canvas">
   <p class="canvas-title"><b>Customer · Create a request — What → Where &amp; when → Confirm</b>Replaces the 5-step flow (review §3.3). 3 steps, urgency moves to step 2, ₹99 advance before matching (B2). Rules: LLD-006 D1–D8, LLD-003 price guide, LLD-014 media limits.</p>
 
-  <!-- C-11a Step 1 · problems -->
+  <!-- C-01c Step 1 · problems -->
   <div class="phone soft">
-    <span class="label">C-11a Step 1 · What — problems · fixed</span>
+    <span class="label">C-03a Step 1 · What — problems · fixed</span>
     <div class="statusbar"><span>1:15</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">✕</button><h1>New request</h1><a class="btn ghost sm">Save draft</a></div>
     <div class="stephead"><div class="steps"><i class="on"></i><i></i><i></i></div><span class="sm muted"><b>Step 1 of 3</b> · What needs fixing?</span></div>
@@ -59,9 +59,9 @@
     <div class="footer"><a class="btn primary">Next: add details</a></div>
   </div>
 
-  <!-- C-11b Step 1 · details & media (uploading) -->
+  <!-- C-01e Step 1 · details & media (uploading) -->
   <div class="phone soft">
-    <span class="label">C-11b Step 1 · What — details &amp; media · fixed</span>
+    <span class="label">C-03b Step 1 · What — details &amp; media · fixed</span>
     <div class="statusbar"><span>1:17</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>New request</h1><a class="btn ghost sm">Save draft</a></div>
     <div class="stephead"><div class="steps"><i class="on"></i><i></i><i></i></div><span class="sm muted"><b>Step 1 of 3</b> · Fan not working, New light / fan point</span></div>
@@ -86,9 +86,9 @@
   </div>
   <div class="note"><b>Step 1 data (LLD-006 §3, D4 / LLD-003 / LLD-014)</b><code>professionId</code>; <code>problemIds</code> max 5 (from <code>GET /catalog/professions/{id}/problems</code>, each with <code>priceGuide</code> min/max or <code>needsInspection</code>); <code>description</code> ≤ 1,000 chars; <code>mediaIds</code>: 5 photos (REQUEST_PHOTO), 1 video ≤ 30 s (REQUEST_VIDEO, 25 MB), 1 voice ≤ 60 s (VOICE_NOTE, 2 MB). At least one of problem / description / voice note, else 400 <code>DESCRIBE_THE_PROBLEM</code> ("Something else" alone needs words or voice). Presigned PUT, one file at a time; Next is enabled only when every file is <code>AVAILABLE</code> (LLD-014 D4). "Save draft" → <code>POST /service-request-drafts</code> (trade required).</div>
 
-  <!-- C-11c Step 2 · Where & when (TODAY) -->
+  <!-- C-01g Step 2 · Where & when (TODAY) -->
   <div class="phone soft">
-    <span class="label">C-11c Step 2 · Where &amp; when · fixed</span>
+    <span class="label">C-03c Step 2 · Where &amp; when · fixed</span>
     <div class="statusbar"><span>1:20</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>New request</h1><a class="btn ghost sm">Save draft</a></div>
     <div class="stephead"><div class="steps"><i class="on"></i><i class="on"></i><i></i></div><span class="sm muted"><b>Step 2 of 3</b> · Where and when?</span></div>
@@ -116,9 +116,9 @@
     <div class="footer"><a class="btn primary">Next: check &amp; pay</a></div>
   </div>
 
-  <!-- C-11d Step 2 · Emergency at night -->
+  <!-- C-01h Step 2 · Emergency at night -->
   <div class="phone soft">
-    <span class="label">C-11d Step 2 · Emergency (11:40 PM) · new</span>
+    <span class="label">C-03d Step 2 · Emergency (11:40 PM) · new</span>
     <div class="statusbar"><span>11:40</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>New request</h1><a class="btn ghost sm">Save draft</a></div>
     <div class="stephead"><div class="steps"><i class="on"></i><i class="on"></i><i></i></div><span class="sm muted"><b>Step 2 of 3</b> · Plumber · Burst pipe / flooding</span></div>
@@ -144,9 +144,9 @@
   </div>
   <div class="note"><b>Step 2 data (LLD-006 D3–D5, D10; LLD-005 D4)</b><code>addressId</code> (saved address only; snapshot of text, pin, floor/lift, <code>address_for</code>, <code>contact_name/phone</code> taken at create). <code>urgency</code> NOW | TODAY | SCHEDULED | EMERGENCY; <code>preferredWindow</code>. IST rules: day hours 07:00–21:00; NOW until 20:00, window now→+3 h; TODAY ≥ 2 h inside today's hours; SCHEDULED start +2 h…+30 days, 2–12 h; EMERGENCY 24×7, now→+2 h, only if a chosen problem is <code>emergency_eligible</code> and <code>emergency-availability</code> = true — else 422 <code>EMERGENCY_NOT_AVAILABLE</code> (suggest Later). Surcharge from <code>professions.emergency_surcharge_minor</code> (₹200 indicative). Wrong window → 422 <code>INVALID_TIME_WINDOW</code>. Selection deadline: NOW +2 h, EMERGENCY +45 min, TODAY window end, SCHEDULED window start.</div>
 
-  <!-- C-11e Error · duplicate open request -->
+  <!-- C-01i Error · duplicate open request -->
   <div class="phone soft">
-    <span class="label">C-11e Error · same job already open · new</span>
+    <span class="label">C-03e Error · same job already open · new</span>
     <div class="statusbar"><span>1:21</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>New request</h1></div>
     <div class="content"><div class="skel" style="height:90px"></div><div class="skel" style="height:140px"></div><div class="skel" style="height:120px"></div></div>
@@ -162,9 +162,9 @@
     </div>
   </div>
 
-  <!-- C-11f Error · 3 open requests -->
+  <!-- C-01j Error · 3 open requests -->
   <div class="phone soft">
-    <span class="label">C-11f Error · 3 open requests · new</span>
+    <span class="label">C-03f Error · 3 open requests · new</span>
     <div class="statusbar"><span>1:21</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>New request</h1></div>
     <div class="content"><div class="skel" style="height:90px"></div><div class="skel" style="height:140px"></div><div class="skel" style="height:120px"></div></div>
@@ -183,9 +183,9 @@
     </div>
   </div>
 
-  <!-- C-11g Error · not in service area -->
+  <!-- C-03g Error · not in service area -->
   <div class="phone soft">
-    <span class="label">C-11g Error · not in service area · new</span>
+    <span class="label">C-03g Error · not in service area · new</span>
     <div class="statusbar"><span>1:22</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>New request</h1></div>
     <div class="stephead"><div class="steps"><i class="on"></i><i class="on"></i><i></i></div><span class="sm muted"><b>Step 2 of 3</b> · Where and when?</span></div>
@@ -206,9 +206,9 @@
   </div>
   <div class="note"><b>Errors (LLD-006 §4.3, D3, D8; LLD-005 waitlist)</b>409 <code>DUPLICATE_OPEN_REQUEST</code> — one open or unpaid request per trade + address (<code>details.requestId</code>; if it is still PENDING_PAYMENT the app resumes its payment). 422 <code>TOO_MANY_OPEN_REQUESTS</code> — max 3 open (SUBMITTED / MATCHING / AWAITING_SELECTION); unsent data is saved as a draft. 422 <code>SERVICE_AREA_NOT_AVAILABLE</code> — zone re-resolved at create and not ACTIVE (<code>details.status</code> = COMING_SOON → waitlist <code>POST /service-areas/waitlist {pincode}</code>). Zone list from ERD §23.1 seed.</div>
 
-  <!-- C-11h Step 3 · Confirm (TODAY) -->
+  <!-- C-03h Step 3 · Confirm (TODAY) -->
   <div class="phone soft">
-    <span class="label">C-11h Step 3 · Confirm &amp; pay advance · fixed</span>
+    <span class="label">C-03h Step 3 · Confirm &amp; pay advance · fixed</span>
     <div class="statusbar"><span>1:23</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>Check &amp; pay</h1></div>
     <div class="stephead"><div class="steps"><i class="on"></i><i class="on"></i><i class="on"></i></div><span class="sm muted"><b>Step 3 of 3</b> · Check your request</span></div>
@@ -230,9 +230,9 @@
     <div class="footer"><a class="btn accent">Pay ₹99 &amp; find workers</a><span class="help center">UPI, card or net banking · secure payment page</span></div>
   </div>
 
-  <!-- C-11i Step 3 · Confirm (EMERGENCY) -->
+  <!-- C-03i Step 3 · Confirm (EMERGENCY) -->
   <div class="phone soft">
-    <span class="label">C-11i Step 3 · Confirm (emergency) · new</span>
+    <span class="label">C-03i Step 3 · Confirm (emergency) · new</span>
     <div class="statusbar"><span>11:41</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>Check &amp; pay</h1><span class="chip error">🚨 Emergency</span></div>
     <div class="stephead"><div class="steps"><i class="on"></i><i class="on"></i><i class="on"></i></div><span class="sm muted"><b>Step 3 of 3</b> · Check your request</span></div>
@@ -253,7 +253,7 @@
     </div>
     <div class="footer"><a class="btn danger">Pay ₹99 &amp; find workers</a><span class="help center">Only police-verified workers are asked at night</span></div>
   </div>
-  <div class="note"><b>Step 3 data (LLD-006 D6, D7, §4.1)</b><code>GET /service-requests/quote-preview</code> → price guide per problem, <code>emergencySurchargeMinor</code>, <code>advanceMinor</code> (server amounts only, client never sends money). Button → <code>POST /service-requests</code> (Idempotency-Key) → 201 <code>PENDING_PAYMENT</code>, <code>payment_due_at = now + 15 min</code>, provider checkout data → C-12a. Snapshot columns <code>price_guide_min/max_minor</code>, <code>emergency_surcharge_minor</code>, <code>advance_minor</code> are stored on the request. Advance refunded in full if cancelled before booking, expired or not matched; deducted from the final bill if booked. Multi-problem total range is not defined in the docs → shown per problem.</div>
+  <div class="note"><b>Step 3 data (LLD-006 D6, D7, §4.1)</b><code>GET /service-requests/quote-preview</code> → price guide per problem, <code>emergencySurchargeMinor</code>, <code>advanceMinor</code> (server amounts only, client never sends money). Button → <code>POST /service-requests</code> (Idempotency-Key) → 201 <code>PENDING_PAYMENT</code>, <code>payment_due_at = now + 15 min</code>, provider checkout data → C-04a. Snapshot columns <code>price_guide_min/max_minor</code>, <code>emergency_surcharge_minor</code>, <code>advance_minor</code> are stored on the request. Advance refunded in full if cancelled before booking, expired or not matched; deducted from the final bill if booked. Multi-problem total range is not defined in the docs → shown per problem.</div>
 </div>
 </body>
 </html>

@@ -27,9 +27,9 @@
 <div class="canvas">
   <p class="canvas-title"><b>Customer · ₹99 advance before matching</b>Missing in the original design (B2, review §3.3 "Advance payment states"). The app never decides a payment succeeded: only the verified webhook or a server-to-server check does (LLD-011 D2). One provider order per request, retries reuse it (D1).</p>
 
-  <!-- C-12a Provider checkout hand-off -->
+  <!-- C-04a Provider checkout hand-off -->
   <div class="phone soft">
-    <span class="label">C-12a Provider checkout (UPI intent) · new</span>
+    <span class="label">C-04a Provider checkout (UPI intent) · new</span>
     <div class="statusbar"><span>1:23</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">←</button><h1>Check &amp; pay</h1></div>
     <div class="content"><div class="skel" style="height:180px"></div><div class="skel" style="height:120px"></div></div>
@@ -49,11 +49,11 @@
       </div>
     </div>
   </div>
-  <div class="note"><b>Checkout (LLD-006 §4.1, LLD-011 D1/D9, §8)</b>Opened with <code>payment.checkout</code> from <code>POST /service-requests</code> (order id, key, <code>amountMinor = 9900</code>; amount from server only). This sheet is the provider's UI (shown for flow only, not ours to design): UPI intent first, then UPI ID, card, net banking. We store no cards / UPI IDs — only a masked VPA after success (P3, B6). The SDK success callback is <i>not</i> final → C-12b.</div>
+  <div class="note"><b>Checkout (LLD-006 §4.1, LLD-011 D1/D9, §8)</b>Opened with <code>payment.checkout</code> from <code>POST /service-requests</code> (order id, key, <code>amountMinor = 9900</code>; amount from server only). This sheet is the provider's UI (shown for flow only, not ours to design): UPI intent first, then UPI ID, card, net banking. We store no cards / UPI IDs — only a masked VPA after success (P3, B6). The SDK success callback is <i>not</i> final → C-04b.</div>
 
-  <!-- C-12b Payment pending -->
+  <!-- C-04b Payment pending -->
   <div class="phone">
-    <span class="label">C-12b Payment pending · new</span>
+    <span class="label">C-04b Payment pending · new</span>
     <div class="content tools" style="color:#fff;padding-top:0;gap:14px">
       <div class="statusbar clear" style="padding:0 18px;margin:0 -16px"><span>1:25</span><span>▮▮ 4G</span></div>
       <div class="appbar" style="padding:0;margin-left:-12px"><button class="iconbtn" style="color:#fff">✕</button><h1 style="color:#fff">Confirming payment</h1></div>
@@ -72,9 +72,9 @@
     </div>
   </div>
 
-  <!-- C-12c Advance paid → searching -->
+  <!-- C-04c Advance paid → searching -->
   <div class="phone">
-    <span class="label">C-12c Advance paid → finding workers · new</span>
+    <span class="label">C-04c Advance paid → finding workers · new</span>
     <div class="content tools" style="color:#fff;padding-top:0;gap:14px">
       <div class="statusbar clear" style="padding:0 18px;margin:0 -16px"><span>1:26</span><span>▮▮ 4G</span></div>
       <div class="grow"></div>
@@ -91,11 +91,11 @@
       <a class="btn accent">See progress</a>
     </div>
   </div>
-  <div class="note"><b>Pending → paid (LLD-006 §4.1, §5.1; LLD-011 D2, §4)</b>App polls <code>GET /service-requests/{id}</code> every 3 s up to 2 min (or refetches on realtime <code>SERVICE_REQUEST_UPDATED</code>, LLD-021); after 2 min: "We're confirming your payment — you'll get a notification". Countdown = <code>payment_due_at</code> (created + 15 min). "Open my UPI app again" reuses the same order (<code>POST /…/pay-advance</code>), never a second charge. Verified webhook → request <code>PENDING_PAYMENT → SUBMITTED</code>, <code>advance_payment_id</code> set, <code>expires_at</code> starts now (D10), outbox <code>ServiceRequestSubmitted</code> → matching (C-13a). Only the masked VPA is shown.</div>
+  <div class="note"><b>Pending → paid (LLD-006 §4.1, §5.1; LLD-011 D2, §4)</b>App polls <code>GET /service-requests/{id}</code> every 3 s up to 2 min (or refetches on realtime <code>SERVICE_REQUEST_UPDATED</code>, LLD-021); after 2 min: "We're confirming your payment — you'll get a notification". Countdown = <code>payment_due_at</code> (created + 15 min). "Open my UPI app again" reuses the same order (<code>POST /…/pay-advance</code>), never a second charge. Verified webhook → request <code>PENDING_PAYMENT → SUBMITTED</code>, <code>advance_payment_id</code> set, <code>expires_at</code> starts now (D10), outbox <code>ServiceRequestSubmitted</code> → matching (C-05a). Only the masked VPA is shown.</div>
 
-  <!-- C-12d Payment failed / retry -->
+  <!-- C-04d Payment failed / retry -->
   <div class="phone soft">
-    <span class="label">C-12d Payment failed · retry · fixed</span>
+    <span class="label">C-04d Payment failed · retry · fixed</span>
     <div class="statusbar"><span>1:25</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">✕</button><h1>Payment</h1></div>
     <div class="content" style="gap:14px">
@@ -115,9 +115,9 @@
   </div>
   <div class="note"><b>Failed attempt (LLD-011 D1, D4; LLD-006 §4.1)</b>A <code>payment.failed</code> event fails only that attempt, not the payment: the order stays open until <code>payment_due_at</code>. "Try again" → <code>POST /service-requests/{id}/pay-advance</code> → new checkout session on the same order. "Cancel request" in PENDING_PAYMENT → CANCELLED, nothing to refund. No payment reference shown to the customer here (P4: short display code is for bookings).</div>
 
-  <!-- C-12e Payment window closed -->
+  <!-- C-04e Payment window closed -->
   <div class="phone soft">
-    <span class="label">C-12e Payment window closed · new</span>
+    <span class="label">C-04e Payment window closed · new</span>
     <div class="statusbar"><span>1:39</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">✕</button><h1>Request closed</h1></div>
     <div class="content" style="gap:14px">
@@ -133,9 +133,9 @@
     <div class="footer"><a class="btn primary">Start again with these details</a><a class="btn ghost">Back to home</a></div>
   </div>
 
-  <!-- C-12f Late payment → refund -->
+  <!-- C-04f Late payment → refund -->
   <div class="phone soft">
-    <span class="label">C-12f Late payment → refunded · new</span>
+    <span class="label">C-04f Late payment → refunded · new</span>
     <div class="statusbar"><span>1:41</span><span>▮▮ 4G</span></div>
     <div class="appbar"><button class="iconbtn">✕</button><h1>Payment received late</h1></div>
     <div class="content" style="gap:14px">

@@ -45,9 +45,9 @@
 
 <p class="canvas-title"><b>Admin · Config: catalog, service zones, notifications, outbox, audit, staff, roles, settings</b>Catalog per LLD-003 (category → trade → skills + common problems, en/bn/hi, active flag, immutable code). Zones per LLD-005. Delivery log + retry per LLD-013 (no SMS, no campaigns, templates in code). Outbox DEAD per LLD-022. Audit / staff / roles per LLD-020. Settings and roles are read-only (P7).</p>
 
-<!-- A-60 Catalog -->
+<!-- A-06a Catalog -->
 <div class="web">
-  <span class="label">A-60 Catalog · trade editor · fixed</span>
+  <span class="label">A-06a Catalog · trade editor · fixed</span>
   <nav class="side" data-on="catalog"></nav>
   <div class="main">
     <header class="topbar" data-std><h1>Catalog</h1></header>
@@ -128,9 +128,9 @@
   <div class="note"><b>Fixes vs PNG</b>No "Services" layer, no Draft state (active flag only), no delete. Surcharge value shown is an example.</div>
 </div>
 
-<!-- A-61 Edit problem -->
+<!-- A-06b Edit problem -->
 <div class="web">
-  <span class="label">A-61 Edit common problem (en/bn/hi + keywords) · fixed (was "Edit service")</span>
+  <span class="label">A-06b Edit common problem (en/bn/hi + keywords) · fixed (was "Edit service")</span>
   <nav class="side" data-on="catalog"></nav>
   <div class="main">
     <header class="topbar" data-std><h1>Catalog › Electrician › MCB keeps tripping</h1></header>
@@ -178,9 +178,9 @@
   <div class="note"><b>API</b><code>PATCH /admin/catalog/professions/{id}/problems/{problemId}</code> (price guide, minutes, skill, active) + <code>PUT …/translations/hi</code> (title + keywords → <code>catalog_search_terms</code>). Cache TTL 5 min, so changes reach apps within minutes (LLD-003 D3, D4).</div>
 </div>
 
-<!-- A-62 Service zones -->
+<!-- A-06c Service zones -->
 <div class="web">
-  <span class="label">A-62 Service zones · new</span>
+  <span class="label">A-06c Service zones · new</span>
   <nav class="side" data-on="zones"></nav>
   <div class="main">
     <header class="topbar" data-std><h1>Service zones</h1><a class="btn primary sm">+ New zone</a></header>
@@ -233,9 +233,9 @@
   <div class="note"><b>Note</b>Zone names and PINs are examples. Waitlist rows come from <code>service_area_waitlist</code>; launch notifications go out once per entry (<code>notified_at</code>).</div>
 </div>
 
-<!-- A-63 Notifications log -->
+<!-- A-06d Notifications log -->
 <div class="web">
-  <span class="label">A-63 Notifications delivery log · fixed (was "Communications")</span>
+  <span class="label">A-06d Notifications delivery log · fixed (was "Communications")</span>
   <nav class="side" data-on="notif"></nav>
   <div class="main">
     <header class="topbar" data-std><h1>Notifications</h1></header>
@@ -263,9 +263,9 @@
   <div class="note"><b>Removed vs PNG</b>SMS, OTP, editable templates, campaigns (B1, P7, LLD-013 D2/D4).</div>
 </div>
 
-<!-- A-64 Outbox dead -->
+<!-- A-06e Outbox dead -->
 <div class="web">
-  <span class="label">A-64 Outbox · dead events (system health) · fixed (was "System health")</span>
+  <span class="label">A-06e Outbox · dead events (system health) · fixed (was "System health")</span>
   <nav class="side" data-on="outbox"></nav>
   <div class="main">
     <header class="topbar" data-std><h1>Outbox</h1></header>
@@ -294,9 +294,9 @@
   <div class="note"><b>Decided</b>System health = Grafana link (P5); no built-in charts, no "generic failed jobs" list.</div>
 </div>
 
-<!-- A-65 Audit log -->
+<!-- A-06f Audit log -->
 <div class="web">
-  <span class="label">A-65 Audit log · fixed</span>
+  <span class="label">A-06f Audit log · fixed</span>
   <nav class="side" data-on="audit"></nav>
   <div class="main">
     <header class="topbar" data-std><h1>Audit log</h1></header>
@@ -324,9 +324,9 @@
   <div class="note"><b>Removed vs PNG</b>"Result / Denied" column, IP and browser columns. Action names other than those in LLD-020/016/012 (e.g. LEDGER_ADJUSTMENT_POSTED, STRIKE_ISSUED) are placeholders until each LLD lists its constants.</div>
 </div>
 
-<!-- A-66 Staff -->
+<!-- A-06g Staff -->
 <div class="web">
-  <span class="label">A-66 Staff (admin users) + step-up code · fixed</span>
+  <span class="label">A-06g Staff (admin users) + step-up code · fixed</span>
   <nav class="side" data-on="staff" data-me="Ananya Bose|SUPER_ADMIN|AB"></nav>
   <div class="main">
     <header class="topbar" data-std><h1>Staff &amp; roles</h1></header>
@@ -373,9 +373,9 @@
   <div class="note"><b>Fixes vs PNG</b>"2-step login: Off" → "Not enrolled · blocked" + reset; no "Invited" status (ACTIVE + "password not set"); several role grants per person; no bulk actions.</div>
 </div>
 
-<!-- A-67 Roles matrix -->
+<!-- A-06h Roles matrix -->
 <div class="web">
-  <span class="label">A-67 Roles &amp; permissions (read-only matrix) · fixed</span>
+  <span class="label">A-06h Roles &amp; permissions (read-only matrix) · fixed</span>
   <nav class="side" data-on="staff" data-me="Ananya Bose|SUPER_ADMIN|AB"></nav>
   <div class="main">
     <header class="topbar" data-std><h1>Staff &amp; roles</h1></header>
@@ -390,9 +390,9 @@
   <div class="note"><b>Doc mismatch</b>Design review says "21 permission codes"; LLD-020 §4.1 lists 23 (incl. <code>notification.view</code> / <code>notification.retry</code>). Matrix shows all 23.</div>
 </div>
 
-<!-- A-68 Settings -->
+<!-- A-06i Settings -->
 <div class="web">
-  <span class="label">A-68 Platform settings (read-only) · fixed</span>
+  <span class="label">A-06i Platform settings (read-only) · fixed</span>
   <nav class="side" data-on="settings"></nav>
   <div class="main">
     <header class="topbar" data-std><h1>Platform settings</h1></header>
@@ -424,9 +424,9 @@ for(const[p,s]of P){h+=`<tr><td class="mono">${p}</td><td class="y">✓</td>`+[.
 document.getElementById('mx').innerHTML=h;
 </script>
 
-<!-- A-69 Reason codes -->
+<!-- A-06j Reason codes -->
 <div class="web">
-  <span class="label">A-69 Reason codes (read-only) · new</span>
+  <span class="label">A-06j Reason codes (read-only) · new</span>
   <nav class="side" data-on="settings"></nav>
   <div class="main">
     <header class="topbar" data-std><h1>Platform settings › Reason codes</h1></header>
@@ -472,7 +472,7 @@ document.getElementById('mx').innerHTML=h;
 </div>
 <div class="notes">
   <div class="note"><b>Data</b><code>reason_codes (category, code, requires_note, cancellation_fee_applies, active, sort_order)</code> + <code>reason_code_translations (category, code, locale, label)</code>, LLD-022 <code>V1_0</code>. Seeds per owning module: LLD-008 OFFER_DECLINE, LLD-009 cancellations + strikes, LLD-011 REFUND, LLD-012 REVIEW_MODERATION, LLD-016 VERIFICATION_REJECTION, LLD-017 QUOTE_REJECTION, LLD-018 DISPUTE, LLD-020 suspension / restriction / PII_REVEAL.</div>
-  <div class="note"><b>Permission</b>Visible to <code>ops.view</code> (all staff roles). No edit, add, toggle or delete — read-only by design, like Roles (A-67) and Settings (A-68).</div>
+  <div class="note"><b>Permission</b>Visible to <code>ops.view</code> (all staff roles). No edit, add, toggle or delete — read-only by design, like Roles (A-06h) and Settings (A-06i).</div>
   <div class="note"><b>Open</b>No admin endpoint in any LLD yet (would be <code>GET /admin/reason-codes?category=</code>). Per-code flags and bn/hi labels shown are examples; LLD-009 does not list which cancellation codes carry the fee. ERD §52.4 lists 10 categories; LLD-020 adds 4 admin ones. Code counts for LLD-020 / WORKER_STRIKE are placeholders.</div>
 </div>
 
