@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin · Access & ops dashboard</title>
+<link rel="stylesheet" href="../assets/karigar.css">
+<style>
+.side{background-image:var(--tools-light),var(--grad);background-size:220px 220px,cover;gap:1px}
+.side a{padding:6px 10px}.side .gf{border:1px dashed rgba(255,255,255,.35);margin-top:4px}
+.side .me{display:flex;gap:8px;align-items:center;padding:10px;border-radius:10px;background:rgba(255,255,255,.1);margin-top:6px;font-size:12px;line-height:16px;color:#fff}
+.side .me .avatar{width:32px;height:32px;font-size:12px;background:var(--grad-warm);color:var(--ink)}
+.id{font-family:var(--mono);font-size:12px;color:var(--text-2);white-space:nowrap}.id::after{content:" 📋";font-size:11px}
+.perm{font-family:var(--mono);font-size:11px;background:var(--bg-2);color:var(--text-2);padding:1px 6px;border-radius:4px;white-space:nowrap}
+.modal{position:absolute;inset:0;background:rgba(11,47,46,.5);display:grid;place-items:center;z-index:5}
+.modal .dialog{width:560px;margin:0;box-shadow:var(--e3)}
+.web .input{min-height:40px;font-size:14px}
+.web .table td,.web .table th{padding:9px 12px}
+.badge{white-space:nowrap}.web .btn{white-space:nowrap}.web .btn.sm{min-height:32px;padding:0 10px;font-size:13px}
+.sec{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--text-2);font-weight:700}
+.notes{display:flex;gap:16px;flex-wrap:wrap;width:1440px;margin-bottom:24px}
+/* this file */
+.auth{flex:1;display:grid;place-items:center}
+.authcard{width:440px;background:var(--surface);border-radius:var(--r-xl);box-shadow:var(--e2);padding:32px;display:flex;flex-direction:column;gap:16px}
+.qr{width:184px;height:184px;display:grid;grid-template-columns:repeat(23,1fr);padding:8px;background:#fff;border:1px solid var(--border);border-radius:var(--r-md)}
+.qr i{display:block}.qr i.b{background:var(--ink)}
+.q{border-radius:var(--r-lg);background:var(--surface);border:1px solid var(--border);padding:16px;display:flex;flex-direction:column;gap:10px;box-shadow:var(--e1)}
+.q .n{font-size:38px;line-height:40px;font-weight:800;font-variant-numeric:tabular-nums}
+.q.alert{border-top:4px solid var(--error)} .q.warn{border-top:4px solid var(--accent)} .q.ok{border-top:4px solid var(--success)}
+</style>
+</head>
+<body>
+<div class="canvas">
+  <p class="canvas-title"><b>Admin · Access, MFA &amp; ops dashboard</b>Staff log in with email + password (LLD-001) and then TOTP MFA for every admin call (LLD-020 D2). No SMS anywhere. The dashboard's main block is the 7 ops queues (LLD-020 §3.3), filtered by the caller's permissions; KPIs and system health are a Grafana link (P5).</p>
+
+  <!-- A-01 Login -->
+  <div class="web">
+    <span class="label">A-01 Staff login · fixed</span>
+    <div class="tools" style="width:620px;color:#fff;padding:56px;display:flex;flex-direction:column;gap:20px">
+      <b style="font-size:22px">🛠️ Karigar Ops</b>
+      <div class="grow"></div>
+      <div class="illus glass">🧑🏽‍💼</div>
+      <h1 class="display">Operations console</h1>
+      <p class="body-lg" style="opacity:.9">For Karigar staff: support, verification, disputes, finance and area operations in Howrah.</p>
+      <div class="row wrap"><span class="pill">🔐 Authenticator code on every login</span><span class="pill">🧾 Every action audited</span><span class="pill">🙈 Customer data masked</span></div>
+      <div class="grow"></div>
+      <p class="sm" style="opacity:.75">Staff accounts are created by a Super Admin. You set your own password from the invite email.</p>
+    </div>
+    <div class="auth tools-soft">
+      <div class="authcard">
+        <div><h2 class="h2">Log in</h2><p class="muted">Use your work email.</p></div>
+        <label class="field"><span>Email</span><div class="input focus">priya.sen@karigar.in</div></label>
+        <label class="field"><span>Password</span><div class="input">••••••••••••<span class="grow"></span><span class="badge">👁️ Show</span></div></label>
+        <div class="banner error"><span class="ico">⚠️</span><span>Email or password is wrong. Check both and try again.</span></div>
+        <a class="btn primary" style="width:100%;min-height:48px">Log in</a>
+        <a class="btn ghost" style="width:100%">Forgot password? We'll email a reset link</a>
+        <div class="hr"></div>
+        <p class="help">Next step: a 6-digit code from your authenticator app (Google Authenticator, Microsoft Authenticator, Authy). We never send codes by SMS.</p>
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    <div class="note"><b>Data &amp; rules</b>Same login endpoint as customers/workers (LLD-001); JWT says <code>ADMIN</code> only, permissions loaded from DB per call (LLD-020 D1). Generic error text (no "user not found"). Password reset = LLD-001 email link.</div>
+    <div class="note"><b>Fixes vs PNG</b>No phone/OTP (B1). No "remember this device": MFA is per login session (<code>sid</code>), 12 h window.</div>
+  </div>
+
+  <!-- A-02 MFA enroll -->
+  <div class="web">
+    <span class="label">A-02 Set up authenticator (MFA enrol) · new</span>
+    <div class="auth tools-soft">
+      <div class="authcard" style="width:760px;flex-direction:row;gap:32px;padding:36px">
+        <div class="col" style="gap:14px;width:220px;align-items:center">
+          <div class="qr" id="qr"></div>
+          <p class="help center">Can't scan? Type this key:</p>
+          <div class="mono" style="font-size:14px;letter-spacing:1px;white-space:nowrap;background:var(--bg-2);padding:8px 12px;border-radius:8px">JBSW Y3DP EHPK 3PXP</div>
+          <span class="chip warning">⚠️ Shown only once</span>
+        </div>
+        <div class="col grow" style="gap:14px">
+          <div class="steps"><i class="on"></i><i class="on"></i><i></i></div>
+          <h2 class="h2">Turn on 2-step login</h2>
+          <p class="muted">Every Karigar staff account needs an authenticator code. You can't open any admin page until this is done.</p>
+          <ol class="sm" style="padding-left:18px;display:flex;flex-direction:column;gap:6px">
+            <li>Install an authenticator app on your phone.</li>
+            <li>Scan the QR code (or type the key).</li>
+            <li>Enter the 6-digit code it shows.</li>
+          </ol>
+          <div class="field"><span>6-digit code</span>
+            <div class="code" style="justify-content:flex-start"><span class="f">4</span><span class="f">8</span><span class="f">1</span><span>0</span><span></span><span></span></div></div>
+          <div class="row"><a class="btn primary">✅ Verify and turn on</a><a class="btn ghost">Log out</a></div>
+          <p class="help">Lost your phone later? A Super Admin resets your 2-step login; you then set it up again here.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    <div class="note"><b>API</b><code>GET /admin/me</code> → <code>mfaEnabled:false</code> → <code>POST /admin/me/mfa/enroll</code> returns <code>otpauthUri</code> (secret shown once, encrypted at rest). <code>POST /admin/me/mfa/verify {code}</code> enables MFA and opens the 12 h window. LLD-020 §4.2, §8.</div>
+    <div class="note"><b>Who sees it</b>Any active staff member with <code>mfa_enabled=false</code>, incl. after an MFA reset (<code>/staff/{id}/mfa/reset</code>, Super Admin only).</div>
+  </div>
+
+  <!-- A-03 MFA prompt -->
+  <div class="web">
+    <span class="label">A-03 Enter authenticator code · new</span>
+    <div class="auth tools-soft">
+      <div class="authcard" style="align-items:center;text-align:center">
+        <div class="illus teal sm">🔐</div>
+        <h2 class="h2">Enter your 6-digit code</h2>
+        <p class="muted">Open your authenticator app and type the code for <b>Karigar Ops · priya.sen@karigar.in</b>.</p>
+        <div class="code err"><span>3</span><span>9</span><span>1</span><span>2</span><span>0</span><span>7</span></div>
+        <p class="help err">That code didn't work or was already used. 3 tries left before a 15-minute lock.</p>
+        <a class="btn primary" style="width:100%;min-height:48px">Verify</a>
+        <div class="banner info" style="text-align:left"><span class="ico">⏱️</span><span>One code keeps you signed in to the console for <b>12 hours</b> on this login. Managing staff asks again if your last code is older than 15 minutes.</span></div>
+        <a class="btn ghost">Log out</a>
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    <div class="note"><b>When shown</b>Any admin call returns <code>403 MFA_REQUIRED</code> (window closed, Redis flushed → fails closed). Same screen re-prompts after 12 h. Wrong / reused code → <code>422 MFA_CODE_INVALID</code> (±1 time-step, replay guard). LLD-020 D2, §5.1, §7.</div>
+    <div class="note"><b>Step-up</b><code>staff.manage</code> calls need a code from the last 15 min — shown as a modal on the Staff page (A-66, 06-config).</div>
+  </div>
+
+  <!-- A-04 MFA lockout -->
+  <div class="web">
+    <span class="label">A-04 Too many wrong codes (MFA lockout) · new</span>
+    <div class="auth tools-soft">
+      <div class="authcard" style="align-items:center;text-align:center">
+        <div class="illus sm" style="background:var(--grad-danger)">🔒</div>
+        <h2 class="h2">2-step login locked</h2>
+        <p class="muted">5 wrong codes in 15 minutes. For safety, codes are blocked for a short time.</p>
+        <div class="card flat" style="width:100%;align-items:center;background:var(--error-subtle);border-color:transparent">
+          <span class="sm" style="color:var(--error)">Try again in</span>
+          <b style="font:700 40px/48px var(--mono);color:var(--error)">14:32</b>
+        </div>
+        <div class="banner neutral" style="text-align:left"><span class="ico">📱</span><span>Phone lost or app reset? Ask a Super Admin to reset your 2-step login. You'll set it up again with a new QR code.</span></div>
+        <div class="row" style="width:100%"><a class="btn secondary grow">Log out</a><a class="btn disabled grow">Verify</a></div>
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    <div class="note"><b>Rule</b><code>429 MFA_LOCKED</code>: 5 wrong codes in 15 min for this staff member → 15 min lock (LLD-020 §4.2 errors, §8). Metric <code>admin_mfa_verify_total{result=locked}</code>.</div>
+  </div>
+
+  <!-- A-05 Ops dashboard -->
+  <div class="web">
+    <span class="label">A-05 Ops dashboard · ops queues · fixed</span>
+    <nav class="side" data-on="ops"></nav>
+    <div class="main">
+      <header class="topbar" data-std><h1>Ops queues</h1></header>
+      <div class="page">
+        <div class="row between">
+          <div><h2 class="h2">Good morning, Priya 👋</h2><p class="muted">7 queues you can see · oldest first inside each queue · counts are live</p></div>
+          <div class="row"><span class="sm muted">Zone</span><div class="seg" style="width:260px"><a class="on">All zones</a><a>Howrah</a></div></div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px">
+          <div class="q alert"><div class="row between"><div class="tradeicon" style="width:40px;height:40px;font-size:20px">🪪</div><span class="chip error">⏰ Over 48 h SLA</span></div>
+            <b>Verification pending</b><div class="row between"><span class="n">14</span><span class="sm muted">oldest <b style="color:var(--error)">51 h</b></span></div>
+            <div class="row between"><span class="perm">verification.review</span><a class="badge">Open →</a></div></div>
+          <div class="q warn"><div class="row between"><div class="tradeicon" style="width:40px;height:40px;font-size:20px">⚖️</div><span class="chip warning">2 HIGH</span></div>
+            <b>Open disputes</b><div class="row between"><span class="n">6</span><span class="sm muted">oldest 31 h</span></div>
+            <div class="row between"><span class="perm">dispute.manage</span><a class="badge">Open →</a></div></div>
+          <div class="q warn"><div class="row between"><div class="tradeicon" style="width:40px;height:40px;font-size:20px">📍</div><span class="chip neutral">last 30 days</span></div>
+            <b>Flagged check-ins</b><div class="row between"><span class="n">4</span><span class="sm muted">oldest 2 d</span></div>
+            <div class="row between"><span class="perm">ops.view</span><a class="badge">Open →</a></div></div>
+          <div class="q warn"><div class="row between"><div class="tradeicon" style="width:40px;height:40px;font-size:20px">💵</div><span class="chip neutral">waits for dispute</span></div>
+            <b>Disputed cash</b><div class="row between"><span class="n">2</span><span class="sm muted">oldest 19 h</span></div>
+            <div class="row between"><span class="perm">ops.view</span><a class="badge">Open →</a></div></div>
+          <div class="q alert"><div class="row between"><div class="tradeicon teal" style="width:40px;height:40px;font-size:20px">↩️</div><span class="chip error">🔔 Alert firing</span></div>
+            <b>Stuck refunds</b><div class="row between"><span class="n">1</span><span class="sm muted">oldest 26 h</span></div>
+            <div class="row between"><span class="perm">finance.view</span><a class="badge">Open →</a></div></div>
+          <div class="q ok"><div class="row between"><div class="tradeicon teal" style="width:40px;height:40px;font-size:20px">📨</div><span class="chip success">✓ Clear</span></div>
+            <b>Parked provider events</b><div class="row between"><span class="n">0</span><span class="sm muted">—</span></div>
+            <div class="row between"><span class="perm">finance.view</span><a class="badge">Open →</a></div></div>
+          <div class="q alert"><div class="row between"><div class="tradeicon teal" style="width:40px;height:40px;font-size:20px">📮</div><span class="chip error">🔔 &gt; 0 for 15 min</span></div>
+            <b>Outbox dead events</b><div class="row between"><span class="n">3</span><span class="sm muted">oldest 42 min</span></div>
+            <div class="row between"><span class="perm">ops.view · retry ops.act</span><a class="badge">Open →</a></div></div>
+          <div class="card hero" style="padding:16px;gap:10px">
+            <div class="row between"><b style="font-size:17px">📈 Metrics &amp; system health</b></div>
+            <p class="sm" style="opacity:.9">Funnels, matching time, payment success, API latency and alerts live in Grafana — not in this console.</p>
+            <div class="grow"></div>
+            <a class="btn accent" style="align-self:flex-start">Open Grafana ↗</a>
+          </div>
+        </div>
+        <div class="split" style="align-items:flex-start">
+          <div class="card grow" style="padding:16px;gap:12px">
+            <div class="row between"><b class="h4">Today so far</b><span class="sm muted">Howrah · since 00:00 IST</span></div>
+            <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px">
+              <div class="kpi"><small>Requests created</small><b>64</b><small>5 still matching</small></div>
+              <div class="kpi"><small>Bookings confirmed</small><b>41</b><small>3 cancelled</small></div>
+              <div class="kpi"><small>Visits in progress</small><b>12</b><small>2 en route</small></div>
+              <div class="kpi"><small>Disputes opened</small><b>2</b><small>1 HIGH</small></div>
+              <div class="kpi"><small>Refunds succeeded</small><b>₹3,960</b><small>9 refunds</small></div>
+            </div>
+          </div>
+          <div class="rail" style="width:380px">
+            <div class="card" style="padding:16px">
+              <div class="row between"><b class="h4">Your access</b><span class="chip brand">OPS_MANAGER</span></div>
+              <p class="sm muted">Queues are shown only when you hold their view permission. A Support Agent sees 4 of these 7 (no verification or finance queues).</p>
+              <div class="row wrap"><span class="perm">ops.view</span><span class="perm">ops.act</span><span class="perm">finance.view</span><span class="perm">dispute.manage</span><span class="perm">+14</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    <div class="note"><b>Data</b><code>GET /admin/ops/queues?zoneId=</code> → per queue the caller may see: <code>count</code>, <code>oldestAt</code>. Queue → view permission per LLD-020 §3.3 (finance queues need <code>finance.view</code>, verification <code>verification.review</code>, disputes <code>dispute.manage</code>). Zone = filter (D4; MVP all grants global).</div>
+    <div class="note"><b>Alerts shown as chips</b>OUTBOX_DEAD or PARKED_PROVIDER_EVENT &gt; 0 for 15 min; STUCK_REFUND &gt; 0; VERIFICATION_PENDING oldest &gt; 48 h; OPEN_DISPUTE oldest &gt; 72 h (LLD-020 §9).</div>
+    <div class="note"><b>Removed vs PNG</b>SMS failures, "Address proof", provider latency, area health / undersupply table, 7/30-day KPI toggle (P5 → Grafana). "Today so far" = simple counts only; any chart lives in Grafana.</div>
+  </div>
+
+  <!-- A-06 Flagged check-in queue + ack -->
+  <div class="web">
+    <span class="label">A-06 Queue · flagged check-ins + acknowledge · new</span>
+    <nav class="side" data-on="ops"></nav>
+    <div class="main">
+      <header class="topbar" data-std><h1>Ops queues › Flagged check-ins</h1></header>
+      <div class="page">
+        <div class="tabs"><a class="on">📍 Flagged check-ins · 4</a><a>💵 Disputed cash · 2</a><a>↩️ Stuck refunds · 1</a><a>📨 Parked events · 0</a><a>🪪 Verification · 14</a><a>⚖️ Disputes · 6</a><a>📮 Outbox dead · 3</a></div>
+        <div class="banner info"><span class="ico">ℹ️</span><span>Worker used <b>"check in anyway"</b> (far from the address or poor GPS). The start code is the real proof of presence — check it, then acknowledge or open the booking.</span></div>
+        <div class="table"><table>
+          <tr><th>Visit</th><th>Booking</th><th>Worker</th><th>Trade</th><th>Check-in</th><th>Distance · accuracy</th><th>Worker's reason</th><th>Start code</th><th></th></tr>
+          <tr><td class="id">…a91c4e</td><td class="id">…3f9a1c</td><td>Sujit Das</td><td>⚡ Electrician</td><td>Today 10:12</td><td><b style="color:var(--error)">820 m</b> · ±140 m</td><td>Poor GPS signal</td><td><span class="chip success">✓ Verified 10:14</span></td><td><div class="row"><a class="btn secondary sm">Open</a><a class="btn primary sm">Acknowledge</a></div></td></tr>
+          <tr><td class="id">…77d0b2</td><td class="id">…c2e817</td><td>Mitali Pal</td><td>🚰 Plumber</td><td>Today 09:40</td><td><b>410 m</b> · ±60 m</td><td>Building entrance on other road</td><td><span class="chip success">✓ Verified 09:42</span></td><td><div class="row"><a class="btn secondary sm">Open</a><a class="btn primary sm">Acknowledge</a></div></td></tr>
+          <tr><td class="id">…0be5f9</td><td class="id">…98a4d0</td><td>Abdul Hossain</td><td>⚡ Electrician</td><td>Yesterday 17:05</td><td><b style="color:var(--error)">2.4 km</b> · ±35 m</td><td>Other</td><td><span class="chip error">✗ Not entered · 5/5 tries</span></td><td><div class="row"><a class="btn secondary sm">Open</a><a class="btn primary sm">Acknowledge</a></div></td></tr>
+          <tr><td class="id">…5c1a33</td><td class="id">…41bb7e</td><td>Rakesh Mondal</td><td>🚰 Plumber</td><td>2 days ago 11:30</td><td><b>350 m</b> · ±110 m</td><td>Poor GPS signal</td><td><span class="chip success">✓ Verified 11:31</span></td><td><div class="row"><a class="btn secondary sm">Open</a><a class="btn primary sm">Acknowledge</a></div></td></tr>
+        </table></div>
+      </div>
+    </div>
+    <div class="modal"><div class="dialog">
+      <div class="row between"><h3 class="h3">Acknowledge flagged check-in</h3><span class="perm">ops.act</span></div>
+      <p class="sm muted">Visit <span class="id">…a91c4e</span> · Sujit Das · 820 m from address, start code verified at 10:14.</p>
+      <div class="sec">Outcome</div>
+      <label class="check"><span class="radio on"></span><span><b>Looked at — no action needed</b><br><span class="muted">NO_ACTION · e.g. poor GPS, start code entered on time</span></span></label>
+      <label class="check"><span class="radio"></span><span><b>Handled elsewhere</b><br><span class="muted">HANDLED_ELSEWHERE · e.g. a dispute or a strike was opened</span></span></label>
+      <label class="field"><span>Note <em>(optional, max 500)</em></span><div class="input area">Start code at 10:14, customer confirmed visit. GPS drift in Shibpur lanes.</div></label>
+      <p class="help">Removes the item from the queue for everyone. Saved in the audit log with your name.</p>
+      <div class="row" style="justify-content:flex-end"><a class="btn ghost">Cancel</a><a class="btn primary">Acknowledge</a></div>
+    </div></div>
+  </div>
+  <div class="notes">
+    <div class="note"><b>Data</b><code>GET /admin/ops/queues/FLAGGED_CHECK_IN?cursor=</code> (job_visits with <code>check_in_flagged</code>, last 30 days, oldest first; 200 max). Ack: <code>POST …/items/{itemId}/ack {outcome, note}</code>, needs <code>ops.act</code> + view perm; second ack returns the first (LLD-020 §3.1, §7). Item carries <code>actionPath</code> to the booking.</div>
+    <div class="note"><b>Other tabs</b>Disputed cash / stuck refunds / parked events → 05-money (A-42). Verification → A-30, disputes → A-33, outbox → A-64. Tabs without permission are not rendered.</div>
+  </div>
+</div>
+
+<script>
+const NAV=[['',[['ops','🧭','Ops queues','30']]],['People',[['users','🔎','User lookup']]],['Marketplace',[['requests','📝','Requests'],['bookings','📅','Bookings']]],['Trust',[['verif','🪪','Verifications','14'],['disputes','⚖️','Disputes','6'],['reviews','⭐','Reviews','3']]],['Money',[['payments','💳','Payments & refunds'],['payouts','🏦','Payout accounts','2'],['ledger','📒','Ledger']]],['Config',[['catalog','🧰','Catalog'],['zones','🗺️','Service zones'],['notif','🔔','Notifications'],['outbox','📮','Outbox','3'],['audit','🧾','Audit log'],['staff','👥','Staff & roles'],['settings','⚙️','Settings']]]];
+const ROLE={VERIFICATION_AGENT:'ops users verif',DISPUTE_AGENT:'ops users requests bookings disputes reviews',FINANCE:'ops users payments payouts ledger audit',SUPPORT_AGENT:'ops users requests bookings disputes reviews notif'};
+document.querySelectorAll('.side[data-on]').forEach(s=>{const[nm,rl,ini]=(s.dataset.me||'Priya Sen|OPS_MANAGER|PS').split('|');const ok=ROLE[rl];let h='<div class="brand">🛠️ Karigar Ops</div>';for(const[g,it]of NAV){const v=it.filter(x=>!ok||ok.split(' ').includes(x[0]));if(!v.length)continue;if(g)h+=`<div class="grp">${g}</div>`;for(const[k,i,t,c]of v)h+=`<a class="${k==s.dataset.on?'on':''}"><span>${i}&nbsp; ${t}</span>${c?`<span class="cnt">${c}</span>`:''}</a>`}h+=`<div class="grow"></div><a class="gf"><span>📈&nbsp; Grafana</span><span>↗</span></a><div class="me"><div class="avatar">${ini}</div><div><b>${nm}</b><br><span style="opacity:.8">${rl}</span></div></div>`;s.innerHTML=h;const t=s.parentElement.querySelector('.topbar[data-std]');if(t)t.insertAdjacentHTML('beforeend',`<div class="input ph" style="width:280px;min-height:38px">🔎 Phone, email, id or name…</div><span class="chip accent">📍 Howrah</span><span class="chip success">🔐 MFA · until 21:40</span><div class="avatar" style="width:36px;height:36px;font-size:13px">${ini}</div>`)});
+const qr=document.getElementById('qr');if(qr){let h='';for(let y=0;y<23;y++)for(let x=0;x<23;x++){const f=(a,b)=>x>=a&&x<a+7&&y>=b&&y<b+7;let b;const fin=f(0,0)||f(16,0)||f(0,16);if(fin){const ox=x<7?0:16,oy=y<7?0:16,dx=x-ox,dy=y-oy;b=dx==0||dx==6||dy==0||dy==6||(dx>1&&dx<5&&dy>1&&dy<5)}else b=((x*7+y*13+x*y)%5)<2;h+=`<i class="${b?'b':''}"></i>`}qr.innerHTML=h}
+</script>
+</body>
+</html>

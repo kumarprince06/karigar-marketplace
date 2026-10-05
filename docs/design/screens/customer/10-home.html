@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Customer · Home & catalog search</title>
+<link rel="stylesheet" href="../assets/karigar.css">
+<style>
+  .hero .input { border-color: transparent; box-shadow: var(--e2); }
+  .addr-pick { display: flex; align-items: center; gap: 8px; min-height: 48px; color: #fff; }
+  .addr-pick small { display: block; font-size: 12px; line-height: 16px; opacity: .85; }
+  .emerg { background: var(--grad-danger); color: #fff; border: 0; box-shadow: 0 8px 20px rgba(198,46,37,.28); flex-direction: row; align-items: center; gap: 12px; }
+  .emerg .tradeicon { background: rgba(255,255,255,.18); box-shadow: none; }
+  .trade { align-items: flex-start; gap: 6px; }
+  .trade .tradeicon { width: 52px; height: 52px; font-size: 26px; }
+  .sec { font-size: 15px; font-weight: 700; display: flex; justify-content: space-between; align-items: center; }
+  .sec a { font-size: 14px; color: var(--primary); font-weight: 600; min-height: 44px; display: inline-flex; align-items: center; }
+  .pchip { min-height: 44px; padding: 0 12px; border-radius: var(--r-full); background: var(--surface); border: 1.5px solid var(--border); display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 500; }
+  .hit { background: #FFF3C4; border-radius: 3px; padding: 0 2px; }
+  .tablet { width: 768px; height: 1024px; }
+</style>
+</head>
+<body>
+<div class="canvas">
+  <p class="canvas-title"><b>Customer · Home, catalog search & drafts</b>Home gets the Emergency 24×7 entry, "Continue your draft", saved-address picker and the real booked window (review §3.3 Home). Search works in any language (LLD-003 D3). Live trades at launch: Electrician and Plumber only.</p>
+
+  <!-- C-10a Home (fixed) -->
+  <div class="phone">
+    <span class="label">C-10a Home · fixed</span>
+    <div class="hero" style="padding-top:0">
+      <div class="statusbar clear" style="padding:0 2px"><span>9:41</span><span>▮▮ 4G</span></div>
+      <div class="row between">
+        <a class="addr-pick"><span style="font-size:22px">📍</span><span><small>Service at</small><b>Home · Shibpur ▾</b></span></a>
+        <div class="row" style="gap:2px"><button class="iconbtn" style="color:#fff;font-size:15px;font-weight:700">EN</button><button class="iconbtn" style="color:#fff">🔔</button></div>
+      </div>
+      <h1 class="h2" style="color:#fff">What needs fixing today, Priya?</h1>
+      <div class="input ph">🔎 <span>Try "fan", "pakha", "পাখা", "नल"</span></div>
+    </div>
+    <div class="content" style="padding-top:14px">
+      <div class="card emerg">
+        <div class="tradeicon">🚨</div>
+        <div class="grow"><b class="h4">Emergency · 24×7</b><div class="sm" style="opacity:.92">Sparking, no power, burst pipe</div></div>
+        <span style="font-size:22px">›</span>
+      </div>
+      <div class="card accent-top">
+        <div class="row between"><span class="label-t muted">YOUR BOOKING</span><span class="chip info">● Scheduled</span></div>
+        <div class="row"><div class="avatar">SD</div><div class="grow"><b>Fan not working · Sujit Das</b><div class="sm muted">Today, 4:00 – 6:00 PM · Electrician</div></div><span class="faint">›</span></div>
+      </div>
+      <div class="card flat row" style="flex-direction:row;align-items:center;background:var(--accent-subtle);border-color:#F3D48A">
+        <span style="font-size:24px">📝</span>
+        <div class="grow"><b>Continue your draft</b><div class="sm muted">Tap leaking · 2 h ago</div></div>
+        <a class="btn sm accent" style="padding:0 14px">Continue</a>
+      </div>
+      <div class="sec">Services</div>
+      <div class="row" style="gap:10px;align-items:stretch">
+        <div class="card grow" style="flex-direction:row;align-items:center;gap:10px;padding:12px"><div class="tradeicon">⚡</div><div><b>Electrician</b><div class="sm muted">Fans, wiring</div></div></div>
+        <div class="card grow" style="flex-direction:row;align-items:center;gap:10px;padding:12px"><div class="tradeicon teal">🚰</div><div><b>Plumber</b><div class="sm muted">Taps, drains</div></div></div>
+      </div>
+      <div class="row" style="gap:8px;overflow:hidden"><a class="pchip">🌀 Fan not working</a><a class="pchip">🚿 Tap leaking</a></div>
+    </div>
+    <div class="tabbar"><a class="on"><span class="ico">🏠</span>Home</a><a><span class="ico">📋</span>Requests</a><a><span class="ico">📅</span>Bookings</a><a><span class="ico">👤</span>Account</a></div>
+  </div>
+
+  <!-- C-10b Saved-address picker (new) -->
+  <div class="phone">
+    <span class="label">C-10b Saved-address picker · new</span>
+    <div class="hero" style="padding-top:0;opacity:.6">
+      <div class="statusbar clear" style="padding:0 2px"><span>9:41</span><span>▮▮ 4G</span></div>
+      <div class="addr-pick"><span style="font-size:22px">📍</span><span><small>Service at</small><b>Home · Shibpur ▾</b></span></div>
+      <h1 class="h2">What needs fixing today, Priya?</h1>
+    </div>
+    <div class="scrim">
+      <div class="sheet">
+        <b class="h3">Where do you need help?</b>
+        <p class="sm muted">Workers only see the area until you choose one. The full address goes to that worker.</p>
+        <div class="list">
+          <div class="li"><span class="radio on"></span><div class="t"><b>🏠 Home</b> <span class="chip brand" style="margin-left:4px">Default</span><small>14/2 Shibpur Road, near Shibpur Bazar bus stop · 711102</small></div></div>
+          <div class="li"><span class="radio"></span><div class="t"><b>👵 Maa's flat</b><small>Salkia · 2nd floor, no lift · 711106<br>On-site contact: Anjali Das</small></div></div>
+          <div class="li"><span class="radio"></span><div class="t"><b>🏪 Shop</b><small>G.T. Road, near Howrah Maidan Metro · 711101</small></div></div>
+          <div class="li" style="background:var(--bg)"><span class="radio" style="opacity:.4"></span><div class="t"><b class="muted">🏢 Office · Kolkata</b><small><span class="chip warning" style="margin:4px 0">Not served yet</span><br>We're coming soon. <u>Notify me</u></small></div></div>
+        </div>
+        <a class="btn secondary">＋ Add new address</a>
+      </div>
+    </div>
+  </div>
+  <div class="note"><b>Home data (LLD-005, LLD-006, LLD-009)</b>Address chip = <code>addresses.label</code> + locality; picker lists saved addresses (max 20, D5), default first. Addresses outside an ACTIVE zone can be saved (D3) but can't be used for a request; "Notify me" → <code>POST /service-areas/waitlist</code>. Emergency card shows only when <code>GET /service-areas/emergency-availability</code> = true for this address (LLD-007 §5.3). Booking card shows the real first-visit window (≥2 h) + visit status chip. Draft card = newest <code>service_request_drafts</code> row. Language "EN" opens the language picker (LLD-003 D1).</div>
+
+  <!-- C-10c Home loading skeleton (fixed) -->
+  <div class="phone">
+    <span class="label">C-10c Home · loading skeleton · fixed</span>
+    <div class="hero" style="padding-top:0">
+      <div class="statusbar clear" style="padding:0 2px"><span>9:41</span><span>▮▮ 4G</span></div>
+      <div class="row between" style="min-height:48px"><div class="skel" style="width:150px;height:18px;opacity:.35"></div><div class="skel" style="width:40px;height:40px;border-radius:50%;opacity:.35"></div></div>
+      <div class="skel" style="width:240px;height:24px;opacity:.35"></div>
+      <div class="input ph">🔎 <span>Try "fan", "pakha", "পাখা", "नल"</span></div>
+    </div>
+    <div class="content" style="padding-top:14px">
+      <div class="card"><div class="row"><div class="skel" style="width:48px;height:48px;border-radius:12px"></div><div class="col grow"><div class="skel" style="width:60%"></div><div class="skel" style="width:85%"></div></div></div></div>
+      <div class="card"><div class="skel" style="width:35%"></div><div class="row"><div class="skel" style="width:44px;height:44px;border-radius:50%"></div><div class="col grow"><div class="skel" style="width:70%"></div><div class="skel" style="width:50%"></div></div></div></div>
+      <div class="skel" style="width:30%;height:16px;margin-top:6px"></div>
+      <div class="row" style="gap:12px"><div class="card grow"><div class="skel" style="width:52px;height:52px;border-radius:12px"></div><div class="skel" style="width:70%"></div><div class="skel" style="width:90%"></div></div><div class="card grow"><div class="skel" style="width:52px;height:52px;border-radius:12px"></div><div class="skel" style="width:70%"></div><div class="skel" style="width:90%"></div></div></div>
+      <p class="sm faint center">Search works while the page loads.</p>
+    </div>
+    <div class="tabbar"><a class="on"><span class="ico">🏠</span>Home</a><a><span class="ico">📋</span>Requests</a><a><span class="ico">📅</span>Bookings</a><a><span class="ico">👤</span>Account</a></div>
+  </div>
+
+  <!-- C-10d Catalog search results, English UI, romanised query (new) -->
+  <div class="phone soft">
+    <span class="label">C-10d Catalog search · "pakha" · new</span>
+    <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><div class="input focus grow" style="min-height:48px">🔎 pakha<span class="grow"></span><span class="muted">✕</span></div></div>
+    <div class="content">
+      <span class="label-t muted">PROBLEMS</span>
+      <div class="list">
+        <div class="li"><div class="tradeicon">🌀</div><div class="t"><b>Fan not working</b><small>Electrician · usually ₹200 – ₹400</small></div><span class="chev">›</span></div>
+        <div class="li"><div class="tradeicon">💡</div><div class="t"><b>New light / fan point</b><small>Electrician · ₹250 – ₹450 per point</small></div><span class="chev">›</span></div>
+      </div>
+      <span class="label-t muted">TRADES</span>
+      <div class="list">
+        <div class="li"><div class="tradeicon">⚡</div><div class="t"><b>Electrician</b><small>Fans, wiring, switches, MCB</small></div><span class="chev">›</span></div>
+      </div>
+      <div class="banner info"><span class="ico">ℹ️</span><span>Matched "pakha" → <b>Fan not working</b>. Type in English, বাংলা or हिंदी — even spelled your way.</span></div>
+      <div class="grow"></div>
+      <div class="card flat" style="background:var(--bg-2);border:0"><b>Can't find your problem?</b><span class="sm muted">Pick a trade and describe it in words or a voice note.</span>
+        <div class="row"><a class="btn secondary sm grow">⚡ Electrician</a><a class="btn secondary sm grow">🚰 Plumber</a></div></div>
+    </div>
+  </div>
+
+  <!-- C-10e Catalog search, Bengali UI (new) -->
+  <div class="phone soft" lang="bn">
+    <span class="label" lang="en">C-10e Catalog search · "পাখা" (bn) · new</span>
+    <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><div class="input focus grow" style="min-height:48px">🔎 পাখা<span class="grow"></span><span class="muted">✕</span></div></div>
+    <div class="content">
+      <span class="label-t muted">সমস্যা</span>
+      <div class="list">
+        <div class="li"><div class="tradeicon">🌀</div><div class="t"><b><span class="hit">পাখা</span> চলছে না</b><small>ইলেকট্রিশিয়ান · সাধারণত ₹200 – ₹400</small></div><span class="chev">›</span></div>
+        <div class="li"><div class="tradeicon">💡</div><div class="t"><b>নতুন লাইট/<span class="hit">পাখার</span> পয়েন্ট</b><small>ইলেকট্রিশিয়ান · প্রতি পয়েন্ট ₹250 – ₹450</small></div><span class="chev">›</span></div>
+      </div>
+      <span class="label-t muted">কাজের ধরন</span>
+      <div class="list">
+        <div class="li"><div class="tradeicon">⚡</div><div class="t"><b>ইলেকট্রিশিয়ান</b><small>পাখা, ওয়্যারিং, সুইচ</small></div><span class="chev">›</span></div>
+      </div>
+      <div class="banner neutral"><span class="ico">🗣️</span><span>লিখতে অসুবিধা? পরের ধাপে ভয়েস নোটে বলুন।</span></div>
+    </div>
+  </div>
+  <div class="note"><b>Search (LLD-003 §4.1, D3, D6)</b><code>GET /catalog/search?q=pakha&limit=10</code> → mixed PROBLEM + PROFESSION results from <code>catalog_search_terms</code> (prefix + trigram, romanised keywords such as <i>pankha, pakha</i>). Titles always come back in the resolved language (token <code>loc</code> → Accept-Language → en), even when the keyword matched another language. Price guide = <code>typical_min/max_minor</code> or "Price after inspection" (<code>needs_inspection</code>). Tapping a problem opens Request step 1 with the trade + problem pre-selected. No result → row in <code>catalog_search_misses</code>; show trade picker. Digits stay Latin in all locales (P25).</div>
+
+  <!-- C-10f Drafts list (new) -->
+  <div class="phone soft">
+    <span class="label">C-10f Drafts list · new</span>
+    <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><h1>Saved drafts</h1><span class="chip neutral">3 of 5</span></div>
+    <div class="content">
+      <p class="sm muted">Finish a request any time on any phone. Drafts are deleted 30 days after your last change.</p>
+      <div class="card">
+        <div class="row"><div class="tradeicon teal">🚰</div><div class="grow"><b class="h4">Tap leaking</b><div class="sm muted">Plumber · Home, Shibpur</div></div></div>
+        <div class="row wrap"><span class="chip neutral">📷 2 photos</span><span class="chip neutral">Step 2 of 3</span><span class="sm faint">Edited today, 7:20 AM</span></div>
+        <div class="row"><a class="btn ghost sm" style="color:var(--error)">Delete</a><span class="grow"></span><a class="btn primary sm">Continue</a></div>
+      </div>
+      <div class="card">
+        <div class="row"><div class="tradeicon">⚡</div><div class="grow"><b class="h4">New light / fan point ×3</b><div class="sm muted">Electrician · Maa's flat, Salkia</div></div></div>
+        <div class="row wrap"><span class="chip neutral">🎙️ Voice 0:42</span><span class="chip neutral">Step 1 of 3</span><span class="sm faint">Edited 28 Sep</span></div>
+        <div class="row"><a class="btn ghost sm" style="color:var(--error)">Delete</a><span class="grow"></span><a class="btn primary sm">Continue</a></div>
+      </div>
+      <div class="card">
+        <div class="row"><div class="tradeicon">⚡</div><div class="grow"><b class="h4">MCB keeps tripping</b><div class="sm muted">Electrician · Shop, Howrah Maidan</div></div></div>
+        <div class="row wrap"><span class="chip warning">⏳ Deleted in 2 days</span><span class="sm faint">Edited 7 Sep</span></div>
+        <div class="row"><a class="btn ghost sm" style="color:var(--error)">Delete</a><span class="grow"></span><a class="btn primary sm">Continue</a></div>
+      </div>
+    </div>
+  </div>
+  <div class="note"><b>Drafts (LLD-006 D1, §4.2)</b><code>service_request_drafts</code>: JSON payload (any subset of the create body; trade required), <code>updated_at</code>, <code>expires_at = updated_at + 30 days</code>, <code>version</code>. Max 5 per customer — 6th save → 422 <code>TOO_MANY_DRAFTS</code> ("Delete a draft to save this one"). List newest first. Draft media is kept with <code>keepUntil</code> (LLD-014 D5). "Continue" re-opens the step; submit runs full validation and deletes the draft in the same transaction. Step label is derived client-side from which fields are filled.</div>
+
+  <!-- C-10g Tablet home 768 (fixed) -->
+  <div class="phone tablet">
+    <span class="label">C-10g Tablet · customer home (768) · fixed</span>
+    <div class="hero" style="padding:0 32px 28px">
+      <div class="statusbar clear" style="padding:0 2px"><span>9:41</span><span>▮▮ Wi-Fi</span></div>
+      <div class="row between">
+        <a class="addr-pick"><span style="font-size:22px">📍</span><span><small>Service at</small><b>Home · Shibpur ▾</b></span></a>
+        <div class="row" style="gap:4px"><button class="iconbtn" style="color:#fff;font-size:15px;font-weight:700">EN</button><button class="iconbtn" style="color:#fff">🔔</button><div class="avatar" style="background:rgba(255,255,255,.18);color:#fff">PS</div></div>
+      </div>
+      <div class="row" style="gap:24px;align-items:center">
+        <div class="col grow" style="gap:12px"><h1 class="display" style="color:#fff">What needs fixing today, Priya?</h1>
+          <div class="input ph">🔎 <span>Try "fan", "pakha", "পাখা", "नल"</span></div></div>
+        <div class="illus glass">🧰</div>
+      </div>
+    </div>
+    <div class="content" style="padding:20px 32px;gap:16px">
+      <div class="row" style="gap:16px;align-items:stretch">
+        <div class="card emerg" style="flex:1"><div class="tradeicon">🚨</div><div class="grow"><b class="h4">Emergency · 24×7</b><div class="sm" style="opacity:.92">Sparking, no power, burst pipe, overflow</div></div><span style="font-size:22px">›</span></div>
+        <div class="card accent-top" style="flex:1"><div class="row between"><span class="label-t muted">YOUR BOOKING</span><span class="chip info">● Scheduled</span></div><div class="row"><div class="avatar">SD</div><div class="grow"><b>Fan not working · Sujit Das</b><div class="sm muted">Today, 4:00 – 6:00 PM</div></div></div></div>
+      </div>
+      <div class="sec">Services</div>
+      <div class="row" style="gap:16px;align-items:stretch">
+        <div class="card trade grow"><div class="tradeicon">⚡</div><b class="h4">Electrician</b><span class="sm muted">Fans, wiring, switches, MCB</span></div>
+        <div class="card trade grow"><div class="tradeicon teal">🚰</div><b class="h4">Plumber</b><span class="sm muted">Taps, leaks, drains, pump</span></div>
+        <div class="card trade grow" style="background:var(--accent-subtle);border-color:#F3D48A"><span style="font-size:28px">📝</span><b class="h4">Continue draft</b><span class="sm muted">Tap leaking · saved 2 h ago</span></div>
+      </div>
+      <div class="sec">Common problems</div>
+      <div class="row wrap"><a class="pchip">🌀 Fan not working</a><a class="pchip">⚡ Switchboard sparking</a><a class="pchip">🚿 Tap leaking</a><a class="pchip">🕳️ Blocked sink / drain</a><a class="pchip">🚽 Flush not working</a><a class="pchip">💧 Pump not lifting water</a></div>
+      <div class="sec"><span>Book again <span class="sm muted" style="font-weight:400">· offered to this worker first, then others near you</span></span><a>All past bookings</a></div>
+      <div class="row" style="gap:16px;align-items:stretch">
+        <div class="card grow"><div class="row"><div class="avatar">SD</div><div class="grow"><b>Sujit Das</b><div class="sm muted">Electrician · ★ 4.7 (38)</div></div></div><span class="sm muted">Last: Fan not working · Aug 2026</span><a class="btn secondary sm">Book again</a></div>
+        <div class="card grow"><div class="row"><div class="avatar" style="background:var(--accent-subtle);color:#6B4A00">MK</div><div class="grow"><b>Manoj Kundu</b><div class="sm muted">Plumber · New on Karigar</div></div></div><span class="sm muted">Last: Tap leaking · Sep 2026</span><a class="btn secondary sm">Book again</a></div>
+      </div>
+    </div>
+    <div class="tabbar"><a class="on"><span class="ico">🏠</span>Home</a><a><span class="ico">📋</span>Requests</a><a><span class="ico">📅</span>Bookings</a><a><span class="ico">👤</span>Account</a></div>
+  </div>
+  <div class="note"><b>Book again (P8, LLD-006 §4.1, LLD-007 rounds, LLD-012 D11)</b><code>GET /service-requests/{id}/repeat-template</code> pre-fills trade, problems, address; <code>preferredWorkerId</code> = that worker → favourite round first (15 min NOW / 30 min TODAY / 2 h SCHEDULED; none for EMERGENCY), then normal rounds. No direct booking: the worker still accepts and the customer still selects. Rating is shown only with ≥3 counted reviews, always with the count; otherwise "New on Karigar".</div>
+</div>
+</body>
+</html>

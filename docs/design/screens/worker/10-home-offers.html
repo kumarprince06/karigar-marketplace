@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Worker · Home & offers</title>
+<link rel="stylesheet" href="../assets/karigar.css">
+<style>
+  /* worker app: body >= 16px, secondary >= 14px (design review §3.1) */
+  .phone { font-size: 16px; line-height: 24px; }
+  .phone .sm:not(.illus), .phone .help { font-size: 14px; line-height: 20px; }
+  .stat { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 10px 12px; flex: 1; }
+  .stat small { display: block; font-size: 14px; color: var(--text-2); }
+  .stat b { font-size: 20px; line-height: 28px; }
+  .bigstate { display: flex; align-items: center; gap: 12px; }
+  .bigstate .illus { flex-shrink: 0; }
+  .offer { gap: 6px; }
+  .offer .top { display: flex; gap: 10px; align-items: flex-start; }
+  .ph { width: 64px; height: 64px; border-radius: var(--r-md); background: linear-gradient(135deg,#CFE3DF,#E9E3D2); display: grid; place-items: center; font-size: 26px; flex-shrink: 0; }
+  .meta { display: flex; flex-wrap: wrap; gap: 6px 12px; font-size: 14px; color: var(--text-2); }
+  .ratechip { min-height: 64px; flex-direction: column; align-items: flex-start; justify-content: center; gap: 0; flex: 1; }
+  .ratechip b { font-size: 20px; }
+  .reason { min-height: 56px; display: flex; align-items: center; gap: 12px; padding: 0 14px; border: 1.5px solid var(--border-strong); border-radius: var(--r-md); font-weight: 600; background: var(--surface); }
+  .reason i { font-style: normal; font-size: 22px; width: 28px; text-align: center; }
+  .reason.on { border: 2px solid var(--primary); background: var(--primary-subtle); color: var(--primary); }
+  .stepck { display: flex; align-items: center; gap: 12px; min-height: 48px; }
+  .stepck .d { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; font-size: 16px; flex-shrink: 0; background: var(--success); color: #fff; }
+  .stepck .d.no { background: var(--surface); border: 2px dashed var(--border-strong); color: var(--text-3); }
+  .stepck .t { flex: 1; }
+</style>
+</head>
+<body>
+<div class="canvas">
+  <p class="canvas-title"><b>Worker · Home & job offers</b>Online toggle (LLD-007 D2), offer inbox (LLD-008 §4.1), "I'm interested" with one of my rates (LLD-008 D1/D2), decline codes, waiting for customer, not selected, empty / restricted states. Fixes design review B3, §3.4 Worker home / Opportunity feed / detail / Decline reason.</p>
+
+  <!-- W-10a Home · ready (EN) -->
+  <div class="phone">
+    <span class="label">W-10a Worker home · ready · fixed</span>
+    <div class="hero">
+      <div class="statusbar clear" style="padding:0 2px"><span>9:41</span><span>▮▮ 4G</span></div>
+      <div class="row between"><div><span class="sm muted">Thu, 2 Oct</span><div class="h2">Hello, Sujit 👋</div></div><div class="avatar" style="background:rgba(255,255,255,.18);color:#fff">SD</div></div>
+      <div class="card" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);color:#fff;box-shadow:none;flex-direction:row;align-items:center;gap:12px">
+        <span style="font-size:30px">🟢</span>
+        <div class="grow"><b class="h4">I'm taking jobs</b><div class="sm" style="opacity:.9">New jobs come by phone alert</div></div>
+        <span class="toggle on" style="background:var(--accent)"></span>
+      </div>
+    </div>
+    <div class="content" style="padding-top:12px">
+      <div class="banner warning"><span class="ico">🔔</span><span><b>You missed 5 offers today.</b> Busy? Turn off "taking jobs" so customers aren't kept waiting.</span></div>
+      <div class="row between"><b class="h4">📅 Today's visits</b><span class="chip brand">2</span></div>
+      <div class="card accent-top">
+        <div class="row between"><b class="h3">10:00 am</b><span class="chip info">📆 Day 2 of 2</span></div>
+        <div class="row"><span class="tradeicon">🚰</span><div><b>Bathroom pipe line</b><div class="sm muted">Bally · Rina G. · 2.5 km</div></div></div>
+        <a class="btn primary">🛵 On my way</a>
+      </div>
+      <a class="card" style="flex-direction:row;align-items:center;gap:12px">
+        <span class="tradeicon teal">📥</span>
+        <div class="grow"><b>3 new job offers</b><div class="sm muted">Nearest: Shibpur · 3.5 km</div></div><span class="chev">›</span>
+      </a>
+      <div class="row" style="gap:8px">
+        <div class="stat"><small>💰 To get</small><b class="money">₹1,240</b></div>
+        <div class="stat"><small>⏳ Waiting</small><b class="money">₹881</b></div>
+      </div>
+    </div>
+    <nav class="tabbar"><a class="on"><span class="ico">🏠</span>Home</a><a><span class="ico">📥</span>Offers</a><a><span class="ico">🧰</span>Jobs</a><a><span class="ico">💰</span>Earnings</a><a><span class="ico">👤</span>Me</a></nav>
+  </div>
+
+  <!-- W-10b Home · Bengali -->
+  <div class="phone" lang="bn">
+    <span class="label">W-10b Worker home · Bengali · fixed</span>
+    <div class="hero">
+      <div class="statusbar clear" style="padding:0 2px"><span>9:41</span><span>▮▮ 4G</span></div>
+      <div class="row between"><div><span class="sm muted">বৃহস্পতিবার, 2 অক্টোবর</span><div class="h2">নমস্কার, সুজিত 👋</div></div><div class="avatar" style="background:rgba(255,255,255,.18);color:#fff">SD</div></div>
+      <div class="card" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);color:#fff;box-shadow:none;flex-direction:row;align-items:center;gap:12px">
+        <span style="font-size:30px">🟢</span>
+        <div class="grow"><b class="h4">আমি কাজ নিচ্ছি</b><div class="sm" style="opacity:.9">নতুন কাজ এলে ফোনে খবর আসবে</div></div>
+        <span class="toggle on" style="background:var(--accent)"></span>
+      </div>
+    </div>
+    <div class="content" style="padding-top:12px">
+      <div class="row between"><b class="h4">📅 আজকের কাজ</b><span class="chip brand">2টি</span></div>
+      <div class="card accent-top">
+        <div class="row between"><b class="h3">সকাল 10:00</b><span class="chip info">📆 দিন 2 / 2</span></div>
+        <div class="row"><span class="tradeicon">🚰</span><div><b>বাথরুমের পাইপ লাইন</b><div class="sm muted">বালি · রিনা জি. · 2.5 কিমি</div></div></div>
+        <a class="btn primary">🛵 রওনা দিয়েছি</a>
+      </div>
+      <a class="card" style="flex-direction:row;align-items:center;gap:12px">
+        <span class="tradeicon teal">📥</span>
+        <div class="grow"><b>নতুন কাজ 3টি</b><div class="sm muted">সবচেয়ে কাছে: শিবপুর · 3.5 কিমি</div></div><span class="chev">›</span>
+      </a>
+      <div class="row" style="gap:8px">
+        <div class="stat"><small>💰 পাবেন</small><b class="money">₹1,240</b></div>
+        <div class="stat"><small>⏳ অপেক্ষায়</small><b class="money">₹881</b></div>
+      </div>
+    </div>
+    <nav class="tabbar"><a class="on"><span class="ico">🏠</span>হোম</a><a><span class="ico">📥</span>অফার</a><a><span class="ico">🧰</span>কাজ</a><a><span class="ico">💰</span>আয়</a><a><span class="ico">👤</span>আমি</a></nav>
+  </div>
+  <div class="note"><b>Data (LLD-007 D2, LLD-004 §readiness, LLD-009 §5.1, LLD-010 summary)</b>Toggle = <code>worker_availability</code> ACCEPTING_JOBS / NOT_ACCEPTING_JOBS; allowed only when <code>account_status = ACTIVE</code>. Missed-offer banner = <code>MissedOffersReminder</code> after 5 missed in 24 h; auto-offline only after 48 h with no response. "Today's visits" = my visits with <code>visit_date = today</code>, "Day n of m" from <code>visit_no</code> / <code>planned_days</code>. "To get" = eligible, "Waiting" = pending (earnings summary). Numbers stay Latin digits in bn/hi (P25).</div>
+
+  <!-- W-10c Home · not ready -->
+  <div class="phone soft">
+    <span class="label">W-10c Worker home · not ready yet · fixed</span>
+    <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><h1>Hello, Sujit 👋</h1><div class="avatar">SD</div></div>
+    <div class="content">
+      <div class="card" style="flex-direction:row;align-items:center;gap:12px">
+        <span style="font-size:28px">🔒</span>
+        <div class="grow"><b>Taking jobs</b><div class="sm muted">Opens when all steps are done</div></div>
+        <span class="toggle locked"></span>
+      </div>
+      <div class="card hero" style="gap:4px"><b class="h3">4 of 7 steps done</b><div class="steps"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i style="background:rgba(255,255,255,.3)"></i><i style="background:rgba(255,255,255,.3)"></i><i style="background:rgba(255,255,255,.3)"></i></div></div>
+      <div class="list" style="padding:4px 14px">
+        <div class="stepck"><span class="d">✓</span><span class="t">📧 Email confirmed</span></div>
+        <div class="stepck"><span class="d">✓</span><span class="t">🙂 Name & photo</span></div>
+        <div class="stepck"><span class="d">✓</span><span class="t">🔧 Trade & my rates</span></div>
+        <div class="stepck"><span class="d">✓</span><span class="t">📍 Work area (5 km)</span></div>
+        <div class="stepck"><span class="d no">5</span><span class="t"><b>🕘 Working hours</b></span><a class="btn sm primary" style="min-height:40px">Set</a></div>
+        <div class="stepck"><span class="d no">6</span><span class="t"><b>🪪 ID proof</b><br><span class="sm muted">Under check · 1–2 days</span></span><span class="chip warning">⏳</span></div>
+        <div class="stepck"><span class="d no">7</span><span class="t"><b>🏦 Bank account</b></span><a class="btn sm secondary" style="min-height:40px">Add</a></div>
+      </div>
+    </div>
+    <nav class="tabbar"><a class="on"><span class="ico">🏠</span>Home</a><a><span class="ico">📥</span>Offers</a><a><span class="ico">🧰</span>Jobs</a><a><span class="ico">💰</span>Earnings</a><a><span class="ico">👤</span>Me</a></nav>
+  </div>
+
+  <!-- W-10d Home · dues restricted -->
+  <div class="phone">
+    <span class="label">W-10d Worker home · dues over limit · new</span>
+    <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><h1>Hello, Sujit 👋</h1><div class="avatar">SD</div></div>
+    <div class="content">
+      <div class="card" style="background:var(--grad-danger);color:#fff;border:0;box-shadow:var(--e2)">
+        <div class="row"><span style="font-size:32px">⛔</span><b class="h3">No new jobs for now</b></div>
+        <div>You owe Karigar <b class="money" style="font-size:22px">₹1,120</b> in fees from cash jobs. Limit is ₹1,000.</div>
+        <a class="btn" style="background:#fff;color:var(--error)">📲 Pay ₹1,120 by UPI</a>
+        <div class="sm" style="opacity:.9">Offers start again as soon as you pay.</div>
+      </div>
+      <div class="card" style="flex-direction:row;align-items:center;gap:12px">
+        <span style="font-size:28px">🔒</span>
+        <div class="grow"><b>Taking jobs</b><div class="sm muted">Off until dues are paid</div></div>
+        <span class="toggle"></span>
+      </div>
+      <div class="row between"><b class="h4">📅 Today's visits</b><span class="chip brand">1</span></div>
+      <div class="card">
+        <div class="row between"><b class="h4">4:30 pm</b><span class="chip success">✓ Booked</span></div>
+        <div class="row"><span class="tradeicon">🚰</span><div><b>Tap leaking</b><div class="sm muted">Shibpur · Anjali</div></div></div>
+        <span class="sm muted">✅ Booked jobs still go ahead.</span>
+      </div>
+    </div>
+    <nav class="tabbar"><a class="on"><span class="ico">🏠</span>Home</a><a><span class="ico">📥</span>Offers</a><a><span class="ico">🧰</span>Jobs</a><a><span class="ico">💰</span>Earnings</a><a><span class="ico">👤</span>Me</a></nav>
+  </div>
+  <div class="note"><b>Data (LLD-004 §readiness, LLD-010 D7, LLD-019 D10)</b>W-10c: <code>GET /workers/me/readiness</code> — 7 steps EMAIL_VERIFIED, PROFILE_BASICS, TRADE_WITH_RATE, SERVICE_AREA, WORKING_HOURS, MANDATORY_VERIFICATIONS (missing list), BANK_ACCOUNT_VERIFIED; labels localized by backend; toggle locked until auto <code>ONBOARDING → ACTIVE</code>. W-10d: balance &lt; −duesLimit (₹1,000) → <code>account_restrictions NO_NEW_OFFERS</code> source DUES; going online → 409 WORKER_RESTRICTED. Pay = WORKER_DUES checkout (W-13c), restriction lifted automatically. Booked visits continue.</div>
+
+  <!-- W-10e Offers inbox -->
+  <div class="phone">
+    <span class="label">W-10e Offers inbox · New · fixed</span>
+    <div class="statusbar dark"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="appbar" style="background:var(--ink);color:#fff"><h1>📥 Job offers</h1></div>
+    <div class="content" style="padding-top:12px">
+      <div class="seg"><a class="on">🆕 New (3)</a><a>⏳ Waiting for customer (2)</a></div>
+      <div class="card offer" style="border:2px solid var(--error)">
+        <div class="row between"><span class="chip error">🚨 EMERGENCY</span><span class="countdown" style="color:var(--error)">⏳ Ends in 6 min</span></div>
+        <div class="top"><span class="tradeicon">⚡</span><div class="grow"><b class="h4">Switchboard sparking</b><div class="meta"><span>📍 Kadamtala · 1.8 km</span><span>🕐 Now</span></div></div></div>
+        <div class="row between"><span class="sm muted">Price guide</span><b class="money">₹250–₹450 <span class="chip accent">+₹150 night</span></b></div>
+      </div>
+      <div class="card offer">
+        <div class="row between"><span class="chip info">📅 Today</span><span class="countdown">⏳ Ends in 42 min</span></div>
+        <div class="top"><div class="ph">🚰</div><div class="grow"><b class="h4">Tap leaking</b><div class="meta"><span>📍 Shibpur · 3.5 km</span><span>🕐 4–7 pm</span><span>📷 1 · 🎙️</span></div></div></div>
+        <div class="row between"><span class="sm muted">Price guide</span><b class="money">₹150–₹350</b></div>
+      </div>
+      <div class="card offer">
+        <div class="row between"><span class="chip neutral">🗓️ Sat, 4 Oct</span><span class="countdown">⏳ Ends in 3 h</span></div>
+        <div class="top"><div class="ph">🚿</div><div class="grow"><b class="h4">Geyser fitting</b><div class="meta"><span>📍 Santragachi · 4.5 km</span><span>🕐 10 am–1 pm</span></div></div></div>
+        <div class="row between"><span class="sm muted">Price guide</span><b class="money">₹300–₹600</b></div>
+      </div>
+    </div>
+    <nav class="tabbar"><a><span class="ico">🏠</span>Home</a><a class="on"><span class="ico">📥</span>Offers</a><a><span class="ico">🧰</span>Jobs</a><a><span class="ico">💰</span>Earnings</a><a><span class="ico">👤</span>Me</a></nav>
+  </div>
+
+  <!-- W-10f Waiting for customer -->
+  <div class="phone">
+    <span class="label">W-10f Offers · Waiting for customer · new</span>
+    <div class="statusbar dark"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="appbar" style="background:var(--ink);color:#fff"><h1>📥 Job offers</h1></div>
+    <div class="content" style="padding-top:12px">
+      <div class="seg"><a>🆕 New (3)</a><a class="on">⏳ Waiting for customer (2)</a></div>
+      <div class="banner info"><span class="ico">ℹ️</span><span>You can wait on <b>3 jobs</b> at a time. <b>2 of 3</b> used.</span></div>
+      <div class="card offer">
+        <div class="row between"><span class="chip warning">⏳ Customer is choosing</span><span class="sm muted">2 others</span></div>
+        <div class="top"><span class="tradeicon">🚰</span><div class="grow"><b class="h4">Kitchen sink blocked</b><div class="meta"><span>📍 Shibpur · 3 km</span></div></div></div>
+        <div class="row between"><span>🏷️ My rate <b class="money">₹200</b> visit</span><span>🕐 I come <b>11:00</b></span></div>
+        <a class="btn danger-o sm" style="width:100%">↩️ Withdraw</a>
+      </div>
+      <div class="card offer">
+        <div class="row between"><span class="chip warning">⏳ Customer is choosing</span><span class="sm muted">Only you</span></div>
+        <div class="top"><span class="tradeicon">⚡</span><div class="grow"><b class="h4">Fan not working</b><div class="meta"><span>📍 Ramrajatala · 2 km</span></div></div></div>
+        <div class="row between"><span>🏷️ My rate <b class="money">₹300</b> min.</span><span>🕐 I come <b>5:30 pm</b></span></div>
+        <a class="btn danger-o sm" style="width:100%">↩️ Withdraw</a>
+      </div>
+      <p class="sm muted center">🔒 You get the address after the customer picks you.</p>
+    </div>
+    <nav class="tabbar"><a><span class="ico">🏠</span>Home</a><a class="on"><span class="ico">📥</span>Offers</a><a><span class="ico">🧰</span>Jobs</a><a><span class="ico">💰</span>Earnings</a><a><span class="ico">👤</span>Me</a></nav>
+  </div>
+  <div class="note"><b>Data (LLD-008 §4.1, D3/D4, LLD-007 D5/D9)</b>New = <code>GET /workers/me/offers?status=OPEN</code> (NOTIFIED / VIEWED), max 3 live offers per worker; countdown from <code>expiresAt</code> ("Ends in 6 min", never a clock). Card shows trade, urgency (EMERGENCY badge + surcharge), locality + distance (0.5 km steps) only, price guide from catalog, photo thumbnail / 🎙️ voice note. Waiting = <code>status=ACCEPTED</code>: my chosen rate + <code>availableFrom</code>; withdraw → WITHDRAWN (allowed until selected). 4th accept → 409 TOO_MANY_PENDING_ACCEPTS. "2 others" = other accepted count is not in the API (see report) — show only if added.</div>
+
+  <!-- W-10g Offer detail -->
+  <div class="phone">
+    <span class="label">W-10g Offer detail · fixed</span>
+    <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><h1>New job</h1><span class="countdown" style="background:var(--warning-subtle);padding:6px 10px;border-radius:10px">⏳ Ends in 42 min</span></div>
+    <div class="content" style="gap:10px">
+      <div class="row"><span class="tradeicon">🚰</span><div><span class="chip info">📅 Today</span><div class="h2">Tap leaking</div></div></div>
+      <div class="card flat" style="gap:4px"><div>💧 Kitchen tap leaking since morning</div><div class="row" style="gap:8px"><div class="ph">🚰</div><div class="card flat" style="flex-direction:row;align-items:center;padding:10px;gap:8px;flex:1"><span style="font-size:22px">▶️</span><span>🎙️ Voice note · 0:18</span></div></div></div>
+      <div class="row" style="gap:8px">
+        <div class="stat"><small>🕐 Come between</small><b style="font-size:17px">4:00–7:00 pm</b></div>
+        <div class="stat"><small>📍 Shibpur</small><b style="font-size:17px">3.5 km</b></div>
+      </div>
+      <div class="row" style="gap:8px">
+        <div class="stat"><small>🏢 Flat</small><b style="font-size:17px">2nd floor</b></div>
+        <div class="stat"><small>🛗 Lift</small><b style="font-size:17px">No lift</b></div>
+      </div>
+      <div class="card flat" style="flex-direction:row;align-items:center;gap:10px"><div class="avatar">A</div><div class="grow"><b>Anjali</b><div class="sm muted">4 jobs booked · ⭐ no rating yet</div></div><span class="chip accent">💰 ₹150–₹350</span></div>
+      <p class="sm muted">🔒 Full address and phone come after the customer picks you.</p>
+    </div>
+    <div class="footer" style="flex-direction:row"><a class="btn secondary" style="flex:1">✖ No</a><a class="btn primary" style="flex:2">👍 I'm interested</a></div>
+  </div>
+
+  <!-- W-10h Accept sheet EN -->
+  <div class="phone">
+    <span class="label">W-10h "I'm interested" sheet · new</span>
+    <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><h1>New job</h1></div>
+    <div class="content"><div class="h2">Tap leaking</div></div>
+    <div class="scrim">
+      <div class="sheet" style="max-height:92%">
+        <b class="h3">👍 I'm interested</b>
+        <span class="label-t">🏷️ My charge — pick one</span>
+        <div class="choice"><span class="opt on ratechip"><b class="money">₹200</b><span class="sm">per visit</span></span><span class="opt ratechip"><b class="money">₹300</b><span class="sm">minimum</span></span></div>
+        <span class="label-t">🕐 I can come at</span>
+        <div class="choice"><span class="opt">4:00</span><span class="opt on">4:30</span><span class="opt">5:00</span><span class="opt">5:30</span><span class="opt">6:00</span><span class="opt off">7:00</span></div>
+        <span class="help">Customer wants you between 4:00 and 7:00 pm.</span>
+        <span class="label-t">📝 Note <em style="font-weight:400;color:var(--text-2)">(optional)</em></span>
+        <div class="choice"><span class="opt on">🧰 I'll bring washer & tape</span><span class="opt">🎙️ Say it</span></div>
+        <a class="btn primary">✅ Send to customer</a>
+        <span class="help center">Customer picks 1 of up to 3 workers. We'll tell you.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- W-10i Accept sheet Bengali -->
+  <div class="phone" lang="bn">
+    <span class="label">W-10i "I'm interested" sheet · Bengali · new</span>
+    <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><h1>নতুন কাজ</h1></div>
+    <div class="content"><div class="h2">কল দিয়ে জল পড়ছে</div></div>
+    <div class="scrim">
+      <div class="sheet" style="max-height:92%">
+        <b class="h3">👍 আমি করতে চাই</b>
+        <span class="label-t">🏷️ আমার রেট — একটা বাছুন</span>
+        <div class="choice"><span class="opt on ratechip"><b class="money">₹200</b><span class="sm">প্রতি ভিজিট</span></span><span class="opt ratechip"><b class="money">₹300</b><span class="sm">কমপক্ষে</span></span></div>
+        <span class="label-t">🕐 কখন আসতে পারব</span>
+        <div class="choice"><span class="opt">4:00</span><span class="opt on">4:30</span><span class="opt">5:00</span><span class="opt">5:30</span><span class="opt">6:00</span></div>
+        <span class="help">গ্রাহক বিকেল 4:00 থেকে 7:00-এর মধ্যে চান।</span>
+        <span class="label-t">📝 কিছু বলবেন? (না দিলেও চলবে)</span>
+        <div class="choice"><span class="opt on">🧰 ওয়াশার আর টেপ আনব</span><span class="opt">🎙️ বলে দিন</span></div>
+        <a class="btn primary">✅ গ্রাহককে পাঠান</a>
+        <span class="help center">গ্রাহক 3 জনের মধ্যে 1 জনকে বাছবেন। আমরা জানাব।</span>
+      </div>
+    </div>
+  </div>
+  <div class="note"><b>Data (LLD-008 §4.1, D1/D2, §4.3)</b>Detail (<code>GET /offers/{id}</code>, first open → VIEWED): problems, description, photos + voice note (signed URLs, LLD-014), locality, distance, propertyType, floorNumber, hasLift, customerWindow, priceGuide, emergencySurchargeMinor, myRates, customer firstName + jobsBooked + rating (null until 3 reviews → "no rating yet"). No house no / street / phone / full name. Accept body: <code>{rate: one of myRates, availableFrom, note}</code> — no typed price; time chips only inside the window and not in the past (outside → 422 AVAILABLE_TIME_OUTSIDE_WINDOW; overlap → 422 WORKER_BUSY_AT_TIME). Note chips are app shortcuts that fill the free-text <code>note</code> (voice-to-text is an app feature, not an API field).</div>
+
+  <!-- W-10j Decline reason -->
+  <div class="phone">
+    <span class="label">W-10j Decline reason · fixed</span>
+    <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><h1>New job</h1></div>
+    <div class="content"><div class="h2">Tap leaking</div></div>
+    <div class="scrim">
+      <div class="sheet" style="max-height:92%">
+        <b class="h3">✖ Why not this job?</b>
+        <div class="reason"><i>🛵</i>Too far</div>
+        <div class="reason on"><i>📅</i>Busy at that time</div>
+        <div class="reason"><i>🔧</i>Not my work</div>
+        <div class="reason"><i>💸</i>Price too low</div>
+        <div class="reason"><i>⚠️</i>Area not safe</div>
+        <div class="reason"><i>❔</i>Other</div>
+        <a class="btn danger">✖ Say no to this job</a>
+        <span class="help center">You won't get this job again.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- W-10k Not selected -->
+  <div class="phone soft">
+    <span class="label">W-10k Not selected / request ended · new</span>
+    <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><h1>Job offer</h1></div>
+    <div class="content" style="justify-content:center;gap:16px">
+      <div class="illus teal">🤝</div>
+      <div class="h1 center">Customer picked<br>another worker</div>
+      <p class="body-lg center muted">Kitchen sink blocked · Shibpur</p>
+      <div class="card"><div class="row"><span style="font-size:24px">💪</span><span>No problem. Being quick and keeping good ratings helps you get picked.</span></div></div>
+      <div class="banner neutral"><span class="ico">🗂️</span><span>Other ending: <b>"Customer cancelled"</b> or <b>"Request ended"</b> — same screen, different title.</span></div>
+    </div>
+    <div class="footer"><a class="btn primary">📥 See other offers</a></div>
+  </div>
+  <div class="note"><b>Data (LLD-008 §3, §6, §7)</b>Decline: <code>POST /offers/{id}/decline {reasonCode}</code> — codes only from <code>reason_codes</code> OFFER_DECLINE: TOO_FAR, BUSY_AT_THAT_TIME, NOT_MY_WORK, PRICE_TOO_LOW, UNSAFE_AREA, OTHER (no free text); never re-offered. Not selected: push from <code>WorkerNotSelected</code> (only offers that were ACCEPTED); NOTIFIED / VIEWED offers expire silently. Request cancelled / expired → offer EXPIRED / NOT_SELECTED. Photos lose access (signed URLs not re-issued).</div>
+
+  <!-- W-10l No offers · offline -->
+  <div class="phone soft">
+    <span class="label">W-10l No offers · why (offline) · fixed</span>
+    <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><h1>📥 Job offers</h1></div>
+    <div class="content" style="justify-content:center;gap:14px">
+      <div class="illus">😴</div>
+      <div class="h1 center">You're not taking jobs</div>
+      <p class="body-lg center muted">Turn it on to get new job offers near you.</p>
+      <div class="card" style="flex-direction:row;align-items:center;gap:12px"><span style="font-size:28px">🔴</span><b class="grow">Taking jobs</b><span class="toggle"></span></div>
+      <a class="btn primary">🟢 Start taking jobs</a>
+    </div>
+    <nav class="tabbar"><a><span class="ico">🏠</span>Home</a><a class="on"><span class="ico">📥</span>Offers</a><a><span class="ico">🧰</span>Jobs</a><a><span class="ico">💰</span>Earnings</a><a><span class="ico">👤</span>Me</a></nav>
+  </div>
+
+  <!-- W-10m No offers · outside hours / none -->
+  <div class="phone soft">
+    <span class="label">W-10m No offers · outside hours · fixed</span>
+    <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><h1>📥 Job offers</h1></div>
+    <div class="content" style="justify-content:center;gap:14px">
+      <div class="illus teal">🌙</div>
+      <div class="h1 center">No offers right now</div>
+      <div class="list">
+        <div class="li"><span style="font-size:24px">🕘</span><div class="t"><b>Sunday is your day off</b><small>Your hours: Mon–Sat 9 am–6 pm</small></div></div>
+      </div>
+      <a class="btn secondary">🕘 Change my hours</a>
+      <p class="sm muted center">We'll send an alert when a job comes.</p>
+    </div>
+    <nav class="tabbar"><a><span class="ico">🏠</span>Home</a><a class="on"><span class="ico">📥</span>Offers</a><a><span class="ico">🧰</span>Jobs</a><a><span class="ico">💰</span>Earnings</a><a><span class="ico">👤</span>Me</a></nav>
+  </div>
+
+  <!-- W-10n Restricted · strikes -->
+  <div class="phone">
+    <span class="label">W-10n Restricted · strikes · new</span>
+    <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><h1>📥 Job offers</h1></div>
+    <div class="content" style="gap:14px">
+      <div class="card" style="background:var(--grad-danger);color:#fff;border:0;box-shadow:var(--e2);align-items:center;text-align:center;padding:20px">
+        <span style="font-size:52px">⛔</span>
+        <b class="h2">No new offers until Mon, 6 Oct</b>
+        <span>Too many late cancels and no-shows.</span>
+      </div>
+      <div class="list">
+        <div class="li"><span style="font-size:24px">🚫</span><div class="t"><b>No-show</b><small>Fan not working · 22 Sep</small></div><span class="chip error">Active</span></div>
+        <div class="li"><span style="font-size:24px">⏰</span><div class="t"><b>Late cancel</b><small>Light fitting · 29 Sep</small></div><span class="chip error">Active</span></div>
+      </div>
+      <div class="banner info"><span class="ico">✅</span><span>Your booked jobs still go ahead. Finish them well.</span></div>
+      <a class="btn secondary">📞 Call support</a>
+      <a class="btn ghost">🙋 This is wrong — appeal</a>
+    </div>
+    <nav class="tabbar"><a><span class="ico">🏠</span>Home</a><a class="on"><span class="ico">📥</span>Offers</a><a><span class="ico">🧰</span>Jobs</a><a><span class="ico">💰</span>Earnings</a><a><span class="ico">👤</span>Me</a></nav>
+  </div>
+  <div class="note"><b>Data (LLD-007 D2/D8, LLD-015, LLD-009 §3 worker_strikes)</b>Empty state says why: (1) NOT_ACCEPTING_JOBS → W-10l; (2) outside working hours / 21:00–07:00 non-emergency hold → W-10m; (3) <code>NO_NEW_OFFERS</code> restriction — source DUES → W-10d, strikes → W-10n (<code>details.endsAt</code>); (4) ONBOARDING → readiness checklist W-10c. Strike rows from <code>worker_strikes</code> (type, job, status ACTIVE / APPEALED). Appeal (within 7 days) = <code>POST /workers/me/strikes/{id}/appeal</code> → APPEALED (modules/07 §4; still counts until decided). Support is by phone (no chat, B5).</div>
+</div>
+</body>
+</html>

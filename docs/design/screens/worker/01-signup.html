@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Worker · Sign up & log in</title>
+<link rel="stylesheet" href="../assets/karigar.css">
+<style>
+  /* worker app: body >= 16px, secondary >= 14px (design review §3.1 Typography) */
+  .phone { font-size: 16px; line-height: 24px; }
+  .phone .help, .phone .li .t small { font-size: 14px; line-height: 20px; font-weight: 400; }
+  .phone .check { font-size: 15px; line-height: 21px; min-height: 48px; }
+  .lang { display: flex; align-items: center; gap: 14px; min-height: 64px; padding: 10px 16px; border-radius: var(--r-lg); background: rgba(255,255,255,.12); border: 1.5px solid rgba(255,255,255,.3); color: #fff; font-size: 20px; font-weight: 600; }
+  .lang.on { background: #fff; color: var(--ink); border-color: #fff; }
+  .lang .ab { width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; background: var(--grad-warm); color: var(--ink); font-size: 20px; font-weight: 700; flex-shrink: 0; }
+  .lang small { display: block; font-size: 14px; font-weight: 500; opacity: .8; line-height: 18px; }
+  .perk { display: flex; gap: 10px; align-items: center; font-size: 15px; line-height: 20px; }
+  .note b:not(:first-child) { display: inline; margin: 0; }
+  .perk i { font-style: normal; width: 36px; height: 36px; border-radius: 10px; background: rgba(255,255,255,.16); display: grid; place-items: center; font-size: 18px; flex-shrink: 0; }
+</style>
+</head>
+<body>
+<div class="canvas">
+  <p class="canvas-title"><b>Worker · Sign up & log in</b>Replaces Worker login (phone + SMS code). Email + password, email link, mobile collected but not verified, no SMS (ADR 0016, LLD-001). Bengali first; language picked before anything else (LLD-003).</p>
+
+  <!-- W-01 Splash -->
+  <div class="phone">
+    <span class="label">W-01 Splash · fixed</span>
+    <div class="statusbar clear" style="position:absolute;inset:0 0 auto 0;z-index:1"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="content tools" style="color:#fff;align-items:center;justify-content:center;gap:18px;text-align:center" lang="bn">
+      <div class="illus" style="width:150px;height:150px;font-size:72px">🧰</div>
+      <div style="font-size:40px;line-height:56px;font-weight:700">কারিগর</div>
+      <div class="body-lg" style="opacity:.92">কাজ খুঁজুন কাছেই।<br>দাম ঠিক করুন নিজেই।</div>
+      <div class="row" style="justify-content:center;gap:10px"><span class="pill">⚡ ইলেকট্রিশিয়ান</span><span class="pill">🚰 প্লাম্বার</span></div>
+      <div style="position:absolute;bottom:36px;left:0;right:0;display:flex;flex-direction:column;align-items:center;gap:10px">
+        <div class="steps" style="width:120px"><i class="on"></i><i style="background:rgba(255,255,255,.3)"></i><i style="background:rgba(255,255,255,.3)"></i></div>
+        <span class="sm" style="opacity:.85">লোড হচ্ছে… · Howrah</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- W-02 Welcome + language -->
+  <div class="phone" lang="bn">
+    <span class="label">W-02 Welcome + language · fixed</span>
+    <div class="statusbar clear" style="position:absolute;inset:0 0 auto 0;z-index:1"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="content tools" style="color:#fff;padding-top:40px;gap:12px">
+      <div class="row"><span style="font-size:26px">🧰</span><b style="font-size:22px">কারিগর</b><span class="grow"></span><span class="pill">কর্মীদের অ্যাপ</span></div>
+      <div class="h3" style="margin-top:4px">ভাষা বেছে নিন</div>
+      <a class="lang on"><span class="ab">অ</span><span class="grow">বাংলা<small>Bengali</small></span><span style="color:var(--success);font-size:24px">✔</span></a>
+      <a class="lang"><span class="ab" lang="hi">अ</span><span class="grow" lang="hi">हिंदी<small>Hindi</small></span></a>
+      <a class="lang"><span class="ab">A</span><span class="grow">English<small>ইংরেজি</small></span></a>
+      <div class="col" style="gap:10px;margin-top:6px">
+        <div class="perk"><i>💰</i>নিজের রেট নিজে ঠিক করুন</div>
+        <div class="perk"><i>📍</i>বাড়ির কাছের কাজ</div>
+        <div class="perk"><i>🏦</i>অনলাইনের টাকা রোজ ব্যাংকে</div>
+      </div>
+      <div class="grow"></div>
+      <a class="btn accent" style="font-size:18px">🙋 নতুন অ্যাকাউন্ট খুলুন</a>
+      <a class="btn secondary" style="background:transparent;color:#fff;border-color:#fff;font-size:18px">🔑 লগ ইন</a>
+    </div>
+  </div>
+  <div class="note"><b>Data (LLD-003 D1/D2, LLD-001 §4.1)</b>Language is chosen first and sent as <code>preferredLocale</code> (bn / hi / en) at sign-up; the app switches fonts to Anek Bangla / Devanagari. Can be changed later in Settings. Perks copy follows LLD-019 D6 (online-job money paid daily at 11:00 when ≥ ₹100; cash jobs are paid by hand) — not "payouts for everything". Only Electrician + Plumber are active at launch (LLD-003 seed).</div>
+
+  <!-- W-03 Sign up -->
+  <div class="phone soft">
+    <span class="label">W-03 Sign up · new</span>
+    <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><h1>Create worker account</h1></div>
+    <div class="content" style="gap:10px">
+      <label class="field"><span>👤 Your name</span><div class="input">Sujit Das</div></label>
+      <label class="field"><span>✉️ Email <em>(we send a link)</em></span><div class="input">sujit.das82@gmail.com</div></label>
+      <label class="field"><span>📱 Mobile number</span><div class="input"><b>+91</b> 98310 45678</div><span class="help">Customers who book you will see this number.</span></label>
+      <label class="field"><span>🔒 Password</span><div class="input focus">••••••••••• <span class="grow"></span><span class="muted">👁 Show</span></div><span class="help">8 or more letters. A long easy sentence is fine.</span></label>
+      <div class="col" style="gap:0">
+        <div class="check"><span class="box on">✓</span><span>I agree to the <u>Terms</u> and <u>Privacy notice</u>.</span></div>
+        <div class="check"><span class="box on">✓</span><span>I am 18 years or older.</span></div>
+        <div class="check"><span class="box on">✓</span><span>Karigar may check my ID and work papers to give me jobs. <u>Why?</u></span></div>
+      </div>
+    </div>
+    <div class="footer"><a class="btn primary">Create account</a></div>
+  </div>
+  <div class="note"><b>Data (LLD-001 §4.1, D3, D7; security/03 §96)</b><code>role: WORKER</code>, name (becomes <code>workers.display_name</code>, LLD-004), email (unique, lower-cased, <b>mandatory</b>), phone (E.164, unique, not verified), password 8–128, no composition rules, common-password list → <code>WEAK_PASSWORD</code>. Four separate, unticked consents → <code>user_consents</code> rows: TERMS_OF_SERVICE, PRIVACY_NOTICE, AGE_18_PLUS_DECLARATION, <b>WORKER_KYC</b> (needed to submit documents: LLD-016 <code>403 KYC_CONSENT_REQUIRED</code>). Marketing ticks hidden in MVP (P20). 409 EMAIL_ALREADY_IN_USE / PHONE_ALREADY_IN_USE → "Log in instead".</div>
+
+  <!-- W-04 Check your email -->
+  <div class="phone soft">
+    <span class="label">W-04 Check your email · new</span>
+    <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><span class="grow"></span><a class="btn ghost sm">Skip for now</a></div>
+    <div class="content" style="gap:16px;text-align:center">
+      <div class="illus" style="margin-top:8px">✉️</div>
+      <h2 class="h2">Check your email</h2>
+      <p class="body-lg muted">We sent a link to<br><b style="color:var(--text)">sujit.das82@gmail.com</b><br>Tap the link to confirm.</p>
+      <div class="banner info" style="text-align:left"><span class="ico">ℹ️</span><span>You can set up your profile now. To <b>get jobs</b> your email must be confirmed.</span></div>
+      <div class="grow"></div>
+      <a class="btn primary">📧 Open email app</a>
+      <a class="btn secondary">🔁 Send link again <span class="faint" style="font-weight:500">· 0:42</span></a>
+      <a class="btn ghost">✏️ Wrong email? Change it</a>
+    </div>
+  </div>
+  <div class="note"><b>Data (LLD-001 D1, D6, §4.3)</b>User is logged in straight away; token carries <code>emailVerified=false</code>. Readiness step <code>EMAIL_VERIFIED</code> (LLD-004) stays open until the link is opened (<code>POST /auth/email/verify</code>). Resend: <code>POST /auth/email/verify/resend</code>, always 202, old token revoked; button cooled down 60 s client-side, server rate limit → 429. Link expired → <code>410 TOKEN_INVALID_OR_EXPIRED</code> → "Send a new link".</div>
+
+  <!-- W-05 Log in -->
+  <div class="phone soft">
+    <span class="label">W-05 Log in · new</span>
+    <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><h1>Log in</h1><div class="seg" style="padding:3px"><a class="on" style="min-height:40px">EN</a><a lang="bn" style="min-height:40px">বাং</a><a lang="hi" style="min-height:40px">हि</a></div></div>
+    <div class="content" style="gap:14px">
+      <div class="illus teal sm" style="margin:4px 0">🔑</div>
+      <label class="field"><span>✉️ Email</span><div class="input">sujit.das82@gmail.com</div></label>
+      <label class="field"><span>🔒 Password</span><div class="input err">•••••••• <span class="grow"></span><span class="muted">👁 Show</span></div></label>
+      <div class="banner error"><span class="ico">⚠️</span><span>Email or password is wrong. Try again.</span></div>
+      <a class="btn ghost" style="justify-content:flex-start;padding:0">Forgot password?</a>
+      <div class="grow"></div>
+      <a class="btn primary">Log in</a>
+      <p class="center">New worker? <a style="color:var(--primary);font-weight:600">Create account</a></p>
+    </div>
+  </div>
+  <div class="note"><b>Data (LLD-001 §4.2, §4.4, D7; LLD-002)</b><code>POST /auth/login</code> → tokens + <code>emailVerified</code>. One message for unknown email, wrong password or deactivated account (<code>401 INVALID_CREDENTIALS</code>, no account enumeration). Suspended → <code>403 ACCOUNT_SUSPENDED</code> full-screen "Account paused · Call support". Forgot password → email reset link (<code>/password/forgot</code>, always 202). No phone/OTP login in MVP.</div>
+</div>
+</body>
+</html>

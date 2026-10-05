@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Customer · ₹99 advance payment</title>
+<link rel="stylesheet" href="../assets/karigar.css">
+<style>
+  .psheet { background: #fff; border-radius: 20px 20px 0 0; display: flex; flex-direction: column; max-height: 82%; overflow: hidden; }
+  .psheet .ph { background: #1E2A3A; color: #fff; padding: 14px 16px; display: flex; align-items: center; gap: 10px; }
+  .psheet .ph .lg { width: 40px; height: 40px; border-radius: 10px; background: var(--grad-card); display: grid; place-items: center; font-weight: 800; }
+  .psheet .pb { padding: 12px 16px 16px; display: flex; flex-direction: column; gap: 8px; }
+  .upi { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  .upi a { min-height: 72px; border: 1.5px solid var(--border); border-radius: var(--r-md); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; font-size: 12px; font-weight: 600; color: var(--text-2); }
+  .upi a span { font-size: 22px; }
+  .ring { width: 150px; height: 150px; border-radius: 50%; align-self: center; display: grid; place-items: center;
+          background: conic-gradient(#FFB800 0 85%, rgba(255,255,255,.18) 85% 100%); position: relative; }
+  .ring::before { content: ''; position: absolute; inset: 10px; border-radius: 50%; background: #0B4B47; }
+  .ring b { position: relative; font: 700 34px/40px var(--font); color: #fff; font-variant-numeric: tabular-nums; }
+  .ring small { position: relative; display: block; font-size: 13px; color: rgba(255,255,255,.85); text-align: center; }
+  .dots { display: flex; gap: 6px; justify-content: center; } .dots i { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,.5); } .dots i:first-child { background: #FFB800; }
+  .kv { display: flex; justify-content: space-between; gap: 8px; font-size: 14px; line-height: 20px; }
+  .kv span:first-child { color: var(--text-2); }
+</style>
+</head>
+<body>
+<div class="canvas">
+  <p class="canvas-title"><b>Customer · ₹99 advance before matching</b>Missing in the original design (B2, review §3.3 "Advance payment states"). The app never decides a payment succeeded: only the verified webhook or a server-to-server check does (LLD-011 D2). One provider order per request, retries reuse it (D1).</p>
+
+  <!-- C-12a Provider checkout hand-off -->
+  <div class="phone soft">
+    <span class="label">C-12a Provider checkout (UPI intent) · new</span>
+    <div class="statusbar"><span>1:23</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><h1>Check &amp; pay</h1></div>
+    <div class="content"><div class="skel" style="height:180px"></div><div class="skel" style="height:120px"></div></div>
+    <div class="scrim">
+      <div class="psheet">
+        <div class="ph"><div class="lg">K</div><div class="grow"><b>Karigar</b><div class="sm" style="opacity:.8">Advance · Fan not working</div></div><b class="money" style="font-size:20px">₹99</b></div>
+        <div class="pb">
+          <b class="sm">Pay with any UPI app</b>
+          <div class="upi"><a><span>🟢</span>UPI app 1</a><a><span>🟣</span>UPI app 2</a><a><span>🔵</span>UPI app 3</a><a><span>➕</span>Other</a></div>
+          <div class="list">
+            <div class="li"><span style="font-size:20px">🆔</span><div class="t"><b>Enter UPI ID</b></div><span class="chev">›</span></div>
+            <div class="li"><span style="font-size:20px">💳</span><div class="t"><b>Card</b></div><span class="chev">›</span></div>
+            <div class="li"><span style="font-size:20px">🏦</span><div class="t"><b>Net banking</b></div><span class="chev">›</span></div>
+          </div>
+          <p class="help center">🔒 Secure checkout by our payment partner. Karigar never sees or saves your card or UPI PIN.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="note"><b>Checkout (LLD-006 §4.1, LLD-011 D1/D9, §8)</b>Opened with <code>payment.checkout</code> from <code>POST /service-requests</code> (order id, key, <code>amountMinor = 9900</code>; amount from server only). This sheet is the provider's UI (shown for flow only, not ours to design): UPI intent first, then UPI ID, card, net banking. We store no cards / UPI IDs — only a masked VPA after success (P3, B6). The SDK success callback is <i>not</i> final → C-12b.</div>
+
+  <!-- C-12b Payment pending -->
+  <div class="phone">
+    <span class="label">C-12b Payment pending · new</span>
+    <div class="content tools" style="color:#fff;padding-top:0;gap:14px">
+      <div class="statusbar clear" style="padding:0 18px;margin:0 -16px"><span>1:25</span><span>▮▮ 4G</span></div>
+      <div class="appbar" style="padding:0;margin-left:-12px"><button class="iconbtn" style="color:#fff">✕</button><h1 style="color:#fff">Confirming payment</h1></div>
+      <div class="grow"></div>
+      <div class="ring"><div><b>12:48</b><small>left to pay</small></div></div>
+      <div class="dots"><i></i><i></i><i></i></div>
+      <h2 class="h2 center">Checking with your bank…</h2>
+      <p class="body-lg center" style="opacity:.92">This can take up to 2 minutes. Keep this screen open.</p>
+      <div class="banner warning"><span class="ico">⚠️</span><span><b>Please don't pay again.</b> If money left your account, it counts — we'll match it automatically.</span></div>
+      <div class="grow"></div>
+      <div class="card" style="background:rgba(255,255,255,.12);border:0;color:#fff;box-shadow:none">
+        <div class="kv"><span style="color:rgba(255,255,255,.8)">Advance</span><b class="money">₹99</b></div>
+        <div class="kv"><span style="color:rgba(255,255,255,.8)">For</span><span>Electrician · Today 4 – 6 PM</span></div>
+      </div>
+      <a class="btn secondary" style="background:transparent;color:#fff;border-color:#fff">Open my UPI app again</a>
+    </div>
+  </div>
+
+  <!-- C-12c Advance paid → searching -->
+  <div class="phone">
+    <span class="label">C-12c Advance paid → finding workers · new</span>
+    <div class="content tools" style="color:#fff;padding-top:0;gap:14px">
+      <div class="statusbar clear" style="padding:0 18px;margin:0 -16px"><span>1:26</span><span>▮▮ 4G</span></div>
+      <div class="grow"></div>
+      <div class="illus" style="font-size:64px">✅</div>
+      <span class="pill" style="align-self:center">💰 Advance paid · ₹99</span>
+      <h1 class="h1 center">Paid! Now asking workers near you</h1>
+      <p class="body-lg center" style="opacity:.92">Electricians around Shibpur get your job now. We'll notify you as each one says yes.</p>
+      <div class="card" style="background:rgba(255,255,255,.12);border:0;color:#fff;box-shadow:none;gap:6px">
+        <div class="kv"><span style="color:rgba(255,255,255,.8)">Paid by</span><span>UPI · pri***@oksbi</span></div>
+        <div class="kv"><span style="color:rgba(255,255,255,.8)">Choose a worker by</span><span>Today 6:00 PM</span></div>
+        <div class="kv"><span style="color:rgba(255,255,255,.8)">If no one is booked</span><span>₹99 refunded</span></div>
+      </div>
+      <div class="grow"></div>
+      <a class="btn accent">See progress</a>
+    </div>
+  </div>
+  <div class="note"><b>Pending → paid (LLD-006 §4.1, §5.1; LLD-011 D2, §4)</b>App polls <code>GET /service-requests/{id}</code> every 3 s up to 2 min (or refetches on realtime <code>SERVICE_REQUEST_UPDATED</code>, LLD-021); after 2 min: "We're confirming your payment — you'll get a notification". Countdown = <code>payment_due_at</code> (created + 15 min). "Open my UPI app again" reuses the same order (<code>POST /…/pay-advance</code>), never a second charge. Verified webhook → request <code>PENDING_PAYMENT → SUBMITTED</code>, <code>advance_payment_id</code> set, <code>expires_at</code> starts now (D10), outbox <code>ServiceRequestSubmitted</code> → matching (C-13a). Only the masked VPA is shown.</div>
+
+  <!-- C-12d Payment failed / retry -->
+  <div class="phone soft">
+    <span class="label">C-12d Payment failed · retry · fixed</span>
+    <div class="statusbar"><span>1:25</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">✕</button><h1>Payment</h1></div>
+    <div class="content" style="gap:14px">
+      <div class="grow"></div>
+      <div class="illus" style="background:var(--grad-danger);box-shadow:0 12px 32px rgba(198,46,37,.3)">💳</div>
+      <h1 class="h2 center">Payment didn't go through</h1>
+      <p class="body-lg center muted">Your bank declined it. No money was taken. Your request is saved — try again.</p>
+      <div class="row" style="justify-content:center"><span class="countdown">⏱️ 11:02 left to pay</span></div>
+      <div class="card" style="gap:6px">
+        <div class="kv"><span>Advance</span><b class="money">₹99</b></div>
+        <div class="kv"><span>Request</span><span>Electrician · Today 4 – 6 PM</span></div>
+      </div>
+      <div class="banner info"><span class="ico">ℹ️</span><span>If money did leave your account, don't pay again — it will be confirmed automatically or returned by your bank.</span></div>
+      <div class="grow"></div>
+    </div>
+    <div class="footer"><a class="btn accent">Try again · ₹99</a><a class="btn ghost">Cancel request</a></div>
+  </div>
+  <div class="note"><b>Failed attempt (LLD-011 D1, D4; LLD-006 §4.1)</b>A <code>payment.failed</code> event fails only that attempt, not the payment: the order stays open until <code>payment_due_at</code>. "Try again" → <code>POST /service-requests/{id}/pay-advance</code> → new checkout session on the same order. "Cancel request" in PENDING_PAYMENT → CANCELLED, nothing to refund. No payment reference shown to the customer here (P4: short display code is for bookings).</div>
+
+  <!-- C-12e Payment window closed -->
+  <div class="phone soft">
+    <span class="label">C-12e Payment window closed · new</span>
+    <div class="statusbar"><span>1:39</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">✕</button><h1>Request closed</h1></div>
+    <div class="content" style="gap:14px">
+      <div class="grow"></div>
+      <div class="illus teal">⏰</div>
+      <h1 class="h2 center">Time to pay ran out</h1>
+      <p class="body-lg center muted">We hold a request for 15 minutes while you pay. This one has closed, and <b>nothing was charged</b>.</p>
+      <div class="card" style="gap:6px">
+        <div class="row"><div class="tradeicon">⚡</div><div class="grow"><b>Fan not working + 1</b><div class="sm muted">Home · Shibpur · Today 4 – 6 PM</div></div><span class="chip neutral">Expired</span></div>
+      </div>
+      <div class="grow"></div>
+    </div>
+    <div class="footer"><a class="btn primary">Start again with these details</a><a class="btn ghost">Back to home</a></div>
+  </div>
+
+  <!-- C-12f Late payment → refund -->
+  <div class="phone soft">
+    <span class="label">C-12f Late payment → refunded · new</span>
+    <div class="statusbar"><span>1:41</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">✕</button><h1>Payment received late</h1></div>
+    <div class="content" style="gap:14px">
+      <div class="grow"></div>
+      <div class="illus">↩️</div>
+      <h1 class="h2 center">Your ₹99 is on its way back</h1>
+      <p class="body-lg center muted">Your payment reached us after the 15 minutes were over, so the request had already closed. We're refunding it automatically — you don't need to do anything.</p>
+      <div class="card" style="gap:8px">
+        <div class="kv"><span>Refund</span><b class="money">₹99</b></div>
+        <div class="kv"><span>To</span><span>UPI · pri***@oksbi</span></div>
+        <div class="kv"><span>Status</span><span class="chip info">Refund processing</span></div>
+      </div>
+      <p class="help center">Banks usually show it in 5–7 days. You'll get a notification when it's done.</p>
+      <div class="grow"></div>
+    </div>
+    <div class="footer"><a class="btn primary">Start a new request</a><a class="btn ghost">See payment history</a></div>
+  </div>
+  <div class="note"><b>Window closed / late payment (LLD-006 D7, §7; LLD-011 D5, D6)</b>Expiry job: <code>payment_due_at</code> passed → sweeper first asks the provider (a capture found then is a normal success) → else request EXPIRED, nothing charged; <code>pay-advance</code> now returns 409 <code>PAYMENT_WINDOW_CLOSED</code>. Capture after expiry → payment stays SUCCEEDED + automatic refund (<code>AdvanceRefundRequested</code>, reason <code>PAID_AFTER_EXPIRY</code>, key <code>ADV_REFUND:{requestId}</code>). Refund chip maps to <code>refunds.status</code> REQUESTED/PROCESSING → "Refund processing", SUCCEEDED → "Refunded". "5–7 days" bank timing is not in the LLDs (copy from review §3.3). "Start again" pre-fill source for an expired request is not specified (repeat-template is defined for Book again).</div>
+</div>
+</body>
+</html>

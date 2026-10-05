@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Customer · Sign up & log in</title>
+<link rel="stylesheet" href="../assets/karigar.css">
+<style>.field > span.help { font-weight: 400; }</style>
+</head>
+<body>
+<div class="canvas">
+  <p class="canvas-title"><b>Customer · Sign up & log in</b>Replaces Phone login + OTP (ADR 0016, LLD-001). Email + password; mobile collected but not verified; no SMS.</p>
+
+  <!-- C-02 Welcome (fixed) -->
+  <div class="phone">
+    <span class="label">C-02 Welcome · fixed</span>
+    <div class="statusbar clear" style="position:absolute;inset:0 0 auto 0;z-index:1"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="content tools" style="color:#fff;padding-top:36px;gap:16px">
+      <div class="row between"><b style="font-size:20px">Karigar</b>
+        <div class="seg" style="background:rgba(255,255,255,.15)"><a class="on">English</a><a style="color:#fff" lang="bn">বাংলা</a><a style="color:#fff" lang="hi">हिंदी</a></div></div>
+      <div class="grow"></div>
+      <div class="illus glass">👷🏽‍♂️</div>
+      <div class="row wrap" style="justify-content:center"><span class="pill">⚡ Electrician</span><span class="pill">🚰 Plumber</span><span class="pill" style="opacity:.75">🧱 Mason · soon</span><span class="pill" style="opacity:.75">🪚 Carpenter · soon</span></div>
+      <h1 class="h1">Skilled hands for every home job in Howrah</h1>
+      <p class="body-lg" style="opacity:.9">Pick from workers who want your job. See their price before you choose.</p>
+      <p class="sm" style="opacity:.85">🔒 Your address and number go only to the worker you choose.</p>
+      <a class="btn accent">Create account</a>
+      <a class="btn secondary" style="background:transparent;color:#fff;border-color:#fff">Log in</a>
+      <a class="btn ghost" style="color:#fff">I'm a worker looking for jobs →</a>
+    </div>
+  </div>
+
+  <!-- C-03a Sign up (new) -->
+  <div class="phone soft">
+    <span class="label">C-03a Sign up · new</span>
+    <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><h1>Create account</h1></div>
+    <div class="content">
+      <label class="field"><span>Full name</span><div class="input">Priya Sen</div></label>
+      <label class="field"><span>Email</span><div class="input">priya.sen@gmail.com</div><span class="help">We'll send a link to confirm it.</span></label>
+      <label class="field"><span>Mobile number</span><div class="input"><b>+91</b> 98300 12345</div></label>
+      <label class="field"><span>Password</span><div class="input focus">•••••••••• <span class="grow"></span><span class="muted">👁</span></div><span class="help">At least 8 characters.</span></label>
+      <div class="check"><span class="box on">✓</span><span>I agree to the <u>Terms of use</u>.</span></div>
+      <div class="check"><span class="box on">✓</span><span>I have read the <u>Privacy notice</u> (English · বাংলা · हिंदी).</span></div>
+      <div class="check"><span class="box on">✓</span><span>I am 18 years or older.</span></div>
+    </div>
+    <div class="footer"><a class="btn primary">Create account</a></div>
+  </div>
+  <div class="note"><b>Welcome copy (LLD-003)</b>Headline is trade-neutral. Trade chips come from <code>GET /catalog/categories</code> (active trades only: Electrician, Plumber at launch); the "soon" chips show the next trades to be activated — remove if product prefers. </div>
+  <div class="note"><b>Data (LLD-001 §3, security/03 §96)</b>name, email (unique, case-insensitive), phone E.164 (unique, not verified), password (8–128, no composition rules). Terms/Privacy and 18+ are separate ticks, recorded with notice version + locale. Errors: 409 EMAIL_ALREADY_IN_USE / PHONE_ALREADY_IN_USE → "Log in instead".</div>
+
+  <!-- C-02 Welcome · Bengali -->
+  <div class="phone" lang="bn">
+    <span class="label">C-02 Welcome (বাংলা) · fixed</span>
+    <div class="statusbar clear" style="position:absolute;inset:0 0 auto 0;z-index:1"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="content tools" style="color:#fff;padding-top:36px;gap:14px">
+      <div class="row between"><b style="font-size:20px">কারিগর</b>
+        <div class="seg" style="background:rgba(255,255,255,.15)"><a style="color:#fff" lang="en">English</a><a class="on">বাংলা</a><a style="color:#fff" lang="hi">हिंदी</a></div></div>
+      <div class="grow"></div>
+      <div class="illus glass">👷🏽‍♂️</div>
+      <div class="row wrap" style="justify-content:center"><span class="pill">⚡ ইলেকট্রিশিয়ান</span><span class="pill">🚰 প্লাম্বার</span><span class="pill" style="opacity:.75">🧱 রাজমিস্ত্রি · শীঘ্রই</span></div>
+      <h1 class="h1" style="line-height:1.5">হাওড়ায় বাড়ির সব কাজের জন্য দক্ষ কারিগর</h1>
+      <p class="body-lg" style="opacity:.92;line-height:1.6">যে কারিগররা আপনার কাজ করতে চান, তাঁদের মধ্যে থেকে বেছে নিন। বাছার আগেই দাম দেখুন।</p>
+      <p class="sm" style="opacity:.88;line-height:1.6">🔒 আপনার ঠিকানা আর নম্বর শুধু আপনার বাছা কারিগরই পাবেন।</p>
+      <a class="btn accent">অ্যাকাউন্ট খুলুন</a>
+      <a class="btn secondary" style="background:transparent;color:#fff;border-color:#fff">লগ ইন</a>
+    </div>
+  </div>
+  <div class="note"><b>Bengali Welcome (LLD-003 D1, B9)</b>Same layout as English; Anek Bangla, line-height ≥1.5. The language segment sets the app locale before login (sent as <code>Accept-Language</code>); after sign-up it is saved as <code>users.preferred_locale</code> and carried in the token's <code>loc</code> claim. Copy is a draft for a native-speaker review. Bengali is ~20% longer than English, so the worker link is dropped here (it stays reachable from Log in).</div>
+
+  <!-- C-03b Log in -->
+  <div class="phone soft">
+    <span class="label">C-03b Log in · new</span>
+    <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><h1>Log in</h1></div>
+    <div class="content">
+      <div class="row" style="gap:12px;padding:4px 0 6px"><div class="illus sm teal" style="width:64px;height:64px;font-size:30px;align-self:auto">🔑</div><div><p class="h3">Welcome back</p><p class="muted sm">Log in with the email you signed up with.</p></div></div>
+      <div class="banner error"><span class="ico">⚠️</span><span><b>Email or password is wrong.</b> Check both and try again.</span></div>
+      <label class="field"><span>Email</span><div class="input err">priya.sen@gmail.com</div></label>
+      <label class="field"><span>Password</span><div class="input err">•••••••• <span class="grow"></span><span class="muted">👁 Show</span></div></label>
+      <a class="btn ghost" style="justify-content:flex-end;min-height:48px;padding:0">Forgot password?</a>
+      <div class="grow"></div>
+      <p class="center muted sm">New to Karigar? <b style="color:var(--primary)">Create account</b></p>
+    </div>
+    <div class="footer"><a class="btn primary">Log in</a></div>
+  </div>
+
+  <!-- C-03b Log in · too many tries -->
+  <div class="phone soft">
+    <span class="label">C-03b Log in · too many tries · new</span>
+    <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><h1>Log in</h1></div>
+    <div class="content">
+      <div class="card warm" style="align-items:center;text-align:center;gap:6px;padding:20px 16px">
+        <div style="font-size:40px">⏳</div>
+        <p class="h3">Too many tries</p>
+        <p class="sm">For your safety, please wait before trying again.</p>
+        <p style="font:700 34px/40px var(--mono)">14:32</p>
+      </div>
+      <label class="field"><span>Email</span><div class="input">priya.sen@gmail.com</div></label>
+      <label class="field"><span>Password</span><div class="input ph">Password <span class="grow"></span><span class="muted">👁 Show</span></div></label>
+      <div class="banner info"><span class="ico">💡</span><span>Not sure of your password? Reset it now — you don't have to wait for that.</span></div>
+      <a class="btn secondary">Reset password</a>
+    </div>
+    <div class="footer"><a class="btn disabled">Try again in 14:32</a></div>
+  </div>
+  <div class="note"><b>Log in (LLD-001 §4.2, §4.5, §7)</b><code>POST /auth/login {email, password}</code> → tokens + <code>emailVerified</code>.<br>• <strong>401 INVALID_CREDENTIALS</strong> — same message for unknown email, wrong password and deactivated account (no enumeration, D7). Both fields marked; nothing says which is wrong.<br>• <strong>429 TOO_MANY_REQUESTS</strong> — 5 failures / 15 min per email → locked 15 min. Countdown comes from the <code>Retry-After</code> header; button disabled until 0. "Forgot password" stays available.<br>• <strong>403 ACCOUNT_SUSPENDED</strong> → C-06c.<br>• 503 SERVICE_UNAVAILABLE (limiter fails closed) → "Can't log in right now, try again in a minute".<br>Login works before the email is verified (D1).</div>
+
+  <!-- C-03c Check your email -->
+  <div class="phone soft">
+    <span class="label">C-03c Check your email · new</span>
+    <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="content" style="gap:14px;padding-top:28px">
+      <div class="illus">📬</div>
+      <h1 class="h2 center">Check your email</h1>
+      <p class="center body-lg muted">We sent a link to<br><b style="color:var(--text)">priya.sen@gmail.com</b><br>Tap it to confirm your email.</p>
+      <div class="card flat" style="gap:6px">
+        <p class="sm">✅ The link works for <b>24 hours</b>.</p>
+        <p class="sm">📁 Not there? Look in <b>Spam</b> or <b>Promotions</b>.</p>
+        <p class="sm">🛠️ You can look around now. To book a worker, your email must be confirmed.</p>
+      </div>
+      <a class="btn secondary">Resend link <span class="faint" style="font-weight:500">· in 0:45</span></a>
+      <a class="btn ghost" style="min-height:48px">Wrong email? Change it</a>
+    </div>
+    <div class="footer"><a class="btn primary">Continue to Karigar</a></div>
+  </div>
+  <div class="note"><b>Check your email (LLD-001 §4.3, D1, D6, §7)</b>Shown right after sign-up and from the "Verify your email · Resend" banner. <code>POST /auth/email/verify/resend</code> always returns 202; a resend revokes the old link (only the newest works). Limit 3 / hour — the button shows a short cooldown; on 429 it shows "Try again in N min".<br><strong>Not in the docs yet:</strong> "Change it" needs the change-email flow listed as doc change D1 in the design review (LLD-001/002 have no endpoint today). Until then, hide the link or route it to support.</div>
+
+  <!-- C-03d Forgot password -->
+  <div class="phone soft">
+    <span class="label">C-03d Forgot password · new</span>
+    <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><h1>Forgot password</h1></div>
+    <div class="content">
+      <div class="illus sm teal">🔐</div>
+      <p class="body-lg center">Enter the email you signed up with. We'll send a link to set a new password.</p>
+      <label class="field"><span>Email</span><div class="input focus">priya.sen@gmail.com</div></label>
+      <div class="banner success"><span class="ico">📧</span><span><b>Link sent.</b> If an account uses this email, a reset link is on its way. It works for <b>30 minutes</b>.</span></div>
+      <p class="sm muted">Didn't get it? Check Spam, or send again after a minute.</p>
+      <div class="grow"></div>
+      <p class="sm muted center">Forgot which email you used? Call support <b style="color:var(--primary)">033 4000 1234</b></p>
+    </div>
+    <div class="footer"><a class="btn primary">Send link again</a><a class="btn ghost" style="min-height:48px">Back to log in</a></div>
+  </div>
+
+  <!-- C-03e Reset password -->
+  <div class="phone soft">
+    <span class="label">C-03e Reset password · new</span>
+    <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><h1 style="padding-left:8px">Set a new password</h1></div>
+    <div class="content">
+      <p class="muted">For <b style="color:var(--text)">priya.sen@gmail.com</b></p>
+      <label class="field"><span>New password</span><div class="input err">password123 <span class="grow"></span><span class="muted">🙈 Hide</span></div><span class="help err">⚠️ This password is too common. Try a short sentence you will remember, like "<i>amar bari shibpur 14</i>".</span></label>
+      <div class="card flat" style="gap:6px">
+        <p class="label-t">A good password</p>
+        <p class="sm">✓ 8 to 128 characters — spaces are fine</p>
+        <p class="sm">✓ Not your email or mobile number</p>
+        <p class="sm">✓ Not a common one like "12345678"</p>
+      </div>
+      <div class="banner info"><span class="ico">📱</span><span>After this, you'll be logged out on <b>all phones</b>. Log in again with the new password.</span></div>
+      <div class="grow"></div>
+      <div class="banner neutral" style="opacity:.95"><span class="ico">⌛</span><span><b>Link expired?</b> Links work for 30 minutes and only once. <u>Send a new link</u></span></div>
+    </div>
+    <div class="footer"><a class="btn primary">Save new password</a></div>
+  </div>
+  <div class="note"><b>Forgot / reset (LLD-001 §4.4, D3, D6, §5.3)</b><code>POST /auth/password/forgot</code> → always 202 with the same text, whether or not the account exists (D7); 3 / hour per email. Link opens <code>/reset?token=…</code> in the app.<br><code>POST /auth/password/reset {token, newPassword}</code> → 204. Rules: 8–128 chars, no composition rules, <strong>400 WEAK_PASSWORD</strong> if on the top-100k list or equal to email/phone. Show/hide instead of a "confirm password" field.<br>On success every session is revoked (<code>PASSWORD_CHANGED</code>) → go to Log in with a success toast. <strong>410 TOKEN_INVALID_OR_EXPIRED</strong> (expired, used, superseded) → the "Link expired" card with "Send a new link".</div>
+
+  <!-- C-03f Email verified -->
+  <div class="phone">
+    <span class="label">C-03f Email verified · new</span>
+    <div class="statusbar clear" style="position:absolute;inset:0 0 auto 0;z-index:1"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="content tools" style="color:#fff;padding-top:60px;gap:18px;text-align:center">
+      <div class="grow"></div>
+      <div class="illus">✅</div>
+      <span class="pill" style="align-self:center">🎉 All set</span>
+      <h1 class="h1">Your email is confirmed</h1>
+      <p class="body-lg" style="opacity:.92">priya.sen@gmail.com is verified. You can now book skilled workers near you.</p>
+      <div class="card" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);color:#fff;box-shadow:none;text-align:left">
+        <p class="label-t">Next: add your address</p>
+        <p class="sm" style="opacity:.9">So we can find workers in your area — Shibpur, Salkia, Bally and more.</p>
+      </div>
+      <div class="grow"></div>
+      <a class="btn accent">Book a worker</a>
+      <a class="btn ghost" style="color:#fff">Go to home</a>
+    </div>
+  </div>
+  <div class="note"><b>Email verified (LLD-001 §4.3, §6)</b>Deep link <code>karigar.in/verify-email?token=…</code> → app posts <code>POST /auth/email/verify</code>. 200 also when already verified (no error for a second tap). The next token refresh carries <code>ev=true</code>, which unlocks placing a request (D1). 410 → "This link has expired · Send a new one" (same card as C-03e). Opening the link on a phone where the user is not logged in still verifies; the button then says "Log in".</div>
+
+  <!-- C-05 Location permission -->
+  <div class="phone">
+    <span class="label">C-05 Location permission · fixed</span>
+    <div class="statusbar clear" style="position:absolute;inset:0 0 auto 0;z-index:1"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="hero" style="padding-top:44px;padding-bottom:28px;align-items:center;text-align:center">
+      <div class="illus glass">📍</div>
+      <h1 class="h2">Where do you need the work done?</h1>
+      <p class="muted">We use your location to drop a pin on your address.</p>
+    </div>
+    <div class="content" style="padding-top:16px;gap:10px">
+      <div class="list">
+        <div class="li"><span style="font-size:22px">🧭</span><div class="t"><b>Faster address</b><small>We fill in the area and PIN for you to check.</small></div></div>
+        <div class="li"><span style="font-size:22px">👀</span><div class="t"><b>What workers see</b><small>Before you choose: only your locality and distance. After you choose: your full address, to that one worker.</small></div></div>
+        <div class="li"><span style="font-size:22px">⚙️</span><div class="t"><b>Change any time</b><small>In your phone settings.</small></div></div>
+      </div>
+      <div class="grow"></div>
+    </div>
+    <div class="footer"><a class="btn primary">📍 Use my location</a><a class="btn secondary">Type address and set pin</a></div>
+  </div>
+  <div class="note"><b>Location (LLD-005 D1, §8)</b>Asks the OS "while using the app" permission. Location comes only from the phone (GPS or map pin); the backend never geocodes. Fixed copy: the old "shared only after booking" was wrong — candidates see locality + distance before selection, the exact point only after the customer picks a worker.<br>Manual path: typed fields → <strong>always ends on the map-pin step</strong> (C-61 Add address in 03-addresses.html), because <code>addresses.location</code> is NOT NULL (<code>location_source = MAP_PIN</code>). Denied permission → same manual path; no repeated asking.</div>
+
+  <!-- C-06a Session expired -->
+  <div class="phone soft">
+    <span class="label">C-06a Session expired · fixed</span>
+    <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="content" style="gap:16px;padding-top:56px;text-align:center">
+      <div class="illus teal">⏰</div>
+      <h1 class="h2">Please log in again</h1>
+      <p class="body-lg muted">You haven't used Karigar for a while, so we logged you out to keep your account safe.</p>
+      <div class="card flat" style="text-align:left"><p class="sm">🔒 Your bookings and addresses are saved. Nothing was cancelled.</p></div>
+      <div class="grow"></div>
+    </div>
+    <div class="footer"><a class="btn primary">Log in</a><a class="btn ghost" style="min-height:48px">Forgot password?</a></div>
+  </div>
+
+  <!-- C-06b Logged out elsewhere -->
+  <div class="phone soft">
+    <span class="label">C-06b Logged out from another device · new</span>
+    <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="content" style="gap:16px;padding-top:56px;text-align:center">
+      <div class="illus">📱</div>
+      <h1 class="h2">You were logged out on this phone</h1>
+      <p class="body-lg muted">This happens when the password was changed or someone chose "Log out of all devices".</p>
+      <div class="banner warning" style="text-align:left"><span class="ico">⚠️</span><span><b>Wasn't you?</b> Reset your password now. It logs everyone else out.</span></div>
+      <div class="grow"></div>
+    </div>
+    <div class="footer"><a class="btn primary">Log in</a><a class="btn secondary">Reset password</a></div>
+  </div>
+
+  <!-- C-06c Account suspended -->
+  <div class="phone">
+    <span class="label">C-06c Account on hold · new</span>
+    <div class="statusbar dark"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="hero" style="border-radius:0 0 28px 28px;padding:28px 16px 28px;align-items:center;text-align:center;background-image:var(--tools-light),linear-gradient(150deg,#5E120E 0%,#8E1B15 55%,#B3261E 100%)">
+      <div class="illus glass">⛔</div>
+      <h1 class="h2">Your account is on hold</h1>
+      <p style="opacity:.92">You can't log in or book right now.</p>
+    </div>
+    <div class="content" style="padding-top:16px">
+      <div class="card flat">
+        <p class="label-t">Why?</p>
+        <p class="sm muted">We've emailed the reason to <b style="color:var(--text)">p***@gmail.com</b>.</p>
+        <div class="hr"></div>
+        <p class="label-t">Your bookings</p>
+        <p class="sm muted">Our team will contact you about any booking that is still open.</p>
+      </div>
+      <p class="sm muted center">Think this is a mistake? Talk to us.</p>
+      <div class="grow"></div>
+    </div>
+    <div class="footer"><a class="btn primary">📞 Call support · 033 4000 1234</a><a class="btn secondary">💬 WhatsApp support</a></div>
+  </div>
+  <div class="note"><b>Session states (LLD-002 §4.3, D2, D4)</b>One screen per cause, never "log in with OTP":<br>• <strong>C-06a</strong> <code>REFRESH_TOKEN_INVALID</code> (idle 30 days / login older than 90 days). 401 <code>TOKEN_EXPIRED</code> alone is silent — the app refreshes once and retries.<br>• <strong>C-06b</strong> <code>SESSION_REVOKED</code> / <code>REFRESH_TOKEN_REUSED</code> (logout-all, password change, device removed, reuse detected).<br>• <strong>C-06c</strong> 403 <code>ACCOUNT_SUSPENDED</code> on login or refresh. The reason is never shown on screen or in push (LLD-013 D5, D12) — it goes by email. Support = phone / WhatsApp link (no chat, no call-back, P1/P19). Support number is a placeholder.</div>
+</div>
+</body>
+</html>

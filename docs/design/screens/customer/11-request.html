@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Customer · Create request (3 steps)</title>
+<link rel="stylesheet" href="../assets/karigar.css">
+<style>
+  .stephead { padding: 0 16px 10px; display: flex; flex-direction: column; gap: 6px; flex-shrink: 0; }
+  .stephead .sm b { color: var(--primary); }
+  .prob { display: flex; align-items: center; gap: 12px; padding: 10px 14px; min-height: 56px; border-bottom: 1px solid var(--border); }
+  .prob:last-child { border-bottom: 0; }
+  .prob .t { flex: 1; } .prob .t small { display: block; font-size: 13px; line-height: 18px; color: var(--text-2); }
+  .prob.on { background: var(--primary-subtle); }
+  .slots { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+  .slot { aspect-ratio: 1; border-radius: var(--r-md); background: var(--bg-2); display: grid; place-items: center; font-size: 24px; position: relative; overflow: hidden; }
+  .slot.add { background: var(--surface); border: 1.5px dashed var(--border-strong); color: var(--primary); font-size: 22px; }
+  .slot.img { background: linear-gradient(135deg, #C9D8D5, #8FB2AD); }
+  .slot .x { position: absolute; top: 2px; right: 2px; width: 20px; height: 20px; border-radius: 50%; background: rgba(11,47,46,.75); color: #fff; font-size: 11px; display: grid; place-items: center; }
+  .slot .pbar { position: absolute; left: 6px; right: 6px; bottom: 6px; height: 5px; border-radius: 3px; background: rgba(255,255,255,.7); }
+  .slot .pbar i { display: block; height: 100%; width: 64%; border-radius: 3px; background: var(--grad-warm); }
+  .media { display: flex; align-items: center; gap: 10px; min-height: 56px; padding: 8px 12px; border-radius: var(--r-md); border: 1.5px solid var(--border); background: var(--surface); }
+  .wave { flex: 1; height: 24px; background: repeating-linear-gradient(90deg, var(--primary) 0 3px, transparent 3px 6px); -webkit-mask: linear-gradient(0deg, transparent 20%, #000 20% 80%, transparent 80%); opacity: .7; border-radius: 3px; }
+  .urg { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .urg .opt { flex-direction: column; align-items: flex-start; gap: 0; padding: 8px 12px; }
+  .urg .opt small { font-size: 12px; line-height: 16px; font-weight: 400; color: var(--text-2); }
+  .urg .opt.emg { border-color: var(--error); color: var(--error); }
+  .urg .opt.emg.on { background: var(--error-subtle); border-width: 2px; }
+  .win { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .win .opt { justify-content: center; }
+  .sum .li { min-height: 48px; align-items: flex-start; }
+  .sum .li .k { width: 22px; flex-shrink: 0; }
+  .hdr-emg { background: var(--grad-danger); color: #fff; }
+</style>
+</head>
+<body>
+<div class="canvas">
+  <p class="canvas-title"><b>Customer · Create a request — What → Where &amp; when → Confirm</b>Replaces the 5-step flow (review §3.3). 3 steps, urgency moves to step 2, ₹99 advance before matching (B2). Rules: LLD-006 D1–D8, LLD-003 price guide, LLD-014 media limits.</p>
+
+  <!-- C-11a Step 1 · problems -->
+  <div class="phone soft">
+    <span class="label">C-11a Step 1 · What — problems · fixed</span>
+    <div class="statusbar"><span>1:15</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">✕</button><h1>New request</h1><a class="btn ghost sm">Save draft</a></div>
+    <div class="stephead"><div class="steps"><i class="on"></i><i></i><i></i></div><span class="sm muted"><b>Step 1 of 3</b> · What needs fixing?</span></div>
+    <div class="content" style="padding-top:0">
+      <div class="seg"><a class="on">⚡ Electrician</a><a>🚰 Plumber</a></div>
+      <div class="row between"><b>Pick the problems</b><span class="sm muted">2 of 5 chosen</span></div>
+      <div class="list">
+        <div class="prob on"><span class="box on">✓</span><div class="t"><b>Fan not working</b><small>Usually ₹200 – ₹400 · about 45 min</small></div></div>
+        <div class="prob on"><span class="box on">✓</span><div class="t"><b>New light / fan point</b><small>₹250 – ₹450 per point</small></div></div>
+        <div class="prob"><span class="box"></span><div class="t"><b>Switchboard sparking / burning smell</b><small>₹150 – ₹500 · <span style="color:var(--error);font-weight:600">🚨 can be an emergency</span></small></div></div>
+        <div class="prob"><span class="box"></span><div class="t"><b>MCB keeps tripping</b><small>Price after inspection</small></div></div>
+        <div class="prob"><span class="box"></span><div class="t"><b>No power in the house / a room</b><small>Price after inspection · <span style="color:var(--error);font-weight:600">🚨</span></small></div></div>
+        <div class="prob"><span class="box"></span><div class="t"><b>Something else</b><small>Tell us in words or a voice note</small></div></div>
+      </div>
+      <p class="help">Price guide is what most jobs here cost. The worker's own rate is shown before you choose him.</p>
+    </div>
+    <div class="footer"><a class="btn primary">Next: add details</a></div>
+  </div>
+
+  <!-- C-11b Step 1 · details & media (uploading) -->
+  <div class="phone soft">
+    <span class="label">C-11b Step 1 · What — details &amp; media · fixed</span>
+    <div class="statusbar"><span>1:17</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><h1>New request</h1><a class="btn ghost sm">Save draft</a></div>
+    <div class="stephead"><div class="steps"><i class="on"></i><i></i><i></i></div><span class="sm muted"><b>Step 1 of 3</b> · Fan not working, New light / fan point</span></div>
+    <div class="content" style="padding-top:0;gap:10px">
+      <label class="field"><span>Describe the problem <em>(optional)</em></span>
+        <div class="input area" style="min-height:84px;font-size:15px;line-height:21px">Bedroom fan is slow and makes noise. Need one new light point on the balcony.</div>
+        <span class="help" style="text-align:right">78 / 1,000</span></label>
+      <div class="row between"><b>Photos</b><span class="sm muted">3 of 5</span></div>
+      <div class="slots">
+        <div class="slot img">🌀<span class="x">✕</span></div>
+        <div class="slot img">🔌<span class="x">✕</span></div>
+        <div class="slot img" style="opacity:.75">💡<span class="pbar"><i></i></span></div>
+        <div class="slot add">＋</div>
+        <div class="slot add">＋</div>
+      </div>
+      <span class="help">Uploading 1 photo · 64% · we remove location data from photos.</span>
+      <div class="media"><span style="font-size:22px">🎬</span><div class="grow"><b>Add a short video</b><div class="sm muted">1 video, up to 30 seconds</div></div><span class="chip neutral">0 / 1</span></div>
+      <div class="media" style="border-color:var(--primary)"><button class="iconbtn" style="width:40px;height:40px;background:var(--primary);color:#fff;font-size:15px">▶</button><span class="wave"></span><span class="sm"><b>0:42</b> / 1:00</span><span class="faint">🗑</span></div>
+      <span class="help">Voice note in any language, up to 60 seconds.</span>
+    </div>
+    <div class="footer"><a class="btn disabled">Waiting for 1 upload…</a></div>
+  </div>
+  <div class="note"><b>Step 1 data (LLD-006 §3, D4 / LLD-003 / LLD-014)</b><code>professionId</code>; <code>problemIds</code> max 5 (from <code>GET /catalog/professions/{id}/problems</code>, each with <code>priceGuide</code> min/max or <code>needsInspection</code>); <code>description</code> ≤ 1,000 chars; <code>mediaIds</code>: 5 photos (REQUEST_PHOTO), 1 video ≤ 30 s (REQUEST_VIDEO, 25 MB), 1 voice ≤ 60 s (VOICE_NOTE, 2 MB). At least one of problem / description / voice note, else 400 <code>DESCRIBE_THE_PROBLEM</code> ("Something else" alone needs words or voice). Presigned PUT, one file at a time; Next is enabled only when every file is <code>AVAILABLE</code> (LLD-014 D4). "Save draft" → <code>POST /service-request-drafts</code> (trade required).</div>
+
+  <!-- C-11c Step 2 · Where & when (TODAY) -->
+  <div class="phone soft">
+    <span class="label">C-11c Step 2 · Where &amp; when · fixed</span>
+    <div class="statusbar"><span>1:20</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><h1>New request</h1><a class="btn ghost sm">Save draft</a></div>
+    <div class="stephead"><div class="steps"><i class="on"></i><i class="on"></i><i></i></div><span class="sm muted"><b>Step 2 of 3</b> · Where and when?</span></div>
+    <div class="content" style="padding-top:0;gap:10px">
+      <div class="card" style="padding:12px;gap:4px">
+        <div class="row between"><b>🏠 Home · Shibpur</b><a class="btn ghost sm" style="min-height:44px;padding:0 6px">Change</a></div>
+        <span class="sm muted">14/2 Shibpur Road, near Shibpur Bazar bus stop · 711102</span>
+        <span class="sm">👤 On site: <b>Priya Sen</b> · +91 98300 12345</span>
+      </div>
+      <b>When do you need him?</b>
+      <div class="urg">
+        <a class="opt"><b>Now</b><small>Within 3 hours</small></a>
+        <a class="opt on"><b>Today</b><small>Pick a time</small></a>
+        <a class="opt"><b>Later</b><small>Up to 30 days</small></a>
+        <a class="opt emg"><b>🚨 Emergency</b><small>Any hour · +₹200</small></a>
+      </div>
+      <div class="row between"><b>Today, Mon 5 Oct</b><span class="sm muted">At least 2 hours</span></div>
+      <div class="win">
+        <a class="opt">2 – 4 PM</a><a class="opt on">4 – 6 PM</a>
+        <a class="opt">6 – 8 PM</a><a class="opt">7 – 9 PM</a>
+      </div>
+      <a class="opt" style="justify-content:center">🕑 Choose my own time</a>
+      <p class="help">Workers come between 7 AM and 9 PM. For sparking, no power or flooding at night, use Emergency.</p>
+    </div>
+    <div class="footer"><a class="btn primary">Next: check &amp; pay</a></div>
+  </div>
+
+  <!-- C-11d Step 2 · Emergency at night -->
+  <div class="phone soft">
+    <span class="label">C-11d Step 2 · Emergency (11:40 PM) · new</span>
+    <div class="statusbar"><span>11:40</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><h1>New request</h1><a class="btn ghost sm">Save draft</a></div>
+    <div class="stephead"><div class="steps"><i class="on"></i><i class="on"></i><i></i></div><span class="sm muted"><b>Step 2 of 3</b> · Plumber · Burst pipe / flooding</span></div>
+    <div class="content" style="padding-top:0;gap:10px">
+      <div class="card" style="padding:12px;gap:4px">
+        <div class="row between"><b>👵 Maa's flat · Salkia</b><a class="btn ghost sm" style="min-height:44px;padding:0 6px">Change</a></div>
+        <span class="sm muted">2nd floor, no lift · near Salkia Chowrasta · 711106</span>
+        <span class="sm">👤 On site: <b>Anjali Das</b> · +91 98311 45678</span>
+      </div>
+      <div class="urg">
+        <a class="opt off"><b>Now</b><small>Until 8 PM</small></a>
+        <a class="opt off"><b>Today</b><small>Closed after 9 PM</small></a>
+        <a class="opt"><b>Later</b><small>From 7 AM</small></a>
+        <a class="opt emg on"><b>🚨 Emergency</b><small>Any hour · +₹200</small></a>
+      </div>
+      <div class="card" style="background:var(--error-subtle);border-color:#F2B8B3;gap:6px">
+        <b style="color:#7A1913">Worker within about 2 hours</b>
+        <div class="sm" style="color:#5A120E">Time window: now – 1:40 AM<br>🛡️ Only police-verified workers who take night jobs<br>💰 Emergency charge <b>₹200</b> is added to the bill</div>
+      </div>
+      <div class="banner info"><span class="ico">ℹ️</span><span>We'll ask workers for 45 minutes. If no one can come, your ₹99 advance is refunded in full.</span></div>
+    </div>
+    <div class="footer"><a class="btn danger">Next: check &amp; pay</a></div>
+  </div>
+  <div class="note"><b>Step 2 data (LLD-006 D3–D5, D10; LLD-005 D4)</b><code>addressId</code> (saved address only; snapshot of text, pin, floor/lift, <code>address_for</code>, <code>contact_name/phone</code> taken at create). <code>urgency</code> NOW | TODAY | SCHEDULED | EMERGENCY; <code>preferredWindow</code>. IST rules: day hours 07:00–21:00; NOW until 20:00, window now→+3 h; TODAY ≥ 2 h inside today's hours; SCHEDULED start +2 h…+30 days, 2–12 h; EMERGENCY 24×7, now→+2 h, only if a chosen problem is <code>emergency_eligible</code> and <code>emergency-availability</code> = true — else 422 <code>EMERGENCY_NOT_AVAILABLE</code> (suggest Later). Surcharge from <code>professions.emergency_surcharge_minor</code> (₹200 indicative). Wrong window → 422 <code>INVALID_TIME_WINDOW</code>. Selection deadline: NOW +2 h, EMERGENCY +45 min, TODAY window end, SCHEDULED window start.</div>
+
+  <!-- C-11e Error · duplicate open request -->
+  <div class="phone soft">
+    <span class="label">C-11e Error · same job already open · new</span>
+    <div class="statusbar"><span>1:21</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><h1>New request</h1></div>
+    <div class="content"><div class="skel" style="height:90px"></div><div class="skel" style="height:140px"></div><div class="skel" style="height:120px"></div></div>
+    <div class="scrim center">
+      <div class="dialog">
+        <div class="illus sm teal">📋</div>
+        <b class="h3 center">You already asked for an electrician here</b>
+        <p class="sm muted center">Your request for <b>Home · Shibpur</b> is still finding workers. Open it, or cancel it first to make a new one.</p>
+        <div class="card flat" style="padding:10px 12px;flex-direction:row;align-items:center"><span class="tradeicon" style="width:40px;height:40px;font-size:20px">⚡</span><div class="grow"><b class="sm">Switchboard sparking</b><div class="sm muted">Today 2 – 4 PM · <span style="color:var(--warning);font-weight:600">Finding workers</span></div></div></div>
+        <a class="btn primary">Open that request</a>
+        <a class="btn ghost">Keep this as a draft</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- C-11f Error · 3 open requests -->
+  <div class="phone soft">
+    <span class="label">C-11f Error · 3 open requests · new</span>
+    <div class="statusbar"><span>1:21</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><h1>New request</h1></div>
+    <div class="content"><div class="skel" style="height:90px"></div><div class="skel" style="height:140px"></div><div class="skel" style="height:120px"></div></div>
+    <div class="scrim">
+      <div class="sheet">
+        <b class="h3">You have 3 open requests</b>
+        <p class="sm muted">That's the most at one time. When one is booked, ends or you cancel it, you can send this one. We kept it as a draft.</p>
+        <div class="list">
+          <div class="li"><span class="tradeicon" style="width:40px;height:40px;font-size:20px">⚡</span><div class="t"><b>Switchboard sparking</b><small>Home · Shibpur · today 2 – 4 PM</small></div><span class="chip warning">Choose worker</span></div>
+          <div class="li"><span class="tradeicon teal" style="width:40px;height:40px;font-size:20px">🚰</span><div class="t"><b>Tap leaking</b><small>Maa's flat · Salkia · Wed 7 Oct</small></div><span class="chip info">Finding</span></div>
+          <div class="li"><span class="tradeicon teal" style="width:40px;height:40px;font-size:20px">🚰</span><div class="t"><b>Blocked sink / drain</b><small>Shop · Howrah Maidan · Thu 8 Oct</small></div><span class="chip info">Finding</span></div>
+        </div>
+        <a class="btn primary">See my requests</a>
+        <a class="btn ghost">OK</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- C-11g Error · not in service area -->
+  <div class="phone soft">
+    <span class="label">C-11g Error · not in service area · new</span>
+    <div class="statusbar"><span>1:22</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><h1>New request</h1></div>
+    <div class="stephead"><div class="steps"><i class="on"></i><i class="on"></i><i></i></div><span class="sm muted"><b>Step 2 of 3</b> · Where and when?</span></div>
+    <div class="content" style="padding-top:0">
+      <div class="card" style="border:2px solid var(--error);padding:12px;gap:4px">
+        <div class="row between"><b>🏢 Office · Kolkata</b><a class="btn ghost sm" style="min-height:44px;padding:0 6px">Change</a></div>
+        <span class="sm muted">Park Street, Kolkata · 700016</span>
+      </div>
+      <div class="col" style="align-items:center;text-align:center;gap:10px;padding:8px 4px">
+        <div class="illus sm">🗺️</div>
+        <b class="h3">We're not in Kolkata yet</b>
+        <p class="sm muted">Today we serve Howrah: Howrah Maidan, Shibpur, Botanic Garden, Salkia, Bally, Belur and Liluah.</p>
+        <span class="chip warning">Kolkata · coming soon</span>
+      </div>
+      <a class="btn accent">🔔 Tell me when you start here</a>
+      <a class="btn secondary">Use another address</a>
+    </div>
+  </div>
+  <div class="note"><b>Errors (LLD-006 §4.3, D3, D8; LLD-005 waitlist)</b>409 <code>DUPLICATE_OPEN_REQUEST</code> — one open or unpaid request per trade + address (<code>details.requestId</code>; if it is still PENDING_PAYMENT the app resumes its payment). 422 <code>TOO_MANY_OPEN_REQUESTS</code> — max 3 open (SUBMITTED / MATCHING / AWAITING_SELECTION); unsent data is saved as a draft. 422 <code>SERVICE_AREA_NOT_AVAILABLE</code> — zone re-resolved at create and not ACTIVE (<code>details.status</code> = COMING_SOON → waitlist <code>POST /service-areas/waitlist {pincode}</code>). Zone list from ERD §23.1 seed.</div>
+
+  <!-- C-11h Step 3 · Confirm (TODAY) -->
+  <div class="phone soft">
+    <span class="label">C-11h Step 3 · Confirm &amp; pay advance · fixed</span>
+    <div class="statusbar"><span>1:23</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><h1>Check &amp; pay</h1></div>
+    <div class="stephead"><div class="steps"><i class="on"></i><i class="on"></i><i class="on"></i></div><span class="sm muted"><b>Step 3 of 3</b> · Check your request</span></div>
+    <div class="content" style="padding-top:0;gap:10px">
+      <div class="list sum">
+        <div class="li"><span class="k">⚡</span><div class="t"><b>Electrician</b><small>Fan not working · New light / fan point<br>📷 3 photos · 🎙️ voice 0:42</small></div><a class="sm" style="color:var(--primary);font-weight:600">Edit</a></div>
+        <div class="li"><span class="k">🏠</span><div class="t"><b>Home · Shibpur</b><small>On site: Priya Sen · +91 98300 12345</small></div><a class="sm" style="color:var(--primary);font-weight:600">Edit</a></div>
+        <div class="li"><span class="k">🕓</span><div class="t"><b>Today, 4:00 – 6:00 PM</b><small>Choose a worker before 6 PM</small></div><a class="sm" style="color:var(--primary);font-weight:600">Edit</a></div>
+      </div>
+      <div class="card" style="gap:4px">
+        <div class="row between sm"><span class="muted">Price guide · Fan not working</span><span class="money">₹200 – ₹400</span></div>
+        <div class="row between sm"><span class="muted">New light / fan point</span><span class="money">₹250 – ₹450 /pt</span></div>
+        <div class="hr" style="margin:6px 0"></div>
+        <div class="row between"><b>Pay now · advance</b><span class="money" style="font-size:20px">₹99</span></div>
+        <span class="help">Taken off your final bill. Full refund if no worker is booked.</span>
+      </div>
+      <div class="banner warning"><span class="ico">⏱️</span><span>Pay within <b>15 minutes</b>, or this request closes. Nothing is charged if you don't pay.</span></div>
+    </div>
+    <div class="footer"><a class="btn accent">Pay ₹99 &amp; find workers</a><span class="help center">UPI, card or net banking · secure payment page</span></div>
+  </div>
+
+  <!-- C-11i Step 3 · Confirm (EMERGENCY) -->
+  <div class="phone soft">
+    <span class="label">C-11i Step 3 · Confirm (emergency) · new</span>
+    <div class="statusbar"><span>11:41</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><h1>Check &amp; pay</h1><span class="chip error">🚨 Emergency</span></div>
+    <div class="stephead"><div class="steps"><i class="on"></i><i class="on"></i><i class="on"></i></div><span class="sm muted"><b>Step 3 of 3</b> · Check your request</span></div>
+    <div class="content" style="padding-top:0;gap:10px">
+      <div class="list sum">
+        <div class="li"><span class="k">🚰</span><div class="t"><b>Plumber</b><small>Burst pipe / flooding · 🎬 video 0:18</small></div><a class="sm" style="color:var(--primary);font-weight:600">Edit</a></div>
+        <div class="li"><span class="k">👵</span><div class="t"><b>Maa's flat · Salkia</b><small>On site: Anjali Das · +91 98311 45678</small></div><a class="sm" style="color:var(--primary);font-weight:600">Edit</a></div>
+        <div class="li"><span class="k">🚨</span><div class="t"><b>Now – 1:40 AM</b><small>Choose a worker within 45 min</small></div><a class="sm" style="color:var(--primary);font-weight:600">Edit</a></div>
+      </div>
+      <div class="card" style="gap:4px">
+        <div class="row between sm"><span class="muted">Price guide · Burst pipe</span><span class="money">₹300 – ₹800</span></div>
+        <div class="row between sm"><span class="muted">Emergency charge (added to bill)</span><span class="money">+ ₹200</span></div>
+        <div class="hr" style="margin:6px 0"></div>
+        <div class="row between"><b>Pay now · advance</b><span class="money" style="font-size:20px">₹99</span></div>
+        <span class="help">Taken off your final bill. Full refund if no worker is booked.</span>
+      </div>
+      <div class="banner warning"><span class="ico">⏱️</span><span>Pay within <b>15 minutes</b>, or this request closes. Nothing is charged if you don't pay.</span></div>
+    </div>
+    <div class="footer"><a class="btn danger">Pay ₹99 &amp; find workers</a><span class="help center">Only police-verified workers are asked at night</span></div>
+  </div>
+  <div class="note"><b>Step 3 data (LLD-006 D6, D7, §4.1)</b><code>GET /service-requests/quote-preview</code> → price guide per problem, <code>emergencySurchargeMinor</code>, <code>advanceMinor</code> (server amounts only, client never sends money). Button → <code>POST /service-requests</code> (Idempotency-Key) → 201 <code>PENDING_PAYMENT</code>, <code>payment_due_at = now + 15 min</code>, provider checkout data → C-12a. Snapshot columns <code>price_guide_min/max_minor</code>, <code>emergency_surcharge_minor</code>, <code>advance_minor</code> are stored on the request. Advance refunded in full if cancelled before booking, expired or not matched; deducted from the final bill if booked. Multi-problem total range is not defined in the docs → shown per problem.</div>
+</div>
+</body>
+</html>

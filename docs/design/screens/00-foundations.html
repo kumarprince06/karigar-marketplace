@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Karigar Foundations</title>
+<link rel="stylesheet" href="assets/karigar.css">
+<style>
+  body { background: var(--bg); }
+  .doc { max-width: 1400px; margin: 0 auto; padding: 32px; display: flex; flex-direction: column; gap: 24px; }
+  .cover { border-radius: 28px; padding: 48px 56px; color: #fff; display: grid; grid-template-columns: 1.3fr 1fr; gap: 40px; box-shadow: var(--e3); }
+  .cover h1 { font-size: 52px; line-height: 60px; font-weight: 800; letter-spacing: -.01em; }
+  .cover .eyebrow { color: #FFC94D; }
+  .logo { width: 52px; height: 52px; border-radius: 14px; background: var(--grad-warm); color: var(--ink); display: grid; place-items: center; font-weight: 800; font-size: 26px; box-shadow: 0 8px 20px rgba(255,138,31,.4); }
+  .glass { background: rgba(255,255,255,.10); border: 1px solid rgba(255,255,255,.22); border-radius: 16px; padding: 16px; }
+  .eyebrow { font-size: 13px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--primary); }
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: 24px; padding: 32px; display: flex; flex-direction: column; gap: 20px; box-shadow: var(--e1); }
+  .sec > header { display: flex; flex-direction: column; gap: 4px; }
+  .sec h2 { font-size: 28px; line-height: 36px; font-weight: 750; }
+  .g2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .g3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .g4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .g6 { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; }
+  .pr { border: 1px solid var(--border); border-radius: 16px; padding: 18px; display: flex; flex-direction: column; gap: 6px; background: var(--grad-soft); }
+  .pr .n { font: 700 13px var(--mono); color: var(--primary); }
+  .pr.key { border: 2px solid var(--accent); background: var(--accent-subtle); }
+  .sw { border: 1px solid var(--border); border-radius: 14px; overflow: hidden; background: var(--surface); }
+  .sw .c { height: 76px; display: flex; align-items: flex-end; padding: 8px 10px; font-size: 13px; font-weight: 700; }
+  .sw .m { padding: 8px 10px; font-size: 12px; line-height: 17px; }
+  .sw .m b { display: block; font-size: 13px; }
+  .gsw { height: 120px; border-radius: 16px; padding: 14px; display: flex; flex-direction: column; justify-content: flex-end; font-size: 13px; box-shadow: var(--e1); }
+  table.t { width: 100%; border-collapse: collapse; font-size: 14px; }
+  table.t th { text-align: left; font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--text-2); padding: 8px 10px; border-bottom: 2px solid var(--border); }
+  table.t td { padding: 9px 10px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+  .pass { color: var(--success); font-weight: 700; } .fail { color: var(--error); font-weight: 700; } .lg-only { color: var(--warning); font-weight: 700; }
+  .dot { display: inline-block; width: 14px; height: 14px; border-radius: 4px; vertical-align: -2px; margin-right: 6px; border: 1px solid rgba(0,0,0,.1); }
+  .typerow { display: grid; grid-template-columns: 170px 1fr 1fr 1fr; gap: 16px; align-items: baseline; padding: 10px 0; border-bottom: 1px solid var(--border); }
+  .typerow .meta { font: 12px/16px var(--mono); color: var(--text-2); }
+  .frame360 { width: 360px; border: 2px dashed var(--border-strong); border-radius: 16px; padding: 16px; display: flex; flex-direction: column; gap: 10px; background: var(--bg); }
+  .ruler { font: 12px var(--mono); color: var(--text-2); }
+  .sp { display: flex; align-items: flex-end; gap: 14px; flex-wrap: wrap; }
+  .sp div { background: var(--grad-warm); border-radius: 3px; }
+  .rad { width: 88px; height: 64px; background: var(--primary-subtle); border: 2px solid var(--primary); display: grid; place-items: center; font: 12px var(--mono); color: var(--primary); }
+  .shd { height: 90px; border-radius: 14px; background: var(--surface); display: grid; place-items: center; font: 13px var(--mono); }
+  .tap { position: relative; width: 48px; height: 48px; border: 2px dashed var(--error); border-radius: 8px; display: grid; place-items: center; }
+  .tap span { background: var(--primary); color: #fff; border-radius: 50%; width: 24px; height: 24px; display: grid; place-items: center; font-size: 14px; }
+  [lang="bn"], [lang="hi"] { line-height: 1.6; }
+  .indic-h { line-height: 1.5 !important; }
+  code, .mono { font-family: var(--mono); font-size: 13px; }
+</style>
+</head>
+<body>
+<div class="doc">
+
+  <!-- ============ COVER ============ -->
+  <section class="cover tools">
+    <div class="col" style="gap:20px">
+      <div class="row" style="gap:12px"><div class="logo">K</div><b style="font-size:24px">Karigar</b><span class="pill">Working name</span></div>
+      <p class="eyebrow">Product design system · v1.1 · MVP · after LLD review</p>
+      <h1>Trusted electricians and plumbers for Howrah, built for every phone and every language.</h1>
+      <p class="body-lg" style="opacity:.92">Customer app, worker app and admin web on one design language. Launch: Howrah &amp; Kolkata. English, <span lang="bn">বাংলা</span> and <span lang="hi">हिंदी</span> from day one. Designed for low-literacy workers on low-cost Android phones.</p>
+      <div class="row wrap"><a class="pill" href="01-components.html">01 · Components →</a><a class="pill" href="02-ia.html">02 · Information architecture →</a><a class="pill" href="customer/01-auth.html">Customer screens →</a></div>
+    </div>
+    <div class="col" style="gap:14px;justify-content:flex-end">
+      <div class="glass"><small style="opacity:.8">Customer app</small><div class="h4">Mobile-first · design at 360 dp</div></div>
+      <div class="glass"><small style="opacity:.8">Worker app</small><div class="h4">Mobile-first · 360 dp · body ≥ 16 px · low-end Android</div></div>
+      <div class="glass"><small style="opacity:.8">Admin web</small><div class="h4">Desktop-first · 1440 px · English only</div></div>
+      <div class="glass" style="background:rgba(255,184,0,.18);border-color:rgba(255,201,77,.5)"><small style="opacity:.85">Source of truth</small><div class="sm">Every status label maps to one backend enum (LLD-006…019). The UI never invents a status.</div></div>
+    </div>
+  </section>
+
+  <!-- ============ PRINCIPLES ============ -->
+  <section class="sec">
+    <header><p class="eyebrow">01 · Principles</p><h2>What every screen must do</h2>
+      <p class="muted">Customers: “I can find the right professional and understand what is happening.” Workers: “This helps me get and manage my work.” Admins: “I can operate the marketplace safely.”</p></header>
+    <div class="g4">
+      <div class="pr"><span class="n">P1</span><b class="h4">Clear before pretty</b><span class="sm muted">One primary action per screen. Plain words a Class-5 reader understands. Icon + text, never icon alone.</span></div>
+      <div class="pr"><span class="n">P2</span><b class="h4">Explain why</b><span class="sm muted">Show why a worker is shown (distance, rating, verified, “booked before”), why a price is what it is (bill lines), and why a status changed (reason code).</span></div>
+      <div class="pr"><span class="n">P3</span><b class="h4">One label = one enum</b><span class="sm muted">Request, booking, job and visit are separate lifecycles. Chips show the friendly label of exactly one backend status.</span></div>
+      <div class="pr"><span class="n">P4</span><b class="h4">Three languages, same layout</b><span class="sm muted">en / bn / hi at launch. Design at 360 dp with +40% text. Indic line-height ≥ 1.5. Support 200% font scale.</span></div>
+      <div class="pr key"><span class="n">P5 · PRIVACY RULE</span><b class="h4">Contact only after selection</b><span class="sm">Address, on-site contact and phone numbers are released <b>only to the selected worker / customer</b>, and stay visible until <b>7 days after completion</b>. Before selection: locality, distance (0.5 km steps), first name. Identity data (ID document, PAN, bank) is always <b>masked</b> (<span class="mono">XXXXXX4821</span>); no Aadhaar uploads. No chat, no masked calling in MVP.</span><span class="help">ADR 0011 · LLD-008 D6 · security/03</span></div>
+      <div class="pr"><span class="n">P6</span><b class="h4">Money is exact</b><span class="sm muted">Backend computes every amount. Workers never type a final total. Show ₹ amounts in one format everywhere (see §6).</span></div>
+      <div class="pr"><span class="n">P7</span><b class="h4">Works on bad networks</b><span class="sm muted">Skeletons, retry, “will retry when online”. Online-only actions (check-in, start code, payment) are blocked offline, not queued.</span></div>
+      <div class="pr"><span class="n">P8</span><b class="h4">Big targets</b><span class="sm muted">48 dp minimum hit area for anything tappable, chips included. Primary buttons 52 dp tall, full width on mobile.</span></div>
+    </div>
+    <div class="g2">
+      <div class="card flat" style="background:var(--bg)"><b>Every screen answers</b>
+        <ol class="sm" style="padding-left:20px;columns:2;column-gap:28px">
+          <li>What is the user's goal?</li><li>Most important information?</li><li>Primary action?</li><li>What happens after?</li><li>What if it fails?</li><li>What if there is no data?</li><li>What shows while loading?</li><li>What if they come back later?</li><li>What is sensitive?</li><li>What must never be confusing?</li></ol></div>
+      <div class="card flat" style="background:var(--bg)"><b>Brand personality</b>
+        <div class="row wrap"><span class="chip brand">Trustworthy</span><span class="chip brand">Local</span><span class="chip brand">Professional</span><span class="chip brand">Human</span><span class="chip brand">Clear</span><span class="chip brand">Fast</span><span class="chip accent">Premium, not luxurious</span><span class="chip accent">Tech-driven, not intimidating</span></div>
+        <p class="sm muted">Deep ink-teal for trust, marigold for warmth and action. Brand v2 adds gradients and a faint tool pattern (spanner, pipe, plug, bolt) on hero areas so the app feels made for tradespeople, not a bank.</p></div>
+    </div>
+  </section>
+
+  <!-- ============ COLOUR ============ -->
+  <section class="sec">
+    <header><p class="eyebrow">02 · Colour tokens</p><h2>Colour system</h2><p class="muted">Tokens live in <code>assets/karigar.css</code> <code>:root</code>. Status colours always come with an icon and a text label (never colour alone).</p></header>
+    <div class="g6">
+      <div class="sw"><div class="c" style="background:#0B2F2E;color:#fff">ink</div><div class="m"><b>--ink</b>#0B2F2E</div></div>
+      <div class="sw"><div class="c" style="background:#0E5E59;color:#fff">primary</div><div class="m"><b>--primary</b>#0E5E59</div></div>
+      <div class="sw"><div class="c" style="background:#0A4A46;color:#fff">hover</div><div class="m"><b>--primary-hover</b>#0A4A46</div></div>
+      <div class="sw"><div class="c" style="background:#E3F0EE;color:#0E5E59">subtle</div><div class="m"><b>--primary-subtle</b>#E3F0EE</div></div>
+      <div class="sw"><div class="c" style="background:#F2A900;color:#0B2F2E">accent</div><div class="m"><b>--accent</b>#F2A900 · fills only</div></div>
+      <div class="sw"><div class="c" style="background:#FDF1D6;color:#6B4A00">accent subtle</div><div class="m"><b>--accent-subtle</b>#FDF1D6</div></div>
+      <div class="sw"><div class="c" style="background:#F6F5F1;color:#14211F">bg</div><div class="m"><b>--bg</b>#F6F5F1 (canvas)</div></div>
+      <div class="sw"><div class="c" style="background:#EEEDE8;color:#14211F">bg-2</div><div class="m"><b>--bg-2</b>#EEEDE8</div></div>
+      <div class="sw"><div class="c" style="background:#FFFFFF;color:#14211F">surface</div><div class="m"><b>--surface</b>#FFFFFF</div></div>
+      <div class="sw"><div class="c" style="background:#DCDAD3;color:#14211F">border</div><div class="m"><b>--border</b>#DCDAD3 · decorative</div></div>
+      <div class="sw" style="outline:2px solid var(--accent)"><div class="c" style="background:#8A877D;color:#fff">border-strong</div><div class="m"><b>--border-strong</b>#8A877D · was #B9B6AC</div></div>
+      <div class="sw"><div class="c" style="background:#14211F;color:#fff">text</div><div class="m"><b>--text / -2 / -3</b>#14211F · #4A5856 · #626E6C</div></div>
+      <div class="sw"><div class="c" style="background:#1D7445;color:#fff">success</div><div class="m"><b>--success</b>#1D7445 / #E4F2E9</div></div>
+      <div class="sw"><div class="c" style="background:#8F5600;color:#fff">warning</div><div class="m"><b>--warning</b>#8F5600 / #FCEFD9</div></div>
+      <div class="sw"><div class="c" style="background:#B3261E;color:#fff">error</div><div class="m"><b>--error</b>#B3261E / #FBE7E5</div></div>
+      <div class="sw"><div class="c" style="background:#1F4FA0;color:#fff">info</div><div class="m"><b>--info</b>#1F4FA0 / #E5ECF8</div></div>
+      <div class="sw"><div class="c" style="background:#4A5856;color:#fff">neutral</div><div class="m"><b>--neutral</b>#4A5856 / #EEEDE8 · terminal states</div></div>
+      <div class="sw"><div class="c" style="background:#6B4A00;color:#fff">accent text</div><div class="m"><b>#6B4A00</b> text on accent-subtle</div></div>
+    </div>
+
+    <h3 class="h3" style="margin-top:8px">Gradients &amp; tool pattern (brand v2)</h3>
+    <div class="g4">
+      <div class="gsw tools" style="color:#fff"><b>--grad + .tools</b><span class="mono" style="color:#fff;opacity:.85">#072624 → #0B4B47 → #0E6E66 → #0F7A6F</span><span>Hero, welcome, cover</span></div>
+      <div class="gsw" style="background:var(--grad-warm);color:var(--ink)"><b>--grad-warm</b><span class="mono">#FFB800 → #FF8A1F</span><span>Accent buttons, trade icons, stepper</span></div>
+      <div class="gsw tools-soft" style="border:1px solid var(--border)"><b>--grad-soft + .tools-soft</b><span class="mono">#E6F4F1 → #F6F5F1 → #FFF4DC</span><span>Screen backgrounds, principle cards</span></div>
+      <div class="gsw" style="background-image:var(--tools-light),var(--grad-card);background-size:220px 220px,cover;color:#fff"><b>--grad-card</b><span class="mono" style="color:#fff">#0E5E59 → #0F7A6F</span><span>Hero cards, primary button</span></div>
+    </div>
+    <p class="sm muted">Tool pattern = 220 px SVG tile of spanner, pipe wrench, plug, bolt, gauge; 10% white on dark (<code>--tools-light</code>), 9% teal on light (<code>--tools-dark</code>). Decoration only: never put body text on the lightest 30% of a gradient; keep text in the dark start of <code>--grad</code>. <code>--grad-danger</code> (#C62E25 → #E0592B) is for destructive buttons only.</p>
+
+    <h3 class="h3">Contrast (WCAG 2.1, computed)</h3>
+    <div class="g2">
+      <table class="t">
+        <tr><th>Foreground</th><th>on #FFFFFF</th><th>on #F6F5F1</th><th>Use</th></tr>
+        <tr><td><span class="dot" style="background:#14211F"></span>text #14211F</td><td>16.57 <span class="pass">AAA</span></td><td>15.19 <span class="pass">AAA</span></td><td>body</td></tr>
+        <tr><td><span class="dot" style="background:#0B2F2E"></span>ink #0B2F2E</td><td>14.38 <span class="pass">AAA</span></td><td>13.18 <span class="pass">AAA</span></td><td>headings</td></tr>
+        <tr><td><span class="dot" style="background:#4A5856"></span>text-2 #4A5856</td><td>7.44 <span class="pass">AAA</span></td><td>6.82 <span class="pass">AA</span></td><td>secondary</td></tr>
+        <tr><td><span class="dot" style="background:#626E6C"></span>text-3 #626E6C</td><td>5.29 <span class="pass">AA</span></td><td>4.85 <span class="pass">AA</span></td><td>hints; 4.52 on bg-2 — avoid</td></tr>
+        <tr><td><span class="dot" style="background:#0E5E59"></span>primary #0E5E59</td><td>7.60 <span class="pass">AAA</span></td><td>6.96 <span class="pass">AA</span></td><td>links, buttons</td></tr>
+        <tr><td><span class="dot" style="background:#1D7445"></span>success #1D7445</td><td>5.78 <span class="pass">AA</span></td><td>5.29 <span class="pass">AA</span></td><td>status text</td></tr>
+        <tr><td><span class="dot" style="background:#8F5600"></span>warning #8F5600</td><td>6.00 <span class="pass">AA</span></td><td>5.50 <span class="pass">AA</span></td><td>status text</td></tr>
+        <tr><td><span class="dot" style="background:#B3261E"></span>error #B3261E</td><td>6.54 <span class="pass">AA</span></td><td>5.99 <span class="pass">AA</span></td><td>errors</td></tr>
+        <tr><td><span class="dot" style="background:#1F4FA0"></span>info #1F4FA0</td><td>7.82 <span class="pass">AAA</span></td><td>7.17 <span class="pass">AAA</span></td><td>info</td></tr>
+        <tr><td><span class="dot" style="background:#F2A900"></span>accent #F2A900</td><td>2.01 <span class="fail">Fail</span></td><td>1.84 <span class="fail">Fail</span></td><td>never as text</td></tr>
+        <tr><td><span class="dot" style="background:#8A877D"></span>border-strong #8A877D</td><td>3.59 <span class="pass">≥3:1</span></td><td>3.29 <span class="pass">≥3:1</span></td><td>input/checkbox outline (1.4.11)</td></tr>
+        <tr><td><span class="dot" style="background:#DCDAD3"></span>border #DCDAD3</td><td>1.40 <span class="fail">—</span></td><td>1.28 <span class="fail">—</span></td><td>dividers only</td></tr>
+      </table>
+      <table class="t">
+        <tr><th>Pair</th><th>Ratio</th><th>Result</th></tr>
+        <tr><td>White on primary #0E5E59</td><td>7.60</td><td class="pass">AAA</td></tr>
+        <tr><td>Ink on accent #F2A900 (marigold label said 8.2)</td><td>7.16</td><td class="pass">AAA</td></tr>
+        <tr><td>Ink on #FFB800 (grad-warm start)</td><td>8.29</td><td class="pass">AAA</td></tr>
+        <tr><td>Ink on #FF8A1F (grad-warm end)</td><td>6.10</td><td class="pass">AA</td></tr>
+        <tr><td>White on #0F7A6F (grad / grad-card end)</td><td>5.21</td><td>AA (any size)</td></tr>
+        
+        <tr><td>#6B4A00 on accent-subtle</td><td>7.19</td><td class="pass">AAA</td></tr>
+        <tr><td>Chip success on #E4F2E9</td><td>5.00</td><td class="pass">AA</td></tr>
+        <tr><td>Chip warning on #FCEFD9</td><td>5.28</td><td class="pass">AA</td></tr>
+        <tr><td>Chip error on #FBE7E5</td><td>5.50</td><td class="pass">AA</td></tr>
+        <tr><td>Chip info on #E5ECF8</td><td>6.59</td><td class="pass">AA</td></tr>
+        <tr><td>Chip neutral on #EEEDE8</td><td>6.35</td><td class="pass">AA</td></tr>
+        <tr><td>Chip brand on #E3F0EE</td><td>6.50</td><td class="pass">AA</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============ TYPE ============ -->
+  <section class="sec">
+    <header><p class="eyebrow">03 · Typography</p><h2>Anek in three scripts</h2>
+      <p class="muted">Anek Latin / Anek Bangla / Anek Devanagari (one family, matching weights). Set <code>lang</code> on the root; <code>:lang(bn)</code> and <code>:lang(hi)</code> swap the font and raise line-height to 1.6. Use <b>min-height</b>, never fixed height, on anything with text.</p></header>
+    <div>
+      <div class="typerow" style="border-bottom:2px solid var(--border)"><span class="meta">TOKEN</span><span class="eyebrow">English</span><span class="eyebrow">বাংলা · bn</span><span class="eyebrow">हिंदी · hi</span></div>
+      <div class="typerow"><span class="meta">display 32/40 · 700<br>Indic 32/48</span><span class="display">Find a plumber</span><span class="display" lang="bn" style="line-height:48px">প্লাম্বার খুঁজুন</span><span class="display" lang="hi" style="line-height:48px">प्लंबर खोजें</span></div>
+      <div class="typerow"><span class="meta">h1 26/34 · 700<br>Indic 26/40</span><span class="h1">Choose your worker</span><span class="h1" lang="bn" style="line-height:40px">আপনার কারিগর বেছে নিন</span><span class="h1" lang="hi" style="line-height:40px">अपना कारीगर चुनें</span></div>
+      <div class="typerow"><span class="meta">h3 19/26 · 600<br>Indic 19/30</span><span class="h3">Worker is on the way</span><span class="h3" lang="bn" style="line-height:30px">কারিগর রওনা দিয়েছেন</span><span class="h3" lang="hi" style="line-height:30px">कारीगर रास्ते में है</span></div>
+      <div class="typerow"><span class="meta">body-lg 17/26<br>worker body ≥16</span><span class="body-lg">Tell the worker this code when they arrive.</span><span class="body-lg" lang="bn" style="line-height:28px">কারিগর এলে তাঁকে এই কোডটি বলুন।</span><span class="body-lg" lang="hi" style="line-height:28px">कारीगर के आने पर उन्हें यह कोड बताएँ।</span></div>
+      <div class="typerow"><span class="meta">body 15/22<br>Indic 15/24</span><span>Free cancellation until 2 hours before the visit.</span><span lang="bn">ভিজিটের 2 ঘণ্টা আগে পর্যন্ত বিনামূল্যে বাতিল করা যাবে।</span><span lang="hi">विज़िट से 2 घंटे पहले तक मुफ़्त रद्द करें।</span></div>
+      <div class="typerow"><span class="meta">sm 14/20 · min secondary<br>Indic 14/22</span><span class="sm">Paid ₹99 advance · adjusted in your bill</span><span class="sm" lang="bn" style="line-height:22px">₹99 অগ্রিম দেওয়া হয়েছে · বিলে বাদ যাবে</span><span class="sm" lang="hi" style="line-height:22px">₹99 अग्रिम दिया · बिल में घटेगा</span></div>
+      <div class="typerow"><span class="meta">label 14/18 · 600<br>chip 13/18</span><span class="row"><span class="chip success">✓ Paid</span><span class="chip info">🚚 On the way</span></span><span class="row" lang="bn"><span class="chip success" style="line-height:22px">✓ পেমেন্ট হয়েছে</span><span class="chip info" style="line-height:22px">🚚 রওনা দিয়েছেন</span></span><span class="row" lang="hi"><span class="chip success" style="line-height:22px">✓ भुगतान हुआ</span><span class="chip info" style="line-height:22px">🚚 रास्ते में</span></span></div>
+    </div>
+    <p class="sm muted">Numbers the app generates (times, distances, money, codes) always use Latin digits in all three languages, also inside translated strings.</p>
+
+    <h3 class="h3">Design at 360 dp with +40% text</h3>
+    <div class="row wrap" style="gap:24px;align-items:flex-start">
+      <div class="frame360"><span class="ruler">EN · 360 dp</span>
+        <div class="card"><div class="row between"><b class="h4">Rakesh Das</b><span class="chip success">✓ Verified</span></div><span class="sm muted">1.2 km · ⭐ 4.7 (38) · arrives 11:30</span><span class="money">₹450 / visit</span><a class="btn primary">Choose worker</a></div></div>
+      <div class="frame360" lang="bn"><span class="ruler">BN · same component, longer label wraps</span>
+        <div class="card"><div class="row between" style="align-items:flex-start;gap:8px"><b class="h4" style="line-height:28px">রাকেশ দাস</b><span class="chip success" style="line-height:22px">✓ যাচাই করা</span></div><span class="sm muted" style="line-height:22px">1.2 কিমি · ⭐ 4.7 (38) · 11:30-এ পৌঁছাবেন</span><span class="money">₹450 / ভিজিট</span><a class="btn primary" style="min-height:52px;height:auto;padding:8px 18px;line-height:26px">এই কারিগরকে বেছে নিন</a></div></div>
+      <div class="frame360" lang="hi"><span class="ruler">HI · +40% test string</span>
+        <div class="card"><div class="row between" style="align-items:flex-start;gap:8px"><b class="h4" style="line-height:28px">राकेश दास</b><span class="chip success" style="line-height:22px">✓ सत्यापित</span></div><span class="sm muted" style="line-height:22px">1.2 किमी · ⭐ 4.7 (38) · 11:30 तक पहुँचेंगे</span><span class="money">₹450 / विज़िट</span><a class="btn primary" style="min-height:52px;height:auto;padding:8px 18px;line-height:26px">इस कारीगर को चुनें और आगे बढ़ें</a></div></div>
+    </div>
+    <ul class="sm" style="padding-left:20px;display:grid;grid-template-columns:1fr 1fr;gap:4px 28px">
+      <li>Indic line-height ≥ 1.5 (we use 1.6): vowel signs above (<span lang="bn">কি কে</span> <span lang="hi">कै</span>) and below (<span lang="bn">কু</span> <span lang="hi">कृ क्र</span>) must not clip.</li>
+      <li>No fixed heights on buttons, chips, tabs — use min-height so wrapped text grows the control.</li>
+      <li>Budget +40% width for bn/hi; labels wrap to 2 lines, never ellipsis on actions.</li>
+      <li>Support Android font scale to 200%; worker body ≥ 16 px, secondary ≥ 14 px.</li>
+      <li>Admin web is English only; user-written text (reviews) is shown as written, in its own script.</li>
+      <li>Language picker on Welcome and in Account (LLD-003).</li>
+    </ul>
+  </section>
+
+  <!-- ============ SPACING / RADIUS / SHADOW ============ -->
+  <section class="sec">
+    <header><p class="eyebrow">04 · Space, shape, depth</p><h2>Spacing, radius, elevation</h2></header>
+    <div class="g3">
+      <div class="col"><b>Spacing (4 pt grid)</b>
+        <div class="sp"><div style="width:4px;height:4px"></div><div style="width:8px;height:8px"></div><div style="width:12px;height:12px"></div><div style="width:16px;height:16px"></div><div style="width:20px;height:20px"></div><div style="width:24px;height:24px"></div><div style="width:32px;height:32px"></div><div style="width:48px;height:48px"></div></div>
+        <span class="mono">4 · 8 · 12 · 16 · 20 · 24 · 32 · 48</span>
+        <span class="sm muted">Screen gutter 16. Card padding 14. Gap between cards 12. Section gap 24.</span></div>
+      <div class="col"><b>Radius</b>
+        <div class="row wrap"><div class="rad" style="border-radius:6px">sm 6</div><div class="rad" style="border-radius:10px">md 10</div><div class="rad" style="border-radius:14px">lg 14</div><div class="rad" style="border-radius:20px">xl 20</div><div class="rad" style="border-radius:999px">full</div></div>
+        <span class="sm muted">md: buttons, inputs. lg: cards, lists. xl: dialogs, sheets (20 top). full: chips, avatars, pills.</span></div>
+      <div class="col"><b>Elevation</b>
+        <div class="g3" style="gap:10px;padding:8px;background:var(--bg);border-radius:14px"><div class="shd" style="box-shadow:var(--e1)">e1</div><div class="shd" style="box-shadow:var(--e2)">e2</div><div class="shd" style="box-shadow:var(--e3)">e3</div></div>
+        <span class="sm muted">e1 cards · e2 hero cards, sticky footers · e3 sheets, dialogs, frames. Flat + hairline border is the default.</span></div>
+    </div>
+  </section>
+
+  <!-- ============ MONEY + TAP + WIDTH ============ -->
+  <section class="sec">
+    <header><p class="eyebrow">05 · Rules</p><h2>Money, tap targets, design width</h2></header>
+    <div class="g3">
+      <div class="col" style="grid-column:span 2"><b class="h4">Money format (P25, ADR 0006)</b>
+        <p class="sm muted">API sends integer paise (<code>amountMinor</code>). App formats with Indian grouping, ₹ with no space, paise only when non-zero, Latin digits in en/bn/hi. Negative lines (advance, already paid) show as “− ₹99”.</p>
+        <table class="t">
+          <tr><th>amountMinor</th><th>Show</th><th>Never</th></tr>
+          <tr><td class="mono">425000</td><td class="money">₹4,250</td><td class="faint">₹ 4,250.00 · Rs 4250 · ₹4250</td></tr>
+          <tr><td class="mono">10000000</td><td class="money">₹1,00,000</td><td class="faint">₹100,000 · ₹1 lakh (in bills)</td></tr>
+          <tr><td class="mono">9900</td><td class="money">₹99</td><td class="faint">₹99.00</td></tr>
+          <tr><td class="mono">45050</td><td class="money">₹450.50</td><td class="faint">₹450.5</td></tr>
+          <tr><td class="mono">-9900</td><td class="money">− ₹99</td><td class="faint">-₹99.00 · (₹99)</td></tr>
+          <tr><td class="mono">425000 · bn</td><td class="money" lang="bn">₹4,250</td><td class="faint" lang="bn">₹৪,২৫০</td></tr>
+          <tr><td class="mono">425000 · hi</td><td class="money" lang="hi">₹4,250</td><td class="faint" lang="hi">₹४,२५०</td></tr>
+        </table>
+        <p class="help">Implementation: <code>Intl.NumberFormat('en-IN', {style:'currency', currency:'INR', minimumFractionDigits: paise ? 2 : 0})</code> for every locale, then strip the space. Ranges: “₹300 – ₹600”.</p>
+      </div>
+      <div class="col">
+        <b class="h4">Tap target 48 dp</b>
+        <div class="row" style="gap:20px"><div class="tap"><span>✓</span></div><span class="sm">24 px glyph inside a 48 × 48 hit area (dashed). Applies to icons, chips, checkboxes, tabs, links in lists.</span></div>
+        <div class="row wrap"><span class="opt on">Leak</span><span class="opt">No water</span></div>
+        <span class="help">Option chips are 48 min-height. Status chips are not tappable; if a chip filters a list it gets a 48 dp hit area.</span>
+        <div class="hr"></div>
+        <b class="h4">Design width 360 dp</b>
+        <div style="height:28px;border-radius:6px;background:var(--grad-warm);position:relative;display:grid;place-items:center;font:700 12px var(--mono)">360 dp · smallest common Android</div>
+        <span class="sm muted">All mobile frames are 360 × 780. Gutter 16 → 328 content. Must also hold at 320 (no horizontal scroll) and scale to 412. Admin frames 1440 × 900.</span>
+      </div>
+    </div>
+  </section>
+
+</div>
+</body>
+</html>

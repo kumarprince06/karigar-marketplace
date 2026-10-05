@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Customer · Help & disputes</title>
+<link rel="stylesheet" href="../assets/karigar.css">
+<style>
+  .field > span.help { font-weight: 400; }
+  .sec { font-size: 13px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--text-2); }
+  .li .ic { width: 28px; text-align: center; font-size: 20px; flex-shrink: 0; }
+  .li.tight { min-height: 52px; padding: 10px 14px; }
+  .opt.s { min-height: 48px; padding: 6px 12px; font-size: 14px; }
+  .shot { width: 72px; height: 72px; border-radius: var(--r-md); display: grid; place-items: center; font-size: 28px; flex-shrink: 0; }
+  .badge-row { display: flex; gap: 12px; align-items: flex-start; }
+  .badge-ic { width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; font-size: 22px; flex-shrink: 0; background: var(--primary-subtle); }
+</style>
+</head>
+<body>
+<div class="canvas">
+  <p class="canvas-title"><b>Customer · Help, problem reports (disputes) & grievance</b>No chat, no call-back, no article search (P1, P19). Support = phone / WhatsApp link; "Report a problem" opens a dispute (LLD-018); privacy complaints go to the Grievance Officer (security/03 §98).</p>
+
+  <!-- C-70 Help & support -->
+  <div class="phone">
+    <span class="label">C-70 Help & support · fixed</span>
+    <div class="statusbar clear" style="position:absolute;inset:0 0 auto 0;z-index:1"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="hero" style="padding-top:40px">
+      <div class="row"><button class="iconbtn" style="color:#fff;margin-left:-12px">←</button><p class="h3">Help & support</p></div>
+      <p class="h2">How can we help, Priya?</p>
+      <div class="row" style="gap:10px">
+        <a class="btn accent" style="flex:1;padding:0 10px">📞 Call us</a>
+        <a class="btn" style="flex:1;padding:0 10px;background:rgba(255,255,255,.16);color:#fff;border:1.5px solid rgba(255,255,255,.6)">💬 WhatsApp</a>
+      </div>
+      <p class="sm" style="opacity:.9">033 4000 1234 · every day 8 am – 9 pm</p>
+    </div>
+    <div class="content" style="padding-top:12px;gap:8px">
+      <p class="sec">Problem with a booking?</p>
+      <div class="list">
+        <div class="li tight"><span class="tradeicon" style="width:40px;height:40px;font-size:20px">⚡</span><div class="t"><b>Fan repair · Rakesh Das</b><small>Work done today · Ref 9C41F2</small></div><a class="btn ghost sm" style="padding:0 6px">Report</a></div>
+        <div class="li tight"><span class="tradeicon" style="width:40px;height:40px;font-size:20px">🚰</span><div class="t"><b>Tap leak · Sujit Mondal</b><small>Report open · in review</small></div><span class="chev">›</span></div>
+      </div>
+      <p class="sec">Common questions</p>
+      <div class="list">
+        <div class="li tight"><span class="ic">💰</span><div class="t">Why do I pay ₹99 before matching?</div><span class="chev">›</span></div>
+        <div class="li tight"><span class="ic">🏅</span><div class="t">What do the worker badges mean?</div><span class="chev">›</span></div>
+        <div class="li tight"><span class="ic">🔢</span><div class="t">What is the start code?</div><span class="chev">›</span></div>
+      </div>
+      <a class="btn ghost" style="min-height:48px;justify-content:flex-start;padding:0 4px">🧑‍⚖️ Complaint about your data → Grievance Officer</a>
+    </div>
+  </div>
+  <div class="note"><b>Help & support (P1, P19, LLD-018 §4.1, security/03 §98)</b>"Chat with us", "Request a call" and article search removed. Call = <code>tel:</code> link, WhatsApp = <code>wa.me</code> link to the support number (number and hours are placeholders — not in the docs). Support can open a dispute on the customer's behalf after a call (<code>opened_via = SUPPORT</code>). Booking list = recent jobs still inside the dispute window, plus open disputes (<code>GET /disputes</code>). FAQs are static, bundled in en/bn/hi (no CMS, P19). "Ref" = last 6 chars of the UUID (no short code, P4 open).</div>
+
+  <!-- C-71 Help article -->
+  <div class="phone soft">
+    <span class="label">C-71 Help article · fixed</span>
+    <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><h1>Worker badges</h1></div>
+    <div class="content" style="gap:12px">
+      <p class="h3">What do the badges on a worker mean?</p>
+      <p class="muted">Our team checks each document by hand. A badge shows only while the check is valid.</p>
+      <div class="card" style="gap:14px">
+        <div class="badge-row"><span class="badge-ic">🪪</span><div><p class="label-t">ID verified</p><p class="sm muted">We checked a government photo ID and a selfie with it.</p></div></div>
+        <div class="badge-row"><span class="badge-ic">👮</span><div><p class="label-t">Police verified</p><p class="sm muted">The worker gave us a police verification certificate.</p></div></div>
+        <div class="badge-row"><span class="badge-ic">🎓</span><div><p class="label-t">Skill certified</p><p class="sm muted">A skill certificate, for example from an ITI.</p></div></div>
+        <div class="badge-row"><span class="badge-ic" style="background:var(--accent-subtle)">⚡</span><div><p class="label-t">Licensed electrician</p><p class="sm muted">A valid electrical licence, checked for expiry.</p></div></div>
+      </div>
+      <div class="banner neutral"><span class="ico">ℹ️</span><span>"New" means the worker has fewer than 3 ratings yet.</span></div>
+      <a class="btn secondary" style="min-height:48px">📞 Still need help? Call us</a>
+    </div>
+  </div>
+  <div class="note"><b>Help article (LLD-016 §3, LLD-004 §4)</b>Badge names map 1:1 to <code>ID_VERIFIED</code>, <code>POLICE_VERIFIED</code>, <code>SKILL_CERTIFIED</code>, <code>LICENSED_ELECTRICIAN</code>; a badge shows only while VERIFIED and not expired. PAN has no badge; no "address proof" (P13). "Was this helpful?" removed (no backend). Static text bundled with the app in en/bn/hi.</div>
+
+  <!-- C-72a Report a problem: what -->
+  <div class="phone soft">
+    <span class="label">C-72a Report a problem · 1 What · fixed</span>
+    <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><div class="grow"><h1>Report a problem</h1><span class="sub">Fan repair · Rakesh Das · Ref 9C41F2</span></div></div>
+    <div class="content" style="gap:10px">
+      <div class="banner warning"><span class="ico">⏳</span><span>You can report until <b>6:10 pm tomorrow</b>. After that the job is marked complete.</span></div>
+      <span class="label-t">What is it about?</span>
+      <div class="seg"><a class="on">Whole job</a><a>A visit</a><a>A payment</a></div>
+      <span class="label-t">What went wrong?</span>
+      <div class="choice">
+        <span class="opt s on">✓ Problem came back / poor work</span>
+        <span class="opt s">Work not done</span>
+        <span class="opt s">Charged too much</span>
+        <span class="opt s">Damage to my home</span>
+        <span class="opt s">Worker's behaviour</span>
+        <span class="opt s">Something else</span>
+      </div>
+      <p class="sm muted">For a payment you can also choose "I didn't pay this cash". For a visit: "Wrongly marked as missed".</p>
+    </div>
+    <div class="footer"><a class="btn primary">Next</a></div>
+  </div>
+
+  <!-- C-72b Report a problem: details -->
+  <div class="phone soft">
+    <span class="label">C-72b Report a problem · 2 Details · fixed</span>
+    <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><div class="grow"><h1>Tell us what happened</h1><span class="sub">Poor work · whole job</span></div></div>
+    <div class="content" style="gap:10px">
+      <label class="field"><span>What happened?</span><div class="input area focus" style="min-height:112px">The fan stopped again the next morning. Same noise as before.</div><span class="help" style="text-align:right">62 / 2,000</span></label>
+      <span class="label-t">Photos or videos <em style="font-weight:400;color:var(--text-2)">· up to 10</em></span>
+      <div class="row">
+        <div class="shot" style="background:var(--bg-2)">🖼️</div>
+        <div class="shot" style="background:var(--bg-2);position:relative">🎬<span class="chip neutral" style="position:absolute;bottom:4px;font-size:11px;padding:0 6px">0:24</span></div>
+        <div class="shot" style="border:2px dashed var(--primary);color:var(--primary);background:var(--surface)">📷</div>
+      </div>
+      <span class="help">Videos up to 60 seconds.</span>
+      <div class="card hero" style="gap:4px">
+        <p class="label-t">What happens next</p>
+        <p class="sm" style="opacity:.94">Rakesh has <b>48 hours</b> to reply. Our team then decides. The job stays open until then.</p>
+      </div>
+    </div>
+    <div class="footer"><a class="btn primary">Send report</a></div>
+  </div>
+
+  <!-- C-72c Window closed -->
+  <div class="phone soft">
+    <span class="label">C-72c Report a problem · window closed · new</span>
+    <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><h1>Report a problem</h1></div>
+    <div class="content" style="gap:14px;padding-top:30px;text-align:center">
+      <div class="illus sm teal">🗓️</div>
+      <p class="h3">The time to report has ended</p>
+      <p class="muted">Problems with a finished job can be reported for <b style="color:var(--text)">7 days</b> after it ends (24 hours to question a visit or a completed job you were asked to confirm). This tap repair ended on 24 Sep.</p>
+      <div class="card flat" style="text-align:left"><p class="sm">Need help with something else? Call or WhatsApp us.</p></div>
+      <div class="grow"></div>
+    </div>
+    <div class="footer"><a class="btn primary">📞 Call support</a><a class="btn secondary">💬 WhatsApp</a></div>
+  </div>
+  <div class="note"><b>Report a problem = open dispute (LLD-018 D1–D4, §1, §4.1, LLD-014)</b><code>POST /disputes</code> {subjectType JOB | VISIT | PAYMENT, ids, category, statement, mediaIds}, Idempotency-Key. Categories (customer): <code>POOR_QUALITY</code>, <code>WORK_NOT_DONE</code> (job/visit), <code>OVERCHARGED</code> (visit/payment/job), <code>DAMAGE</code>, <code>BEHAVIOUR</code> (job), <code>CASH_NOT_PAID</code> (cash payment), <code>NO_SHOW_DISAGREEMENT</code> (no-show visit), <code>OTHER</code> (statement required → <code>NOTE_REQUIRED</code>); chips filtered by subject (<code>CATEGORY_NOT_ALLOWED</code>).<br>Window (D2): done visit → until confirmed (≤24 h after check-out); job in WORK_COMPLETED → until completion confirmed (≤24 h); else 7 days after the job ended. <code>409 DISPUTE_WINDOW_CLOSED</code> → C-72c. <code>409 DISPUTE_ALREADY_EXISTS</code> → open that case and add a statement. Statement ≤2,000 chars; ≤10 media per party (DISPUTE_EVIDENCE: jpeg/png/webp/mp4, video ≤60 s). Opening holds the subject (D3): nothing auto-confirms, earnings on hold.</div>
+
+  <!-- C-73a Dispute status: open -->
+  <div class="phone soft">
+    <span class="label">C-73a Your report · waiting for reply · new</span>
+    <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><div class="grow"><h1>Your report</h1><span class="sub">Fan repair · Ref 7E20B4</span></div></div>
+    <div class="content" style="gap:10px">
+      <div class="card warm" style="gap:4px"><div class="row between"><p class="h4">Waiting for Rakesh</p><span class="chip" style="background:rgba(255,255,255,.7);color:var(--ink)">⏱ 47 h left</span></div><p class="sm">He has until 9:00 am, 8 Oct to reply. Then our team reviews it.</p></div>
+      <div class="timeline card flat" style="gap:0;padding:12px 14px 0">
+        <div class="tl done"><div class="dot"><i></i><b></b></div><div class="t"><b>You reported: poor work</b><small>"The fan stopped again the next morning…" · 2 photos, 1 video · 6 Oct, 9:00 am</small></div></div>
+        <div class="tl now"><div class="dot"><i></i><b></b></div><div class="t"><b>Waiting for Rakesh's reply</b><small>Up to 48 hours</small></div></div>
+        <div class="tl"><div class="dot"><i></i><b></b></div><div class="t"><b>Our team reviews</b><small>We look at both sides and the job record</small></div></div>
+        <div class="tl"><div class="dot"><i></i></div><div class="t"><b>Decision</b><small>You'll get a notification</small></div></div>
+      </div>
+      <div class="banner info"><span class="ico">🔒</span><span>The job stays open until the decision — nothing is auto-confirmed and the worker is not paid out.</span></div>
+    </div>
+    <div class="footer"><a class="btn secondary">+ Add more info or photos</a><a class="btn ghost" style="min-height:44px;color:var(--text-2)">Withdraw report</a></div>
+  </div>
+
+  <!-- C-73b Dispute status: resolved -->
+  <div class="phone soft">
+    <span class="label">C-73b Your report · decided · new</span>
+    <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><div class="grow"><h1>Your report</h1><span class="sub">Fan repair · Ref 7E20B4</span></div></div>
+    <div class="content" style="gap:10px">
+      <div class="card hero" style="gap:6px">
+        <div class="row between"><span class="pill">✓ Decided · 9 Oct</span><span class="pill">Partly in your favour</span></div>
+        <p class="body-lg">"The repair did not last. ₹300 of the labour is refunded to you."</p>
+      </div>
+      <div class="card flat" style="gap:6px">
+        <div class="row between"><span class="label-t">💸 Refund ₹300</span><span class="chip warning">Processing</span></div>
+        <p class="sm muted">To the UPI / card you paid with, in 3–7 working days.</p>
+      </div>
+      <div class="timeline card flat" style="gap:0;padding:12px 14px 0">
+        <div class="tl done"><div class="dot"><i></i><b></b></div><div class="t"><b>You reported: poor work</b><small>6 Oct, 9:00 am</small></div></div>
+        <div class="tl done"><div class="dot"><i></i><b></b></div><div class="t"><b>Rakesh replied</b><small>"I replaced the capacitor…" · 6 Oct, 7:40 pm</small></div></div>
+        <div class="tl done"><div class="dot"><i></i><b></b></div><div class="t"><b>Our team reviewed</b><small>Asked you for a video · 7 Oct</small></div></div>
+        <div class="tl done"><div class="dot"><i></i></div><div class="t"><b>Decision made</b><small>9 Oct, 2:15 pm</small></div></div>
+      </div>
+    </div>
+    <div class="footer"><a class="btn primary">Rate Rakesh</a></div>
+  </div>
+  <div class="note"><b>Dispute status (LLD-018 D4–D7, D10, §4.1)</b><code>GET /disputes/{id}</code> → status, timeline (statements, media, agent messages, status changes), summary + actions once closed. Statuses → labels: <code>AWAITING_RESPONSE</code> "Waiting for Rakesh" (countdown to <code>response_due_at</code>), <code>IN_REVIEW</code> "Our team is reviewing", <code>RESOLVED</code> "Decided", <code>REJECTED</code> "Closed — not a dispute we can decide" (summary shown), <code>WITHDRAWN</code> "You withdrew this". Outcome UPHELD / PARTIALLY_UPHELD / NOT_UPHELD → "In your favour / Partly / Not in your favour"; <code>resolution_summary</code> shown verbatim. Refund only from online payments (D10), tracked as action PENDING → DONE (chip Processing → Refunded). Withdraw = opener only, releases the subject as confirmed (confirm dialog). Strikes and internal notes are never shown. "Rate Rakesh" after the job completes (LLD-012).</div>
+
+  <!-- C-74 Grievance form -->
+  <div class="phone soft">
+    <span class="label">C-74 Grievance · new</span>
+    <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><div class="grow"><h1>Complaint to Grievance Officer</h1><span class="sub">About your personal data</span></div></div>
+    <div class="content" style="gap:10px">
+      <div class="two" style="display:flex;gap:10px">
+        <label class="field" style="flex:1"><span>Name</span><div class="input">Priya Sen</div></label>
+        <label class="field" style="flex:1"><span>Mobile</span><div class="input">98300 12345</div></label>
+      </div>
+      <label class="field"><span>Email</span><div class="input">priya.sen@gmail.com</div></label>
+      <span class="label-t">What is it about?</span>
+      <div class="choice">
+        <span class="opt s on">✓ How my data is used</span><span class="opt s">My consent</span><span class="opt s">A data request I made</span><span class="opt s">Data leak</span><span class="opt s">Someone else's details</span><span class="opt s">Other</span>
+      </div>
+      <label class="field"><span>Tell us more</span><div class="input area">A worker I didn't book called me on my number.</div></label>
+      <p class="sm muted">Reply within <b style="color:var(--text)">48 hours</b>, resolved within <b style="color:var(--text)">30 days</b>.</p>
+    </div>
+    <div class="footer"><a class="btn primary">Send complaint</a></div>
+  </div>
+
+  <!-- C-74b Grievance sent -->
+  <div class="phone">
+    <span class="label">C-74b Grievance sent · new</span>
+    <div class="statusbar clear" style="position:absolute;inset:0 0 auto 0;z-index:1"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="content tools" style="color:#fff;padding-top:60px;gap:16px;text-align:center">
+      <div class="grow"></div>
+      <div class="illus">📨</div>
+      <h1 class="h1">We've got your complaint</h1>
+      <p class="body-lg" style="opacity:.92">Ananya Ghosh, our Grievance Officer, will reply by email within 48 hours.</p>
+      <div class="card" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);color:#fff;box-shadow:none;text-align:left;gap:4px">
+        <p class="sm" style="opacity:.9">Your reference</p>
+        <p style="font:700 22px var(--mono);letter-spacing:2px">GRV-2026-00418</p>
+        <p class="sm" style="opacity:.9">Not happy with our answer? You can then go to the Data Protection Board of India.</p>
+      </div>
+      <div class="grow"></div>
+      <a class="btn accent">Done</a>
+    </div>
+  </div>
+  <div class="note"><b>Grievance (security/03 §97–98, ERD <code>grievances</code>)</b><code>POST /api/v1/grievances</code>, list at <code>GET /me/grievances</code>. Stores contact_name, contact_email / phone (prefilled when logged in; also open to non-users such as site contacts), category <code>PRIVACY</code> / <code>CONSENT</code> / <code>RIGHTS_REQUEST</code> / <code>BREACH</code> / <code>THIRD_PARTY_DATA</code> / <code>OTHER</code>, description, status OPEN → IN_PROGRESS → RESOLVED / REJECTED. SLA: acknowledge 48 h, resolve 30 days (legal cap 90). <code>reference_no</code> (VARCHAR 20) is shown — its format isn't defined; "GRV-2026-00418" is an example. Booking problems go to C-72, not here.</div>
+</div>
+</body>
+</html>

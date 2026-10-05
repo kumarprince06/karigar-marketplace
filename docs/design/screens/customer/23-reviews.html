@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Customer · Reviews</title>
+<link rel="stylesheet" href="../assets/karigar.css">
+<style>
+  .stars { display: flex; justify-content: center; gap: 4px; }
+  .stars a { width: 52px; height: 52px; display: grid; place-items: center; font-size: 36px; color: var(--border-strong); }
+  .stars a.on { color: #F2A900; }
+  .rv { display: flex; flex-direction: column; gap: 6px; padding: 12px 14px; border-bottom: 1px solid var(--border); }
+  .rv:last-child { border-bottom: 0; }
+  .s { color: #C98A00; letter-spacing: 1px; font-size: 15px; }
+  .reply { background: var(--bg-2); border-radius: var(--r-md); padding: 8px 10px; font-size: 13px; line-height: 18px; border-left: 3px solid var(--primary); }
+</style>
+</head>
+<body>
+<div class="canvas">
+  <p class="canvas-title"><b>Customer · Reviews — rate worker, submitted, my reviews, edit</b>Only after the job is COMPLETED (LLD-012 D3). One review per job, 1–5 stars + text ≤ 1,000 chars; no aspect tags or photos (P9). Double-blind: shown when Rakesh also reviews you, or after the 7-day window.</p>
+
+  <!-- C-23a Rate worker -->
+  <div class="phone">
+    <span class="label">C-23a Rate worker · fixed</span>
+    <div class="hero" style="padding-top:0;align-items:center;text-align:center">
+      <div class="statusbar clear" style="width:100%;padding:0 2px"><span>6:18</span><span>▮▮ 4G</span></div>
+      <div class="row" style="width:100%"><button class="iconbtn" style="color:#fff">✕</button><span class="grow"></span><span class="pill">⏳ Until 12 Oct</span></div>
+      <div class="avatar lg" style="background:#fff">RD</div>
+      <p class="h3">How was Rakesh's work?</p>
+      <p class="sm muted">Fan not working · completed 5 Oct</p>
+    </div>
+    <div class="content" style="padding-top:14px;gap:12px">
+      <div class="stars"><a class="on">★</a><a class="on">★</a><a class="on">★</a><a class="on">★</a><a>★</a></div>
+      <p class="center label-t" style="color:var(--primary)">4 · Good</p>
+      <label class="field"><span>Tell others about it <em>(optional)</em></span>
+        <div class="input area focus" style="min-height:110px;font-size:15px;line-height:21px">Came on time, explained the capacitor problem clearly. Fan is fine now. Took a little longer than said.</div>
+        <span class="help" style="text-align:right">104 / 1,000</span></label>
+      <div class="banner info"><span class="ico">🙈</span><span class="sm">Your review is shown <b>after Rakesh reviews you</b>, or on 12 Oct. Neither of you sees the other's first. Don't add phone numbers.</span></div>
+    </div>
+    <div class="footer"><a class="btn accent">Submit review</a></div>
+  </div>
+  <div class="note"><b>Data (LLD-012 D2–D6, D13, §5)</b><code>POST /jobs/{jobId}/reviews</code> (Idempotency-Key) {rating 1–5, comment ≤ 1,000}. Eligibility at submit: job COMPLETED, caller is the booking's customer; FAILED/CANCELLED → no review. Window = completed_at + 7 days (stays open during an open dispute). Text stored as written, comment_locale from script. Entry points: payment success, "Rate worker" badge, push.</div>
+
+  <!-- C-23b Review submitted -->
+  <div class="phone soft">
+    <span class="label">C-23b Review submitted · fixed</span>
+    <div class="statusbar"><span>6:19</span><span>▮▮ 4G</span></div>
+    <div class="content" style="justify-content:center;text-align:center;gap:14px">
+      <div class="illus">⭐</div>
+      <h1 class="h2">Thanks for your review!</h1>
+      <p class="body-lg muted">It will be published when Rakesh reviews you, or on <b style="color:var(--text)">12 Oct</b> at the latest.</p>
+      <div class="card" style="text-align:left;padding:12px 14px;gap:6px">
+        <div class="row between"><span class="s">★★★★☆</span><span class="chip warning">⏳ Waiting to publish</span></div>
+        <p class="sm">Came on time, explained the capacitor problem clearly. Fan is fine now…</p>
+        <p class="help">✏️ You can edit it until it is published.</p>
+      </div>
+      <div class="banner neutral" style="text-align:left"><span class="ico">🛡️</span><span class="sm">Reviews with phone numbers or bad words are checked by our team first (within 24 h).</span></div>
+    </div>
+    <div class="footer"><a class="btn primary">Done</a><a class="btn ghost">Edit review</a></div>
+  </div>
+  <div class="note"><b>Data (LLD-012 D5/D6/D8, §5)</b><code>201</code> {status PENDING_REVEAL, revealDueAt, editable true}. Filter hit → same 201 with status UNDER_MODERATION, moderationReason CONTACT_DETAILS → copy "We'll check your review before it's shown". Reveal job (every 5 min) sets visible_at when both sides are in or the window closes → PUBLISHED.</div>
+
+  <!-- C-23c My reviews -->
+  <div class="phone">
+    <span class="label">C-23c My reviews · fixed</span>
+    <div class="statusbar"><span>7:02</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><h1>My reviews</h1></div>
+    <div class="content" style="gap:10px;padding-top:0">
+      <div class="list">
+        <div class="rv">
+          <div class="row between"><b class="sm">⚡ Rakesh Das · Fan not working</b><span class="chip warning">Waiting</span></div>
+          <div class="row between"><span class="s">★★★★☆</span><span class="help">Published by 12 Oct</span></div>
+          <p class="sm muted">Came on time, explained the capacitor problem clearly…</p>
+          <a class="badge" style="min-height:44px">✏️ Edit</a>
+        </div>
+        <div class="rv">
+          <div class="row between"><b class="sm">🚰 Sujit Mondal · Pipe leak</b><span class="chip success">Published</span></div>
+          <span class="s">★★★★★</span>
+          <p class="sm muted">Very neat work over 3 days, cleaned up after.</p>
+          <div class="reply"><b>Reply from Sujit:</b> Thank you didi, call me for any leak.</div>
+        </div>
+        <div class="rv">
+          <div class="row between"><b class="sm">⚡ Amit Pal · Switchboard</b><span class="chip info">Being checked</span></div>
+          <span class="s">★★☆☆☆</span>
+          <p class="sm muted">Our team is checking this review. It will be shown or hidden within 24 h.</p>
+        </div>
+      </div>
+    </div>
+    <div class="tabbar"><a><span class="ico">🏠</span>Home</a><a><span class="ico">📋</span>Bookings</a><a><span class="ico">🔔</span>Inbox</a><a class="on"><span class="ico">👤</span>Account</a></div>
+  </div>
+  <div class="note"><b>Data (LLD-012 §3 reviews, D8/D9; review doc D4)</b>Status chip per enum: PENDING_REVEAL "Waiting", PUBLISHED "Published", UNDER_MODERATION "Being checked", HIDDEN "Hidden — broke the rules" (stars still count), REMOVED "Removed". Edit only while unrevealed. Worker reply (one, ≤500 chars) shown under published reviews. List needs <code>GET /customers/me/reviews</code> — not in LLD-012 yet (design review P9 / D4).</div>
+
+  <!-- C-23d Edit review -->
+  <div class="phone">
+    <span class="label">C-23d Edit review · fixed</span>
+    <div class="statusbar"><span>7:04</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><div class="grow"><h1>Edit review</h1><p class="sub">Rakesh Das · Fan not working</p></div></div>
+    <div class="content" style="gap:12px">
+      <div class="banner warning"><span class="ico">⏳</span><span class="sm">Not published yet — you can change it until <b>12 Oct</b> or until Rakesh reviews you. After that it can't be changed or deleted.</span></div>
+      <div class="stars"><a class="on">★</a><a class="on">★</a><a class="on">★</a><a class="on">★</a><a class="on">★</a></div>
+      <p class="center label-t" style="color:var(--primary)">5 · Excellent</p>
+      <label class="field"><span>Your review</span>
+        <div class="input area focus" style="min-height:120px;font-size:15px;line-height:21px">Came on time, explained the capacitor problem clearly. Fan is fine now and the switchboard is safe.</div>
+        <span class="help" style="text-align:right">98 / 1,000</span></label>
+    </div>
+    <div class="footer"><a class="btn primary">Save changes</a></div>
+  </div>
+  <div class="note"><b>Data (LLD-012 D8, §5)</b><code>PUT /reviews/{id}</code> full replace (rating + comment) while visible_at is null; after reveal → 409 and the screen shows read-only. No delete in MVP. Edited text goes through the same contact/word filter (may move to UNDER_MODERATION).</div>
+</div>
+</body>
+</html>

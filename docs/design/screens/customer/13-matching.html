@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Customer · Matching, shortlist & choosing a worker</title>
+<link rel="stylesheet" href="../assets/karigar.css">
+<style>
+  .radar { width: 170px; height: 170px; border-radius: 50%; align-self: center; position: relative; display: grid; place-items: center;
+           background: radial-gradient(circle, rgba(255,184,0,.35) 0 34px, transparent 35px), radial-gradient(circle, transparent 0 56px, rgba(255,255,255,.22) 57px 58px, transparent 59px),
+                       radial-gradient(circle, transparent 0 82px, rgba(255,255,255,.16) 83px 84px, transparent 85px); }
+  .radar .me { width: 60px; height: 60px; border-radius: 50%; background: var(--grad-warm); display: grid; place-items: center; font-size: 28px; box-shadow: 0 0 0 8px rgba(255,184,0,.25); }
+  .radar .w { position: absolute; width: 30px; height: 30px; border-radius: 50%; background: rgba(255,255,255,.9); display: grid; place-items: center; font-size: 15px; }
+  .stat3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .stat3 div { background: rgba(255,255,255,.12); border-radius: var(--r-md); padding: 8px; text-align: center; }
+  .stat3 b { display: block; font-size: 22px; line-height: 26px; }
+  .stat3 small { font-size: 12px; line-height: 16px; opacity: .9; }
+  .offer { padding: 12px; gap: 8px; }
+  .offer .pic { width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; font-size: 26px; background: var(--grad-soft); border: 2px solid var(--primary-subtle); flex-shrink: 0; }
+  .offer .terms { display: grid; grid-template-columns: 1fr 1fr auto; gap: 8px; align-items: center; }
+  .offer .terms > div { background: var(--bg); border-radius: var(--r-sm); padding: 4px 8px; }
+  .offer .terms small { display: block; font-size: 12px; line-height: 15px; color: var(--text-2); }
+  .offer .terms b { font-size: 15px; }
+  .offer .btn.sm { min-height: 48px; padding: 0 16px; }
+  .tiny { font-size: 12px; line-height: 16px; padding: 2px 8px; }
+  .seg.sort a { font-size: 13px; min-height: 40px; padding: 0 4px; }
+  .hist { display: grid; grid-template-columns: 14px 1fr 24px; gap: 6px; align-items: center; font-size: 12px; line-height: 14px; }
+  .hist i { display: block; height: 6px; border-radius: 3px; background: var(--bg-2); overflow: hidden; }
+  .hist i u { display: block; height: 100%; background: var(--grad-warm); }
+  .rev { padding: 12px 14px; border-bottom: 1px solid var(--border); display: flex; flex-direction: column; gap: 4px; }
+  .rev:last-child { border-bottom: 0; }
+  .reply { background: var(--bg); border-left: 3px solid var(--primary); border-radius: 0 var(--r-sm) var(--r-sm) 0; padding: 6px 10px; font-size: 13px; line-height: 18px; }
+  .stars { color: #B37400; letter-spacing: 1px; font-size: 14px; }
+  .kv { display: flex; justify-content: space-between; gap: 8px; font-size: 14px; line-height: 20px; }
+  .kv span:first-child { color: var(--text-2); }
+</style>
+</head>
+<body>
+<div class="canvas">
+  <p class="canvas-title"><b>Customer · Matching → shortlist → choose a worker</b>Workers who want the job accept with their own rate and arrival time; the customer picks one of up to 3 (ADR 0017, LLD-007, LLD-008). No chat, no direct booking from a profile. Address and phones are shared only after selection (LLD-008 D6).</p>
+
+  <!-- C-13a Matching in progress -->
+  <div class="phone">
+    <span class="label">C-13a Matching in progress · fixed</span>
+    <div class="hero" style="padding-top:0;gap:12px">
+      <div class="statusbar clear" style="padding:0 2px"><span>2:40</span><span>▮▮ 4G</span></div>
+      <div class="row between"><button class="iconbtn" style="color:#fff">←</button><span class="pill">💰 Advance paid · ₹99</span></div>
+      <div class="radar"><div class="me">⚡</div><span class="w" style="top:14px;left:58px">👷</span><span class="w" style="bottom:22px;right:6px">👷</span><span class="w" style="top:70px;left:-2px">✅</span></div>
+      <h1 class="h2 center" style="color:#fff">Asking electricians near Shibpur</h1>
+      <div class="stat3"><div><b>2 / 3</b><small>round · 6 km</small></div><div><b>9</b><small>workers asked</small></div><div><b>1</b><small>wants the job</small></div></div>
+    </div>
+    <div class="content" style="padding-top:14px">
+      <div class="card" style="gap:6px">
+        <div class="row between"><b>Fan not working + 1</b><span class="chip info">Finding workers</span></div>
+        <span class="sm muted">Today, 4:00 – 6:00 PM · Home, Shibpur</span>
+        <div class="hr"></div>
+        <span class="sm">⏳ Workers usually reply within <b>1 hour</b>. We widen the search every hour and notify you when someone says yes.</span>
+        <span class="countdown">⏱️ Choose a worker by 6:00 PM</span>
+      </div>
+      <div class="banner neutral"><span class="ico">🔔</span><span>You can close the app. We'll send a notification when workers are ready to choose.</span></div>
+      <div class="grow"></div>
+      <a class="btn danger-o">Cancel request · ₹99 refunded</a>
+    </div>
+  </div>
+
+  <!-- C-13b Matching held overnight -->
+  <div class="phone">
+    <span class="label">C-13b Matching · held until 7 AM · new</span>
+    <div class="hero" style="padding-top:0;gap:12px">
+      <div class="statusbar clear" style="padding:0 2px"><span>10:32</span><span>▮▮ 4G</span></div>
+      <div class="row between"><button class="iconbtn" style="color:#fff">←</button><span class="pill">💰 Advance paid · ₹99</span></div>
+      <div class="illus glass">🌙</div>
+      <h1 class="h2 center" style="color:#fff">We'll start asking at 7:00 AM</h1>
+      <p class="center" style="opacity:.92">Workers aren't disturbed at night for normal jobs. Your request goes out first thing tomorrow.</p>
+    </div>
+    <div class="content" style="padding-top:14px">
+      <div class="card" style="gap:6px">
+        <div class="row between"><b>Tap leaking</b><span class="chip info">Finding workers</span></div>
+        <span class="sm muted">Tue 6 Oct, 9:00 AM – 1:00 PM · Maa's flat, Salkia</span>
+        <div class="hr"></div>
+        <span class="sm">Plumbers are asked in rounds of 4 hours, getting wider each time.</span>
+      </div>
+      <div class="banner error"><span class="ico">🚨</span><span>Water flooding or sparking right now? Cancel this and send an <b>Emergency</b> request instead — any hour.</span></div>
+      <div class="grow"></div>
+      <a class="btn danger-o">Cancel request · ₹99 refunded</a>
+    </div>
+  </div>
+  <div class="note"><b>Matching progress (LLD-007 D4, §5.2; LLD-006 D10)</b><code>GET /service-requests/{id}/matching</code> → <code>round</code>, <code>radiusKm</code>, <code>workersNotified</code>, <code>workersAccepted</code>, <code>nextUpdateInSeconds</code>. Waits shown per urgency (round length = worker response window): NOW 30 min, TODAY 1 h, SCHEDULED 4 h, EMERGENCY 10 min; radius 3 → 6 → 10 km; Book-again worker gets a first round (15 min / 30 min / 2 h; none for emergency). Non-emergency offers are not sent 21:00–07:00 (held to 07:00). Deadline chip = <code>expires_at</code>. Status chip = request status (SUBMITTED / MATCHING → "Finding workers"). Push on each accept (LLD-008 D7).</div>
+
+  <!-- C-13c Shortlist -->
+  <div class="phone soft">
+    <span class="label">C-13c Workers found · shortlist · fixed</span>
+    <div class="statusbar"><span>2:48</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><div class="grow"><h1 style="font-size:18px;line-height:24px">3 workers want this job</h1><div class="sub">Choose one · Fan not working + 1 · Today 4–6 PM</div></div></div>
+    <div class="content" style="padding-top:0;gap:10px">
+      <div class="row between"><span class="countdown">⏱️ Choose by 6:00 PM · 3 h 12 min left</span></div>
+      <div class="seg sort"><a class="on">Best match</a><a>Earliest</a><a>Price</a><a>Rating</a></div>
+
+      <div class="card offer selected">
+        <div class="row"><div class="pic">👨🏽‍🔧</div><div class="grow"><b>Sujit Das</b> <span class="chip brand tiny">❤️ Worked for you</span><div class="sm muted">★ 4.7 (38) · 132 jobs · 8 yrs</div></div></div>
+        <div class="terms"><div><small>Visit charge</small><b class="money">₹200</b></div><div><small>Can come at</small><b>4:30 PM</b></div><a class="btn primary sm">Select</a></div>
+        <div class="row wrap" style="gap:4px"><span class="chip success tiny">🪪 ID</span><span class="chip success tiny">🛡️ Police</span><span class="chip success tiny">⚡ Licensed</span><span class="chip neutral tiny">বাংলা · हिंदी</span><span class="chip neutral tiny">📍 2 km</span></div>
+      </div>
+
+      <div class="card offer">
+        <div class="row"><div class="pic">👷🏽</div><div class="grow"><b>Rakesh Mondal</b><div class="sm muted">★ 4.5 (21) · 64 jobs · 5 yrs</div></div></div>
+        <div class="terms"><div><small>Per hour</small><b class="money">₹150</b></div><div><small>Can come at</small><b>4:00 PM</b></div><a class="btn secondary sm">Select</a></div>
+        <div class="row wrap" style="gap:4px"><span class="chip success tiny">🪪 ID</span><span class="chip neutral tiny">বাংলা · English</span><span class="chip neutral tiny">📍 3.5 km</span><span class="chip info tiny">⚡ Replies fast</span></div>
+      </div>
+
+      <div class="card offer">
+        <div class="row"><div class="pic">🧑🏽‍🔧</div><div class="grow"><b>Abdul Hossain</b><div class="sm muted">New on Karigar · 2 jobs · 3 yrs</div></div></div>
+        <div class="terms"><div><small>Visit charge</small><b class="money">₹180</b></div><div><small>Can come at</small><b>5:00 PM</b></div><a class="btn secondary sm">Select</a></div>
+        <div class="row wrap" style="gap:4px"><span class="chip success tiny">🪪 ID</span><span class="chip success tiny">🎓 Skill certified</span><span class="chip neutral tiny">বাংলা · हिंदी</span><span class="chip neutral tiny">📍 1.5 km</span></div>
+      </div>
+      <p class="help center">Tap a worker to see his profile and reviews. Your address is shared only with the one you choose.</p>
+    </div>
+  </div>
+  <div class="note"><b>Shortlist (LLD-008 §4.2, D1, D2, D4; LLD-012 D11; LLD-016 badges)</b><code>GET /service-requests/{id}/shortlist</code> → max 3 ACCEPTED offers: <code>displayName, photoUrl, experienceYears, rating{average,count}</code> (shown only when count ≥ 3, else "New on Karigar"), <code>jobsCompleted, badges</code> (ID_VERIFIED, POLICE_VERIFIED, SKILL_CERTIFIED, LICENSED_ELECTRICIAN), <code>spokenLanguages, distanceKm</code> (rounded 0.5 km), <code>isFavourite</code>, <code>offer{rateType, amountMinor, availableFrom, note}</code>. Rate is one of the worker's own rates (VISIT / HOURLY / …); <code>availableFrom</code> is always inside the window. Default order = ranking score; client sorts by earliest / price / rating. "Why shown" chips come from stored <code>score_reasons</code> (favourite, distance, responsiveness). Expiry = request <code>expires_at</code>; fewer than 3 cards while rounds continue: "Still asking others".</div>
+
+  <!-- C-13d Select confirm sheet -->
+  <div class="phone soft">
+    <span class="label">C-13d Select confirm sheet · new</span>
+    <div class="statusbar"><span>2:50</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><h1 style="font-size:18px">3 workers want this job</h1></div>
+    <div class="content"><div class="skel" style="height:150px"></div><div class="skel" style="height:150px"></div></div>
+    <div class="scrim">
+      <div class="sheet" style="gap:10px">
+        <div class="row"><div class="avatar lg" style="font-size:32px;background:var(--grad-soft)">👨🏽‍🔧</div><div class="grow"><b class="h3">Choose Sujit Das?</b><div class="sm muted">Electrician · ★ 4.7 (38)</div></div></div>
+        <div class="list bill">
+          <div class="li"><span class="grow muted">Agreed rate · visit charge</span><b class="money">₹200</b></div>
+          <div class="li"><span class="grow muted">First visit</span><b>Today 4:30 – 6:00 PM</b></div>
+          <div class="li"><span class="grow muted">Advance already paid</span><b class="money" style="color:var(--success)">− ₹99 from bill</b></div>
+        </div>
+        <span class="help">Extra work or parts are added only if you approve his quote or the shop bill.</span>
+        <div class="banner neutral"><span class="ico">↩️</span><span>Free to cancel until <b>2:30 PM</b>. Later, ₹99 of the advance goes to him; once he's on the way, the visit charge ₹200.</span></div>
+        <div class="banner info"><span class="ico">📞</span><span>After you choose, he gets your address and Priya's number, and you get his phone number.</span></div>
+        <a class="btn primary">Choose Sujit</a>
+        <a class="btn ghost">Back to list</a>
+      </div>
+    </div>
+  </div>
+  <div class="note"><b>Selection (LLD-008 D5, D6, §4.2; LLD-009 D5)</b><code>POST /service-requests/{id}/select-worker {matchId}</code> + Idempotency-Key → 201 booking CONFIRMED (SINGLE_VISIT, <code>agreedRate</code> = offer rate, <code>firstVisit</code> = availableFrom → window end, <code>advancePaidMinor</code> 9900). Request → BOOKED; other workers get "not selected". Cancel rule: free until 2 h before the first visit; later = min(advance, ₹100) = ₹99; after EN_ROUTE = visit charge. 409 <code>MATCH_NO_LONGER_AVAILABLE</code> (withdrew / busy / time off / capacity) → "Sujit can't take it any more" + refreshed list; 409 <code>REQUEST_NOT_AWAITING_SELECTION</code> → request ended. Next screen: Booking confirmed (start code card) — other file.</div>
+
+  <!-- C-13e Worker profile -->
+  <div class="phone">
+    <span class="label">C-13e Worker profile (from shortlist) · fixed</span>
+    <div class="hero" style="padding-top:0;gap:8px">
+      <div class="statusbar clear" style="padding:0 2px"><span>2:49</span><span>▮▮ 4G</span></div>
+      <div class="row"><button class="iconbtn" style="color:#fff">←</button><b class="grow">Worker profile</b></div>
+      <div class="row" style="gap:12px"><div class="avatar lg" style="width:72px;height:72px;font-size:40px;background:rgba(255,255,255,.16)">👨🏽‍🔧</div>
+        <div class="grow"><h1 class="h2" style="color:#fff">Sujit Das</h1><div class="sm" style="opacity:.9">Electrician · on Karigar since Oct 2025</div></div></div>
+      <div class="stat3"><div><b>★ 4.7</b><small>38 reviews</small></div><div><b>132</b><small>jobs done</small></div><div><b>8 yrs</b><small>experience</small></div></div>
+    </div>
+    <div class="content" style="padding-top:12px;gap:10px">
+      <div class="row wrap" style="gap:6px"><span class="chip success">🪪 ID verified</span><span class="chip success">🛡️ Police verified</span><span class="chip success">⚡ Licensed electrician</span></div>
+      <p class="sm">"Fan, wiring and MCB work in Shibpur and nearby. I bring my own tools." <span class="faint">· Speaks বাংলা, हिंदी</span></p>
+      <div class="list">
+        <div class="li" style="align-items:flex-start"><div class="tradeicon" style="width:40px;height:40px;font-size:20px">⚡</div><div class="t"><b>Electrician · 8 yrs</b><small>Visit ₹200 · Hourly ₹150<br>Fan repair · Wiring · MCB / DB</small></div></div>
+        <div class="li" style="align-items:flex-start"><div class="tradeicon teal" style="width:40px;height:40px;font-size:20px">🚰</div><div class="t"><b>Plumber · 3 yrs</b><small>Visit ₹180<br>Tap fitting · Pipe leak</small></div></div>
+      </div>
+      <div class="row between"><b>Latest review</b><a class="sm" style="color:var(--primary);font-weight:600;min-height:44px;display:flex;align-items:center">All 38 reviews ›</a></div>
+      <div class="card flat" style="padding:10px 12px;gap:2px"><div class="row between"><span class="stars">★★★★★</span><span class="sm faint">Oct 2026</span></div><span class="sm" lang="bn">সুজিতদা আধ ঘণ্টায় MCB-র সমস্যা ঠিক করে দিলেন।</span><span class="sm muted">— Ananya B.</span></div>
+    </div>
+    <div class="footer" style="flex-direction:row;align-items:center"><div class="grow"><b class="money">₹200 visit</b><div class="sm muted">Can come at 4:30 PM</div></div><a class="btn primary sm" style="padding:0 28px">Select</a></div>
+  </div>
+
+  <!-- C-13f All reviews -->
+  <div class="phone soft">
+    <span class="label">C-13f All worker reviews · fixed</span>
+    <div class="statusbar"><span>2:49</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><h1>Sujit Das · reviews</h1></div>
+    <div class="content" style="padding-top:0;gap:10px">
+      <div class="card" style="flex-direction:row;gap:14px;align-items:center">
+        <div class="center"><div class="h1">4.7</div><div class="stars">★★★★★</div><div class="sm muted">38 reviews</div></div>
+        <div class="col grow" style="gap:3px">
+          <div class="hist"><span>5</span><i><u style="width:76%"></u></i><span>29</span></div>
+          <div class="hist"><span>4</span><i><u style="width:16%"></u></i><span>6</span></div>
+          <div class="hist"><span>3</span><i><u style="width:5%"></u></i><span>2</span></div>
+          <div class="hist"><span>2</span><i><u style="width:0"></u></i><span>0</span></div>
+          <div class="hist"><span>1</span><i><u style="width:3%"></u></i><span>1</span></div>
+        </div>
+      </div>
+      <span class="help">From completed Karigar jobs in the last 12 months. Newest first.</span>
+      <div class="list">
+        <div class="rev"><div class="row between"><b class="sm">Ananya B. <span class="faint" style="font-weight:400">· Oct 2026</span></b><span class="stars">★★★★★</span></div>
+          <span class="sm" lang="bn">সুজিতদা আধ ঘণ্টায় MCB-র সমস্যা ঠিক করে দিলেন, বুঝিয়েও বললেন।</span>
+          <div class="reply"><b>Reply from Sujit:</b> <span lang="bn">ধন্যবাদ দিদি!</span></div>
+          <a class="sm faint" style="align-self:flex-end;min-height:44px;display:flex;align-items:center;padding:0 4px;margin:-8px 0 -10px">⚑ Report</a></div>
+        <div class="rev"><div class="row between"><b class="sm">Rajib K. <span class="faint" style="font-weight:400">· Sep 2026</span></b><span class="stars">★★★★☆</span></div>
+          <span class="sm">Came on time, fixed fan regulator. Bit costly for parts but showed the shop bill.</span>
+          <a class="sm faint" style="align-self:flex-end;min-height:44px;display:flex;align-items:center;padding:0 4px;margin:-8px 0 -10px">⚑ Report</a></div>
+        <div class="rev"><div class="row between"><b class="sm">Rakesh S. <span class="faint" style="font-weight:400">· Sep 2026</span></b><span class="stars">★★☆☆☆</span></div>
+          <span class="sm faint"><i>Comment hidden by Karigar for breaking review rules.</i></span></div>
+      </div>
+    </div>
+  </div>
+  <div class="note"><b>Profile &amp; reviews (LLD-004 §4, LLD-012 §4, D7, D9, D11)</b><code>GET /workers/{id}</code>: trades with experience (self-declared, no tick), rates per trade, skills, languages, badges, rating, jobs, <code>memberSince</code> month. Never: phone, exact area / service radius, documents. "Select" only when opened from a shortlist (this offer's rate + time in the footer); no chat, no "Book" from search. <code>GET /workers/{id}/reviews?cursor</code>: summary (avg, count, histogram) + revealed customer reviews, newest first, month only, worker reply (≤500 chars). Report → <code>POST /reviews/{id}/report {reasonCode}</code> (one per user). Hidden items show stars, no text. No photo filter, no aspect tags (P9).</div>
+
+  <!-- C-13g No workers found -->
+  <div class="phone soft">
+    <span class="label">C-13g No workers found · fixed</span>
+    <div class="statusbar"><span>4:40</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><h1>Request</h1></div>
+    <div class="content" style="gap:14px">
+      <div class="grow"></div>
+      <div class="illus teal">🔍</div>
+      <h1 class="h2 center">No electrician could take this job</h1>
+      <p class="body-lg center muted">We asked 21 workers up to 10 km away. They were busy for <b>Today 4 – 6 PM</b>.</p>
+      <div class="card" style="gap:6px">
+        <div class="kv"><span>Advance</span><b class="money">₹99</b></div>
+        <span class="sm">Search again now and your ₹99 stays as the advance. If you don't, we refund it in full in <b>10 minutes</b>.</span>
+      </div>
+      <div class="grow"></div>
+    </div>
+    <div class="footer"><a class="btn accent">Search again</a><a class="btn secondary">Create a new request (other time)</a></div>
+  </div>
+  <div class="note"><b>Failed to match (LLD-006 §6, LLD-007 §5.2)</b>Last round ended with 0 accepts → request FAILED_TO_MATCH. "Search again" → <code>POST /service-requests/{id}/search-again</code> (only before <code>expires_at</code>; new run, decliners still excluded); no refund if retried within 10 min. Otherwise <code>AdvanceRefundRequested</code> (FAILED_TO_MATCH). After <code>expires_at</code> only "Create a new request" is shown. Not "nothing charged" (review §3.3).</div>
+
+  <!-- C-13h Cancel request sheet -->
+  <div class="phone soft">
+    <span class="label">C-13h Cancel request (before booking) · new</span>
+    <div class="statusbar"><span>2:10</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><h1>Finding workers</h1></div>
+    <div class="content"><div class="skel" style="height:200px"></div><div class="skel" style="height:120px"></div></div>
+    <div class="scrim">
+      <div class="sheet">
+        <b class="h3">Cancel this request?</b>
+        <span class="sm muted">Fan not working + 1 · Today 4 – 6 PM</span>
+        <b class="sm">Why are you cancelling?</b>
+        <div class="list">
+          <div class="li"><span class="radio on"></span><span class="t">I don't need it any more</span></div>
+          <div class="li"><span class="radio"></span><span class="t">I found someone else</span></div>
+          <div class="li"><span class="radio"></span><span class="t">Wrong time or details</span></div>
+          <div class="li"><span class="radio"></span><span class="t">Taking too long</span></div>
+        </div>
+        <div class="banner success"><span class="ico">↩️</span><span>No worker is booked yet, so your <b>₹99 is refunded in full</b>.</span></div>
+        <a class="btn danger">Cancel request</a>
+        <a class="btn ghost">Keep looking</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- C-13i Request cancelled -->
+  <div class="phone soft">
+    <span class="label">C-13i Request cancelled · refund · new</span>
+    <div class="statusbar"><span>2:11</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">✕</button><h1>Request cancelled</h1></div>
+    <div class="content" style="gap:14px">
+      <div class="grow"></div>
+      <div class="illus">↩️</div>
+      <h1 class="h2 center">Cancelled. Your ₹99 is coming back</h1>
+      <p class="body-lg center muted">We told the workers who were interested. Nothing else to pay.</p>
+      <div class="card" style="gap:8px">
+        <div class="kv"><span>Request</span><span>Fan not working + 1</span></div>
+        <div class="kv"><span>Status</span><span class="chip neutral">Cancelled</span></div>
+        <div class="kv"><span>Refund</span><b class="money">₹99</b></div>
+        <div class="kv"><span>To</span><span>UPI · pri***@oksbi</span></div>
+        <div class="kv"><span>Refund status</span><span class="chip info">Refund processing</span></div>
+      </div>
+      <p class="help center">Banks usually show it in 5–7 days. We'll notify you when it's done.</p>
+      <div class="grow"></div>
+    </div>
+    <div class="footer"><a class="btn primary">Make a new request</a><a class="btn ghost">Back to home</a></div>
+  </div>
+  <div class="note"><b>Cancel before booking (LLD-006 §4.1, §5.2, D7)</b><code>POST /service-requests/{id}/cancel {reasonCode}</code> → 200 with refund info. Allowed in PENDING_PAYMENT (nothing to refund) and SUBMITTED / MATCHING / AWAITING_SELECTION → CANCELLED + <code>AdvanceRefundRequested</code> (CANCELLED_BEFORE_BOOKING). Reasons are API-driven <code>reason_codes</code> (CUSTOMER_CANCELLATION); the labels here are examples — only <code>NO_LONGER_NEEDED</code> is named in the docs. Offers close; ACCEPTED workers get <code>WorkerNotSelected (REQUEST_ENDED)</code>. After BOOKED → 409 <code>REQUEST_NOT_CANCELLABLE</code>: cancel the booking instead (fee rules LLD-009). Refund chip = <code>refunds.status</code>.</div>
+</div>
+</body>
+</html>

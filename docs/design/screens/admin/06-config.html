@@ -1,0 +1,435 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin · Config</title>
+<link rel="stylesheet" href="../assets/karigar.css">
+<style>
+
+.side{background-image:var(--tools-light),var(--grad);background-size:220px 220px,cover;gap:1px}
+.side a{padding:6px 10px}.side .gf{border:1px dashed rgba(255,255,255,.35);margin-top:4px}
+.side .me{display:flex;gap:8px;align-items:center;padding:10px;border-radius:10px;background:rgba(255,255,255,.1);margin-top:6px;font-size:12px;line-height:16px;color:#fff}
+.side .me .avatar{width:32px;height:32px;font-size:12px;background:var(--grad-warm);color:var(--ink)}
+.id{font-family:var(--mono);font-size:12px;color:var(--text-2);white-space:nowrap}.id::after{content:" 📋";font-size:11px}
+.perm{font-family:var(--mono);font-size:11px;background:var(--bg-2);color:var(--text-2);padding:1px 6px;border-radius:4px;white-space:nowrap}
+.modal{position:absolute;inset:0;background:rgba(11,47,46,.5);display:grid;place-items:center;z-index:5}
+.modal .dialog{width:560px;margin:0;box-shadow:var(--e3)}
+.web .input{min-height:40px;font-size:14px}
+.web .table td,.web .table th{padding:9px 12px}
+.badge{white-space:nowrap}.web .btn{white-space:nowrap}.web .btn.sm{min-height:32px;padding:0 10px;font-size:13px}
+.sec{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--text-2);font-weight:700}
+.notes{display:flex;gap:16px;flex-wrap:wrap;width:1440px;margin-bottom:24px}
+/* this file */
+
+.kv{display:grid;grid-template-columns:150px 1fr;gap:6px 12px;font-size:13px;align-items:center}.kv dt{color:var(--text-2)}
+.mini th{font-size:11px}.mini td{font-size:13px}
+.tree{display:flex;flex-direction:column;gap:2px;font-size:13px}
+.tree .cat{font-weight:700;padding:8px 8px 4px;display:flex;justify-content:space-between}
+.tree .tr{padding:6px 8px 6px 22px;border-radius:8px;display:flex;justify-content:space-between;align-items:center}
+.tree .tr.on{background:var(--primary-subtle);color:var(--primary);font-weight:600}
+.tree .tr.off{color:var(--text-3)}
+.toggle.s{width:34px;height:20px;display:inline-block;vertical-align:middle}.toggle.s::after{width:14px;height:14px}.toggle.s.on::after{left:17px}
+.pin{display:inline-flex;font:500 12px var(--mono);padding:3px 8px;border-radius:6px;background:var(--bg-2)}
+.mx td,.mx th{padding:4px 10px!important;font-size:12px;text-align:center}.mx td:first-child,.mx th:first-child{text-align:left}
+.mx td.y{color:var(--success);font-weight:800}.mx td.n{color:var(--border)}
+.json{font:12px/18px var(--mono);background:var(--ink);color:#CFE3E0;border-radius:var(--r-md);padding:10px 12px;white-space:pre}
+.lock{color:var(--text-3)}
+.setgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.setgrid .card{gap:4px}.setgrid .row{font-size:13px}
+
+</style>
+</head>
+<body>
+<div class="canvas">
+
+<p class="canvas-title"><b>Admin · Config: catalog, service zones, notifications, outbox, audit, staff, roles, settings</b>Catalog per LLD-003 (category → trade → skills + common problems, en/bn/hi, active flag, immutable code). Zones per LLD-005. Delivery log + retry per LLD-013 (no SMS, no campaigns, templates in code). Outbox DEAD per LLD-022. Audit / staff / roles per LLD-020. Settings and roles are read-only (P7).</p>
+
+<!-- A-60 Catalog -->
+<div class="web">
+  <span class="label">A-60 Catalog · trade editor · fixed</span>
+  <nav class="side" data-on="catalog"></nav>
+  <div class="main">
+    <header class="topbar" data-std><h1>Catalog</h1></header>
+    <div class="page">
+      <div class="split">
+        <div class="card" style="width:240px;flex-shrink:0;padding:10px;gap:4px">
+          <div class="input" style="min-height:36px;font-size:13px">🔎 Find trade / problem</div>
+          <div class="tree">
+            <div class="cat"><span>⚡ Electrical &amp; plumbing</span><span class="chip success" style="font-size:11px">2 live</span></div>
+            <div class="tr on"><span>Electrician</span><span class="toggle s on"></span></div>
+            <div class="tr"><span>Plumber</span><span class="toggle s on"></span></div>
+            <div class="cat"><span>🧱 Construction</span><span class="faint">hidden</span></div>
+            <div class="tr off"><span>Mason</span><span class="toggle s"></span></div>
+            <div class="tr off"><span>Tile fitter</span><span class="toggle s"></span></div>
+            <div class="cat"><span>🎨 Finishing &amp; interiors</span><span class="faint">hidden</span></div>
+            <div class="tr off"><span>Painter</span><span class="toggle s"></span></div>
+            <div class="tr off"><span>POP / false ceiling</span><span class="toggle s"></span></div>
+            <div class="cat"><span>🪚 Wood, metal &amp; glass</span><span class="faint">hidden</span></div>
+            <div class="tr off"><span>Carpenter</span><span class="toggle s"></span></div>
+            <div class="cat"><span>🧊 Appliance repair</span><span class="faint">hidden</span></div>
+            <div class="tr off"><span>AC technician</span><span class="toggle s"></span></div>
+            <div class="cat"><span>🧹 Cleaning &amp; pest</span><span class="faint">hidden</span></div>
+            <div class="cat"><span>🧰 Helpers &amp; other</span><span class="faint">hidden</span></div>
+          </div>
+          <p class="help" style="padding:4px 8px">A category shows in the app only when it has an active trade. Rows are never deleted.</p>
+        </div>
+        <div class="col grow" style="gap:12px;min-width:0">
+          <div class="card hero" style="flex-direction:row;align-items:center;gap:16px;padding:16px 20px">
+            <div class="tradeicon">⚡</div>
+            <div class="col grow" style="gap:2px"><div class="row"><b class="h3">Electrician</b><span class="pill">ACTIVE · live in app</span></div><span class="sm" style="opacity:.9">code <span class="mono">ELECTRICIAN</span> 🔒 immutable · category ELECTRICAL_PLUMBING</span></div>
+            <a class="btn" style="background:rgba(255,255,255,.16);color:#fff">⏸️ Deactivate trade</a>
+          </div>
+          <div class="row" style="gap:12px;align-items:stretch">
+            <div class="card grow">
+              <b class="h4">🌐 Names</b>
+              <div class="kv"><dt>en</dt><dd>Electrician</dd><dt lang="bn">bn · বাংলা</dt><dd lang="bn">ইলেকট্রিশিয়ান</dd><dt>hi · हिन्दी</dt><dd lang="hi">इलेक्ट्रीशियन</dd></div>
+            </div>
+            <div class="card grow">
+              <b class="h4">⚙️ Trade settings</b>
+              <div class="kv"><dt>Default rate type</dt><dd>VISIT ▾</dd><dt>Emergency</dt><dd><span class="toggle s on" style="display:inline-block;vertical-align:middle"></span> enabled · surcharge <b>₹150</b></dd><dt>Advance</dt><dd><b>₹99</b> (always online)</dd></div>
+            </div>
+          </div>
+          <div class="card" style="gap:6px">
+            <div class="row between"><b class="h4">🛠️ Skills <span class="faint sm">(profile info only; matching is by trade)</span></b><a class="btn ghost sm">+ Skill</a></div>
+            <div class="row wrap"><span class="chip brand">Wiring</span><span class="chip brand">Fan &amp; light fitting</span><span class="chip brand">MCB / DB board</span><span class="chip brand">Inverter</span><span class="chip brand">Earthing</span><span class="chip neutral">Smart switches · inactive</span></div>
+          </div>
+          <div class="table"><table class="mini">
+            <tr><th>Common problem</th><th>Skill</th><th>Price guide</th><th>Emergency</th><th>Translations</th><th>Active</th><th></th></tr>
+            <tr><td>Fan not working</td><td>Fan &amp; light</td><td class="money">₹250 – ₹450</td><td>—</td><td><span class="chip success">en bn hi</span></td><td><span class="toggle s on"></span></td><td><a class="badge">Edit</a></td></tr>
+            <tr><td>MCB keeps tripping</td><td>MCB / DB</td><td class="money">₹300 – ₹600</td><td>🚨 yes</td><td><span class="chip warning">hi missing</span></td><td><span class="toggle s on"></span></td><td><a class="badge">Edit</a></td></tr>
+            <tr><td>Sparking / burning smell</td><td>Wiring</td><td><span class="chip info">Needs inspection</span></td><td>🚨 yes</td><td><span class="chip success">en bn hi</span></td><td><span class="toggle s on"></span></td><td><a class="badge">Edit</a></td></tr>
+            <tr><td>New light point</td><td>Wiring</td><td class="money">₹350 – ₹700</td><td>—</td><td><span class="chip success">en bn hi</span></td><td><span class="toggle s on"></span></td><td><a class="badge">Edit</a></td></tr>
+            <tr><td>Inverter connection</td><td>Inverter</td><td class="money">₹500 – ₹900</td><td>—</td><td><span class="chip warning">bn missing</span></td><td><span class="toggle s"></span></td><td><a class="badge">Edit</a></td></tr>
+          </table></div>
+        </div>
+        <div class="rail" style="width:230px">
+          <div class="card">
+            <b class="h4">🔍 Search misses <span class="chip neutral">bn</span></b>
+            <div class="row between sm"><span lang="bn">পাখা ঘুরছে না</span><b>41</b></div>
+            <div class="row between sm"><span>geyser line</span><b>23</b></div>
+            <div class="row between sm"><span lang="bn">মিটার বোর্ড</span><b>17</b></div>
+            <div class="row between sm"><span>switch tuta</span><b>12</b></div>
+            <p class="help">Add these as keywords on a problem.</p>
+          </div>
+          <div class="card">
+            <b class="h4">🌐 Missing translations</b>
+            <div class="row between sm"><span>hi</span><span class="chip warning">3</span></div>
+            <div class="row between sm"><span>bn</span><span class="chip warning">1</span></div>
+            <p class="help">Missing text falls back to English in the app.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="notes">
+  <div class="note"><b>API</b><code>/admin/catalog/categories · professions · skills · problems</code> (POST / PATCH, code immutable), <code>/professions/{id}/activate · /deactivate</code>, <code>PUT /{type}/{id}/translations/{locale}</code>, <code>GET /search-misses?locale=</code>, <code>/missing-translations?locale=</code> — <code>catalog.manage</code> (LLD-003). Rate type VISIT / HOURLY / HALF_DAY / DAILY / PER_UNIT / MINIMUM. A problem has a price guide or "needs inspection".</div>
+  <div class="note"><b>Fixes vs PNG</b>No "Services" layer, no Draft state (active flag only), no delete. Surcharge value shown is an example.</div>
+</div>
+
+<!-- A-61 Edit problem -->
+<div class="web">
+  <span class="label">A-61 Edit common problem (en/bn/hi + keywords) · fixed (was "Edit service")</span>
+  <nav class="side" data-on="catalog"></nav>
+  <div class="main">
+    <header class="topbar" data-std><h1>Catalog › Electrician › MCB keeps tripping</h1></header>
+    <div class="page">
+      <div class="split">
+        <div class="col grow" style="gap:14px;min-width:0">
+          <div class="card" style="gap:12px">
+            <div class="row between"><b class="h4">Basics</b><span class="sm muted">code <span class="mono">MCB_TRIPPING</span> 🔒</span></div>
+            <div class="row" style="gap:12px">
+              <label class="field grow"><span>Skill</span><div class="input">MCB / DB board ▾</div></label>
+              <label class="field grow"><span>Estimated time</span><div class="input">60 min</div></label>
+              <label class="field grow"><span>Sort order</span><div class="input">2</div></label>
+            </div>
+            <div class="row" style="gap:12px;align-items:flex-end">
+              <label class="field grow"><span>Price guide from</span><div class="input money">₹ 300</div></label>
+              <label class="field grow"><span>to</span><div class="input money">₹ 600</div></label>
+              <label class="check grow" style="min-height:52px;align-items:center"><span class="box"></span><span>Needs inspection (no price guide)</span></label>
+            </div>
+          </div>
+          <div class="card" style="gap:12px">
+            <div class="row between"><b class="h4">🌐 Title &amp; search keywords</b><div class="seg" style="width:300px"><a>English</a><a lang="bn">বাংলা</a><a class="on" lang="hi">हिन्दी ⚠️</a></div></div>
+            <label class="field"><span>Title (hi)</span><div class="input focus" lang="hi">एमसीबी बार-बार ट्रिप हो रहा है</div></label>
+            <label class="field"><span>Keywords <em>(comma-separated; include romanised spellings)</em></span><div class="input area" lang="hi">एमसीबी, ट्रिप, बिजली चली जाती है, mcb trip, light chali jati, main switch gir jata</div></label>
+            <div class="banner info"><span class="ico">🔤</span><span>English: <b>MCB keeps tripping</b> · keywords <i>mcb, trip, power cut, main switch falls</i>. Bengali: <span lang="bn">এমসিবি বারবার ট্রিপ করছে</span>.</span></div>
+          </div>
+          <div class="row" style="justify-content:flex-end"><a class="btn ghost">Cancel</a><a class="btn secondary">⏸️ Deactivate problem</a><a class="btn primary">Save hi translation</a></div>
+        </div>
+        <div class="rail" style="width:330px">
+          <div class="card" style="gap:8px">
+            <b class="h4">📱 Preview in app (hi)</b>
+            <div class="card flat" style="background:var(--bg);gap:6px">
+              <div class="row"><div class="tradeicon" style="width:40px;height:40px;font-size:20px">⚡</div><b lang="hi">एमसीबी बार-बार ट्रिप हो रहा है</b></div>
+              <span class="sm muted">आम कीमत <b class="money">₹300 – ₹600</b> · ~60 मिनट</span>
+              <span class="chip error" style="align-self:flex-start">🚨 Emergency available</span>
+            </div>
+            <p class="help">Indic text uses Anek Devanagari / Bangla with line-height ≥ 1.5.</p>
+          </div>
+          <div class="card"><b class="h4">🔍 Recent misses matching</b><div class="row between sm"><span>"main switch gir gaya"</span><b>9</b></div><div class="row between sm"><span>"trip ho raha"</span><b>6</b></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="notes">
+  <div class="note"><b>API</b><code>PATCH /admin/catalog/professions/{id}/problems/{problemId}</code> (price guide, minutes, skill, active) + <code>PUT …/translations/hi</code> (title + keywords → <code>catalog_search_terms</code>). Cache TTL 5 min, so changes reach apps within minutes (LLD-003 D3, D4).</div>
+</div>
+
+<!-- A-62 Service zones -->
+<div class="web">
+  <span class="label">A-62 Service zones · new</span>
+  <nav class="side" data-on="zones"></nav>
+  <div class="main">
+    <header class="topbar" data-std><h1>Service zones</h1><a class="btn primary sm">+ New zone</a></header>
+    <div class="page">
+      <div class="split">
+        <div class="col" style="width:420px;gap:12px;flex-shrink:0">
+          <div class="table"><table>
+            <tr><th>Zone</th><th>Status</th><th>PINs</th><th>Waitlist</th></tr>
+            <tr style="background:var(--primary-subtle)"><td><b>Howrah Central</b></td><td><span class="chip success">ACTIVE</span></td><td>18</td><td>—</td></tr>
+            <tr><td><b>Bally – Liluah</b></td><td><span class="chip warning">COMING_SOON</span></td><td>6</td><td><b>214</b></td></tr>
+            <tr><td><b>Kolkata South</b></td><td><span class="chip neutral">INACTIVE</span></td><td>12</td><td>87</td></tr>
+          </table></div>
+          <div class="card">
+            <b class="h4">📬 Waitlist demand by PIN</b>
+            <div class="table" style="box-shadow:none"><table class="mini">
+              <tr><th>PIN</th><th>In zone</th><th>Waiting</th></tr>
+              <tr><td class="mono">711201</td><td>Bally – Liluah</td><td><b>96</b></td></tr>
+              <tr><td class="mono">711204</td><td>Bally – Liluah</td><td>71</td></tr>
+              <tr><td class="mono">700029</td><td>Kolkata South</td><td>52</td></tr>
+              <tr><td class="mono">711401</td><td class="faint">no zone</td><td>18</td></tr>
+            </table></div>
+          </div>
+        </div>
+        <div class="col grow" style="gap:12px;min-width:0">
+          <div class="card hero" style="flex-direction:row;align-items:center;gap:16px;padding:16px 20px">
+            <div class="illus glass sm">🗺️</div>
+            <div class="col grow" style="gap:2px"><b class="h3">Howrah Central</b><span class="sm" style="opacity:.9">Resolved by PIN code (no boundary uploaded) · re-checked on every new request</span></div>
+            <span class="pill">ACTIVE</span>
+          </div>
+          <div class="card">
+            <div class="row between"><b class="h4">📮 PIN codes · 18</b><a class="btn secondary sm">Edit full PIN list</a></div>
+            <div class="row wrap"><span class="pin">711101</span><span class="pin">711102</span><span class="pin">711103</span><span class="pin">711104</span><span class="pin">711105</span><span class="pin">711106</span><span class="pin">711107</span><span class="pin">711108</span><span class="pin">711109</span><span class="pin">711110</span><span class="pin">711111</span><span class="pin">711112</span><span class="pin">711113</span><span class="pin">711114</span><span class="pin">711115</span><span class="pin">711301</span><span class="pin">711302</span><span class="pin">711303</span></div>
+          </div>
+          <div class="card">
+            <div class="row between"><b class="h4">🧭 Boundary (optional)</b><a class="btn secondary sm">Upload GeoJSON</a></div>
+            <p class="sm muted">MultiPolygon, validated server-side. Once any zone has a boundary, polygons win over PIN codes.</p>
+          </div>
+          <div class="card">
+            <b class="h4">🔁 Status</b>
+            <div class="seg"><a class="on">ACTIVE</a><a>COMING_SOON</a><a>INACTIVE</a></div>
+            <div class="banner info"><span class="ico">📣</span><span>Setting a zone to <b>ACTIVE</b> notifies everyone on its waitlist ("We're now in your area") — push / inbox, or email for logged-out sign-ups.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="notes">
+  <div class="note"><b>API</b><code>POST · PATCH /admin/service-zones[/{id}]</code>, <code>PUT …/{id}/pincodes</code> (full list), <code>PUT …/{id}/boundary</code>, <code>POST …/{id}/status</code>, <code>GET /admin/service-zones/waitlist?pincode=</code> — <code>service_zone.manage</code> (zone-scoped grants allowed, D4). LLD-005 D2, §4.</div>
+  <div class="note"><b>Note</b>Zone names and PINs are examples. Waitlist rows come from <code>service_area_waitlist</code>; launch notifications go out once per entry (<code>notified_at</code>).</div>
+</div>
+
+<!-- A-63 Notifications log -->
+<div class="web">
+  <span class="label">A-63 Notifications delivery log · fixed (was "Communications")</span>
+  <nav class="side" data-on="notif"></nav>
+  <div class="main">
+    <header class="topbar" data-std><h1>Notifications</h1></header>
+    <div class="page">
+      <div class="filters">
+        <div class="input" style="width:280px">🆔 User id …4f21e9</div><div class="input" style="width:170px">Status: FAILED ▾</div><div class="input" style="width:160px">Channel: any ▾</div><div class="input" style="width:150px">📅 Last 7 days</div>
+        <span class="grow"></span><span class="chip neutral">Read-only log · push, email, in-app · no SMS · no campaigns</span>
+      </div>
+      <div class="table"><table>
+        <tr><th>When</th><th>Type</th><th>Category</th><th>Channel</th><th>Locale</th><th>Status</th><th>Attempts</th><th>Failure</th><th>Provider id</th><th></th></tr>
+        <tr><td>Today 10:12</td><td class="mono">WORKER_ON_THE_WAY</td><td>TRANSACTIONAL</td><td>📲 PUSH</td><td>bn</td><td><span class="chip error">FAILED</span></td><td>5</td><td class="mono">FCM_UNAVAILABLE</td><td class="faint">—</td><td><a class="btn primary sm">Retry</a></td></tr>
+        <tr><td>Today 10:12</td><td class="mono">WORKER_ON_THE_WAY</td><td>TRANSACTIONAL</td><td>📥 IN_APP</td><td>bn</td><td><span class="chip success">SENT</span></td><td>—</td><td>—</td><td class="faint">—</td><td></td></tr>
+        <tr><td>Today 09:58</td><td class="mono">VISIT_CONFIRM_REMINDER</td><td>REMINDER</td><td>📲 PUSH</td><td>bn</td><td><span class="chip neutral">SUPPRESSED</span></td><td>0</td><td class="mono">PREFERENCE_OFF</td><td class="faint">—</td><td></td></tr>
+        <tr><td>Yesterday 18:40</td><td class="mono">MATERIAL_BILL_ACK</td><td>TRANSACTIONAL</td><td>📲 PUSH</td><td>bn</td><td><span class="chip neutral">EXPIRED</span></td><td>3</td><td class="mono">NO_DEVICE</td><td class="faint">—</td><td></td></tr>
+        <tr><td>Yesterday 11:02</td><td class="mono">PASSWORD_RESET</td><td>SECURITY</td><td>✉️ EMAIL</td><td>en</td><td><span class="chip error">FAILED</span></td><td>5</td><td class="mono">INVALID_EMAIL</td><td class="faint">—</td><td><a class="btn primary sm">Retry</a></td></tr>
+        <tr><td>3 Oct 18:21</td><td class="mono">DISPUTE_OPENED</td><td>TRANSACTIONAL</td><td>✉️ EMAIL</td><td>bn</td><td><span class="chip success">SENT</span></td><td>1</td><td>—</td><td class="mono">brevo:&lt;2025…&gt;</td><td></td></tr>
+        <tr><td>3 Oct 18:21</td><td class="mono">DISPUTE_OPENED</td><td>TRANSACTIONAL</td><td>📲 PUSH</td><td>bn</td><td><span class="chip info">PENDING</span></td><td>2</td><td>next try 10:40</td><td class="faint">—</td><td></td></tr>
+      </table></div>
+      <div class="banner neutral"><span class="ico">🔒</span><span>Message titles, bodies and links are never shown here (they can hold personal details). Templates live in code — preview them in the repo, not in this console.</span></div>
+    </div>
+  </div>
+</div>
+<div class="notes">
+  <div class="note"><b>API</b><code>GET /admin/notifications?userId=&amp;status=FAILED&amp;cursor=</code> (<code>notification.view</code>: OPS_MANAGER, SUPPORT_AGENT) — title / body / secretUrl never returned; <code>POST /admin/notifications/{id}/retry</code> (<code>notification.retry</code>: OPS_MANAGER) FAILED → PENDING, attempts 0, audited. Status PENDING / SENT / FAILED / SUPPRESSED / EXPIRED; channel IN_APP / PUSH / EMAIL (LLD-013).</div>
+  <div class="note"><b>Removed vs PNG</b>SMS, OTP, editable templates, campaigns (B1, P7, LLD-013 D2/D4).</div>
+</div>
+
+<!-- A-64 Outbox dead -->
+<div class="web">
+  <span class="label">A-64 Outbox · dead events (system health) · fixed (was "System health")</span>
+  <nav class="side" data-on="outbox"></nav>
+  <div class="main">
+    <header class="topbar" data-std><h1>Outbox</h1></header>
+    <div class="page">
+      <div class="row" style="gap:14px;align-items:stretch">
+        <div class="card hero" style="flex:1;padding:18px;background-image:var(--tools-light),var(--grad-danger)"><span class="sm" style="opacity:.9">OUTBOX_DEAD</span><b style="font-size:34px;line-height:40px">3</b><span class="sm" style="opacity:.9">🔔 alert: &gt; 0 for 15 min · oldest 42 min</span></div>
+        <div class="card" style="flex:2;flex-direction:row;align-items:center;gap:16px;padding:18px">
+          <div class="illus teal sm">📈</div>
+          <div class="col grow" style="gap:4px"><b class="h4">System health lives in Grafana</b><span class="sm muted">API latency, error rate, job lag, queue sizes, provider status, DB and Redis. This console only shows what staff can act on.</span></div>
+          <a class="btn accent">Open Grafana ↗</a>
+        </div>
+      </div>
+      <div class="table"><table>
+        <tr><th>Event</th><th>Type</th><th>Aggregate</th><th>Occurred</th><th>Attempts</th><th>Last error</th><th></th></tr>
+        <tr><td class="id">…5c0e7a</td><td class="mono">RefundSucceeded v1</td><td>PAYMENT <span class="id">…be72</span></td><td>Today 10:41</td><td>10</td><td class="mono">Consumer earnings.reversal: LedgerUnbalanced</td><td><div class="row"><a class="btn primary sm">Retry</a><a class="btn secondary sm">Ack…</a></div></td></tr>
+        <tr><td class="id">…9b1f20</td><td class="mono">WorkerSuspended v1</td><td>WORKER <span class="id">…77b2d1</span></td><td>Today 10:30</td><td>10</td><td class="mono">booking.cancel: CONCURRENT_UPDATE</td><td><div class="row"><a class="btn primary sm">Retry</a><a class="btn secondary sm">Ack…</a></div></td></tr>
+        <tr><td class="id">…02ad4c</td><td class="mono">VisitCheckedOut v1</td><td>JOB_VISIT <span class="id">…a91c4e</span></td><td>Today 10:18</td><td>10</td><td class="mono">notifications: payload schema v2 expected</td><td><div class="row"><a class="btn primary sm">Retry</a><a class="btn secondary sm">Ack…</a></div></td></tr>
+      </table></div>
+      <div class="banner info"><span class="ico">🔁</span><span>Retry sets DEAD → PENDING with attempts 0. Safe: every consumer is idempotent. Fix the cause first (deploy) or it will die again. Ack = "handled elsewhere / no action" + note.</span></div>
+      <a class="badge">All ops queues →</a>
+    </div>
+  </div>
+</div>
+<div class="notes">
+  <div class="note"><b>API</b><code>GET /admin/ops/queues/OUTBOX_DEAD</code> (<code>ops.view</code>), <code>POST /admin/ops/outbox/{eventId}/retry</code> (<code>ops.act</code>; not DEAD → 409 <code>OUTBOX_EVENT_NOT_DEAD</code>), ack via the queue ack endpoint. Payload not shown (ids only anyway, LLD-022 D8). Outbox status PENDING / PUBLISHED / FAILED / DEAD.</div>
+  <div class="note"><b>Decided</b>System health = Grafana link (P5); no built-in charts, no "generic failed jobs" list.</div>
+</div>
+
+<!-- A-65 Audit log -->
+<div class="web">
+  <span class="label">A-65 Audit log · fixed</span>
+  <nav class="side" data-on="audit"></nav>
+  <div class="main">
+    <header class="topbar" data-std><h1>Audit log</h1></header>
+    <div class="page">
+      <div class="filters">
+        <div class="input" style="width:190px">Entity: WORKER ▾</div><div class="input" style="width:200px">🆔 …8c03d2</div><div class="input" style="width:200px">Actor: any staff ▾</div><div class="input" style="width:220px">Action: any ▾</div><div class="input" style="width:220px">📅 7 Sep – 6 Oct (≤ 31 days)</div>
+      </div>
+      <div class="table"><table>
+        <tr><th>When</th><th>Actor</th><th>Action</th><th>Entity</th><th>Reason</th><th>Note</th><th>Request</th></tr>
+        <tr style="background:var(--primary-subtle)"><td>Today 11:20</td><td>Priya Sen</td><td class="mono">WORKER_SUSPENDED</td><td>WORKER <span class="id">…8c03d2</span></td><td>SAFETY_CONCERN</td><td>Customer complaint, call ref 4411</td><td class="id">…e19a</td></tr>
+        <tr><td colspan="7" style="padding:0 12px 12px"><div class="json">{ "adminUserId": "…a01c", "reasonCode": "SAFETY_CONCERN", "note": "Customer complaint, call ref 4411",
+  "blockLogin": false, "from": "ACTIVE", "to": "SUSPENDED", "confirmedBookingsToCancel": 2, "requestId": "…e19a" }</div></td></tr>
+        <tr><td>Today 10:48</td><td>Arif Khan</td><td class="mono">VERIFICATION_DOCUMENT_VIEWED</td><td>WORKER_VERIFICATION <span class="id">…40d2</span></td><td>—</td><td>side FRONT</td><td class="id">…77c0</td></tr>
+        <tr><td>Today 10:46</td><td>Arif Khan</td><td class="mono">USER_PII_REVEALED</td><td>USER <span class="id">…c9e1</span></td><td>SUPPORT_CALL</td><td>fields PHONE</td><td class="id">…77b2</td></tr>
+        <tr><td>Yesterday 17:02</td><td>SYSTEM</td><td class="mono">STRIKE_ISSUED</td><td>WORKER <span class="id">…8c03d2</span></td><td>LATE_CANCELLATION</td><td>—</td><td class="faint">—</td></tr>
+        <tr><td>2 Oct 19:15</td><td>Meera Iyer</td><td class="mono">LEDGER_ADJUSTMENT_POSTED</td><td>WORKER <span class="id">…6d19f4</span></td><td>DOUBLE_FEE_CHARGED</td><td>credit ₹150</td><td class="id">…3d10</td></tr>
+        <tr><td>12 Sep 11:00</td><td>Neha Gupta</td><td class="mono">USER_VIEWED</td><td>USER <span class="id">…c9e1</span></td><td>—</td><td>—</td><td class="id">…0f2a</td></tr>
+      </table></div>
+      <div class="row between sm muted"><span>50 per page · newest first · append-only (no edit, no delete) · no export</span><span>Metadata holds ids and masked values only</span></div>
+    </div>
+  </div>
+</div>
+<div class="notes">
+  <div class="note"><b>API</b><code>GET /admin/audit-events?entityType=&amp;entityId=&amp;actorUserId=&amp;action=&amp;from=&amp;to=&amp;cursor=</code> (<code>audit.view</code>: OPS_MANAGER, FINANCE, SUPER_ADMIN) — needs an entity / actor filter or a range ≤ 31 days (LLD-020 D9, §4.2).</div>
+  <div class="note"><b>Removed vs PNG</b>"Result / Denied" column, IP and browser columns. Action names other than those in LLD-020/016/012 (e.g. LEDGER_ADJUSTMENT_POSTED, STRIKE_ISSUED) are placeholders until each LLD lists its constants.</div>
+</div>
+
+<!-- A-66 Staff -->
+<div class="web">
+  <span class="label">A-66 Staff (admin users) + step-up code · fixed</span>
+  <nav class="side" data-on="staff" data-me="Ananya Bose|SUPER_ADMIN|AB"></nav>
+  <div class="main">
+    <header class="topbar" data-std><h1>Staff &amp; roles</h1></header>
+    <div class="page">
+      <div class="row between"><div class="tabs" style="border:0"><a class="on">👥 Staff · 9</a><a>🛡️ Roles (read-only)</a></div><a class="btn primary sm">+ Add staff member</a></div>
+      <div class="split">
+        <div class="table grow" style="align-self:flex-start"><table>
+          <tr><th>Name</th><th>Email</th><th>Roles</th><th>2-step login</th><th>Status</th></tr>
+          <tr><td><b>Ananya Bose</b> <span class="faint">(you)</span></td><td class="masked">a***@karigar.in</td><td><span class="chip accent">SUPER_ADMIN</span></td><td><span class="chip success">✓ On</span></td><td><span class="chip success">ACTIVE</span></td></tr>
+          <tr><td><b>Priya Sen</b></td><td class="masked">p***@karigar.in</td><td><span class="chip brand">OPS_MANAGER</span></td><td><span class="chip success">✓ On</span></td><td><span class="chip success">ACTIVE</span></td></tr>
+          <tr style="background:var(--primary-subtle)"><td><b>Kabir Ali</b></td><td class="masked">k***@karigar.in</td><td><span class="chip brand">DISPUTE_AGENT</span> <span class="chip brand">SUPPORT_AGENT</span></td><td><span class="chip success">✓ On</span></td><td><span class="chip success">ACTIVE</span></td></tr>
+          <tr><td><b>Arif Khan</b></td><td class="masked">a***@karigar.in</td><td><span class="chip brand">VERIFICATION_AGENT</span></td><td><span class="chip success">✓ On</span></td><td><span class="chip success">ACTIVE</span></td></tr>
+          <tr><td><b>Meera Iyer</b></td><td class="masked">m***@karigar.in</td><td><span class="chip brand">FINANCE</span></td><td><span class="chip success">✓ On</span></td><td><span class="chip success">ACTIVE</span></td></tr>
+          <tr><td><b>Neha Gupta</b></td><td class="masked">n***@karigar.in</td><td><span class="chip brand">SUPPORT_AGENT</span></td><td><span class="chip error">Not enrolled · blocked</span></td><td><span class="chip success">ACTIVE</span></td></tr>
+          <tr><td><b>Rahul Dey</b></td><td class="masked">r***@karigar.in</td><td><span class="chip brand">SUPPORT_AGENT</span></td><td><span class="chip neutral">—</span></td><td><span class="chip success">ACTIVE</span> <span class="faint sm">password not set</span></td></tr>
+          <tr><td><b>Sunil Pal</b></td><td class="masked">s***@karigar.in</td><td><span class="chip neutral">OPS_MANAGER</span></td><td><span class="chip success">✓ On</span></td><td><span class="chip warning">SUSPENDED</span></td></tr>
+          <tr><td><b>Tapas Roy</b></td><td class="masked">t***@karigar.in</td><td class="faint">grants revoked</td><td class="faint">secret wiped</td><td><span class="chip neutral">LEFT</span></td></tr>
+        </table></div>
+        <div class="rail" style="width:360px">
+          <div class="card">
+            <div class="row between"><b class="h4">Kabir Ali</b><span class="chip success">ACTIVE</span></div>
+            <div class="sec">Role grants (all zones)</div>
+            <div class="row between sm"><span class="chip brand">DISPUTE_AGENT</span><span class="faint">by Ananya · 2 Sep</span><a class="badge" style="color:var(--error)">Revoke</a></div>
+            <div class="row between sm"><span class="chip brand">SUPPORT_AGENT</span><span class="faint">by Priya · 10 Sep</span><a class="badge" style="color:var(--error)">Revoke</a></div>
+            <div class="row"><div class="input grow" style="min-height:36px;font-size:13px">Add role ▾</div><a class="btn secondary sm">Grant</a></div>
+            <div class="hr"></div>
+            <div class="row wrap"><a class="btn secondary sm">🔐 Reset 2-step login</a><a class="btn danger-o sm">Suspend</a><a class="btn ghost sm">Mark as left</a></div>
+            <p class="help">You can't act on yourself. The last active SUPER_ADMIN can't be revoked, suspended or marked left.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal" style="background:rgba(11,47,46,.4)"><div class="dialog" style="width:460px;align-items:center;text-align:center">
+    <div class="illus teal sm">🔐</div>
+    <h3 class="h3">Confirm it's you</h3>
+    <p class="sm muted">Changing staff access needs a code from the last 15 minutes. Your last code was 47 minutes ago.</p>
+    <div class="code"><span class="f">7</span><span class="f">2</span><span class="f">0</span><span></span><span></span><span></span></div>
+    <div class="row" style="width:100%;justify-content:center"><a class="btn ghost">Cancel</a><a class="btn primary">Verify &amp; revoke SUPPORT_AGENT</a></div>
+  </div></div>
+</div>
+<div class="notes">
+  <div class="note"><b>API</b><code>GET /admin/staff?status=</code>, <code>POST /admin/staff {email, phone, name, employeeCode, grants}</code> (existing user linked or invited with a set-password email), <code>/grants</code> · <code>/grants/{id}/revoke</code>, <code>/suspend · /reactivate · /left · /mfa/reset</code> — <code>staff.manage</code> (SUPER_ADMIN only) + step-up: <code>403 MFA_REQUIRED</code> when the last code is &gt; 15 min old. Guards 409 <code>SELF_ACTION_FORBIDDEN</code>, <code>LAST_SUPER_ADMIN</code>. A SUPER_ADMIN grant notifies all super admins.</div>
+  <div class="note"><b>Fixes vs PNG</b>"2-step login: Off" → "Not enrolled · blocked" + reset; no "Invited" status (ACTIVE + "password not set"); several role grants per person; no bulk actions.</div>
+</div>
+
+<!-- A-67 Roles matrix -->
+<div class="web">
+  <span class="label">A-67 Roles &amp; permissions (read-only matrix) · fixed</span>
+  <nav class="side" data-on="staff" data-me="Ananya Bose|SUPER_ADMIN|AB"></nav>
+  <div class="main">
+    <header class="topbar" data-std><h1>Staff &amp; roles</h1></header>
+    <div class="page" style="gap:10px">
+      <div class="row between"><div class="tabs" style="border:0"><a>👥 Staff · 9</a><a class="on">🛡️ Roles (read-only)</a></div><span class="chip neutral">🔒 Roles change only through a code migration</span></div>
+      <div class="table"><table class="mx" id="mx"></table></div>
+    </div>
+  </div>
+</div>
+<div class="notes">
+  <div class="note"><b>Data</b>Seeded <code>roles</code>, <code>permissions</code>, <code>role_permissions</code> (LLD-020 §3.2, §4.1, D3). SUPER_ADMIN has everything and is the only role with <code>staff.manage</code>. No "+ New role", no editable cells.</div>
+  <div class="note"><b>Doc mismatch</b>Design review says "21 permission codes"; LLD-020 §4.1 lists 23 (incl. <code>notification.view</code> / <code>notification.retry</code>). Matrix shows all 23.</div>
+</div>
+
+<!-- A-68 Settings -->
+<div class="web">
+  <span class="label">A-68 Platform settings (read-only) · fixed</span>
+  <nav class="side" data-on="settings"></nav>
+  <div class="main">
+    <header class="topbar" data-std><h1>Platform settings</h1></header>
+    <div class="page">
+      <div class="banner neutral"><span class="ico">🔒</span><span><b>Read-only.</b> These values come from configuration and migrations; changing one is a code change with review. Service zones → <b>Service zones</b>; trade settings → <b>Catalog</b>. No maintenance-mode switch.</span></div>
+      <div class="setgrid">
+        <div class="card"><b class="h4">📝 Requests</b><div class="row between"><span>Advance pay window</span><b>15 min</b></div><div class="row between"><span>Advance</span><b>per trade (₹99)</b></div><div class="row between"><span>Expiry</span><b>per urgency</b></div></div>
+        <div class="card"><b class="h4">📅 Booking &amp; visits</b><div class="row between"><span>Free cancel until</span><b>2 h before</b></div><div class="row between"><span>Late fee</span><b>min(advance, ₹100)</b></div><div class="row between"><span>Check-in radius</span><b>300 m · acc ≤ 100 m</b></div><div class="row between"><span>Start code tries</span><b>5</b></div><div class="row between"><span>Visit / completion confirm</span><b>24 h</b></div><div class="row between"><span>Worker no-show</span><b>60 min · auto 2 h</b></div><div class="row between"><span>Warranty</span><b>30 days</b></div></div>
+        <div class="card"><b class="h4">💳 Payments</b><div class="row between"><span>Job payment expiry</span><b>30 min</b></div><div class="row between"><span>Commission</span><b>10% of gross</b></div><div class="row between"><span>GST on fee</span><b>18%</b></div><div class="row between"><span>Cash auto-confirm</span><b>24 h</b></div><div class="row between"><span>Dues limit</span><b>₹1,000</b></div></div>
+        <div class="card"><b class="h4">🏦 Payouts</b><div class="row between"><span>Daily batch</span><b>11:00 IST</b></div><div class="row between"><span>Minimum</span><b>₹100</b></div><div class="row between"><span>Cooling-off</span><b>24 h</b></div><div class="row between"><span>Name match</span><b>≥ 80 auto · 50–79 review</b></div></div>
+        <div class="card"><b class="h4">⚖️ Trust</b><div class="row between"><span>Dispute answer window</span><b>48 h</b></div><div class="row between"><span>Refund needing finance.refund</span><b>&gt; ₹5,000</b></div><div class="row between"><span>Verification SLA</span><b>24 h P90 · 48 h max</b></div><div class="row between"><span>Submissions</span><b>3 / type / 30 days</b></div></div>
+        <div class="card"><b class="h4">🔐 Admin security</b><div class="row between"><span>2-step login</span><b>always on</b></div><div class="row between"><span>MFA window</span><b>12 h · staff 15 min</b></div><div class="row between"><span>MFA lock</span><b>5 wrong → 15 min</b></div><div class="row between"><span>PII reveals</span><b>20 / hour</b></div><div class="row between"><span>Admin API limit</span><b>300 / min</b></div></div>
+        <div class="card"><b class="h4">🌐 Languages</b><div class="row wrap"><span class="chip brand">en · English</span><span class="chip brand" lang="bn">bn · বাংলা</span><span class="chip brand" lang="hi">hi · हिन्दी</span></div><span class="sm muted">Missing text falls back to English.</span></div>
+        <div class="card"><b class="h4">🔔 Notifications</b><span class="sm">Channels: push, email, in-app. No SMS. Templates in code.</span></div>
+        <div class="card"><b class="h4">🧾 Audit</b><span class="sm">Append-only, kept 8 years.</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="notes">
+  <div class="note"><b>Data</b>No backend for runtime settings (P7). This page renders a read-only config snapshot; an endpoint for it is not in any LLD yet (would be a small <code>GET /admin/config</code>). Values from LLD-006/009/010/011/016/018/019/020.</div>
+</div>
+
+<script>
+const R=['SUPER_ADMIN','OPS_MANAGER','SUPPORT_AGENT','VERIFICATION_AGENT','FINANCE','DISPUTE_AGENT'];
+const P=[['staff.manage',''],['user.view','OSVFD'],['user.pii.reveal','OSD'],['account.suspend','O'],['account.restrict','O'],['ops.view','OSVFD'],['ops.act','O'],['audit.view','OF'],['booking.view','OSD'],['booking.manage','OS'],['catalog.manage','O'],['service_zone.manage','O'],['finance.view','OF'],['finance.adjust','F'],['finance.refund','F'],['finance.payout','F'],['verification.review','V'],['review.moderate','OSD'],['worker.enforce','OD'],['dispute.manage','OSD'],['dispute.resolve','D'],['notification.view','OS'],['notification.retry','O']];
+const K='OSVFD';let h='<tr><th>Permission</th>'+R.map(r=>`<th>${r}</th>`).join('')+'</tr>';
+for(const[p,s]of P){h+=`<tr><td class="mono">${p}</td><td class="y">✓</td>`+[...K].map(c=>s.includes(c)?'<td class="y">✓</td>':'<td class="n">·</td>').join('')+'</tr>'}
+document.getElementById('mx').innerHTML=h;
+</script>
+
+</div>
+
+<script>
+const NAV=[['',[['ops','🧭','Ops queues','30']]],['People',[['users','🔎','User lookup']]],['Marketplace',[['requests','📝','Requests'],['bookings','📅','Bookings']]],['Trust',[['verif','🪪','Verifications','14'],['disputes','⚖️','Disputes','6'],['reviews','⭐','Reviews','3']]],['Money',[['payments','💳','Payments & refunds'],['payouts','🏦','Payout accounts','2'],['ledger','📒','Ledger']]],['Config',[['catalog','🧰','Catalog'],['zones','🗺️','Service zones'],['notif','🔔','Notifications'],['outbox','📮','Outbox','3'],['audit','🧾','Audit log'],['staff','👥','Staff & roles'],['settings','⚙️','Settings']]]];
+const ROLE={VERIFICATION_AGENT:'ops users verif',DISPUTE_AGENT:'ops users requests bookings disputes reviews',FINANCE:'ops users payments payouts ledger audit',SUPPORT_AGENT:'ops users requests bookings disputes reviews notif'};
+document.querySelectorAll('.side[data-on]').forEach(s=>{const[nm,rl,ini]=(s.dataset.me||'Priya Sen|OPS_MANAGER|PS').split('|');const ok=ROLE[rl];let h='<div class="brand">🛠️ Karigar Ops</div>';for(const[g,it]of NAV){const v=it.filter(x=>!ok||ok.split(' ').includes(x[0]));if(!v.length)continue;if(g)h+=`<div class="grp">${g}</div>`;for(const[k,i,t,c]of v)h+=`<a class="${k==s.dataset.on?'on':''}"><span>${i}&nbsp; ${t}</span>${c?`<span class="cnt">${c}</span>`:''}</a>`}h+=`<div class="grow"></div><a class="gf"><span>📈&nbsp; Grafana</span><span>↗</span></a><div class="me"><div class="avatar">${ini}</div><div><b>${nm}</b><br><span style="opacity:.8">${rl}</span></div></div>`;s.innerHTML=h;const t=s.parentElement.querySelector('.topbar[data-std]');if(t)t.insertAdjacentHTML('beforeend',`<div class="input ph" style="width:280px;min-height:38px">🔎 Phone, email, id or name…</div><span class="chip accent">📍 Howrah</span><span class="chip success">🔐 MFA · until 21:40</span><div class="avatar" style="width:36px;height:36px;font-size:13px">${ini}</div>`)});
+</script>
+</body>
+</html>

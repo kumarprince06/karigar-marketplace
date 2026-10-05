@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Worker · Onboarding</title>
+<link rel="stylesheet" href="../assets/karigar.css">
+<style>
+  .phone { font-size: 16px; line-height: 24px; }
+  .phone .help, .phone .li .t small { font-size: 14px; line-height: 20px; font-weight: 400; }
+  .note b:not(:first-child) { display: inline; margin: 0; }
+  .ok, .todo { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; font-size: 16px; font-weight: 700; flex-shrink: 0; }
+  .ok { background: var(--success); color: #fff; }
+  .todo { border: 2px dashed var(--border-strong); color: var(--text-3); font-size: 14px; }
+  .todo.now { border: 2px solid var(--accent); background: var(--accent-subtle); color: #6B4A00; }
+  .ck { display: flex; align-items: center; gap: 12px; padding: 8px 12px; min-height: 60px; border-bottom: 1px solid var(--border); }
+  .ck:last-child { border-bottom: 0; }
+  .ck .ti { width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; font-size: 21px; background: var(--primary-subtle); flex-shrink: 0; }
+  .ck.done .ti { background: var(--success-subtle); }
+  .ck .t { flex: 1; font-weight: 600; line-height: 20px; }
+  .ck .t small { display: block; font-weight: 400; color: var(--text-2); font-size: 14px; }
+  .ck.done .t { color: var(--text-2); }
+  .bar { height: 10px; border-radius: 5px; background: rgba(255,255,255,.25); overflow: hidden; }
+  .bar i { display: block; height: 100%; background: var(--grad-warm); border-radius: 5px; }
+  .stepper { display: flex; align-items: center; border: 1.5px solid var(--border-strong); border-radius: var(--r-md); background: var(--surface); overflow: hidden; }
+  .stepper a { width: 48px; height: 48px; display: grid; place-items: center; font-size: 22px; font-weight: 700; color: var(--primary); background: var(--primary-subtle); }
+  .stepper b { min-width: 48px; text-align: center; font-size: 18px; }
+  .tradecard { background: var(--surface); border: 1.5px solid var(--border-strong); border-radius: var(--r-lg); padding: 12px; display: flex; flex-direction: column; gap: 10px; }
+  .tradecard.on { border: 2px solid var(--primary); box-shadow: var(--e1); }
+  .tgrid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+  .tg { min-height: 76px; border: 1.5px dashed var(--border-strong); border-radius: var(--r-md); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; font-size: 13px; color: var(--text-3); background: var(--surface); text-align: center; line-height: 16px; }
+  .tg span { font-size: 22px; filter: grayscale(1); opacity: .6; }
+  .rate { display: flex; align-items: center; gap: 10px; padding: 8px 12px; min-height: 64px; border-bottom: 1px solid var(--border); }
+  .rate:last-child { border-bottom: 0; }
+  .rate .ri { width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; font-size: 20px; background: var(--accent-subtle); flex-shrink: 0; }
+  .rate .t { flex: 1; font-weight: 600; line-height: 20px; }
+  .rate .t small { display: block; font-weight: 400; color: var(--text-2); font-size: 14px; }
+  .amt { width: 104px; min-height: 48px; border: 1.5px solid var(--border-strong); border-radius: var(--r-md); background: var(--surface); display: flex; align-items: center; justify-content: flex-end; padding: 0 10px; font-weight: 650; font-size: 17px; }
+  .amt.off { border-style: dashed; color: var(--text-3); font-weight: 500; justify-content: center; font-size: 15px; }
+  .amt.err { border: 2px solid var(--error); color: var(--error); }
+  .slider { position: relative; height: 48px; display: flex; align-items: center; }
+  .slider .track { height: 8px; border-radius: 4px; flex: 1; background: linear-gradient(90deg, var(--primary) 0 21%, var(--border) 21% 100%); }
+  .slider .knob { position: absolute; left: calc(21% - 14px); width: 30px; height: 30px; border-radius: 50%; background: #fff; border: 3px solid var(--primary); box-shadow: var(--e2); }
+  .preset { display: flex; align-items: center; gap: 12px; padding: 10px 12px; min-height: 72px; background: var(--surface); border: 1.5px solid var(--border-strong); border-radius: var(--r-lg); }
+  .preset.on { border: 2px solid var(--primary); background: var(--primary-subtle); }
+  .preset .pi { width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; font-size: 22px; background: var(--grad-warm); flex-shrink: 0; }
+  .preset .t { flex: 1; font-weight: 600; line-height: 22px; }
+  .days { display: flex; gap: 3px; margin-top: 4px; }
+  .days i { font-style: normal; width: 28px; height: 26px; border-radius: 6px; font-size: 13px; line-height: 26px; text-align: center; background: var(--primary); color: #fff; font-weight: 600; }
+  .days i.x { background: var(--bg-2); color: var(--text-3); }
+  .dayrow { display: flex; align-items: center; gap: 8px; padding: 6px 12px; min-height: 58px; border-bottom: 1px solid var(--border); }
+  .dayrow:last-child { border-bottom: 0; }
+  .dayrow > b { width: 40px; flex-shrink: 0; }
+  .tm { min-height: 40px; padding: 0 8px; border: 1.5px solid var(--border-strong); border-radius: 8px; display: inline-flex; align-items: center; font-size: 14px; font-weight: 600; background: var(--surface); white-space: nowrap; }
+  .addr { min-height: 40px; padding: 0 8px; border-radius: 8px; display: inline-flex; align-items: center; font-size: 14px; font-weight: 600; color: var(--primary); border: 1.5px dashed var(--primary); white-space: nowrap; }
+  .bigtap { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; min-height: 92px; border-radius: var(--r-lg); background: var(--surface); border: 1.5px solid var(--border-strong); font-weight: 600; text-align: center; font-size: 15px; line-height: 18px; flex: 1; }
+  .bigtap span { font-size: 28px; line-height: 32px; }
+</style>
+</head>
+<body>
+<div class="canvas">
+  <p class="canvas-title"><b>Worker · Onboarding (readiness checklist)</b>Replaces Onboarding · skills / service area / Availability. 7 readiness steps; account moves ONBOARDING → ACTIVE by itself when all are done (LLD-004 D5). Bengali first.</p>
+
+  <!-- W-10 Readiness checklist (en) -->
+  <div class="phone soft">
+    <span class="label">W-10 Readiness checklist · new</span>
+    <div class="hero" style="padding-top:0">
+      <div class="statusbar clear" style="padding:0 2px"><span>9:41</span><span>▮▮ 4G</span></div>
+      <div class="row between"><b style="font-size:20px">Get ready for jobs</b><span class="pill">🔒 Offline</span></div>
+      <div class="row" style="gap:12px"><span style="font-size:34px;font-weight:700">3 / 7</span><span class="muted" style="line-height:20px">steps done.<br>4 more to get jobs.</span></div>
+      <div class="bar"><i style="width:43%"></i></div>
+    </div>
+    <div class="content" style="padding-top:12px">
+      <div class="list">
+        <div class="ck done"><span class="ti">✉️</span><span class="t">Confirm email</span><span class="ok">✓</span></div>
+        <div class="ck done"><span class="ti">🙂</span><span class="t">Name, photo, about you</span><span class="ok">✓</span></div>
+        <div class="ck done"><span class="ti">⚡</span><span class="t">Trade and your rates</span><span class="ok">✓</span></div>
+        <div class="ck"><span class="ti">📍</span><span class="t">Work area<small>Where you go for jobs</small></span><span class="todo now">4</span></div>
+        <div class="ck"><span class="ti">🕘</span><span class="t">Working hours</span><span class="todo">5</span></div>
+        <div class="ck"><span class="ti">🪪</span><span class="t">ID check<small>Voter ID, licence or passport</small></span><span class="todo">6</span></div>
+        <div class="ck"><span class="ti">🏦</span><span class="t">Bank account</span><span class="todo">7</span></div>
+      </div>
+    </div>
+    <div class="footer"><a class="btn primary">Next: Work area →</a></div>
+  </div>
+
+  <!-- W-10b Readiness checklist (bn) -->
+  <div class="phone soft" lang="bn">
+    <span class="label">W-10b Readiness checklist (বাংলা) · new</span>
+    <div class="hero" style="padding-top:0">
+      <div class="statusbar clear" style="padding:0 2px"><span>9:41</span><span>▮▮ 4G</span></div>
+      <div class="row between"><b style="font-size:20px">কাজ পেতে তৈরি হন</b><span class="pill">🔒 অফলাইন</span></div>
+      <div class="row" style="gap:12px"><span style="font-size:34px;font-weight:700;font-family:'Anek Latin',sans-serif">3 / 7</span><span class="muted" style="line-height:22px">ধাপ শেষ।<br>আর 4টি বাকি।</span></div>
+      <div class="bar"><i style="width:43%"></i></div>
+    </div>
+    <div class="content" style="padding-top:12px">
+      <div class="list">
+        <div class="ck done"><span class="ti">✉️</span><span class="t">ইমেল নিশ্চিত</span><span class="ok">✓</span></div>
+        <div class="ck done"><span class="ti">🙂</span><span class="t">নাম, ছবি, পরিচয়</span><span class="ok">✓</span></div>
+        <div class="ck done"><span class="ti">⚡</span><span class="t">কাজ ও রেট</span><span class="ok">✓</span></div>
+        <div class="ck"><span class="ti">📍</span><span class="t">কাজের এলাকা</span><span class="todo now">4</span></div>
+        <div class="ck"><span class="ti">🕘</span><span class="t">কাজের সময়</span><span class="todo">5</span></div>
+        <div class="ck"><span class="ti">🪪</span><span class="t">পরিচয়পত্র যাচাই</span><span class="todo">6</span></div>
+        <div class="ck"><span class="ti">🏦</span><span class="t">ব্যাংক অ্যাকাউন্ট</span><span class="todo">7</span></div>
+      </div>
+    </div>
+    <div class="footer"><a class="btn primary">পরের ধাপ: এলাকা →</a></div>
+  </div>
+  <div class="note"><b>Data (LLD-004 §4 readiness, D5, D8)</b><code>GET /workers/me/readiness</code> → 7 steps in fixed order: EMAIL_VERIFIED, PROFILE_BASICS, TRADE_WITH_RATE, SERVICE_AREA, WORKING_HOURS, MANDATORY_VERIFICATIONS (<code>missing: ["ID_PROOF", "ELECTRICAL_LICENSE"]</code> shown as sub-text), BANK_ACCOUNT_VERIFIED. Labels localised by backend (LLD-003). Steps can be done in any order; the CTA opens the first open one. No percentage. When all done → <code>WorkerActivated</code> (outbox, push) and the online toggle unlocks (LLD-007 D2). Digits stay Latin in bn/hi (P25).</div>
+
+  <!-- W-11 Profile basics -->
+  <div class="phone soft">
+    <span class="label">W-11 Profile basics · new</span>
+    <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><h1>About you</h1><span class="sub">Step 2 of 7</span></div>
+    <div class="content" style="gap:12px">
+      <div class="row" style="gap:14px">
+        <div style="position:relative"><div class="avatar lg" style="width:84px;height:84px;font-size:28px;background:var(--grad-warm);color:var(--ink)">SD</div><span style="position:absolute;right:-4px;bottom:-4px;width:36px;height:36px;border-radius:50%;background:var(--primary);display:grid;place-items:center;border:3px solid #fff">📷</span></div>
+        <div class="col" style="gap:2px"><b>Add your photo</b><span class="help">Clear face. Customers see it.</span><a class="btn secondary sm" style="min-height:44px">📷 Take photo</a></div>
+      </div>
+      <label class="field"><span>👤 Name customers see</span><div class="input">Sujit Das</div></label>
+      <label class="field"><span>💬 About you <em>(optional)</em></span><div class="input area err" style="min-height:88px;line-height:22px">12 years wiring work in Shibpur. Call me 98310…</div><span class="row between"><span class="help err">⚠️ No phone numbers or links here.</span><span class="help">58 / 500</span></span></label>
+      <div class="field"><span>🗣️ Languages you speak</span>
+        <div class="choice"><a class="opt on" lang="bn">✓ বাংলা</a><a class="opt on" lang="hi">✓ हिंदी</a><a class="opt">English</a><a class="opt" lang="ur">اردو</a><a class="opt" lang="or">ଓଡ଼ିଆ</a><a class="opt">+ More</a></div>
+      </div>
+    </div>
+    <div class="footer"><a class="btn primary">Save and next</a></div>
+  </div>
+  <div class="note"><b>Data (LLD-004 §3, D6; LLD-014 PROFILE_PHOTO)</b><code>PATCH /workers/me</code>: <code>displayName</code> (≤100), <code>bio</code> (≤500), <code>spokenLanguages</code> (ISO 639 codes into <code>worker_spoken_languages</code>; separate from app locale). Phone / email / link / "WhatsApp me" in name or bio → <code>400 CONTACT_INFO_NOT_ALLOWED</code> (shown inline). Photo: compressed to ~1600 px on phone, presigned upload, purpose <code>PROFILE_PHOTO</code> (public copy, EXIF stripped); "Save" waits for AVAILABLE. PROFILE_BASICS done = name + photo (bio optional).</div>
+
+  <!-- W-12 Trades -->
+  <div class="phone soft">
+    <span class="label">W-12 Trades · new</span>
+    <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><h1>Your work</h1><span class="sub">Step 3 of 7</span></div>
+    <div class="content" style="gap:10px">
+      <div class="row between"><b class="h4">Pick up to 3</b><span class="chip brand">2 of 3 chosen</span></div>
+      <div class="tradecard on">
+        <div class="row"><span class="tradeicon">⚡</span><b class="grow">Electrician</b><span class="chip accent">★ Main work</span></div>
+        <div class="row between"><span class="muted">Years of work</span><div class="stepper"><a>−</a><b>12</b><a>+</a></div></div>
+      </div>
+      <div class="tradecard on">
+        <div class="row"><span class="tradeicon">🚰</span><b class="grow">Plumber</b><a class="opt" style="min-height:44px;font-size:14px">☆ Make main</a></div>
+        <div class="row between"><span class="muted">Years of work</span><div class="stepper"><a>−</a><b>4</b><a>+</a></div></div>
+      </div>
+      <span class="label-t muted">Coming soon in Howrah</span>
+      <div class="tgrid">
+        <div class="tg"><span>🧱</span>Mason</div><div class="tg"><span>🪚</span>Carpenter</div><div class="tg"><span>🎨</span>Painter</div>
+      </div>
+    </div>
+    <div class="footer"><a class="btn primary">Next: your rates →</a></div>
+  </div>
+  <div class="note"><b>Data (LLD-004 D1, D2, §4)</b><code>PUT /workers/me/professions</code> with the full list: <code>professionId, isPrimary, experienceYears (0–60, integer — P11), status</code> + <code>version</code>. Max 3 live trades (<code>TOO_MANY_TRADES</code>), exactly one primary (<code>PRIMARY_TRADE_REQUIRED</code>). A trade with no rate is saved PAUSED until rates are added. Only ELECTRICIAN + PLUMBER are active at launch; others are shown greyed (<code>PROFESSION_NOT_AVAILABLE</code>). Years are self-declared, shown without a verified mark.</div>
+
+  <!-- W-13 Rates (bn) -->
+  <div class="phone soft" lang="bn">
+    <span class="label">W-13 Your charges per trade (বাংলা) · new</span>
+    <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><h1>আপনার রেট</h1><span class="sub">ধাপ 3 / 7</span></div>
+    <div class="content" style="gap:10px">
+      <div class="seg"><a class="on">⚡ ইলেকট্রিশিয়ান</a><a>🚰 প্লাম্বার ⚠️</a></div>
+      <p class="help" style="font-size:15px">যেভাবে টাকা নেন, সেটা চালু করুন। অন্তত একটা।</p>
+      <div class="list">
+        <div class="rate"><span class="ri">🏠</span><span class="t">ভিজিট চার্জ<small>একবার আসা</small></span><span class="amt">₹200</span></div>
+        <div class="rate"><span class="ri">⏱️</span><span class="t">ঘণ্টা প্রতি</span><span class="amt off">+ যোগ</span></div>
+        <div class="rate"><span class="ri">🌓</span><span class="t">অর্ধেক দিন</span><span class="amt off">+ যোগ</span></div>
+        <div class="rate" style="background:var(--error-subtle)"><span class="ri">☀️</span><span class="t">পুরো দিন</span><span class="amt err">₹85,000</span></div>
+        <div class="rate"><span class="ri">📏</span><span class="t">প্রতি পয়েন্ট<small>লাইট / পাখা পয়েন্ট</small></span><span class="amt">₹300</span></div>
+        <div class="rate"><span class="ri">🔻</span><span class="t">সর্বনিম্ন চার্জ</span><span class="amt off">+ যোগ</span></div>
+      </div>
+      <div class="banner error"><span class="ico">⚠️</span><span>পুরো দিন: ₹300 থেকে ₹10,000 এর মধ্যে লিখুন।</span></div>
+    </div>
+    <div class="footer"><a class="btn primary">সেভ করুন</a></div>
+  </div>
+  <div class="note"><b>Data (LLD-004 D2–D4, §3 bounds)</b><code>PUT /workers/me/professions/{id}/rates</code> = full list per trade: <code>rateType</code> VISIT / HOURLY / HALF_DAY / DAILY / PER_UNIT (+ <code>unit</code>: POINT, SQ_FT, RUNNING_FT, PIECE, TAP, FIXTURE, KG, TANK) / MINIMUM, <code>amountMinor</code>, optional <code>note</code> (≤200). Bounds: VISIT & HOURLY ₹50–2,000 · HALF_DAY ₹200–5,000 · DAILY ₹300–10,000 · PER_UNIT ₹1–10,000 · MINIMUM ₹50–5,000 → <code>422 RATE_OUT_OF_RANGE</code> with min/max, checked on the phone first. Whole rupees only, numeric keypad. "!" on Plumber = no rate yet → trade PAUSED. Old rate rows closed, never edited; bookings keep their snapshot.</div>
+
+  <!-- W-14 Skills -->
+  <div class="phone soft">
+    <span class="label">W-14 Skills per trade · new</span>
+    <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><h1>What can you do?</h1><span class="sub">Step 3 of 7</span></div>
+    <div class="content" style="gap:12px">
+      <div class="seg"><a class="on">⚡ Electrician</a><a>🚰 Plumber</a></div>
+      <div class="card flat" style="gap:10px">
+        <b>Tap all you do</b>
+        <div class="choice">
+          <a class="opt on">🔌 ✓ Wiring</a><a class="opt on">🌀 ✓ Fan fitting</a><a class="opt on">🎛️ ✓ Switch repair</a><a class="opt on">⚡ ✓ MCB fitting</a><a class="opt">💡 Light fitting</a><a class="opt">🔋 Inverter</a><a class="opt">📺 TV wall mount</a>
+        </div>
+      </div>
+      <div class="banner info"><span class="ico">ℹ️</span><span>Customers see these on your profile. You get jobs for your <b>trade</b> in your area.</span></div>
+    </div>
+    <div class="footer"><a class="btn primary">Save and next</a></div>
+  </div>
+  <div class="note"><b>Data (LLD-004 §4, P12)</b><code>PUT /workers/me/professions/{id}/skills</code> = full list of skill ids from the catalog for that trade (<code>SKILL_NOT_IN_TRADE</code> otherwise). Skills are profile information only — matching is by trade (P12), so no "only matching requests" claim. Skill names come localised from the catalog (LLD-003).</div>
+
+  <!-- W-15 Service area -->
+  <div class="phone soft">
+    <span class="label">W-15 Service area · fixed</span>
+    <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><h1>Where do you work?</h1><span class="sub">Step 4 of 7</span></div>
+    <div class="content" style="gap:12px">
+      <div class="map" style="height:230px;background:
+        radial-gradient(circle at 50% 50%, rgba(14,94,89,.20) 0 80px, rgba(14,94,89,.6) 80px 82px, transparent 83px),
+        repeating-linear-gradient(0deg, #E9E7E0 0 1px, transparent 1px 28px),
+        repeating-linear-gradient(90deg, #E9E7E0 0 1px, transparent 1px 28px), #F3F2EC">
+        <span class="chip neutral" style="position:absolute;left:10px;top:10px;background:#fff">✋ Drag to move pin</span>
+      </div>
+      <a class="btn secondary">📍 Use my location</a>
+      <div class="card flat" style="gap:4px">
+        <div class="row"><span style="font-size:22px">🏠</span><b class="grow">Home base</b><span class="chip brand">Shibpur, Howrah</span></div>
+        <div class="row between" style="margin-top:6px"><b>How far will you go?</b><span class="h3" style="color:var(--primary)">5 km</span></div>
+        <div class="slider"><div class="track"></div><span class="knob"></span></div>
+        <div class="row between help"><span>1 km</span><span>20 km</span></div>
+      </div>
+      <p class="help">🔒 Customers never see your home. Only “Shibpur”.</p>
+    </div>
+    <div class="footer"><a class="btn primary">Save area</a></div>
+  </div>
+  <div class="note"><b>Data (LLD-007 D1, P10)</b>One service area: home base point (lat/lng from GPS or pin) + travel radius <b>1–20 km, default 5</b>. Distance is from the base, never live GPS. Locality label ("Shibpur") from reverse geocode/zone, shown on profile; exact point never public (LLD-004 §8). No locality chips / several areas (P10). Location permission asked only on "Use my location"; pin works without it.</div>
+
+  <!-- W-16 Working hours presets (bn) -->
+  <div class="phone soft" lang="bn">
+    <span class="label">W-16 Working hours · presets (বাংলা) · new</span>
+    <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><h1>কবে কাজ করেন?</h1><span class="sub">ধাপ 5 / 7</span></div>
+    <div class="content" style="gap:10px">
+      <a class="preset on"><span class="pi">🗓️</span><span class="t">সোম–শনি, সকাল 9 – সন্ধ্যা 6<span class="days"><i>সো</i><i>ম</i><i>বু</i><i>বৃ</i><i>শু</i><i>শ</i><i class="x">র</i></span></span><span class="radio on"></span></a>
+      <a class="preset"><span class="pi">☀️</span><span class="t">সোম–শনি, সকাল 8 – রাত 8<span class="days"><i>সো</i><i>ম</i><i>বু</i><i>বৃ</i><i>শু</i><i>শ</i><i class="x">র</i></span></span><span class="radio"></span></a>
+      <a class="preset"><span class="pi">📅</span><span class="t">রোজ, সকাল 8 – রাত 8<span class="days"><i>সো</i><i>ম</i><i>বু</i><i>বৃ</i><i>শু</i><i>শ</i><i>র</i></span></span><span class="radio"></span></a>
+      <a class="preset"><span class="pi">🌗</span><span class="t">সোম–শনি, 9–1 আর 4–8<small class="help" style="display:block">দুপুরে ছুটি</small></span><span class="radio"></span></a>
+      <a class="preset" style="border-style:dashed"><span class="pi" style="background:var(--primary-subtle)">✏️</span><span class="t">নিজে ঠিক করুন<small class="help" style="display:block">প্রতিদিন আলাদা সময়</small></span><span class="chev">›</span></a>
+    </div>
+    <div class="footer"><a class="btn primary">সেভ করুন</a></div>
+  </div>
+  <div class="note"><b>Data (LLD-015 D1, D2, §4.3)</b>Presets first, from server config with localised labels: MON_SAT_9_6 (suggested), MON_SAT_8_8, EVERY_DAY_8_8, MON_SAT_SPLIT. <code>PUT /workers/me/schedule/working-hours {"preset":"MON_SAT_9_6"}</code> replaces the whole week; readiness WORKING_HOURS = at least one working day. Times shown in Latin digits (P25). Day chips: সো ম বু বৃ শু শ র (Mon → Sun).</div>
+
+  <!-- W-17 Custom hours -->
+  <div class="phone soft">
+    <span class="label">W-17 Working hours · custom · new</span>
+    <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><h1>Your hours</h1></div>
+    <div class="content" style="gap:10px">
+      <div class="list">
+        <div class="dayrow"><b>Mon</b><span class="tm">9:00–13:00</span><span class="tm">16:00–20:00</span></div>
+        <div class="dayrow"><b>Tue</b><span class="tm">9:00–18:00</span><span class="addr">+ 2nd time</span></div>
+        <div class="dayrow"><b>Wed</b><span class="tm">9:00–18:00</span><span class="addr">+ 2nd time</span></div>
+        <div class="dayrow"><b>Thu</b><span class="tm">9:00–18:00</span><span class="addr">+ 2nd time</span></div>
+        <div class="dayrow"><b>Fri</b><span class="tm">9:00–18:00</span><span class="addr">+ 2nd time</span></div>
+        <div class="dayrow"><b>Sat</b><span class="tm">9:00–13:00</span><span class="addr">+ 2nd time</span></div>
+        <div class="dayrow" style="background:var(--bg-2)"><b>Sun</b><span class="chip neutral">😴 Day off</span><span class="grow"></span><span class="addr">+ Add</span></div>
+      </div>
+      <div class="banner warning"><span class="ico">⚠️</span><span>Max 2 times a day. Times can’t cross midnight.</span></div>
+    </div>
+    <div class="footer"><a class="btn primary">Save hours</a></div>
+  </div>
+  <div class="note"><b>Data (LLD-015 D1, §4.2, §4.4)</b><code>{"days":[{"day":"MON","ranges":[{"from":"09:00","to":"13:00"},{"from":"16:00","to":"20:00"}]}, …]}</code>. Up to 2 ranges per ISO weekday, no midnight crossing, no overlap; missing day = day off; empty week refused → <code>422 INVALID_WORKING_HOURS</code>. Time zone Asia/Kolkata (D10). Requests are offered when hours overlap the customer window by ≥ 60 min (D3).</div>
+
+  <!-- W-18 Time off & capacity -->
+  <div class="phone soft">
+    <span class="label">W-18 Time off & capacity · new</span>
+    <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><h1>Breaks and job limit</h1></div>
+    <div class="content" style="gap:12px">
+      <b class="h4">Take a break</b>
+      <div class="row" style="gap:8px;align-items:stretch">
+        <a class="bigtap"><span>🌙</span>Rest of today</a>
+        <a class="bigtap"><span>🛌</span>Tomorrow</a>
+        <a class="bigtap"><span>📅</span>Pick days</a>
+      </div>
+      <div class="banner error"><span class="ico">⛔</span><span><b>You have a job on Tue 20 Oct, 11:00.</b> Move or cancel it first. <u>Open job</u></span></div>
+      <div class="list">
+        <div class="li"><span style="font-size:24px">🪔</span><span class="t">Puja holiday<small>19 – 23 Oct · 5 days</small></span><a class="btn ghost sm" style="color:var(--error)">Remove</a></div>
+      </div>
+      <div class="card flat">
+        <div class="row between"><span class="row"><span style="font-size:24px">🧰</span><b>Max jobs at a time</b></span><div class="stepper"><a>−</a><b>3</b><a>+</a></div></div>
+        <span class="help">You have 1 job now. At 3, no new jobs come.</span>
+      </div>
+    </div>
+  </div>
+  <div class="note"><b>Data (LLD-015 D5–D7, §4)</b>Time off: <code>POST /workers/me/time-off</code> with preset REST_OF_TODAY / TOMORROW or <code>fromDate–toDate</code> + <code>reasonCode</code> (LEAVE, FESTIVAL, SICK, PERSONAL, OTHER; private). Whole days, ≤60 days each, ≤180 days ahead, ≤10 upcoming. Covering a booked visit → <code>409 TIME_OFF_OVERLAPS_BOOKING</code> listing the visits (shown above); we never auto-cancel. Remove ongoing = "I'm back". Capacity: <code>PUT …/capacity {"maxOpenJobs":3}</code>, default 3, range 1–10; counts SCHEDULED / IN_PROGRESS / ON_HOLD jobs, not WORK_COMPLETED.</div>
+
+  <!-- W-19 Emergency opt-in -->
+  <div class="phone soft">
+    <span class="label">W-19 Emergency jobs opt-in · new</span>
+    <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><h1>Emergency jobs</h1></div>
+    <div class="content" style="gap:14px">
+      <div class="card warm" style="align-items:center;text-align:center;gap:6px;padding:18px">
+        <span style="font-size:52px;line-height:60px">🚨</span>
+        <b class="h3">Urgent jobs, any time</b>
+        <span>No power, burst pipe… Customers need help fast.</span>
+      </div>
+      <div class="list">
+        <div class="li"><span style="font-size:22px">⏰</span><span class="t">Comes even outside your hours<small>We may wake you up.</small></span></div>
+        <div class="li"><span style="font-size:22px">🌴</span><span class="t">Not on your break days</span></div>
+      </div>
+      <div class="card flat" style="opacity:.75">
+        <div class="row"><span style="font-size:22px">🔒</span><b class="grow">Get emergency jobs</b><span class="toggle"></span></div>
+      </div>
+      <div class="banner warning"><span class="ico">👮</span><span>First, upload your <b>police verification</b>. Then you can turn this on.</span></div>
+    </div>
+    <div class="footer"><a class="btn accent">👮 Upload police certificate</a></div>
+  </div>
+  <div class="note"><b>Data (LLD-004 §4, LLD-006 D5, LLD-015 D4, LLD-016 §3)</b><code>PATCH /workers/me {"acceptsEmergencyJobs": true}</code> allowed only with a VERIFIED, unexpired POLICE_VERIFICATION. Toggle stays locked (with reason) while police check is missing / PENDING / IN_REVIEW / EXPIRED. Emergency ignores working hours; time off, capacity and visit overlap still apply. If the police check expires, emergency offers stop at 00:05 IST (LLD-016 D8).</div>
+</div>
+</body>
+</html>

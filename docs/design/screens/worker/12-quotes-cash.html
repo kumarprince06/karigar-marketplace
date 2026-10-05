@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Worker · Extra work, bills & cash</title>
+<link rel="stylesheet" href="../assets/karigar.css">
+<style>
+  .phone { font-size: 16px; line-height: 24px; }
+  .phone .sm:not(.illus), .phone .help { font-size: 14px; line-height: 20px; }
+  .qline { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-bottom: 1px solid var(--border); min-height: 60px; }
+  .qline:last-child { border-bottom: 0; }
+  .qline .ic { width: 40px; height: 40px; border-radius: 10px; display: grid; place-items: center; font-size: 20px; flex-shrink: 0; background: var(--primary-subtle); }
+  .qline .ic.m { background: var(--accent-subtle); }
+  .qline .t { flex: 1; line-height: 20px; } .qline .t small { display: block; font-size: 14px; color: var(--text-2); }
+  .addline { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .addline a { min-height: 56px; border: 2px dashed var(--border-strong); border-radius: var(--r-md); display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 14px; font-weight: 600; line-height: 18px; background: var(--surface); }
+  .status { border-radius: var(--r-xl); padding: 18px; display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center; color: #fff; box-shadow: var(--e2); }
+  .status .big { font-size: 52px; line-height: 60px; }
+  .status.wait { background-image: var(--tools-light), var(--grad-warm); background-size: 220px 220px, cover; color: var(--ink); }
+  .status.ok { background-image: var(--tools-light), linear-gradient(135deg,#1D7445,#2FA36B); background-size: 220px 220px, cover; }
+  .status.no { background-image: var(--tools-light), var(--grad-danger); background-size: 220px 220px, cover; }
+  .status.teal { background-image: var(--tools-light), var(--grad-card); background-size: 220px 220px, cover; }
+  .receipt { height: 150px; border-radius: var(--r-lg); background: repeating-linear-gradient(0deg,#fff 0 14px,#F1EFE8 14px 15px); border: 1px solid var(--border); display: grid; place-items: center; position: relative; font-size: 44px; }
+  .receipt small { position: absolute; bottom: 8px; right: 10px; font-size: 13px; font-weight: 600; background: var(--success-subtle); color: var(--success); padding: 2px 8px; border-radius: 999px; }
+  .ph { width: 64px; height: 64px; border-radius: var(--r-md); background: linear-gradient(135deg,#CFE3DF,#E9E3D2); display: grid; place-items: center; font-size: 24px; flex-shrink: 0; position: relative; }
+  .ph.add { background: var(--surface); border: 2px dashed var(--border-strong); }
+  .ph small { position: absolute; bottom: 2px; left: 0; right: 0; text-align: center; font-size: 11px; font-weight: 600; }
+  .phone .tl .t small { font-size: 14px; }
+  .ck { display: flex; align-items: center; gap: 10px; min-height: 44px; }
+  .ck i { font-style: normal; width: 28px; height: 28px; border-radius: 50%; background: var(--success); color: #fff; display: grid; place-items: center; font-size: 15px; flex-shrink: 0; }
+</style>
+</head>
+<body>
+<div class="canvas">
+  <p class="canvas-title"><b>Worker · Extra work price, shop bills, finish job, cash</b>Every new price is a quote the customer approves (LLD-017); material is billed from the shop bill; the job bill and the cash amount are computed by the backend (LLD-009 §5.4, LLD-010 D3) — the worker never types the final amount. Fixes design review B4, §3.4 Final amount / Active job.</p>
+
+  <!-- W-12a Quote builder -->
+  <div class="phone">
+    <span class="label">W-12a Extra work price · build · new</span>
+    <div class="statusbar"><span>11:20</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><h1>➕ Extra work price</h1></div>
+    <div class="content" style="gap:10px">
+      <div class="list">
+        <div class="qline"><span class="ic">🔨</span><div class="t"><b>Change basin pipe + trap</b><small>Labour · 1 job</small></div><b class="money">₹620</b></div>
+        <div class="qline"><span class="ic">👷</span><div class="t"><b>Helper</b><small>Half day</small></div><b class="money">₹200</b></div>
+        <div class="qline"><span class="ic m">🧱</span><div class="t"><b>PVC pipe 1" + trap</b><small>Material · I buy</small></div><b class="money">₹350</b></div>
+      </div>
+      <div class="addline"><a>🔨<span>+ Labour</span></a><a>🧱<span>+ Material</span></a><a>👷<span>+ Helper</span></a></div>
+      <span class="label-t">❓ Why is it needed?</span>
+      <div class="input">Basin pipe also rusted, leaking 🎙️</div>
+      <div class="banner info"><span class="ico">🧾</span><span>Material is paid from the <b>shop bill</b>, up to ₹350.</span></div>
+    </div>
+    <div class="footer">
+      <div class="row between"><span class="h4">Total</span><b class="money lg">₹1,170</b></div>
+      <a class="btn primary">📨 Send to Rina</a>
+    </div>
+  </div>
+
+  <!-- W-12b Quote waiting -->
+  <div class="phone soft">
+    <span class="label">W-12b Price sent · waiting · new</span>
+    <div class="statusbar"><span>11:22</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><h1>Extra work price</h1></div>
+    <div class="content" style="gap:12px">
+      <div class="status wait"><span class="big">⏳</span><b class="h2">Waiting for Rina</b><span>She says yes or no in her app.</span><span class="countdown" style="color:var(--ink);background:rgba(255,255,255,.55);padding:4px 12px;border-radius:999px">⏳ Ends in 23 h</span></div>
+      <div class="list">
+        <div class="qline"><span class="ic">🔨</span><div class="t"><b>Labour</b></div><b class="money">₹620</b></div>
+        <div class="qline"><span class="ic">👷</span><div class="t"><b>Helper</b></div><b class="money">₹200</b></div>
+        <div class="qline"><span class="ic m">🧱</span><div class="t"><b>Material (up to)</b></div><b class="money">₹350</b></div>
+        <div class="qline"><div class="t"><b>Total</b></div><b class="money" style="font-size:20px">₹1,170</b></div>
+      </div>
+      <p class="sm muted">🔨 Keep doing the agreed work. Don't start the extra work before she says yes.</p>
+      <div class="row" style="gap:8px"><a class="btn secondary" style="flex:1">✏️ Change price</a><a class="btn danger-o" style="flex:1">↩️ Take back</a></div>
+    </div>
+  </div>
+  <div class="note"><b>Data (LLD-017 D1–D7, §4)</b><code>POST /jobs/{id}/quotes {reason, lines[{lineType LABOUR / MATERIAL / HELPER / VISIT_CHARGE / TRANSPORT / DISCOUNT / OTHER, description, quantity, unit, unitPriceMinor, suppliedBy}]}</code> → SUBMITTED directly (draft kept in app). Only while job IN_PROGRESS / ON_HOLD; one SUBMITTED per job. Backend computes line amounts + totals (client totals ignored); bounds ≤ 30 lines, line ≤ ₹1,00,000, total ≤ ₹2,00,000. Expires 24 h (never auto-accepts). Change price = <code>/revise</code> (old → SUPERSEDED); Take back = <code>/withdraw</code>. Only the customer (account holder) approves — not the on-site contact.</div>
+
+  <!-- W-12c Quote approved -->
+  <div class="phone soft">
+    <span class="label">W-12c Price approved · new</span>
+    <div class="statusbar"><span>11:48</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><h1>Extra work price</h1></div>
+    <div class="content" style="gap:12px">
+      <div class="status ok"><span class="big">✅</span><b class="h2">Rina said yes</b><span class="money lg">₹1,170</span><span>added to this job</span></div>
+      <div class="card" style="gap:6px">
+        <div class="row between"><span>🔨 Labour + helper</span><b class="money">₹820</b></div>
+        <div class="row between"><span>🧱 Material (from shop bill)</span><b class="money">up to ₹350</b></div>
+      </div>
+      <div class="banner warning"><span class="ico">🧾</span><span>Keep the shop bill. Take a photo of it to get paid for material.</span></div>
+    </div>
+    <div class="footer"><a class="btn primary">🔨 Start extra work</a><a class="btn secondary">🧾 Add shop bill</a></div>
+  </div>
+
+  <!-- W-12d Quote rejected -->
+  <div class="phone soft">
+    <span class="label">W-12d Price not approved · new</span>
+    <div class="statusbar"><span>11:48</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><h1>Extra work price</h1></div>
+    <div class="content" style="gap:12px">
+      <div class="status no"><span class="big">✋</span><b class="h2">Rina said no</b><span class="pill">💸 Too expensive</span></div>
+      <div class="card"><div class="row"><span style="font-size:24px">🙂</span><span>No extra work. Finish the work you agreed — ₹850 / day.</span></div></div>
+      <div class="banner neutral"><span class="ico">🗂️</span><span>Other answers: "Not needed", "I'll arrange it myself". No answer in 24 h = not approved.</span></div>
+    </div>
+    <div class="footer"><a class="btn secondary">✏️ Send a new price</a><a class="btn primary">🔨 Continue agreed work</a></div>
+  </div>
+  <div class="note"><b>Data (LLD-017 D3/D4/D7/D11, quote statuses)</b>SUBMITTED → ACCEPTED / REJECTED (<code>reject_reason_code</code> TOO_EXPENSIVE / NOT_NEEDED / WILL_ARRANGE_MYSELF / OTHER) / EXPIRED (24 h) / SUPERSEDED / WITHDRAWN. ACCEPTED is final — more work = another quote. On the bill an accepted quote shows <code>total − material_total</code> (₹820); material only via shop bills, up to the quoted ₹350 (ceiling, not a charge).</div>
+
+  <!-- W-12e Material bill form -->
+  <div class="phone">
+    <span class="label">W-12e Shop bill · add · new</span>
+    <div class="statusbar"><span>12:30</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><h1>🧾 Shop bill</h1></div>
+    <div class="content" style="gap:10px">
+      <div class="receipt">🧾<small>✓ Photo added</small></div>
+      <label class="field"><span>💰 Bill amount</span><div class="input focus" style="font-size:22px;font-weight:700">₹ 300</div></label>
+      <div class="row" style="gap:8px">
+        <label class="field" style="flex:1"><span>🏪 Shop</span><div class="input">Maa Tara Hardware</div></label>
+        <label class="field" style="width:110px"><span>📅 Date</span><div class="input">Today</div></label>
+      </div>
+      <label class="field"><span>🔗 For which price?</span><div class="input">✅ Extra work · ₹350 material</div></label>
+      <div class="banner success"><span class="ico">✅</span><span><b>₹300 covered</b> by the approved price. Rina doesn't need to OK it.</span></div>
+    </div>
+    <div class="footer"><a class="btn primary">🧾 Add bill</a></div>
+  </div>
+
+  <!-- W-12f Material bills list -->
+  <div class="phone soft">
+    <span class="label">W-12f Shop bills · covered vs needs OK · new</span>
+    <div class="statusbar"><span>2:10</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><h1>🧾 Shop bills</h1></div>
+    <div class="content" style="gap:10px">
+      <div class="card" style="gap:6px">
+        <div class="row"><div class="ph">🧾</div><div class="grow"><b>Maa Tara Hardware</b><div class="sm muted">PVC pipe + trap</div></div><b class="money">₹300</b></div>
+        <span class="chip success" style="align-self:flex-start">✅ Covered by price</span>
+      </div>
+      <div class="card" style="gap:6px;border:2px solid var(--accent)">
+        <div class="row"><div class="ph add">📷</div><div class="grow"><b>Washers + tape</b><div class="sm muted">No photo · no price</div></div><b class="money">₹80</b></div>
+        <span class="chip warning" style="align-self:flex-start">⏳ Rina must OK · ends in 23 h</span>
+      </div>
+      <div class="card flat" style="gap:4px">
+        <div class="row between"><span>🧱 Material allowed</span><b class="money">₹350</b></div>
+        <div class="row between"><span>✅ Used</span><b class="money">₹300</b></div>
+        <div class="row between"><span>Left</span><b class="money">₹50</b></div>
+      </div>
+      <div class="banner warning"><span class="ico">🏁</span><span>You can finish the job after Rina answers.</span></div>
+    </div>
+    <div class="footer"><a class="btn secondary">🧾 Add another bill</a></div>
+  </div>
+  <div class="note"><b>Data (LLD-017 D8/D12, material_bills)</b><code>POST /jobs/{id}/material-bills {quoteId?, amountMinor, billDate, vendorName, billNo, photoMediaId}</code> — amount is typed from the shop receipt (≤ ₹50,000; date from booking −1 day to today). Backend splits <code>covered</code> (photo + accepted quote, up to the remaining allowance) and <code>excess</code>. Status COVERED / PENDING_ACK (customer OK within 24 h) / ACKNOWLEDGED / EXCESS_REJECTED / VOID (worker "wrong entry"). No photo or no quote → whole bill needs OK. Job can't be completed while a bill is PENDING_ACK or a quote SUBMITTED (409 PRICE_CHANGE_PENDING).</div>
+
+  <!-- W-12g Complete job -->
+  <div class="phone">
+    <span class="label">W-12g Finish job · new</span>
+    <div class="statusbar"><span>5:55</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><h1>🏁 Finish the job</h1></div>
+    <div class="content" style="gap:10px">
+      <div class="list" style="padding:4px 14px">
+        <div class="ck"><i>✓</i><span>📆 Day 1 and Day 2 checked out</span></div>
+        <div class="ck"><i>✓</i><span>📝 Extra work price answered</span></div>
+        <div class="ck"><i>✓</i><span>🧾 Shop bills answered</span></div>
+      </div>
+      <span class="label-t">📷 Photos of finished work</span>
+      <div class="row"><div class="ph">🚿<small>after</small></div><div class="ph">🔧<small>after</small></div><div class="ph">🚰<small>after</small></div><div class="ph add">➕</div></div>
+      <span class="label-t">📝 Note for Rina <em style="font-weight:400;color:var(--text-2)">(optional)</em></span>
+      <div class="input area">All pipes changed. No leak. Don't use basin for 2 hours. 🎙️</div>
+    </div>
+    <div class="footer"><a class="btn accent" style="min-height:60px;font-size:18px">🏁 Work is done</a></div>
+  </div>
+
+  <!-- W-12h Waiting for customer -->
+  <div class="phone soft">
+    <span class="label">W-12h Work done · waiting for customer · new</span>
+    <div class="statusbar"><span>5:56</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><h1>Bathroom pipe line</h1></div>
+    <div class="content" style="gap:12px">
+      <div class="status teal"><span class="big">🏁</span><b class="h2">Great work, Sujit!</b><span>Waiting for Rina to confirm.</span><span class="pill">⏳ Auto-confirm in 24 h</span></div>
+      <div class="card" style="flex-direction:row;align-items:center;gap:12px"><span style="font-size:30px">💵</span><div class="grow"><span class="sm muted">Customer still has to pay</span><div class="money lg">₹1,951</div></div><a class="chip brand">🧾 Bill ›</a></div>
+      <div class="banner info"><span class="ico">ℹ️</span><span>Rina can pay online in her app, or give you cash.</span></div>
+    </div>
+    <div class="footer"><a class="btn primary">💵 Customer paid me cash</a><a class="btn ghost">📞 Call Rina</a></div>
+  </div>
+  <div class="note"><b>Data (LLD-009 D9, §5.3, §6.3)</b><code>POST /jobs/{id}/complete {notes, mediaIds}</code> → job WORK_COMPLETED, push to customer "Work done? Confirm within 24 h". Guards: all visits DONE or terminal (409 JOB_NOT_COMPLETABLE), no SUBMITTED quote / PENDING_ACK bill (409 PRICE_CHANGE_PENDING) — checklist shows each guard. Customer confirms or opens a dispute within 24 h, else auto COMPLETED; warranty 30 days. Photos = <code>job_media</code> AFTER.</div>
+
+  <!-- W-12i Bill for the job -->
+  <div class="phone">
+    <span class="label">W-12i Bill for the job · fixed</span>
+    <div class="statusbar"><span>5:57</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><h1>🧾 Bill</h1><span class="chip warning">🏁 Work done</span></div>
+    <div class="content" style="gap:10px">
+      <div class="list bill">
+        <div class="li"><span>📆 Day 1 · work</span><span class="grow"></span><span class="money">₹850</span></div>
+        <div class="li"><span>👷 Day 1 · helper</span><span class="grow"></span><span class="money">₹500</span></div>
+        <div class="li"><span>📆 Day 2 · work</span><span class="grow"></span><span class="money">₹850</span></div>
+        <div class="li"><span>➕ Extra work</span><span class="grow"></span><span class="money">₹820</span></div>
+        <div class="li"><span>🧾 Shop bill · Maa Tara</span><span class="grow"></span><span class="money">₹300</span></div>
+        <div class="li"><span>🧾 Washers + tape</span><span class="grow"></span><span class="money">₹80</span></div>
+        <div class="li total"><span>Total</span><span class="grow"></span><span class="money">₹3,400</span></div>
+        <div class="li" style="color:var(--success)"><span>✅ Advance paid</span><span class="grow"></span><span class="money">−₹99</span></div>
+        <div class="li" style="color:var(--success)"><span>✅ Paid for Day 1</span><span class="grow"></span><span class="money">−₹1,350</span></div>
+      </div>
+      <div class="card hero" style="flex-direction:row;align-items:center"><span class="h4 grow">💵 Still to pay</span><b class="money lg">₹1,951</b></div>
+      <p class="sm muted">🔒 Worked out by Karigar. You can't change it.</p>
+    </div>
+  </div>
+  <div class="note"><b>Data (LLD-009 §5.4)</b><code>GET /jobs/{id}/bill</code> — computed, never stored: VISIT_LABOUR + HELPER per CONFIRMED visit, QUOTE (labour = total − material), MATERIAL per covered / acknowledged bill, EMERGENCY_SURCHARGE (0, hidden), ADVANCE_PAID, ALREADY_PAID (daily payment). total ₹3,400, paid ₹1,449, <code>dueMinor</code> 195100 → ₹1,951. No paise shown (P25). Read-only for both sides.</div>
+
+  <!-- W-12j Cash sheet -->
+  <div class="phone">
+    <span class="label">W-12j Customer paid me cash · new</span>
+    <div class="statusbar"><span>6:05</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><h1>Bathroom pipe line</h1></div>
+    <div class="content"></div>
+    <div class="scrim">
+      <div class="sheet">
+        <div class="illus sm" style="margin-top:4px">💵</div>
+        <b class="h2 center">Rina gave you<br><span class="money" style="font-size:40px;line-height:48px">₹1,951</span> cash?</b>
+        <p class="center muted">Count it first. Rina will confirm in her app.</p>
+        <div class="banner warning"><span class="ico">🧾</span><span>Karigar fee <b>₹185</b> will be added to your dues.</span></div>
+        <a class="btn primary" style="min-height:60px;font-size:18px">✅ Yes, I got ₹1,951</a>
+        <a class="btn ghost">✖ Not yet</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- W-12k Cash waiting -->
+  <div class="phone soft">
+    <span class="label">W-12k Cash · waiting for customer · new</span>
+    <div class="statusbar"><span>6:06</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><h1>💵 Cash</h1></div>
+    <div class="content" style="gap:12px">
+      <div class="status wait"><span class="big">⏳</span><b class="h2">Waiting for Rina</b><span class="money lg">₹1,951 cash</span><span>She confirms in her app.</span></div>
+      <div class="timeline">
+        <div class="tl done"><div class="dot"><i></i><b></b></div><div class="t"><b>You marked cash</b><small>6:06 pm</small></div></div>
+        <div class="tl now"><div class="dot"><i></i><b></b></div><div class="t"><b>Rina confirms</b><small>⏳ Auto in 24 h if she doesn't answer</small></div></div>
+        <div class="tl"><div class="dot"><i></i></div><div class="t"><b>Fee added to dues</b><small>₹185</small></div></div>
+      </div>
+      <a class="btn secondary">📞 Call Rina</a>
+    </div>
+  </div>
+
+  <!-- W-12l Cash confirmed -->
+  <div class="phone soft">
+    <span class="label">W-12l Cash · confirmed · new</span>
+    <div class="statusbar"><span>6:20</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><h1>💵 Cash</h1></div>
+    <div class="content" style="gap:14px;justify-content:center">
+      <div class="illus" style="background:linear-gradient(135deg,#1D7445,#2FA36B);box-shadow:0 12px 32px rgba(29,116,69,.35)">✅</div>
+      <div class="h1 center">Rina confirmed!</div>
+      <div class="card" style="gap:6px">
+        <div class="row between"><span>💵 You collected</span><b class="money">₹1,951</b></div>
+        <div class="row between"><span>🧾 Karigar fee</span><b class="money" style="color:var(--error)">₹185</b></div>
+        <div class="hr"></div>
+        <div class="row between"><span>📉 Your dues now</span><b class="money">₹539</b></div>
+      </div>
+      <p class="sm muted center">Dues over ₹1,000 stop new offers. Pay any time by UPI.</p>
+    </div>
+    <div class="footer"><a class="btn primary">💰 See earnings</a></div>
+  </div>
+  <div class="note"><b>Data (LLD-010 D3/D4, §4, P5; security/03)</b><code>POST /jobs/{id}/payments/cash</code> with <code>Idempotency-Key</code> and no amount in the body — backend takes <code>dueMinor</code> → payment CASH PENDING, <code>autoConfirmAt</code> +24 h. Customer <code>confirm-cash</code> → SUCCEEDED, earning created ELIGIBLE with <code>cash_retained = gross</code>; fee = 10 % of labour part (material excluded) + 18 % GST → worker owes it (balance goes negative). "I didn't pay" → customer dispute CASH_NOT_PAID → payment DISPUTED, no postings. Second mark → 409 CASH_ALREADY_PENDING; nothing due → 409 NOTHING_DUE. Push never shows the amount on the lock screen. Fee ₹185 and dues ₹539 are illustrative (₹354 earlier + ₹185).</div>
+</div>
+</body>
+</html>

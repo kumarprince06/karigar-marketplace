@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Karigar Components</title>
+<link rel="stylesheet" href="assets/karigar.css">
+<style>
+  body { background: var(--bg); }
+  .doc { max-width: 1400px; margin: 0 auto; padding: 32px; display: flex; flex-direction: column; gap: 24px; }
+  .top { border-radius: 28px; padding: 40px 48px; color: #fff; display: flex; justify-content: space-between; align-items: flex-end; gap: 32px; box-shadow: var(--e3); }
+  .top h1 { font-size: 44px; line-height: 52px; font-weight: 800; }
+  .eyebrow { font-size: 13px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--primary); }
+  .top .eyebrow { color: #FFC94D; }
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: 24px; padding: 28px; display: flex; flex-direction: column; gap: 18px; box-shadow: var(--e1); }
+  .sec h2 { font-size: 26px; line-height: 34px; font-weight: 750; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+  .g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .g3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .spec { background: var(--bg); border: 1px solid var(--border); border-radius: 18px; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+  .spec > h3 { font-size: 15px; font-weight: 700; display: flex; justify-content: space-between; gap: 8px; }
+  .spec > h3 small { font: 400 12px var(--mono); color: var(--text-2); }
+  .st { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; }
+  .st code { font: 11px var(--mono); color: var(--text-2); padding-left: 4px; }
+  .chipset { display: flex; flex-wrap: wrap; gap: 12px 10px; }
+  .mini { width: 360px; height: 640px; position: relative; border-radius: 24px; overflow: hidden; background: var(--bg); box-shadow: var(--e2); flex-shrink: 0; display: flex; flex-direction: column; }
+  .bar { height: 8px; border-radius: 4px; background: var(--bg-2); overflow: hidden; } .bar i { display: block; height: 100%; background: var(--grad-warm); }
+  .tile { width: 96px; height: 96px; border-radius: var(--r-md); background: var(--surface); border: 1.5px dashed var(--border-strong); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; font-size: 12px; color: var(--text-2); position: relative; overflow: hidden; }
+  .tile.img { border: 0; background: linear-gradient(135deg, #C9D8D4, #8FB2AD); color: #fff; }
+  .tile .x { position: absolute; top: 4px; right: 4px; width: 22px; height: 22px; border-radius: 50%; background: rgba(0,0,0,.55); color: #fff; display: grid; place-items: center; font-size: 12px; }
+  .tile .bar { position: absolute; left: 8px; right: 8px; bottom: 8px; height: 6px; }
+  .stars { font-size: 34px; letter-spacing: 6px; color: var(--accent); } .stars s { text-decoration: none; color: var(--border-strong); }
+  .range { position: relative; height: 10px; border-radius: 5px; background: var(--bg-2); } .range i { position: absolute; left: 22%; right: 38%; top: 0; bottom: 0; border-radius: 5px; background: var(--grad-card); }
+  table.t { width: 100%; border-collapse: collapse; font-size: 13px; } table.t td, table.t th { padding: 6px 8px; border-bottom: 1px solid var(--border); text-align: left; }
+  .lock { color: var(--text-2); font-size: 13px; display: inline-flex; gap: 4px; align-items: center; }
+  [lang="bn"], [lang="hi"] { line-height: 1.6; }
+</style>
+</head>
+<body>
+<div class="doc">
+
+  <header class="top tools">
+    <div class="col" style="gap:10px"><p class="eyebrow">02 · Core components · after LLD review</p><h1>Components</h1>
+      <p class="body-lg" style="opacity:.9;max-width:760px">Rendered with <code>assets/karigar.css</code> classes. Every status chip shows its friendly label with the exact backend enum underneath. 48 dp hit areas, min-height everywhere.</p></div>
+    <div class="row"><a class="pill" href="00-foundations.html">← Foundations</a><a class="pill" href="02-ia.html">IA →</a></div>
+  </header>
+
+  <!-- ============ BUTTONS / INPUTS ============ -->
+  <section class="sec">
+    <p class="eyebrow">Actions &amp; input</p><h2>Buttons, inputs, selection controls</h2>
+    <div class="g3">
+      <div class="spec"><h3>Buttons <small>min-height 52 · sm 44</small></h3>
+        <a class="btn primary">Choose worker</a>
+        <a class="btn accent">Pay ₹99 advance</a>
+        <a class="btn secondary">Call worker</a>
+        <a class="btn ghost">See all reasons</a>
+        <a class="btn danger">Cancel booking</a>
+        <a class="btn disabled">Check in (needs GPS)</a>
+        <div class="row"><a class="btn sm secondary">Decline</a><a class="btn sm primary">I'm interested</a></div>
+      </div>
+      <div class="spec"><h3>Inputs <small>border-strong 3.59:1</small></h3>
+        <label class="field"><span>Email</span><div class="input ph">you@example.com</div></label>
+        <label class="field"><span>Email</span><div class="input focus">priya.sen@gmail.com</div><span class="help">Focus: primary border + 3 px ring.</span></label>
+        <label class="field"><span>Password</span><div class="input err">••••••• <span class="grow"></span><span class="muted">👁 Show</span></div><span class="help err">⚠ At least 8 characters.</span></label>
+        <label class="field"><span>Mobile number <em>(not verified)</em></span><div class="input"><b>+91</b><span style="width:1px;height:24px;background:var(--border)"></span>98300 12345</div></label>
+      </div>
+      <div class="spec"><h3>Check, radio, toggle, segmented</h3>
+        <div class="check"><span class="box on">✓</span><span>I agree to the Terms and Privacy notice</span></div>
+        <div class="check"><span class="box"></span><span>I am 18 or older</span></div>
+        <div class="check"><span class="radio on"></span><span>Full day (8 h)</span></div>
+        <div class="check"><span class="radio"></span><span>Half day (4 h)</span></div>
+        <div class="li" style="background:var(--surface);border-radius:var(--r-md)"><div class="t"><b>Accepting jobs</b><small>ACCEPTING_JOBS</small></div><span class="toggle on"></span></div>
+        <div class="li" style="background:var(--surface);border-radius:var(--r-md)"><div class="t"><b>Booking updates</b><small>🔒 Required — can't turn off</small></div><span class="toggle locked"></span></div>
+        <div class="seg"><a class="on">English</a><a lang="bn">বাংলা</a><a lang="hi">हिंदी</a></div>
+        <div class="choice"><span class="opt on">⚡ Switch not working</span><span class="opt">Fan repair</span><span class="opt">+ Other</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ START CODE / URGENCY / PRICE ============ -->
+  <section class="sec">
+    <p class="eyebrow">Visit execution &amp; request</p><h2>Start code, urgency, price guide, countdown</h2>
+    <div class="g3">
+      <div class="spec"><h3>Worker · enter start code <small>LLD-009 D3</small></h3>
+        <p class="sm">Ask the customer for the 4-digit code.</p>
+        <div class="code"><span class="f">4</span><span class="f">8</span><span>2</span><span></span></div>
+        <p class="help center">4 tries left</p>
+        <div class="hr"></div>
+        <div class="code err"><span>1</span><span>1</span><span>1</span><span>1</span></div>
+        <div class="banner error"><span class="ico">🔒</span><span><b>Code locked after 5 wrong tries.</b> Ask the customer to make a new code in their app.</span></div>
+      </div>
+      <div class="spec"><h3>Customer · start code card</h3>
+        <div class="card hero"><span class="sm" style="opacity:.85">Visit 1 of 2 · today 11:00</span><b class="h4">Tell Rakesh this code when he arrives</b>
+          <div class="bigcode" style="color:#fff">4821</div>
+          <span class="sm" style="opacity:.9">Don't share it before the worker is at your door.</span>
+          <a class="btn secondary" style="background:transparent;color:#fff;border-color:#fff">↻ Make a new code</a></div>
+        <p class="help">Shown once the visit is EN_ROUTE or ARRIVED. Regenerate resets the 5 attempts.</p>
+      </div>
+      <div class="spec"><h3>Urgency <small>NOW · TODAY · SCHEDULED · EMERGENCY</small></h3>
+        <div class="seg" style="flex-wrap:wrap"><a>Now</a><a>Today</a><a>Pick date</a><a class="on" style="color:var(--error)">🚨 Emergency</a></div>
+        <div class="banner warning"><span class="ico">🚨</span><span><b>Emergency · +₹200</b> surcharge. Only police-verified workers, 24×7, arrive within 2 h. Request expires in 45 min if nobody is chosen.</span></div>
+        <div class="col" style="gap:6px"><b class="sm">Price guide · Switch repair</b>
+          <div class="range"><i></i></div>
+          <div class="row between sm"><span class="muted">₹150</span><b class="money">Most jobs ₹300 – ₹600</b><span class="muted">₹1,000</span></div>
+          <span class="help">Guide only. Worker sets the rate per visit; you see it before choosing.</span></div>
+        <div class="row between"><span class="sm">Pay advance within</span><span class="countdown">⏱ 12:45</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ STATUS CHIPS ============ -->
+  <section class="sec">
+    <p class="eyebrow">Status · one label = one enum</p><h2>Status chips per lifecycle</h2>
+    <p class="muted sm">Icon + text, never colour alone. Neutral = terminal / no action. Accent = the viewer must act. Labels are customer-facing unless marked (W) worker or (A) admin.</p>
+    <div class="grid">
+      <div class="spec"><h3>Service request <small>LLD-006</small></h3><div class="chipset"><div class="st"><span class="chip accent">👆 Pay advance</span><code>PENDING_PAYMENT</code></div><div class="st"><span class="chip info">● Sent</span><code>SUBMITTED</code></div><div class="st"><span class="chip info">● Finding workers</span><code>MATCHING</code></div><div class="st"><span class="chip accent">👆 Choose a worker</span><code>AWAITING_SELECTION</code></div><div class="st"><span class="chip brand">◆ Booked</span><code>BOOKED</code></div><div class="st"><span class="chip success">✓ Done</span><code>COMPLETED</code></div><div class="st"><span class="chip neutral">– Cancelled</span><code>CANCELLED</code></div><div class="st"><span class="chip neutral">– Expired</span><code>EXPIRED</code></div><div class="st"><span class="chip error">✕ No worker found</span><code>FAILED_TO_MATCH</code></div></div></div>
+      <div class="spec"><h3>Booking <small>LLD-009</small></h3><div class="chipset"><div class="st"><span class="chip brand">◆ Booked</span><code>CONFIRMED</code></div><div class="st"><span class="chip success">✓ Completed</span><code>COMPLETED</code></div><div class="st"><span class="chip neutral">– Cancelled</span><code>CANCELLED</code></div></div></div>
+      <div class="spec"><h3>Job <small>LLD-009</small></h3><div class="chipset"><div class="st"><span class="chip info">● Scheduled</span><code>SCHEDULED</code></div><div class="st"><span class="chip brand">◆ Work in progress</span><code>IN_PROGRESS</code></div><div class="st"><span class="chip warning">◔ Paused</span><code>ON_HOLD</code></div><div class="st"><span class="chip accent">👆 Work done · confirm</span><code>WORK_COMPLETED</code></div><div class="st"><span class="chip success">✓ Completed</span><code>COMPLETED</code></div><div class="st"><span class="chip neutral">– Cancelled</span><code>CANCELLED</code></div><div class="st"><span class="chip error">✕ Could not finish</span><code>FAILED</code></div></div></div>
+      <div class="spec"><h3>Visit <small>LLD-009</small></h3><div class="chipset"><div class="st"><span class="chip info">● Scheduled</span><code>SCHEDULED</code></div><div class="st"><span class="chip info">● On the way</span><code>EN_ROUTE</code></div><div class="st"><span class="chip brand">◆ Arrived</span><code>ARRIVED</code></div><div class="st"><span class="chip brand">◆ Working</span><code>IN_PROGRESS</code></div><div class="st"><span class="chip success">✓ Visit done</span><code>DONE</code></div><div class="st"><span class="chip error">✕ Worker didn't come</span><code>WORKER_NO_SHOW</code></div><div class="st"><span class="chip error">✕ Customer not home</span><code>CUSTOMER_NO_SHOW</code></div><div class="st"><span class="chip neutral">– Moved</span><code>RESCHEDULED</code></div><div class="st"><span class="chip neutral">– Cancelled</span><code>CANCELLED</code></div></div></div>
+      <div class="spec"><h3>Offer (W) <small>LLD-007/008 worker_matches</small></h3><div class="chipset"><div class="st"><span class="chip accent">👆 New job</span><code>NOTIFIED</code></div><div class="st"><span class="chip info">● Seen</span><code>VIEWED</code></div><div class="st"><span class="chip warning">◔ Waiting for customer</span><code>ACCEPTED</code></div><div class="st"><span class="chip neutral">– Declined</span><code>DECLINED</code></div><div class="st"><span class="chip neutral">– Missed</span><code>EXPIRED</code></div><div class="st"><span class="chip neutral">– Withdrawn</span><code>WITHDRAWN</code></div><div class="st"><span class="chip success">✓ You're booked</span><code>SELECTED</code></div><div class="st"><span class="chip neutral">– Not chosen</span><code>NOT_SELECTED</code></div></div></div>
+      <div class="spec"><h3>Payment <small>LLD-010/011</small></h3><div class="chipset"><div class="st"><span class="chip neutral">– Not paid yet</span><code>CREATED</code></div><div class="st"><span class="chip warning">◔ Processing</span><code>PENDING</code></div><div class="st"><span class="chip success">✓ Paid</span><code>SUCCEEDED</code></div><div class="st"><span class="chip error">✕ Payment failed</span><code>FAILED</code></div><div class="st"><span class="chip neutral">– Cancelled</span><code>CANCELLED</code></div><div class="st"><span class="chip error">✕ Under dispute</span><code>DISPUTED</code></div></div></div>
+      <div class="spec"><h3>Refund <small>LLD-011</small></h3><div class="chipset"><div class="st"><span class="chip info">● Refund started</span><code>REQUESTED</code></div><div class="st"><span class="chip info">● Refund on the way</span><code>PROCESSING</code></div><div class="st"><span class="chip success">✓ Refunded</span><code>SUCCEEDED</code></div><div class="st"><span class="chip error">✕ Refund failed</span><code>FAILED</code></div></div></div>
+      <div class="spec"><h3>Earning (W) <small>LLD-010</small></h3><div class="chipset"><div class="st"><span class="chip warning">◔ Pending</span><code>PENDING</code></div><div class="st"><span class="chip brand">◆ Ready for payout</span><code>ELIGIBLE</code></div><div class="st"><span class="chip warning">◔ On hold</span><code>ON_HOLD</code></div><div class="st"><span class="chip success">✓ Paid to bank</span><code>PAID_OUT</code></div><div class="st"><span class="chip error">✕ Reversed</span><code>REVERSED</code></div></div></div>
+      <div class="spec"><h3>Payout (W) <small>LLD-019</small></h3><div class="chipset"><div class="st"><span class="chip info">● Scheduled</span><code>QUEUED</code></div><div class="st"><span class="chip info">● Sending</span><code>PROCESSING</code></div><div class="st"><span class="chip success">✓ Sent to bank</span><code>PAID</code></div><div class="st"><span class="chip error">✕ Failed</span><code>FAILED</code></div><div class="st"><span class="chip error">✕ Returned</span><code>REVERSED</code></div></div></div>
+      <div class="spec"><h3>Payout account (W) <small>LLD-019</small></h3><div class="chipset"><div class="st"><span class="chip warning">◔ Checking account</span><code>PENDING_VERIFICATION</code></div><div class="st"><span class="chip warning">◔ Under review</span><code>NEEDS_REVIEW</code></div><div class="st"><span class="chip success">✓ Active</span><code>ACTIVE</code></div><div class="st"><span class="chip error">✕ Not usable</span><code>DISABLED</code></div></div></div>
+      <div class="spec"><h3>Verification (W) <small>LLD-016</small></h3><div class="chipset"><div class="st"><span class="chip info">● Submitted</span><code>PENDING</code></div><div class="st"><span class="chip warning">◔ In review</span><code>IN_REVIEW</code></div><div class="st"><span class="chip success">✓ Verified</span><code>VERIFIED</code></div><div class="st"><span class="chip error">✕ Rejected · send again</span><code>REJECTED</code></div><div class="st"><span class="chip error">✕ Expired · renew</span><code>EXPIRED</code></div><div class="st"><span class="chip error">✕ Revoked</span><code>REVOKED</code></div><div class="st"><span class="chip neutral">– Replaced</span><code>SUPERSEDED</code></div></div></div>
+      <div class="spec"><h3>Dispute <small>LLD-018</small></h3><div class="chipset"><div class="st"><span class="chip warning">◔ Waiting for reply</span><code>AWAITING_RESPONSE</code></div><div class="st"><span class="chip info">● Support is checking</span><code>IN_REVIEW</code></div><div class="st"><span class="chip success">✓ Resolved</span><code>RESOLVED</code></div><div class="st"><span class="chip neutral">– Closed · not upheld</span><code>REJECTED</code></div><div class="st"><span class="chip neutral">– Withdrawn</span><code>WITHDRAWN</code></div></div></div>
+      <div class="spec"><h3>Quote <small>LLD-017</small></h3><div class="chipset"><div class="st"><span class="chip accent">👆 Approve extra work?</span><code>SUBMITTED</code></div><div class="st"><span class="chip success">✓ Approved</span><code>ACCEPTED</code></div><div class="st"><span class="chip error">✕ Rejected</span><code>REJECTED</code></div><div class="st"><span class="chip neutral">– Expired</span><code>EXPIRED</code></div><div class="st"><span class="chip neutral">– Replaced by new quote</span><code>SUPERSEDED</code></div><div class="st"><span class="chip neutral">– Withdrawn</span><code>WITHDRAWN</code></div></div></div>
+      <div class="spec"><h3>Material bill <small>LLD-017</small></h3><div class="chipset"><div class="st"><span class="chip success">✓ Within quote</span><code>COVERED</code></div><div class="st"><span class="chip accent">👆 Check extra cost</span><code>PENDING_ACK</code></div><div class="st"><span class="chip success">✓ Accepted</span><code>ACKNOWLEDGED</code></div><div class="st"><span class="chip error">✕ Extra refused</span><code>EXCESS_REJECTED</code></div><div class="st"><span class="chip neutral">– Void</span><code>VOID</code></div></div></div>
+      <div class="spec"><h3>Review <small>LLD-012</small></h3><div class="chipset"><div class="st"><span class="chip info">● Hidden until both review</span><code>PENDING_REVEAL</code></div><div class="st"><span class="chip success">✓ Published</span><code>PUBLISHED</code></div><div class="st"><span class="chip warning">◔ Being checked</span><code>UNDER_MODERATION</code></div><div class="st"><span class="chip neutral">– Hidden</span><code>HIDDEN</code></div><div class="st"><span class="chip error">✕ Removed</span><code>REMOVED</code></div></div></div>
+    </div>
+  </section>
+
+  <!-- ============ FEEDBACK ============ -->
+  <section class="sec">
+    <p class="eyebrow">Feedback &amp; overlays</p><h2>Banners, sheet, dialog</h2>
+    <div class="row" style="gap:24px;align-items:flex-start;flex-wrap:wrap">
+      <div class="col" style="flex:1;min-width:320px;gap:10px">
+        <div class="banner info"><span class="ico">ℹ</span><span>Your ₹99 advance is taken off the final bill.</span></div>
+        <div class="banner warning"><span class="ico">⚠</span><span>Cancelling now costs ₹99 — the worker is on the way.</span></div>
+        <div class="banner error"><span class="ico">✕</span><span>Payment failed. No money was taken. <u>Try again</u></span></div>
+        <div class="banner success"><span class="ico">✓</span><span>Booked! Rakesh can now see your address and phone.</span></div>
+        <div class="banner offline"><span class="ico">📶</span><span>You're offline. We'll retry when you're back online. Check-in and payment need internet.</span></div>
+        <div class="spec"><h3>Timeline <small>visit events</small></h3>
+          <div class="timeline">
+            <div class="tl done"><div class="dot"><i></i><b></b></div><div class="t"><b>Booked</b><small>10:02 · Rakesh chosen</small></div></div>
+            <div class="tl done"><div class="dot"><i></i><b></b></div><div class="t"><b>On the way</b><small>10:40 · ETA 20 min</small></div></div>
+            <div class="tl now"><div class="dot"><i></i><b></b></div><div class="t"><b>Arrived</b><small>11:02 · show start code</small></div></div>
+            <div class="tl"><div class="dot"><i></i></div><div class="t"><b>Working</b><small>after start code</small></div></div>
+          </div></div>
+        <div class="spec"><h3>Stepper <small>3-step request</small></h3>
+          <div class="steps"><i class="on"></i><i class="on"></i><i></i></div>
+          <div class="row between sm"><b>1 What</b><b>2 Where &amp; when</b><span class="muted">3 Confirm &amp; pay</span></div></div>
+      </div>
+      <div class="mini"><div class="appbar"><h1>Booking</h1></div><div class="content"><div class="card"><b>Switch repair</b><span class="sm muted">Today 11:00</span></div></div>
+        <div class="scrim"><div class="sheet">
+          <b class="h3">Why are you cancelling?</b><span class="sm muted">Reasons come from the server (reason codes).</span>
+          <div class="list"><div class="li"><span class="radio on"></span><div class="t">Fixed it myself</div></div><div class="li"><span class="radio"></span><div class="t">Worker asked to cancel</div></div><div class="li"><span class="radio"></span><div class="t">Booked by mistake</div></div><div class="li"><span class="radio"></span><div class="t">Other</div></div></div>
+          <div class="banner warning"><span class="ico">₹</span><span>Free until 2 h before the visit. Fee now: ₹99 from your advance.</span></div>
+          <a class="btn danger">Cancel booking</a><a class="btn ghost">Keep booking</a></div></div></div>
+      <div class="mini"><div class="appbar"><h1>Job</h1></div><div class="content"><div class="card"><b>Visit 1</b></div></div>
+        <div class="scrim center"><div class="dialog"><b class="h3">Check in anyway?</b><p class="sm">You seem to be 450 m away. GPS may be weak. We'll ask the customer to confirm and support may review it.</p>
+          <label class="field"><span>Reason</span><div class="input">GPS is weak inside building</div></label>
+          <a class="btn primary">Check in anyway</a><a class="btn ghost">Try GPS again</a></div></div></div>
+    </div>
+  </section>
+
+  <!-- ============ MONEY ============ -->
+  <section class="sec">
+    <p class="eyebrow">Money</p><h2>Bill breakdown &amp; payment pieces</h2>
+    <div class="g3">
+      <div class="spec"><h3>Bill breakdown <small>LLD-009 §5.4</small></h3>
+        <div class="list bill">
+          <div class="li"><div class="t">Visit 1 · labour<small class="mono">VISIT_LABOUR</small></div><span class="money">₹850</span></div>
+          <div class="li"><div class="t">Visit 1 · helper<small class="mono">HELPER</small></div><span class="money">₹500</span></div>
+          <div class="li"><div class="t">Visit 2 · labour<small class="mono">VISIT_LABOUR</small></div><span class="money">₹850</span></div>
+          <div class="li"><div class="t">Extra work (approved quote)<small class="mono">QUOTE · labour only</small></div><span class="money">₹900</span></div>
+          <div class="li"><div class="t">Material · receipt 📎<small class="mono">MATERIAL</small></div><span class="money">₹300</span></div>
+          <div class="li"><div class="t">Emergency charge<small class="mono">EMERGENCY_SURCHARGE · hide when ₹0</small></div><span class="money faint">₹0</span></div>
+          <div class="li total"><div class="t">Total</div><span class="money">₹3,400</span></div>
+          <div class="li"><div class="t">Advance paid<small class="mono">ADVANCE_PAID</small></div><span class="money" style="color:var(--success)">− ₹99</span></div>
+          <div class="li"><div class="t">Already paid<small class="mono">ALREADY_PAID</small></div><span class="money" style="color:var(--success)">− ₹1,350</span></div>
+          <div class="li total" style="background:var(--accent-subtle)"><div class="t">To pay now<small>paid ₹1,449</small></div><span class="money lg">₹1,951</span></div>
+        </div>
+        <p class="help">totalMinor / paidMinor / dueMinor come from the API. The app never adds them up.</p>
+      </div>
+      <div class="spec"><h3>Shortlist offer card <small>LLD-008</small></h3>
+        <div class="card selected">
+          <div class="row"><div class="avatar">RD</div><div class="grow"><b class="h4">Rakesh Das</b><div class="sm muted">Electrician · 6 yrs</div></div><span class="chip success">✓ ID verified</span></div>
+          <div class="row between"><div><span class="money lg">₹450</span><span class="sm muted"> / visit</span></div><div class="col" style="gap:0;align-items:flex-end"><b class="sm">Can come today 11:30</b><span class="help">1.2 km away</span></div></div>
+          <div class="row wrap"><span class="badge">⭐ 4.7 (38)</span><span class="chip brand">🛡 Police verified</span><span class="chip accent">↺ Booked before</span></div>
+          <div class="banner neutral" style="padding:8px 10px"><span class="ico">💡</span><span class="sm"><b>Why shown:</b> close to you, does switch repair, good recent ratings, available at your time.</span></div>
+          <a class="btn primary">Choose Rakesh</a>
+          <span class="help">Phone and address are shared only after you choose.</span>
+        </div>
+      </div>
+      <div class="spec"><h3>Masked PII <small>privacy rule</small></h3>
+        <div class="list">
+          <div class="li"><div class="t">Voter ID (EPIC)<small class="masked">XXXXXX4821 · no Aadhaar uploads (LLD-016 D2)</small></div><span class="chip success">✓</span></div>
+          <div class="li"><div class="t">PAN<small class="masked">XXXXX1234X</small></div></div>
+          <div class="li"><div class="t">Bank account<small class="masked">SBI •••• 6789 · SBIN0001234</small></div></div>
+          <div class="li"><div class="t">Customer phone (worker view, before selection)<small class="lock">🔒 Shown after the customer chooses you</small></div></div>
+          <div class="li"><div class="t">Address (before selection)<small>Shibpur, Howrah · ~1.5 km</small></div></div>
+          <div class="li"><div class="t">Customer phone (after job +7 days)<small class="lock">🔒 Hidden 7 days after completion</small></div></div>
+        </div>
+        <div class="row between"><span class="masked">98•••••345</span><a class="btn sm secondary">👁 Reveal (A) · audited</a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MEDIA / RATING ============ -->
+  <section class="sec">
+    <p class="eyebrow">Media &amp; reviews</p><h2>Upload tiles, rating input</h2>
+    <div class="g2">
+      <div class="spec"><h3>Upload tiles <small>LLD-014 · photo / video / voice</small></h3>
+        <div class="row wrap" style="gap:12px">
+          <div class="tile img">🖼<span class="x">✕</span></div>
+          <div class="tile img" style="background:linear-gradient(135deg,#7FA39D,#3E6F69)">🎬 0:18<div class="bar"><i style="width:62%"></i></div></div>
+          <div class="tile" style="border-color:var(--error);color:var(--error)">⚠<span>Failed</span><b>Retry</b></div>
+          <div class="tile">📷<span>Add photo</span></div>
+          <div class="tile">🎥<span>Video ≤ 30 s</span></div>
+        </div>
+        <div class="card flat row" style="flex-direction:row;align-items:center"><span class="iconbtn" style="background:var(--error);color:#fff;width:48px;height:48px">■</span><div class="grow col" style="gap:4px"><b class="sm">Recording voice note · 0:23 / 1:00</b><div class="bar"><i style="width:38%"></i></div></div></div>
+        <div class="card flat" style="flex-direction:row;align-items:center"><span class="iconbtn" style="background:var(--primary-subtle);color:var(--primary)">▶</span><div class="grow col" style="gap:4px"><b class="sm">Voice note · 0:42</b><div class="bar"><i style="width:100%;background:var(--grad-card)"></i></div></div><span class="sm muted">Uploaded</span></div>
+        <p class="help">Upload starts at once; “Send request” waits for uploads. Failed uploads keep the file for retry.</p>
+      </div>
+      <div class="spec"><h3>Rating input + reply <small>LLD-012</small></h3>
+        <b class="h4">How was Rakesh's work?</b>
+        <div class="stars">★★★★<s>★</s></div><span class="sm muted">4 · Good</span>
+        <label class="field"><span>Tell others <em>(optional, 1,000 chars)</em></span><div class="input area">Came on time and fixed the switch board neatly.</div><span class="help">Don't add phone numbers — reviews with contact details are blocked.</span></label>
+        <div class="banner info"><span class="ico">🙈</span><span>Hidden until Rakesh also reviews, or 7 days pass.</span></div>
+        <div class="card flat" style="background:var(--bg-2)"><b class="sm">Reply from Rakesh (W)</b><span class="sm">Thank you, didi!</span><span class="help">One reply, ≤ 500 chars, editable 24 h.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ STATES / NAV ============ -->
+  <section class="sec">
+    <p class="eyebrow">States &amp; navigation</p><h2>Empty, error, loading · tab bars</h2>
+    <div class="g3">
+      <div class="spec"><h3>Empty</h3><div class="card center" style="align-items:center;padding:28px 16px"><div class="illus sm">🧰</div><b class="h4">No bookings yet</b><span class="sm muted">Book an electrician or plumber near you.</span><a class="btn primary">Book a service</a></div></div>
+      <div class="spec"><h3>Full-page error</h3><div class="card center" style="align-items:center;padding:28px 16px"><div class="illus sm" style="background:var(--grad-danger)">📡</div><b class="h4">Couldn't load your booking</b><span class="sm muted">Check your internet and try again.</span><a class="btn secondary">↻ Try again</a><span class="help">Error ref: 7f3a91c2</span></div></div>
+      <div class="spec"><h3>Loading (skeleton)</h3><div class="card"><div class="row"><div class="skel" style="width:44px;height:44px;border-radius:50%"></div><div class="col grow"><div class="skel" style="width:60%"></div><div class="skel" style="width:40%"></div></div></div><div class="skel" style="height:52px;border-radius:10px"></div></div>
+        <div class="card"><div class="skel" style="width:70%"></div><div class="skel" style="width:90%"></div><div class="skel" style="width:50%"></div></div></div>
+    </div>
+    <div class="g2">
+      <div class="spec"><h3>Customer tab bar <small>4 tabs</small></h3><div class="tabbar" style="border-radius:14px;border:1px solid var(--border)"><a class="on"><span class="ico">🏠</span>Home</a><a><span class="ico">📝</span>Requests</a><a><span class="ico">📅</span>Bookings</a><a><span class="ico">👤</span>Account</a></div>
+        <div class="tabbar" lang="bn" style="border-radius:14px;border:1px solid var(--border);height:auto;min-height:64px"><a class="on"><span class="ico">🏠</span>হোম</a><a><span class="ico">📝</span>অনুরোধ</a><a><span class="ico">📅</span>বুকিং</a><a><span class="ico">👤</span>অ্যাকাউন্ট</a></div></div>
+      <div class="spec"><h3>Worker tab bar <small>5 tabs · offers badge</small></h3><div class="tabbar" style="border-radius:14px;border:1px solid var(--border)"><a><span class="ico">🏠</span>Home</a><a class="on"><span class="ico">🔔</span>Offers ③</a><a><span class="ico">🧰</span>Jobs</a><a><span class="ico">₹</span>Earnings</a><a><span class="ico">👤</span>Profile</a></div>
+        <div class="tabbar" lang="hi" style="border-radius:14px;border:1px solid var(--border);height:auto;min-height:64px"><a><span class="ico">🏠</span>होम</a><a class="on"><span class="ico">🔔</span>ऑफ़र ③</a><a><span class="ico">🧰</span>काम</a><a><span class="ico">₹</span>कमाई</a><a><span class="ico">👤</span>प्रोफ़ाइल</a></div></div>
+    </div>
+    <div class="spec"><h3>Admin table + filters <small>web · English · search-first</small></h3>
+      <div class="filters"><div class="input" style="width:320px">🔍 Exact phone / email, or name (3+ letters)</div><span class="opt on" style="min-height:40px">Status: In review</span><span class="opt" style="min-height:40px">Trade: Electrician</span><span class="opt" style="min-height:40px">Zone: Howrah</span><span class="grow"></span><a class="btn sm secondary" style="width:auto;min-height:40px">Reset</a></div>
+      <div class="table"><table>
+        <tr><th>Worker</th><th>Check</th><th>Document</th><th>Status</th><th>Submitted</th><th>SLA</th><th></th></tr>
+        <tr><td><b>Rakesh Das</b><br><span class="masked">…a91c2e07</span></td><td>ID_PROOF</td><td class="masked">Voter ID XXXXXX4821</td><td><span class="chip warning">◔ In review</span></td><td>05 Oct, 10:14</td><td><span class="countdown">⏱ 3 h left</span></td><td><a class="btn sm primary" style="min-height:36px">Open</a></td></tr>
+        <tr><td><b>Sk. Imran</b><br><span class="masked">…5b07d311</span></td><td>POLICE_VERIFICATION</td><td class="masked">PCC-…7731</td><td><span class="chip info">● Submitted</span></td><td>05 Oct, 09:02</td><td><span class="sm muted">22 h left</span></td><td><a class="btn sm secondary" style="min-height:36px">Claim</a></td></tr>
+        <tr><td><b>Bapi Mondal</b><br><span class="masked">…02ce9a4f</span></td><td>ELECTRICAL_LICENSE</td><td class="masked">WB/EL/…/219</td><td><span class="chip error">✕ Rejected</span></td><td>04 Oct, 17:40</td><td><span class="sm muted">—</span></td><td><a class="btn sm ghost" style="min-height:36px">View</a></td></tr>
+      </table></div>
+      <div class="row between sm muted"><span>20 rows max · masked by default · reveal is audited</span><span>‹ Prev · Next ›</span></div>
+    </div>
+  </section>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Customer · Job tracking</title>
+<link rel="stylesheet" href="../assets/karigar.css">
+<style>
+  .kv { display: flex; justify-content: space-between; gap: 12px; font-size: 14px; line-height: 20px; }
+  .kv > span:first-child { color: var(--text-2); }
+  .kv > b { text-align: right; font-weight: 600; }
+  .callbtn { min-height: 48px; padding: 0 16px; border-radius: var(--r-full); background: var(--grad-warm); color: var(--ink); font-weight: 700; display: inline-flex; align-items: center; gap: 6px; border: 0; font-size: 15px; flex-shrink: 0; }
+  .eta { font-size: 44px; line-height: 48px; font-weight: 800; }
+  .worker { display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,.12); border-radius: 14px; padding: 10px; }
+  .worker .avatar { background: #fff; }
+  .day { display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-bottom: 1px solid var(--border); min-height: 56px; }
+  .day:last-child { border-bottom: 0; }
+  .day .n { width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; font-weight: 800; flex-shrink: 0; background: var(--bg-2); color: var(--text-2); }
+  .day .n.ok { background: var(--success-subtle); color: var(--success); }
+  .day .n.now { background: var(--grad-warm); color: var(--ink); }
+  .day .t { flex: 1; } .day .t small { display: block; font-size: 13px; color: var(--text-2); line-height: 18px; }
+  .ql { display: flex; justify-content: space-between; gap: 10px; padding: 8px 14px; border-bottom: 1px solid var(--border); font-size: 14px; line-height: 19px; }
+  .ql:last-child { border-bottom: 0; }
+  .ql small { display: block; color: var(--text-2); font-size: 12.5px; }
+  .receipt { height: 120px; border-radius: var(--r-md); background: repeating-linear-gradient(0deg, #fff 0 14px, #F1EFE8 14px 15px); border: 1px solid var(--border); display: grid; place-items: center; font-size: 34px; position: relative; }
+  .receipt span { position: absolute; bottom: 6px; right: 8px; font-size: 12px; background: var(--ink); color: #fff; padding: 2px 8px; border-radius: 10px; }
+  .split { display: flex; gap: 8px; }
+  .split > div { flex: 1; border-radius: var(--r-md); padding: 10px; }
+</style>
+</head>
+<body>
+<div class="canvas">
+  <p class="canvas-title"><b>Customer · Job tracking — visits, start code, quotes, materials, completion</b>No live map (LLD-009 D1): status changes arrive by push. Worker's real phone + Call (no chat, no masked calling). Approvals happen only in the customer app (LLD-017 D11).</p>
+
+  <!-- C-21a On the way -->
+  <div class="phone">
+    <span class="label">C-21a Worker on the way · fixed</span>
+    <div class="hero" style="padding-top:0">
+      <div class="statusbar clear" style="padding:0 2px"><span>4:12</span><span>▮▮ 4G</span></div>
+      <div class="row"><button class="iconbtn" style="color:#fff">←</button><div class="grow"><b>Fan not working</b><p class="sm muted">Ref 9C41E7 · Visit 1</p></div></div>
+      <span class="pill" style="align-self:flex-start">🛵 On the way since 4:10 PM</span>
+      <div><span class="sm muted">Rakesh expects to reach in</span><div class="eta">~25 min</div><span class="sm muted">around 4:35 PM · your window 4:00–6:00 PM</span></div>
+      <div class="worker"><div class="avatar">RD</div><div class="grow"><b>Rakesh Das</b><p class="sm muted">98300 45678</p></div><a class="callbtn">📞 Call</a></div>
+    </div>
+    <div class="content" style="padding-top:12px;gap:10px">
+      <div class="card warm" style="flex-direction:row;align-items:center;gap:12px;padding:12px 14px">
+        <div style="font-size:28px">🔑</div>
+        <div class="grow"><b class="label-t">Start code</b><p class="sm">Tell him at the door</p></div>
+        <b style="font:700 30px var(--mono);letter-spacing:6px">4821</b>
+      </div>
+      <div class="card" style="padding:12px 14px">
+        <div class="timeline">
+          <div class="tl done"><div class="dot"><i></i><b></b></div><div class="t"><b class="sm">Booked · you chose Rakesh</b><small>2:40 PM</small></div></div>
+          <div class="tl now"><div class="dot"><i></i><b></b></div><div class="t"><b class="sm">On the way</b><small>4:10 PM · ETA 25 min</small></div></div>
+          <div class="tl"><div class="dot"><i></i><b></b></div><div class="t"><b class="sm muted">Arrived · you give the code</b></div></div>
+          <div class="tl"><div class="dot"><i></i></div><div class="t" style="padding-bottom:0"><b class="sm muted">Work → done → you confirm</b></div></div>
+        </div>
+      </div>
+      <p class="help center">🔒 We don't track his location. You'll get a push when he checks in.</p>
+    </div>
+    <div class="footer"><a class="btn danger-o">Cancel booking · fee up to ₹99</a></div>
+  </div>
+  <div class="note"><b>Data (LLD-009 D1, §5.2, §8)</b>Visit EN_ROUTE: en_route_at, eta_minutes (worker picks 15/30/45/60) → push "Rakesh is on the way, ~25 min". No GPS shown to the customer. Start code visible from booking until the visit is IN_PROGRESS. Cancelling now = after "On my way" → visit charge capped at the advance (preview on C-20d).</div>
+
+  <!-- C-21b Arrived: start code -->
+  <div class="phone soft">
+    <span class="label">C-21b Arrived — show start code · new</span>
+    <div class="statusbar"><span>4:33</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><div class="grow"><h1>Fan not working</h1><p class="sub">Ref 9C41E7 · Visit 1</p></div></div>
+    <div class="content" style="gap:12px">
+      <div class="banner success"><span class="ico">📍</span><span><b>Rakesh has arrived</b> · checked in 4:32 PM</span></div>
+      <div class="card warm" style="padding:18px 16px;gap:10px;text-align:center">
+        <b class="label-t">TELL RAKESH THIS START CODE</b>
+        <div style="background:rgba(255,255,255,.6);border-radius:14px;padding:10px 0"><div class="bigcode">4821</div></div>
+        <p class="sm">He types it in his app to start work. Only say it when he is <b>at your place</b>.</p>
+        <span class="chip neutral" style="align-self:center;background:rgba(255,255,255,.7)">5 tries left</span>
+      </div>
+      <div class="card" style="padding:12px 14px;gap:4px">
+        <b class="label-t">Not at home?</b>
+        <p class="sm muted">Call Mita Sen (on-site contact) and tell her the code.</p>
+        <a class="btn secondary sm" style="width:100%">📞 Call Mita · 98311 22334</a>
+      </div>
+    </div>
+    <div class="footer"><a class="btn primary">📞 Call Rakesh</a></div>
+  </div>
+
+  <!-- C-21c Code locked -->
+  <div class="phone">
+    <span class="label">C-21c Start code locked · new</span>
+    <div class="statusbar"><span>4:36</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><div class="grow"><h1>Fan not working</h1><p class="sub">Ref 9C41E7 · Visit 1</p></div></div>
+    <div class="content" style="justify-content:center;text-align:center;gap:14px">
+      <div class="illus sm" style="background:var(--grad-danger);box-shadow:0 12px 32px rgba(198,46,37,.3)">🔒</div>
+      <h2 class="h2">Start code locked</h2>
+      <p class="body-lg muted">The wrong code was entered 5 times. Get a new code and tell it to Rakesh again.</p>
+      <div class="card" style="text-align:left;padding:12px 14px">
+        <p class="sm">⚠️ If the person at your door doesn't know the right code, <b>don't let work start</b>. Call Rakesh first to check it is him.</p>
+      </div>
+    </div>
+    <div class="footer"><a class="btn accent">🔄 Get a new code</a><a class="btn ghost">📞 Call Rakesh</a></div>
+  </div>
+  <div class="note"><b>Data (LLD-009 D3, §5.2, §5.5)</b><code>GET /visits/{id}/start-code</code> → {code, attemptsLeft}; worker <code>POST /visits/{id}/start {code}</code>: 422 START_CODE_INVALID (attemptsLeft), 423 START_CODE_LOCKED after 5. Customer <code>POST /start-code/regenerate</code> (only after a lock) → new code, attempts reset. Correct code → visit IN_PROGRESS, job SCHEDULED → IN_PROGRESS (start_code_verified_at). Customer tells the on-site contact by phone (SMS/WhatsApp later).</div>
+
+  <!-- C-21d Work in progress -->
+  <div class="phone">
+    <span class="label">C-21d Work in progress · fixed</span>
+    <div class="statusbar"><span>5:02</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><div class="grow"><h1>Fan not working</h1><p class="sub">Ref 9C41E7 · Visit 1</p></div></div>
+    <div class="content" style="gap:10px;padding-top:0">
+      <div class="card hero" style="gap:4px">
+        <span class="pill" style="align-self:flex-start">🔧 Work in progress</span>
+        <p class="h3">Rakesh started at 4:38 PM</p>
+        <p class="sm" style="opacity:.9">You'll confirm when he marks the work done.</p>
+      </div>
+      <div class="banner warning" style="align-items:center"><span class="ico">📝</span><span class="grow"><b>Extra work quote · ₹1,600</b><br>Needs your answer</span><a class="btn accent sm" style="min-height:44px">Review</a></div>
+      <div class="card" style="padding:12px 14px">
+        <div class="timeline">
+          <div class="tl done"><div class="dot"><i></i><b></b></div><div class="t"><b class="sm">Arrived</b><small>4:32 PM</small></div></div>
+          <div class="tl done"><div class="dot"><i></i><b></b></div><div class="t"><b class="sm">Start code accepted</b><small>4:38 PM</small></div></div>
+          <div class="tl now"><div class="dot"><i></i><b></b></div><div class="t"><b class="sm">Working</b><small>Agreed ₹350 for this visit</small></div></div>
+          <div class="tl"><div class="dot"><i></i></div><div class="t" style="padding-bottom:0"><b class="sm muted">Work done → you confirm (24 h) → pay</b></div></div>
+        </div>
+      </div>
+      <div class="row" style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:10px">
+        <div class="avatar">RD</div><div class="grow"><b>Rakesh Das</b><p class="sm muted">98300 45678</p></div><a class="callbtn">📞 Call</a>
+      </div>
+      <a class="btn ghost" style="min-height:48px">⚠️ Report a problem</a>
+    </div>
+  </div>
+  <div class="note"><b>Data (LLD-009 §7, LLD-017 D2/D11, LLD-018)</b>Visit IN_PROGRESS, job IN_PROGRESS. Panels appear from job state: quote SUBMITTED → "Extra work quote" (C-21h); material bill PENDING_ACK → "Material bill" (C-21i). Job ON_HOLD shows the worker's reason ("waiting for material"). Report a problem → dispute (LLD-018, subject JOB / VISIT, window per D2).</div>
+
+  <!-- C-21e Multi-day -->
+  <div class="phone soft">
+    <span class="label">C-21e Multi-day · Day 2 of 3 · new</span>
+    <div class="statusbar"><span>6:15</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><div class="grow"><h1>Bathroom pipe leak</h1><p class="sub">Sujit Mondal · Plumber · Ref 2B7D10</p></div></div>
+    <div class="content" style="gap:10px;padding-top:0">
+      <div class="card hero" style="gap:6px">
+        <div class="row between"><span class="pill">📅 Day 2 of 3</span><span class="pill">💳 Pay daily</span></div>
+        <div class="steps" style="margin:4px 0"><i class="on"></i><i class="on"></i><i style="background:rgba(255,255,255,.3)"></i></div>
+        <p class="sm" style="opacity:.92">₹850 per full day · 1 helper ₹500 per day</p>
+      </div>
+      <div class="banner warning" style="align-items:center"><span class="ico">✔</span><span class="grow"><b>Confirm today's work</b><br>₹1,350 · auto-confirms in 23 h</span><a class="btn accent sm">Check</a></div>
+      <div class="list">
+        <div class="day"><div class="n ok">1</div><div class="t"><b class="sm">Tue 6 Oct · Full day</b><small>Confirmed · paid ₹1,350</small></div><span class="chip success">Paid</span></div>
+        <div class="day"><div class="n now">2</div><div class="t"><b class="sm">Wed 7 Oct · Full day</b><small>Checked out 5:40 PM · 1 helper</small></div><span class="chip info">Confirm</span></div>
+        <div class="day"><div class="n">3</div><div class="t"><b class="sm">Thu 8 Oct · 9 AM–5 PM</b><small>Start code shown on the day</small></div><span class="chip neutral">Scheduled</span></div>
+      </div>
+      <div class="row" style="gap:8px">
+        <a class="btn secondary sm" style="flex:1">📞 Call Sujit</a>
+        <a class="btn secondary sm" style="flex:1">📅 Reschedule</a>
+      </div>
+    </div>
+  </div>
+  <div class="note"><b>Data (LLD-009 D4, §4, §6.1)</b>MULTI_DAY booking (via quote or ADD_DAYS, C-20g); one job_visit per day with its own start code. Visit DONE → push "Confirm today's work"; labour_amount (FULL_DAY = daily rate) + helper_amount (helpers_present × helper_day_rate). payment_schedule DAILY → each VisitConfirmed creates a payment due (C-22). Chips: visit status (SCHEDULED / DONE+confirmed …) and payment status as separate enums.</div>
+
+  <!-- C-21f Visit confirm sheet -->
+  <div class="phone">
+    <span class="label">C-21f Confirm today's work · new</span>
+    <div class="statusbar"><span>6:16</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><h1>Bathroom pipe leak</h1></div>
+    <div class="content"><div class="skel" style="width:70%"></div><div class="skel"></div></div>
+    <div class="scrim">
+      <div class="sheet">
+        <div class="row between"><p class="h3">Day 2 · Wed 7 Oct</p><span class="countdown">⏳ 23 h left</span></div>
+        <p class="sm muted">"Replaced 12 ft pipe under the basin, pressure tested." — Sujit</p>
+        <div class="row" style="gap:8px"><div class="thumb">🖼️</div><div class="thumb">🖼️</div><div class="thumb">🖼️</div><span class="sm muted">3 photos</span></div>
+        <div class="list bill">
+          <div class="li"><span class="t">Full day labour<small>9:05 AM – 5:40 PM</small></span><b class="money">₹850</b></div>
+          <div class="li"><span class="t">Helper × 1</span><b class="money">₹500</b></div>
+          <div class="li total"><span class="t">Amount for today</span><b class="money">₹1,350</b></div>
+        </div>
+        <p class="help">If you do nothing it is confirmed automatically in 24 h. Something wrong? Report it before then.</p>
+        <a class="btn primary">✔ Confirm · ₹1,350</a>
+        <a class="btn danger-o">Something's wrong — report</a>
+      </div>
+    </div>
+  </div>
+  <div class="note"><b>Data (LLD-009 D4, §5.2; LLD-018 D2)</b>Check-out: day_type, helpers_present, work_summary, photos (job_media AFTER/PROGRESS), amounts from VisitAmountCalculator (§4; client never sends amounts). <code>POST /visits/{id}/confirm</code> → customer_confirmed_at, confirmed_by CUSTOMER; timer auto-confirms 24 h after check-out unless disputed_at set. "Report" = <code>POST /disputes {subjectType: VISIT}</code>, holds the visit.</div>
+
+  <!-- C-21g Worker didn't come -->
+  <div class="phone">
+    <span class="label">C-21g Worker didn't come · new</span>
+    <div class="statusbar"><span>5:05</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><div class="grow"><h1>Fan not working</h1><p class="sub">Visit was due 4:00 PM</p></div></div>
+    <div class="content" style="gap:12px">
+      <div class="card" style="align-items:center;text-align:center;gap:10px;padding:18px 14px">
+        <div class="illus sm">⏰</div>
+        <p class="h3">Rakesh hasn't arrived</p>
+        <p class="sm muted">It's 65 min past the start of your window and he hasn't checked in. Try calling first.</p>
+        <a class="btn secondary">📞 Call Rakesh</a>
+      </div>
+      <div class="list">
+        <div class="li"><span class="radio on"></span><span class="t"><b>Find me another worker</b><small>We search again. Your ₹99 advance stays.</small></span></div>
+        <div class="li"><span class="radio"></span><span class="t"><b>Cancel and refund</b><small>₹99 back to your UPI in 5–7 days</small></span></div>
+      </div>
+      <div class="banner neutral"><span class="ico">ℹ️</span><span class="sm">No charge to you. If you don't report, we do it automatically at 2 h.</span></div>
+    </div>
+    <div class="footer"><a class="btn danger">Report: he didn't come</a></div>
+  </div>
+  <div class="note"><b>Data (LLD-009 D7, §5.2, §8)</b>Shown when visit SCHEDULED / EN_ROUTE and now ≥ start + 60 min, not checked in (earlier → 409 NO_SHOW_TOO_EARLY, button hidden). <code>POST /visits/{id}/report-worker-no-show</code> → WORKER_NO_SHOW, NO_SHOW strike, customer pays 0. Single-visit job → request BOOKED → MATCHING (worker excluded) or cancel with advance refund. Timer does it at 2 h.</div>
+
+  <!-- C-21h Quote approval -->
+  <div class="phone">
+    <span class="label">C-21h Quote approval · new</span>
+    <div class="statusbar"><span>5:04</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><div class="grow"><h1>Extra work quote</h1><p class="sub">From Rakesh · expires in 23 h</p></div></div>
+    <div class="content" style="gap:10px;padding-top:0">
+      <div class="banner warning"><span class="ico">💬</span><span><b>Why:</b> "Capacitor is weak, fan runs slow. Switchboard wiring is burnt."</span></div>
+      <div class="list">
+        <div class="ql"><span>Rewire switchboard<small>Labour · 1 lumpsum</small></span><b class="money">₹600</b></div>
+        <div class="ql"><span>Fit new capacitor<small>Labour · 1 piece</small></span><b class="money">₹300</b></div>
+        <div class="ql"><span>Capacitor 2.5 µF · Havells<small>Material by Rakesh · 1 × ₹250</small></span><b class="money">₹250</b></div>
+        <div class="ql"><span>Wire 1.5 mm<small>Material by Rakesh · 10 m × ₹45</small></span><b class="money">₹450</b></div>
+        <div class="ql" style="font-weight:700"><span>Quote total</span><b class="money">₹1,600</b></div>
+      </div>
+      <div class="card hero" style="padding:12px 14px;gap:4px">
+        <div class="row between sm"><span>Bill now</span><b class="money">₹350</b></div>
+        <div class="row between"><b>If you approve</b><b class="money" style="font-size:22px;color:#FFD15C">₹1,950</b></div>
+        <p class="sm" style="opacity:.9">Material is billed only from shop receipts, up to ₹700.</p>
+      </div>
+    </div>
+    <div class="footer" style="flex-direction:row">
+      <a class="btn danger-o" style="flex:1">Reject</a>
+      <a class="btn primary" style="flex:1">Approve ₹1,600</a>
+    </div>
+  </div>
+  <div class="note"><b>Data (LLD-017 D2–D8, D11, §5)</b>Quote SUBMITTED (one per job), lines: line_type LABOUR / MATERIAL (supplied_by) / HELPER / VISIT_CHARGE / TRANSPORT / DISCOUNT / OTHER, description, brand_spec, quantity × unit_price → amount (backend). Expires 24 h; silence never accepts. <code>POST /quotes/{id}/accept</code> or <code>/reject {reasonCode}</code> — reject sheet: TOO_EXPENSIVE, NOT_NEEDED, WILL_ARRANGE_MYSELF, OTHER. Material is a ceiling (D7); bill line QUOTE = total − material. Revision supersedes ("Rakesh changed the quote"). Only the account holder approves, never the on-site contact.</div>
+
+  <!-- C-21i Material bill acknowledge -->
+  <div class="phone">
+    <span class="label">C-21i Material bill — acknowledge · new</span>
+    <div class="statusbar"><span>5:40</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><div class="grow"><h1>Material bill</h1><p class="sub">Maa Tara Hardware, Shibpur · 5 Oct</p></div></div>
+    <div class="content" style="gap:10px;padding-top:0">
+      <div class="receipt">🧾<span>Receipt photo · tap to zoom</span></div>
+      <div class="card" style="padding:12px 14px;gap:8px">
+        <div class="row between"><b>Bill amount</b><b class="money" style="font-size:20px">₹800</b></div>
+        <div class="split">
+          <div style="background:var(--success-subtle);color:#13502F"><p class="sm">Covered by quote</p><b class="money" style="font-size:18px">₹700</b></div>
+          <div style="background:var(--warning-subtle);color:#5C3700"><p class="sm">Above quote</p><b class="money" style="font-size:18px">₹100</b></div>
+        </div>
+        <p class="sm muted">Your approved quote allowed up to ₹700 of material. Rakesh spent ₹100 more.</p>
+      </div>
+      <p class="countdown">⏳ Answer within 23 h · else the extra ₹100 is not charged</p>
+    </div>
+    <div class="footer">
+      <a class="btn primary">Accept · bill ₹800</a>
+      <a class="btn danger-o">Don't pay extra · bill ₹700</a>
+    </div>
+  </div>
+  <div class="note"><b>Data (LLD-017 D8, §3 material_bills)</b>Bill: vendor_name, bill_date, amount, receipt photo (signed URL), quote_id, covered_minor 70000 + excess_minor 10000, status PENDING_ACK, ack_due_at = +24 h. <code>POST /material-bills/{id}/acknowledge</code> → ACKNOWLEDGED (bill ₹800) or <code>/reject</code> → EXCESS_REJECTED (₹700); 24 h silence → EXCESS_REJECTED. A bill without photo or quote needs acknowledgement in full. COVERED bills need no action (info row only).</div>
+
+  <!-- C-21j Work done -->
+  <div class="phone soft">
+    <span class="label">C-21j Work done — confirm or report · new</span>
+    <div class="statusbar"><span>6:05</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><div class="grow"><h1>Fan not working</h1><p class="sub">Ref 9C41E7</p></div></div>
+    <div class="content" style="gap:12px">
+      <div class="card hero" style="align-items:center;text-align:center;gap:8px;padding:18px 14px">
+        <div class="illus glass sm">🛠️</div>
+        <p class="h3">Rakesh says the work is done</p>
+        <p class="sm" style="opacity:.92">"Fan runs at full speed. Switchboard rewired, new capacitor fitted."</p>
+        <span class="pill" style="background:rgba(255,184,0,.25);color:#FFE29A">⏳ Confirm within 23 h 52 min</span>
+      </div>
+      <div class="row" style="gap:8px"><div class="thumb">🖼️</div><div class="thumb">🖼️</div><span class="sm muted">2 after photos</span></div>
+      <div class="list bill">
+        <div class="li"><span class="t">Bill so far</span><b class="money">₹2,050</b></div>
+        <div class="li"><span class="t">Advance paid</span><b class="money">−₹99</b></div>
+        <div class="li total"><span class="t">To pay after you confirm</span><b class="money">₹1,951</b></div>
+      </div>
+      <p class="help">No answer in 24 h = confirmed automatically. 30-day warranty from completion.</p>
+    </div>
+    <div class="footer">
+      <a class="btn primary">✔ Confirm work done</a>
+      <a class="btn danger-o">Report a problem</a>
+    </div>
+  </div>
+  <div class="note"><b>Data (LLD-009 D9, §6.3; LLD-018 D2/D3)</b>Job WORK_COMPLETED (completion notes + after photos). <code>POST /jobs/{id}/confirm-completion</code> → job/booking/request COMPLETED, warranty_until = +30 d, then bill (C-22a) and review (C-23a). "Report a problem" = <code>POST /disputes {subjectType: JOB, category …}</code> → jobs.disputed_at, nothing auto-confirms; booking shows "Issue · awaiting response / in review". Worker can't mark done while a quote is SUBMITTED or a bill PENDING_ACK (D12).</div>
+</div>
+</body>
+</html>
