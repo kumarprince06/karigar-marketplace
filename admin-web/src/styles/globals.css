@@ -1,5 +1,8 @@
 @import 'tailwindcss';
 
+/* `dark:` utilities follow the resolved theme on <html data-theme>, not only the OS setting. */
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
 /*
  * Karigar design tokens (docs/design/screens/assets/karigar.css, brand v2).
  * Tokens live in the Tailwind theme so every utility (bg-primary, text-fg-muted, rounded-lg, shadow-e2 …)
@@ -100,8 +103,7 @@
     cover;
 }
 @utility bg-brand-soft {
-  background-image:
-    url('../assets/tools-pattern-dark.svg'), linear-gradient(160deg, #e6f4f1 0%, #f6f5f1 55%, #fff4dc 100%);
+  background-image: var(--brand-soft-pattern), var(--brand-soft-gradient);
   background-size:
     220px 220px,
     cover;
@@ -116,7 +118,57 @@
   background-image: linear-gradient(135deg, #c62e25 0%, #e0592b 100%);
 }
 
+/*
+ * Dark theme: the same token names with dark values, so every utility flips without `dark:` prefixes.
+ * Text/background pairs keep WCAG AA contrast (checked by the dark-mode axe run in e2e/).
+ * Brand surfaces (sidebar, hero cards, buttons) keep their gradients in both themes.
+ */
 @layer base {
+  :root {
+    color-scheme: light;
+    --brand-soft-pattern: url('../assets/tools-pattern-dark.svg');
+    --brand-soft-gradient: linear-gradient(160deg, #e6f4f1 0%, #f6f5f1 55%, #fff4dc 100%);
+  }
+  :root[data-theme='dark'] {
+    color-scheme: dark;
+    --brand-soft-pattern: url('../assets/tools-pattern-light.svg');
+    --brand-soft-gradient: linear-gradient(160deg, #0f2421 0%, #0f1817 55%, #1f190c 100%);
+
+    --color-primary: #4fc1b3;
+    --color-primary-hover: #6fd3c6;
+    --color-primary-subtle: #173835;
+    --color-accent-subtle: #3a2d0f;
+    --color-accent-fg: #f5c55a;
+
+    --color-canvas: #0f1817;
+    --color-muted: #1b2826;
+    --color-surface: #152120;
+    --color-border: #2b3b38;
+    --color-border-strong: #6a7d79;
+
+    --color-fg: #e6efed;
+    --color-fg-muted: #aabbb7;
+    --color-fg-subtle: #93a5a1;
+
+    --color-success: #5cc995;
+    --color-success-subtle: #15301f;
+    --color-success-fg: #a3e3c0;
+    --color-warning: #f0a848;
+    --color-warning-subtle: #33260f;
+    --color-warning-fg: #f5cc8f;
+    --color-error: #ff8378;
+    --color-error-subtle: #3a1a18;
+    --color-error-fg: #ffb8b0;
+    --color-info: #85adf2;
+    --color-info-subtle: #172540;
+    --color-info-fg: #bcd2f8;
+    --color-neutral: #aabbb7;
+    --color-neutral-subtle: #22302d;
+
+    --shadow-e1: 0 1px 2px rgb(0 0 0 / 0.4);
+    --shadow-e2: 0 8px 24px rgb(0 0 0 / 0.45);
+    --shadow-e3: 0 16px 48px rgb(0 0 0 / 0.55);
+  }
   html {
     font-family: var(--font-sans);
     color: var(--color-fg);
@@ -146,6 +198,9 @@
   }
   dialog::backdrop {
     background: rgb(11 47 46 / 0.5);
+  }
+  [data-theme='dark'] dialog::backdrop {
+    background: rgb(0 0 0 / 0.65);
   }
   @media (prefers-reduced-motion: reduce) {
     *,

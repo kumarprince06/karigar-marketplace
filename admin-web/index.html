@@ -12,6 +12,17 @@
       href="https://fonts.googleapis.com/css2?family=Anek+Latin:wght@400;500;600;700;800&family=Anek+Bangla:wght@400;500;600;700&family=Anek+Devanagari:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap"
     />
     <title>Karigar Ops</title>
+    <!-- Apply the saved colour theme before first paint (no light flash). Key must match src/lib/color-theme.ts. -->
+    <script>
+      try {
+        var preference = localStorage.getItem('karigar-admin.color-theme');
+        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.dataset.theme =
+          preference === 'dark' || (preference !== 'light' && prefersDark) ? 'dark' : 'light';
+      } catch (error) {
+        document.documentElement.dataset.theme = 'light';
+      }
+    </script>
   </head>
   <body>
     <div id="root">
