@@ -1,0 +1,9 @@
+export { AuditLogPage } from './pages/AuditLogPage';
+export { CatalogPage } from './pages/CatalogPage';
+export { NotificationsPage } from './pages/NotificationsPage';
+export { OutboxPage } from './pages/OutboxPage';
+export { ReasonCodesPage } from './pages/ReasonCodesPage';
+export { RolesPage } from './pages/RolesPage';
+export { ServiceZonesPage } from './pages/ServiceZonesPage';
+export { SettingsPage } from './pages/SettingsPage';
+export { StaffPage } from './pages/StaffPage';
