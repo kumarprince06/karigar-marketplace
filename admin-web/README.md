@@ -25,16 +25,17 @@ role picker under your name in the sidebar to see what each staff role sees (LLD
 
 ## Stack
 
-| Concern | Choice |
-|---|---|
-| Build | Vite 8 |
-| UI | React 19, TypeScript (strict, `noUncheckedIndexedAccess`) |
-| Styling | Tailwind CSS 4. Design tokens live in `src/styles/globals.css` under `@theme` |
-| Variants | `class-variance-authority` + `mergeClassNames` (clsx + tailwind-merge) |
-| Routing | React Router 7, one lazy-loaded chunk per feature |
-| Icons | lucide-react (SVG components, sized and coloured with Tailwind classes) |
-| Testing | Playwright (mobile 390, tablet 768, laptop 1280, desktop 1440) + axe-core WCAG 2.1 AA |
-| Quality | ESLint 9 (typescript-eslint, react-hooks, jsx-a11y), Prettier with Tailwind class sorting |
+| Concern  | Choice                                                                                                  |
+| -------- | ------------------------------------------------------------------------------------------------------- |
+| Build    | Vite 8                                                                                                  |
+| UI       | React 19, TypeScript (strict, `noUncheckedIndexedAccess`)                                               |
+| Styling  | Tailwind CSS 4. Design tokens live in `src/styles/globals.css` under `@theme`                           |
+| Variants | `class-variance-authority` + `mergeClassNames` (clsx + tailwind-merge)                                  |
+| Routing  | React Router 7, one lazy-loaded chunk per feature                                                       |
+| Icons    | lucide-react (SVG components, sized and coloured with Tailwind classes)                                 |
+| Themes   | Light, dark and system via `data-theme` on `<html>`; toggle in the top bar and on sign-in screens       |
+| Testing  | Playwright (mobile 390, tablet 768, laptop 1280, desktop 1440) + axe-core WCAG 2.1 AA in light and dark |
+| Quality  | ESLint 9 (typescript-eslint, react-hooks, jsx-a11y), Prettier with Tailwind class sorting               |
 
 ## Structure
 
@@ -87,6 +88,9 @@ features/people/
 - **Links use `paths` from `@/config/route-paths`**, never string literals.
 - **Sign-in redirects only to in-app paths.** Use `readSafeRedirectPath` / `withRedirectParam` from `@/features/auth`;
   never navigate to a raw `?redirectTo=` value (open-redirect risk).
+- **Light and dark themes come from tokens.** Components never use `dark:` for colours; the dark values of every token
+  live under `:root[data-theme='dark']` in `globals.css`. Add a token there if a colour does not adapt.
+  The theme (Light / Dark / System, default System) is set before first paint in `index.html`.
 - **Loading states use `LoadingSpinner`** (or the route-level `RouteLoadingFallback` and the top progress bar, which
   are automatic). Never plain "Loading…" text.
 - **Dialogs use `useUrlDialog(name)`**, so `?dialog=name` deep-links to any open dialog and Back closes it.
