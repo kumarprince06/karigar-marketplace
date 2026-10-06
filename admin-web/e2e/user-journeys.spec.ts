@@ -127,6 +127,39 @@ signedInTest('roles only see what they are allowed to (LLD-020 §3.2)', async ({
   await expect(page.getByText('verification.review')).toBeVisible();
 });
 
+signedInTest(
+  'colour theme cycles light → dark → system, survives reload, and system follows the OS',
+  async ({ page }) => {
+    await page.emulateMedia({ colorScheme: 'light' });
+    await page.goto(paths.ops);
+    const html = page.locator('html');
+    const themeToggle = page.getByRole('button', { name: /^Colour theme:/ });
+
+    await expect(html).toHaveAttribute('data-theme', 'light');
+    await expect(themeToggle).toHaveAccessibleName('Colour theme: System. Switch to Light');
+
+    await themeToggle.click();
+    await expect(themeToggle).toHaveAccessibleName('Colour theme: Light. Switch to Dark');
+    await themeToggle.click();
+    await expect(html).toHaveAttribute('data-theme', 'dark');
+
+    await page.reload();
+    await expect(html).toHaveAttribute('data-theme', 'dark');
+
+    await themeToggle.click();
+    await expect(themeToggle).toHaveAccessibleName('Colour theme: System. Switch to Light');
+    await expect(html).toHaveAttribute('data-theme', 'light');
+    await page.emulateMedia({ colorScheme: 'dark' });
+    await expect(html).toHaveAttribute('data-theme', 'dark');
+  },
+);
+
+test('the login page has the colour theme toggle too', async ({ page }) => {
+  await page.goto(paths.login);
+  await page.getByRole('button', { name: /^Colour theme:/ }).click();
+  await expect(page.locator('html')).toHaveAttribute('data-theme', /light|dark/);
+});
+
 test('unknown URLs show the not-found page', async ({ page }) => {
   await page.goto('/this-page-does-not-exist');
   await expect(page.getByRole('heading', { name: 'Page not found' })).toBeVisible();

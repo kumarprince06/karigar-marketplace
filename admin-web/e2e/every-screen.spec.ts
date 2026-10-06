@@ -1,5 +1,6 @@
 import { expect } from '@playwright/test';
 import { DESIGN_SCREEN_INDEX } from '@/config/design-screen-index';
+import { COLOR_THEME_STORAGE_KEY } from '@/lib/color-theme';
 import {
   collectPageProblems,
   expectNoHorizontalOverflow,
@@ -43,6 +44,25 @@ test.describe('accessibility', () => {
     test(`${screen.id} has no serious WCAG violations`, async ({ page }) => {
       await page.goto(screen.to);
       await page.waitForLoadState('networkidle');
+      await expectNoSeriousAccessibilityViolations(page);
+    });
+  }
+});
+
+test.describe('accessibility in dark mode', () => {
+  test.skip(({ viewport }) => viewport?.width !== 1440, 'axe runs once, at desktop size');
+  test.beforeEach(async ({ page }) => {
+    await page.addInitScript(
+      (storageKey) => localStorage.setItem(storageKey, 'dark'),
+      COLOR_THEME_STORAGE_KEY,
+    );
+  });
+
+  for (const screen of DESIGN_SCREEN_INDEX.flatMap((area) => area.screens)) {
+    test(`${screen.id} has no serious WCAG violations in dark mode`, async ({ page }) => {
+      await page.goto(screen.to);
+      await page.waitForLoadState('networkidle');
+      await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
       await expectNoSeriousAccessibilityViolations(page);
     });
   }
