@@ -6,6 +6,7 @@ import { paths } from '@/config/route-paths';
 import { useSession } from '@/features/auth';
 import { mergeClassNames } from '@/lib/merge-class-names';
 import type { RouteHandle } from '@/app/route-handle';
+import { ColorThemeToggle } from './ColorThemeToggle';
 
 interface TopBarProps {
   isNavigationOpen: boolean;
@@ -90,6 +91,7 @@ export function TopBar({ isNavigationOpen, onOpenNavigation }: TopBarProps) {
       <StatusChip tone="success" className="max-xl:hidden">
         <ShieldCheck aria-hidden className="size-3.5" /> MFA · until {session.mfaWindowOpenUntil}
       </StatusChip>
+      <ColorThemeToggle />
       <Avatar initials={session.initials} size="sm" />
     </header>
   );

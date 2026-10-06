@@ -45,7 +45,7 @@ export function ModalDialog({
       aria-labelledby={titleId}
       onClose={onClose}
       className={mergeClassNames(
-        'bg-surface text-fg shadow-e3 m-auto max-h-[90vh] max-w-[calc(100vw-32px)] rounded-xl p-0',
+        'bg-surface text-fg shadow-e3 dark:ring-border m-auto max-h-[90vh] max-w-[calc(100vw-32px)] rounded-xl p-0 dark:ring-1',
         sizes[size],
       )}
     >

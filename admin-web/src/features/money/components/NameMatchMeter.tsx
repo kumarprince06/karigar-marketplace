@@ -23,7 +23,7 @@ export function NameMatchMeter({ score }: { score: number }) {
       >
         <i
           aria-hidden
-          className="bg-ink absolute -top-[5px] h-5 w-1 -translate-x-1/2 rounded-sm"
+          className="bg-fg absolute -top-[5px] h-5 w-1 -translate-x-1/2 rounded-sm"
           style={{ left: `${clampedScore}%` }}
         />
       </div>
