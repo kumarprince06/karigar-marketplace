@@ -22,3 +22,4 @@ ADRs are immutable once accepted; to change a decision, write a new ADR that sup
 | [0015](0015-integration-tests-on-real-postgres.md) | Integration tests on real PostgreSQL/PostGIS | Accepted |
 | [0016](0016-email-password-login-phone-otp-later.md) | Email + password login for MVP; phone OTP later | Accepted |
 | [0017](0017-customer-picks-the-worker.md) | Customer picks the worker from those who accept | Accepted |
+| [0018](0018-uuidv7-identifiers.md) | UUIDv7 identifiers, generated in the application | Accepted |

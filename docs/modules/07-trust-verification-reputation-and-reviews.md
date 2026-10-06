@@ -163,7 +163,7 @@ Job COMPLETED (t0)
 
 Reveal = `status → PUBLISHED`, `visible_at = now()`, publish `ReviewPublished`. Implementation:
 
-- On submit, in the same transaction: lock the job's reviews (`SELECT … FOR UPDATE` on `jobs` row), insert, then if the other direction exists and both are `PENDING_REVEAL` and no dispute hold → reveal both.
+- On submit, in the same transaction: lock the job's reviews with a transaction-level advisory lock on the job id (`pg_advisory_xact_lock`, [LLD-012](../lld/lld-012-reviews-ratings.md) §7 — the review module does not lock the `jobs` row it doesn't own), insert, then if the other direction exists and both are `PENDING_REVEAL` and no dispute hold → reveal both.
 - A scheduler every 5 minutes reveals rows from `ix_reviews_reveal_due` where `reveal_due_at <= now()` and `held_by_dispute_id IS NULL`, using `FOR UPDATE SKIP LOCKED`.
 - A review in `UNDER_MODERATION` at reveal time is not revealed; it is revealed (or not) when the admin decides. The other side's review is revealed on schedule regardless.
 
@@ -233,6 +233,8 @@ Disputes never edit a review's rating; the only outcomes are the statuses above.
 ---
 
 # 4. Reputation Score
+
+> **Post-MVP.** `reputation_score` (§4.4) and worker levels (§5) are not built in MVP (product/04 §21–22, [LLD-012](../lld/lld-012-reviews-ratings.md) D12); the MVP snapshot holds rating, jobs completed, response and completion rates only.
 
 Table: `reputation_snapshots` (ERD §48.1). Everything is recomputed **from source tables**, never incremented, so a recompute is idempotent and a bug fix is a re-run.
 
@@ -349,6 +351,8 @@ Matching ([modules/01](01-matching-engine-and-geospatial-discovery.md) §26–27
 
 # 5. Worker Levels
 
+> **Post-MVP** (see §4 note).
+
 Computed nightly into `reputation_snapshots.level`. Badges from verification (§1.1) are separate from levels.
 
 | Level | Requirements (all; *configurable defaults*) | Visible to customer |
@@ -381,7 +385,7 @@ Table: `worker_strikes` (ERD §48.2). Restrictions and appeals use modules/08 §
 | Worker cancels < 2 h before `scheduled_start_at` (except `PERSONAL_EMERGENCY` accepted by admin) | `LATE_CANCELLATION` | 2 | System |
 | Worker cancels 2–12 h before | `LATE_CANCELLATION` | 1 | System |
 | Check-in > 60 min late without a reschedule | `LATE_ARRIVAL` | 1 | System |
-| Dispute resolved against the worker | `DISPUTE_UPHELD` | 2 | System on `DisputeResolved` |
+| Dispute resolved against the worker | `DISPUTE_UPHELD` | 2 | Explicit `WORKER_STRIKE` action in the agent's decision ([LLD-018](../lld/lld-018-disputes.md)), not automatic on `DisputeResolved` |
 | Asking for off-platform payment / contact (proved by evidence) | `OFF_PLATFORM_PAYMENT` | 3 | Admin |
 | Abusive or threatening behaviour | `ABUSIVE_BEHAVIOUR` | 5 | Admin |
 | Review collusion / fake jobs (§7) | `REVIEW_MANIPULATION` | 5 | Admin |
@@ -479,7 +483,7 @@ Written to `outbox_events` in the same transaction as the change.
 | `WorkerRestricted` / `WorkerRestrictionLifted` | workerId, until, activePoints | matching eligibility, notification |
 | `VerificationStatusChanged` (worker module) | workerId, verificationType, professionId, toStatus | eligibility, badges, reputation (level) |
 
-Consumed: `JobCompleted` (opens review window, schedules reminders), `BookingCancelled`, `VisitMarkedNoShow`, `VisitCheckedIn`, `MatchResponded`, `MatchExpired`, `DisputeOpened` (hold reveal), `DisputeResolved` (release hold, strike).
+Consumed: `JobCompleted` (opens review window, schedules reminders), `BookingCancelled`, `VisitMarkedNoShow`, `VisitCheckedIn`, `MatchResponded`, `MatchExpired`, `DisputeOpened` (hold reveal), `DisputeResolved` (release hold; strikes come from the explicit `WORKER_STRIKE` action, LLD-018).
 
 ## 9.2 Endpoints
 

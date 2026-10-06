@@ -73,7 +73,7 @@ com.karigar.identity
 │   ├── valueobject/  UserId, Email, PhoneNumber, PasswordHash, Locale, AuthTokenPurpose
 │   ├── UserStatus                     -- ACTIVE | SUSPENDED | DEACTIVATED
 │   ├── event/  UserRegistered, EmailVerificationRequested, EmailVerified,
-│   │           PasswordResetRequested, PasswordChanged
+│   │           PasswordResetRequested, PasswordChanged      -- payloads carry userId (+ link where needed), no name/email
 │   ├── exception/  EmailAlreadyInUse, PhoneAlreadyInUse, InvalidCredentials, AccountSuspended,
 │   │               TokenInvalidOrExpired, WeakPassword, TooManyAttempts
 │   └── repository/  UserRepository, AuthTokenRepository, ConsentRepository
@@ -150,7 +150,7 @@ CREATE TABLE users (
     phone_verified_at   TIMESTAMPTZ,
     name                VARCHAR(100) NOT NULL,
     preferred_locale    VARCHAR(10)  NOT NULL DEFAULT 'en',
-    profile_photo_url   TEXT,
+    -- profile photo: profile_photo_media_id is added by LLD-014 V4_8 (media reference, not a URL)
     status              VARCHAR(20)  NOT NULL DEFAULT 'ACTIVE'
                         CHECK (status IN ('ACTIVE', 'SUSPENDED', 'DEACTIVATED')),
     created_at          TIMESTAMPTZ  NOT NULL,
@@ -402,7 +402,7 @@ A nightly job deletes tokens older than 7 days (retention, [security/03](../secu
 - **Register idempotency:** clients may send `Idempotency-Key`; a retry with the same key and body replays the first `201` (`idempotency_records`, ERD §52.6). Without a key, a retry gets 409, which the app treats as "account exists, please log in".
 - **Token single use:** `SELECT … FOR UPDATE` on the token row inside the transaction; two parallel `verify`/`reset` calls → the second sees `used_at` set → 410 (verify returns 200 if the email is already verified).
 - **Resend:** revokes the previous open verification token(s) and issues a new one in one transaction, so only the newest link works.
-- **Outbox:** email events are written in the same transaction; if the transaction rolls back, no email is sent. Outbox payloads that contain a link are cleared (`payload = '{}'`) after successful delivery.
+- **Outbox:** email events are written in the same transaction; if the transaction rolls back, no email is sent. Payloads carry `userId` (the notification module resolves the address). Outbox payloads that contain a link are cleared (`payload = '{}'`) once the notification module has consumed the event — LLD-013 keeps its own copy in `data.secretUrl` and wipes it after send ([LLD-013](lld-013-notifications.md)).
 - **Rate limiting (Redis, configurable defaults):**
 
 | Key | Limit |
@@ -477,3 +477,4 @@ Alerts: login failures > 10× normal for 10 min (credential stuffing); verificat
 | Version | Date | Author | Change |
 |---|---|---|---|
 | 0.1 | 2026-10-03 | TBD | First draft |
+| 0.2 | 2026-10-05 | TBD | Integrated with LLD-012–022: `profile_photo_url` dropped (LLD-014 `profile_photo_media_id`), outbox link cleared after LLD-013 consumes it, payloads carry `userId` |

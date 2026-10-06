@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Customer · Bill & payment</title>
+<link rel="stylesheet" href="../assets/karigar.css">
+<style>
+  .bill .li small { display: block; color: var(--text-2); font-size: 12.5px; line-height: 17px; }
+  .bill .li { gap: 10px; }
+  .method { display: flex; align-items: center; gap: 12px; min-height: 60px; padding: 10px 14px; border: 1.5px solid var(--border-strong); border-radius: var(--r-md); background: var(--surface); }
+  .method.on { border: 2px solid var(--primary); background: var(--primary-subtle); }
+  .method .t { flex: 1; } .method .t small { display: block; font-size: 13px; color: var(--text-2); line-height: 18px; }
+  .kv { display: flex; justify-content: space-between; gap: 12px; font-size: 14px; line-height: 20px; }
+  .kv > span:first-child { color: var(--text-2); }
+  .kv > b { text-align: right; font-weight: 600; }
+  .provider { background: #fff; border-radius: 20px 20px 0 0; padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 10px; border-top: 4px solid #3B5BDB; }
+  .pm { display: flex; align-items: center; gap: 12px; min-height: 52px; padding: 0 12px; border: 1px solid var(--border); border-radius: 10px; font-size: 15px; }
+  .spinner { width: 72px; height: 72px; border-radius: 50%; border: 7px solid rgba(255,255,255,.25); border-top-color: #FFB800; align-self: center; }
+  .perf { border-top: 2px dashed var(--border); margin: 2px -14px; }
+</style>
+</head>
+<body>
+<div class="canvas">
+  <p class="canvas-title"><b>Customer · Bill &amp; payment — online, cash, receipt</b>Bill = LLD-009 §5.4 (computed, never typed by the worker). Online = provider checkout SDK (UPI first, then card / net banking); we store no cards or UPI IDs (LLD-011). Cash: worker marks it, customer confirms (LLD-010 D3/D4). No receipt PDF (P17).</p>
+
+  <!-- C-08a Bill & pay -->
+  <div class="phone">
+    <span class="label">C-08a Bill &amp; pay · fixed</span>
+    <div class="statusbar"><span>6:12</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><div class="grow"><h1>Bill &amp; pay</h1><p class="sub">Fan not working · Rakesh Das · Ref 9C41E7</p></div></div>
+    <div class="content" style="gap:10px;padding-top:0">
+      <div class="banner success" style="padding:8px 12px"><span class="ico">✔</span><span class="sm">You confirmed the work at 6:10 PM</span></div>
+      <div class="list bill sm">
+        <div class="li"><span class="t">Visit 1 labour<small>Agreed ₹350 per visit</small></span><b class="money">₹350</b></div>
+        <div class="li"><span class="t">Extra work (quote)<small>Rewiring + capacitor fitting</small></span><b class="money">₹900</b></div>
+        <div class="li"><span class="t">Material · receipt<small>Maa Tara Hardware · you accepted</small></span><b class="money">₹800</b></div>
+        <div class="li" style="color:var(--success)"><span class="t">Advance paid<small>Paid when you booked</small></span><b class="money">−₹99</b></div>
+        <div class="li"><span class="t">Total</span><b class="money">₹2,050</b></div>
+        <div class="li"><span class="t">Paid</span><b class="money">₹99</b></div>
+      </div>
+      <div class="card hero" style="flex-direction:row;align-items:center;padding:12px 14px">
+        <span class="grow">Due now</span><b class="money lg">₹1,951</b>
+      </div>
+      <div class="method on"><span class="radio on"></span><span class="t"><b>Pay online</b><small>UPI · card · net banking</small></span><span>📲</span></div>
+      <div class="method"><span class="radio"></span><span class="t"><b>Pay cash to Rakesh</b><small>He marks it, you confirm</small></span><span>💵</span></div>
+    </div>
+    <div class="footer"><a class="btn accent">Pay ₹1,951 online</a></div>
+  </div>
+  <div class="note"><b>Data (LLD-009 §5.4, LLD-010 D3, LLD-011 D9)</b><code>GET /jobs/{id}/bill</code> → lines VISIT_LABOUR (per confirmed visit), HELPER, QUOTE (labour = total − material), MATERIAL (covered / acknowledged bills), EMERGENCY_SURCHARGE (shown only if &gt; 0), ADVANCE_PAID −₹99, ALREADY_PAID (daily/weekly payments, negative) → totalMinor 205000 (before advance), paidMinor 9900, dueMinor 195100. Only confirmed visits + accepted quotes appear. The app never sends an amount. Cash allowed for everything except the advance. Shown after "Confirm work done" (C-07j); for DAILY schedules, after each visit confirm.</div>
+
+  <!-- C-08b Provider checkout -->
+  <div class="phone">
+    <span class="label">C-08b Provider checkout hand-off · fixed</span>
+    <div class="statusbar"><span>6:13</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><h1>Bill &amp; pay</h1></div>
+    <div class="content"><div class="skel" style="width:70%"></div><div class="skel"></div><div class="skel" style="width:40%"></div></div>
+    <div class="scrim">
+      <div class="provider">
+        <div class="row between"><span class="sm faint">Secure checkout · payment provider</span><span class="sm faint">✕</span></div>
+        <div class="row between"><b class="h4">Karigar · Ref 9C41E7</b><b class="money h4">₹1,951</b></div>
+        <span class="label-t faint">UPI</span>
+        <div class="pm" style="border:2px solid #3B5BDB"><span>📱</span><span class="grow">Pay with any UPI app</span><span>›</span></div>
+        <div class="pm"><span>🆔</span><span class="grow">Enter UPI ID</span><span>›</span></div>
+        <span class="label-t faint">More ways</span>
+        <div class="pm"><span>💳</span><span class="grow">Debit / credit card</span><span>›</span></div>
+        <div class="pm"><span>🏦</span><span class="grow">Net banking</span><span>›</span></div>
+        <p class="help center">This screen belongs to the payment provider. Karigar never sees your card, PIN or bank login.</p>
+      </div>
+    </div>
+  </div>
+  <div class="note"><b>Data (LLD-011 D1/D2/§8)</b><code>POST /jobs/{id}/payments/online</code> (Idempotency-Key) → payments row (purpose JOB, status CREATED, expires_at +30 min) + provider order id; app opens the provider SDK with it. Retries reuse the same order (D1). SDK success only starts polling <code>GET /payments/{id}</code>; truth = signed webhook or server-to-server fetch (D2). We keep only method + masked VPA. No saved methods (P3).</div>
+
+  <!-- C-08c Payment pending -->
+  <div class="phone">
+    <span class="label">C-08c Payment pending · fixed</span>
+    <div class="content tools" style="color:#fff;padding-top:0;justify-content:center;gap:16px;text-align:center">
+      <div class="statusbar clear" style="position:absolute;inset:0 0 auto 0"><span>6:14</span><span>▮▮ 4G</span></div>
+      <div class="spinner"></div>
+      <h1 class="h2">Checking with your bank…</h1>
+      <p class="body-lg" style="opacity:.9">₹1,951 to Karigar for Rakesh's work. This can take up to 2 minutes.</p>
+      <div class="card" style="text-align:left;color:var(--text);padding:12px 14px">
+        <div class="kv"><span>Amount</span><b class="money">₹1,951</b></div>
+        <div class="kv"><span>Method</span><b>UPI · rah***@okaxis</b></div>
+        <div class="kv"><span>Payment</span><b>Ref 3A8F21</b></div>
+        <div class="kv"><span>Status</span><span class="chip warning">⏳ Pending</span></div>
+      </div>
+      <div class="banner warning" style="text-align:left"><span class="ico">⚠️</span><span><b>Please don't pay again.</b> If money left your account, it will show here as soon as the bank tells us.</span></div>
+    </div>
+    <div class="footer"><a class="btn secondary">Go to booking — we'll notify you</a></div>
+  </div>
+
+  <!-- C-08d Payment failed -->
+  <div class="phone soft">
+    <span class="label">C-08d Payment failed · fixed</span>
+    <div class="statusbar"><span>6:16</span><span>▮▮ 4G</span></div>
+    <div class="content" style="justify-content:center;gap:14px;text-align:center">
+      <div class="illus" style="background:var(--grad-danger);box-shadow:0 12px 32px rgba(198,46,37,.3)">✖</div>
+      <h1 class="h2">Payment didn't go through</h1>
+      <p class="body-lg muted">UPI was declined by your bank. No money was taken.</p>
+      <div class="card" style="text-align:left;padding:12px 14px">
+        <div class="kv"><span>Still due</span><b class="money">₹1,951</b></div>
+        <div class="kv"><span>Payment</span><b>Ref 3A8F21</b></div>
+        <div class="kv"><span>Try again before</span><b>6:43 PM</b></div>
+        <p class="help">If money was debited, it comes back automatically. Don't worry — you'll never be charged twice.</p>
+      </div>
+    </div>
+    <div class="footer">
+      <a class="btn accent">Try again · ₹1,951</a>
+      <a class="btn secondary">Pay cash to Rakesh instead</a>
+    </div>
+  </div>
+  <div class="note"><b>Data (LLD-011 D4–D6)</b>Pending: payment PENDING, app polls; leaving is safe (push on success). Failed: a <code>payment.failed</code> attempt does not fail the payment — "Try again" reopens checkout on the same order until expires_at (30 min). Expired without capture → CANCELLED, a new order is created. Late capture after expiry → SUCCEEDED + automatic refund ("we got your money late — refund started"). Ref = last 6 chars of the payment UUID (P4). If UPI success rate drops, the app promotes "Pay cash".</div>
+
+  <!-- C-08e Cash confirm -->
+  <div class="phone">
+    <span class="label">C-08e Cash — confirm you paid · new</span>
+    <div class="statusbar"><span>6:20</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><div class="grow"><h1>Fan not working</h1><p class="sub">Ref 9C41E7</p></div></div>
+    <div class="content"><div class="skel" style="width:70%"></div><div class="skel"></div></div>
+    <div class="scrim center">
+      <div class="dialog" style="text-align:center;gap:14px">
+        <div class="illus sm">💵</div>
+        <p class="h3">Did you pay <span class="money">₹1,951</span> in cash to Rakesh?</p>
+        <p class="sm muted">Rakesh marked it received at 6:18 PM. If you don't answer, we take it as paid in 24 h.</p>
+        <a class="btn primary">Yes, I paid</a>
+        <a class="btn danger-o">I didn't pay this</a>
+        <p class="help">"I didn't pay" opens an issue. The payment is put on hold until our team checks it.</p>
+      </div>
+    </div>
+  </div>
+  <div class="note"><b>Data (LLD-010 D3/D4, LLD-018)</b>Worker "cash received" → payments row method CASH, status PENDING, amount = bill due (backend), cash_marked_by_worker_at. Customer <code>POST /payments/{id}/confirm-cash</code> → SUCCEEDED; 24 h silence → auto-confirmed. "I didn't pay" → <code>POST /disputes {subjectType: PAYMENT, category: CASH_NOT_PAID}</code> → payment DISPUTED, no ledger postings until resolved; booking list shows "Issue · awaiting response".</div>
+
+  <!-- C-08f Payment success -->
+  <div class="phone">
+    <span class="label">C-08f Payment success · fixed</span>
+    <div class="content tools" style="color:#fff;padding-top:0;justify-content:center;gap:14px;text-align:center">
+      <div class="statusbar clear" style="position:absolute;inset:0 0 auto 0"><span>6:15</span><span>▮▮ 4G</span></div>
+      <div class="illus">🎉</div>
+      <p class="sm" style="opacity:.9">Payment received</p>
+      <div class="display money">₹1,951</div>
+      <p class="body-lg" style="opacity:.92">Paid by UPI · 6:15 PM · Ref 3A8F21</p>
+      <div class="card" style="color:var(--text);text-align:left;flex-direction:row;align-items:center;gap:12px">
+        <div class="avatar">RD</div>
+        <div class="grow"><b>How was Rakesh?</b><p class="sm muted">Your review helps neighbours choose.</p></div>
+      </div>
+      <p class="sm" style="opacity:.9">🛡️ 30-day warranty on this work until 4 Nov.</p>
+    </div>
+    <div class="footer">
+      <a class="btn accent">⭐ Rate Rakesh</a>
+      <a class="btn ghost">View receipt</a>
+    </div>
+  </div>
+
+  <!-- C-08g Receipt -->
+  <div class="phone">
+    <span class="label">C-08g Receipt (in app) · fixed</span>
+    <div class="statusbar"><span>6:17</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><div class="grow"><h1>Receipt</h1><p class="sub">Booking Ref 9C41E7</p></div></div>
+    <div class="content" style="gap:10px;padding-top:0">
+      <div class="card" style="gap:6px">
+        <div class="row"><div class="tradeicon">⚡</div><div class="grow"><b>Fan not working</b><p class="sm muted">Rakesh Das · Electrician · 5 Oct</p></div></div>
+        <div class="perf"></div>
+        <div class="kv"><span>Visit 1 labour</span><b class="money">₹350</b></div>
+        <div class="kv"><span>Extra work (quote)</span><b class="money">₹900</b></div>
+        <div class="kv"><span>Material · receipt</span><b class="money">₹800</b></div>
+        <div class="kv"><span>Total</span><b class="money">₹2,050</b></div>
+        <div class="perf"></div>
+        <div class="kv"><span>Advance · UPI · 5 Oct</span><b class="money">₹99</b></div>
+        <div class="kv"><span>Final · UPI · 5 Oct</span><b class="money">₹1,951</b></div>
+        <div class="kv" style="font-size:16px"><b>Paid</b><b class="money">₹2,050</b></div>
+        <div class="row between"><span class="sm muted">Due</span><span class="chip success">✓ Fully paid</span></div>
+      </div>
+      <div class="card" style="gap:6px;padding:12px 14px">
+        <b class="label-t">Payments</b>
+        <div class="kv"><span>Ref 3A8F21 · rah***@okaxis</span><span class="chip success">Succeeded</span></div>
+        <div class="kv"><span>Ref 7E02C4 · advance</span><span class="chip success">Succeeded</span></div>
+        <b class="label-t" style="margin-top:4px">Refunds</b>
+        <p class="sm muted">No refunds on this booking.</p>
+      </div>
+    </div>
+    <div class="footer"><a class="btn secondary">⚠️ Report a problem with a payment</a></div>
+  </div>
+  <div class="note"><b>Data (LLD-009 §5.4, LLD-011 §5, P17)</b>Same bill lines as C-08a + payments of the job (<code>GET /jobs/{id}/payments</code>, <code>GET /payments/{id}</code>: amount, method, masked VPA, status, refunds). Refund rows when present: amount, reason, status REQUESTED / PROCESSING / SUCCEEDED / FAILED ("₹99 refunded to your UPI · 5–7 days"). In-app only — no PDF, share, email or SMS receipt in MVP. Payment problems → dispute subject PAYMENT within 7 days of the job ending (LLD-018 D2).</div>
+</div>
+</body>
+</html>

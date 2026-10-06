@@ -56,7 +56,7 @@ com.karigar.customer
 │   ├── AddressFor                     -- SELF | FAMILY | RELATIVE | TENANT | BUSINESS | OTHER
 │   ├── PropertyType                   -- FLAT | INDEPENDENT_HOUSE | SHOP | OFFICE | OTHER
 │   ├── valueobject/ Pincode, GeoPoint, SiteContact, FloorInfo
-│   └── event/ AddressSaved, AddressDeleted
+│   └── event/ AddressSaved, AddressDeleted   -- payload: customerId, addressId only, never the address text or location
 └── infrastructure/persistence/
 
 com.karigar.catalog.servicezone
@@ -255,7 +255,7 @@ Response:
 | POST | `/api/v1/admin/service-zones/{id}/status` | `ACTIVE` / `COMING_SOON` / `INACTIVE` |
 | GET | `/api/v1/admin/service-zones/waitlist?pincode=…` | demand by PIN |
 
-When a zone becomes `ACTIVE`, waitlisted people for its PINs get a "We're now in your area" notification (LLD-013) and `notified_at` is set.
+When a zone becomes `ACTIVE`, the status change transaction writes one outbox event `WaitlistAreaLaunched {waitlistEntryId, userId?, zoneId}` per waitlist entry for its PINs with `notified_at IS NULL`, and sets `notified_at` in the same transaction; [LLD-013](lld-013-notifications.md) sends "We're now in your area" (push / inbox for a user, email for a logged-out entry, resolved from `waitlistEntryId`). No email or PIN in the payload (LLD-022 D8).
 
 ### 4.4 Error codes
 
@@ -344,6 +344,7 @@ Deleting or editing never changes past or live service requests — they hold a 
 - The 20-address limit is checked with the customer row locked (`SELECT … FROM customers WHERE id = ? FOR UPDATE`) so two parallel creates can't exceed it.
 - `POST /customer/addresses` accepts `Idempotency-Key` (shared `idempotency_records`), because flaky mobile networks often resend.
 - Waitlist inserts are idempotent through the unique indexes.
+- Zone activation: `WaitlistAreaLaunched` outbox rows and `notified_at` are written in the activation transaction, so a retry or re-activation never notifies an entry twice (`WHERE notified_at IS NULL`).
 - Zone changes: `addresses.service_zone_id` is refreshed by a nightly job and on `ServiceZoneChanged`; it is display-only — LLD-006 always re-resolves.
 - PIN and boundary disagree (boundary says zone A, PIN listed in zone B): boundary wins; a `zone_pin_mismatch` metric is incremented so ops can fix the PIN lists.
 
@@ -399,3 +400,5 @@ Deleting or editing never changes past or live service requests — they hold a 
 | Version | Date | Author | Change |
 |---|---|---|---|
 | 0.1 | 2026-10-03 | TBD | First draft |
+| 0.2 | 2026-10-05 | TBD | Address events carry ids only |
+| 0.3 | 2026-10-05 | TBD | Integrated with LLD-012–022: zone activation writes outbox `WaitlistAreaLaunched` per waitlist entry + `notified_at` in the same tx (LLD-013) |

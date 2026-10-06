@@ -149,7 +149,8 @@ JobStarted
 JobCompleted
 PaymentSucceeded
 RefundSucceeded
-ReviewCreated
+ReviewSubmitted
+ReviewPublished
 DisputeOpened
 WorkerVerificationApproved
 ```
@@ -734,7 +735,8 @@ RefundSucceeded
 ### Trust
 
 ```text
-ReviewCreated
+ReviewSubmitted
+ReviewPublished
 VerificationApproved
 VerificationRevoked
 DisputeOpened
@@ -1919,7 +1921,8 @@ Replay can be useful for rebuilding derived data.
 Example:
 
 ```text
-ReviewCreated
+ReviewSubmitted
+ReviewPublished
 JobCompleted
 PaymentSucceeded
 ```

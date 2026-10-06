@@ -1,5 +1,7 @@
 # Realtime & WebSocket Architecture
 
+> Implemented by [LLD-021](../lld/lld-021-realtime-updates.md) (per-user queue only, no resource topics, no status in envelope).
+
 ## 1. Purpose
 
 The marketplace contains several workflows where users benefit from immediate updates.

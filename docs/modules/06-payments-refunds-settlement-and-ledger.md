@@ -17,7 +17,7 @@
 * **Idempotency (ERD §45):** `payments UNIQUE (customer_id, idempotency_key)`, `refunds UNIQUE (payment_id, idempotency_key)`, `payouts UNIQUE (idempotency_key)`, `ledger_transactions UNIQUE (idempotency_key)`.
 * **No customer money held by the platform:** online money moves through the provider's marketplace split settlement (e.g. Razorpay Route or Cashfree Easy Split), in line with RBI payment-aggregator rules. There is no stored-value wallet. The concrete provider is still open (ADR 0007); providers stay behind the `PaymentGateway` port.
 * **Refunds (ERD §46):** `REQUESTED`, `PROCESSING`, `SUCCEEDED`, `FAILED`, with a `reason_code`. Total of non-failed refunds ≤ payment amount, checked with the payment row locked. Cash payments are refunded through a ledger adjustment. A refund after the worker was paid out creates a recovery against the worker's future earnings.
-* **Worker earnings (ERD §46.1):** one row per succeeded payment — `gross`, `platform_fee`, `gst_on_fee`, `tds` (194-O), `tcs` (GST s.52, only if the worker is GST-registered), `material_reimbursement` (no commission), `net` (negative for cash jobs: the worker owes the fee), `fee_rate_bps`. Status `PENDING`, `ELIGIBLE`, `ON_HOLD`, `PAID_OUT`, `REVERSED`. Tax rates are data (`tax_rates` with effective dates).
+* **Worker earnings (ERD §46.1):** one row per succeeded payment — `gross`, `platform_fee`, `gst_on_fee`, `tds` (194-O), `tcs` (GST s.52, only if the worker is GST-registered), `material_reimbursement` (no commission), `net` (never negative; for cash jobs owed = net − cash_retained, [LLD-010](../lld/lld-010-cash-payment-ledger-earnings.md)), `fee_rate_bps`. Status `PENDING`, `ELIGIBLE`, `ON_HOLD`, `PAID_OUT`, `REVERSED`. Tax rates are data (`tax_rates` with effective dates).
 * **Payouts (ERD §46.2):** `worker_payout_accounts` (UPI VPA or bank account + IFSC, only the last 4 digits stored, penny-drop / VPA verified) and `payouts` (`QUEUED`, `PROCESSING`, `PAID`, `FAILED`, `REVERSED`, with bank `utr`).
 * **Ledger (ERD §46.3):** true double-entry — `ledger_accounts`, `ledger_transactions`, `ledger_entries` (`direction` D/C, positive amounts). Debits = credits per transaction; append-only; corrections are `ADJUSTMENT` transactions. Example, ₹1,000 UPI payment (rates illustrative):
 
@@ -1059,7 +1059,7 @@ material_reimbursement_minor   passed through, no commission
 net_minor = gross - fee - gst_on_fee - tds - tcs
 ```
 
-For a **cash** job the worker already holds the gross, so `net_minor` is negative: the worker owes the fee and GST, recovered from the next online payout.
+For a **cash** job the worker already holds the gross (`cash_retained`), so owed = net − cash_retained ([LLD-010](../lld/lld-010-cash-payment-ledger-earnings.md)): the worker owes the fee and GST, recovered from the next online payout.
 
 Other deductions may later include:
 

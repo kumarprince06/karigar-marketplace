@@ -20,7 +20,7 @@ The ERD ([architecture/03](../architecture/03-erd-and-production-database-design
 * **WorkerMatch** — customer picks the worker ([ADR 0017](../adr/0017-customer-picks-the-worker.md)): NOTIFIED → VIEWED → ACCEPTED → SELECTED | NOT_SELECTED, plus DECLINED, EXPIRED, WITHDRAWN; up to 3 shortlisted; selection creates the booking. ERD §32–34.2.
 * **Booking** — SINGLE_VISIT | MULTI_DAY; agreed rate snapshot; `helper_count`; `payment_schedule` ON_COMPLETION | DAILY | WEEKLY | MILESTONE; one live booking per request. ERD §35–38.
 * **Job** — SCHEDULED, IN_PROGRESS, ON_HOLD, WORK_COMPLETED, COMPLETED, CANCELLED. **JobVisit** (≥1 per job, one per day/trip): SCHEDULED → EN_ROUTE → ARRIVED → IN_PROGRESS → DONE, plus WORKER_NO_SHOW, CUSTOMER_NO_SHOW, RESCHEDULED, CANCELLED; check-in with a 4-digit start code; per-visit amounts; no overlapping visits per worker. ERD §39–40.1.
-* **Quote** — INITIAL | REVISION | ADDITIONAL with line items (LABOUR, MATERIAL, HELPER, VISIT_CHARGE, TRANSPORT, DISCOUNT, OTHER); DRAFT, SUBMITTED, ACCEPTED, REJECTED, EXPIRED, SUPERSEDED, WITHDRAWN; immutable after submit. Additional work is an ADDITIONAL quote. ERD §41–41.1.
+* **Quote** — INITIAL | REVISION | ADDITIONAL with line items (LABOUR, MATERIAL, HELPER, VISIT_CHARGE, TRANSPORT, DISCOUNT, OTHER); DRAFT (not used in MVP, LLD-017), SUBMITTED, ACCEPTED, REJECTED, EXPIRED, SUPERSEDED, WITHDRAWN; immutable after submit. Additional work is an ADDITIONAL quote. ERD §41–41.1.
 * **Money** — integer paise ([ADR 0006](../adr/0006-money-integer-minor-units.md)); may be negative (discounts, adjustments); overflow-safe arithmetic. ERD §42.
 * **Payment** — method UPI | CARD | NETBANKING | WALLET | CASH, `purpose`, `collected_by`; CREATED, PENDING, SUCCEEDED, FAILED, CANCELLED. **Refund** — REQUESTED, PROCESSING, SUCCEEDED, FAILED. Earnings, payouts, ledger and invoices: ERD §43–46.4.
 
@@ -1201,10 +1201,10 @@ The customer accepts or rejects it.
 
 # 42. Quote State Machine
 
-Quote states (all kinds):
+Quote states (all kinds). `DRAFT` is not used in MVP: a quote is created already `SUBMITTED` ([LLD-017](../lld/lld-017-quotes-additional-work-material.md)).
 
 ```text
-DRAFT
+DRAFT   (not used in MVP)
    ↓
 SUBMITTED
    ├──────────────→ ACCEPTED

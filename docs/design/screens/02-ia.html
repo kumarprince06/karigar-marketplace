@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Karigar Information Architecture</title>
+<link rel="stylesheet" href="assets/karigar.css">
+<style>
+  body { background: var(--bg); }
+  .doc { max-width: 1400px; margin: 0 auto; padding: 32px; display: flex; flex-direction: column; gap: 24px; }
+  .top { border-radius: 28px; padding: 40px 48px; color: #fff; display: flex; justify-content: space-between; align-items: flex-end; gap: 32px; box-shadow: var(--e3); }
+  .top h1 { font-size: 44px; line-height: 52px; font-weight: 800; }
+  .eyebrow { font-size: 13px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--primary); }
+  .top .eyebrow { color: #FFC94D; }
+  .sec { background: var(--surface); border: 1px solid var(--border); border-radius: 24px; padding: 28px; display: flex; flex-direction: column; gap: 18px; box-shadow: var(--e1); }
+  .sec h2 { font-size: 26px; line-height: 34px; font-weight: 750; }
+  .g3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; align-items: start; }
+  .g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .surf { border-radius: 20px; overflow: hidden; border: 1px solid var(--border); background: var(--bg); }
+  .surf > .hd { padding: 18px 18px 14px; color: #fff; }
+  .surf > .hd h3 { font-size: 22px; font-weight: 750; }
+  .surf > .bd { padding: 14px; display: flex; flex-direction: column; gap: 10px; }
+  .tab { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 12px 14px; }
+  .tab > b { display: flex; justify-content: space-between; align-items: center; font-size: 15px; margin-bottom: 6px; }
+  .tab ul { list-style: none; display: flex; flex-direction: column; gap: 3px; font-size: 13.5px; line-height: 19px; }
+  .tab li { display: flex; justify-content: space-between; gap: 8px; }
+  .tab li span:last-child { font: 11px var(--mono); color: var(--text-2); white-space: nowrap; }
+  .file { font: 600 12px var(--mono); color: var(--primary); background: var(--primary-subtle); border-radius: 6px; padding: 2px 6px; white-space: nowrap; }
+  .file:hover { text-decoration: underline; }
+  .lane { display: grid; grid-template-columns: 170px 1fr; gap: 16px; align-items: center; padding: 16px 0; border-bottom: 1px dashed var(--border-strong); }
+  .lane:last-of-type { border-bottom: 0; }
+  .lane .nm b { display: block; font-size: 17px; } .lane .nm small { color: var(--text-2); font-size: 12px; }
+  .flow { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 6px; }
+  .flow .ar { color: var(--text-3); font-weight: 700; }
+  .st { display: inline-flex; flex-direction: column; align-items: center; gap: 1px; }
+  .st code { font: 10.5px var(--mono); color: var(--text-2); }
+  .exits { font-size: 12.5px; color: var(--text-2); margin-left: 8px; padding-left: 10px; border-left: 2px solid var(--border); display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+  .link { font-size: 12px; color: var(--info); font-weight: 600; padding: 2px 8px; background: var(--info-subtle); border-radius: 999px; }
+  .phase { border-radius: 18px; padding: 18px; display: flex; flex-direction: column; gap: 10px; }
+  .phase h3 { font-size: 20px; font-weight: 750; display: flex; gap: 8px; align-items: center; }
+  .phase ul { padding-left: 18px; font-size: 14px; line-height: 21px; }
+  table.t { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  table.t th { text-align: left; font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--text-2); padding: 8px 10px; border-bottom: 2px solid var(--border); }
+  table.t td { padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+</style>
+</head>
+<body>
+<div class="doc">
+
+  <header class="top tools">
+    <div class="col" style="gap:10px"><p class="eyebrow">03 · Information architecture &amp; phasing</p><h1>Three surfaces, one product</h1>
+      <p class="body-lg" style="opacity:.9;max-width:820px">Second-level screen inventory per tab, mapped to the LLD that owns the data and to the screen file in this folder. Four separate lifecycles, never one merged “booking status”.</p></div>
+    <div class="row"><a class="pill" href="00-foundations.html">← Foundations</a><a class="pill" href="01-components.html">Components</a></div>
+  </header>
+
+  <!-- ============ TREES ============ -->
+  <section class="sec">
+    <p class="eyebrow">Screen inventory</p><h2>Customer · Worker · Admin</h2>
+    <div class="g3">
+
+      <!-- CUSTOMER -->
+      <div class="surf">
+        <div class="hd tools"><h3>Customer app</h3><span class="sm" style="opacity:.9">Priority: request → choose → active work · 4 tabs · en/bn/hi</span></div>
+        <div class="bd">
+          <div class="tab"><b>Before login <a class="file" href="customer/01-auth.html">01-auth</a></b><ul>
+            <li><span>Welcome + language picker</span><span>LLD-003</span></li>
+            <li><span>Sign up · log in · check your email</span><span>LLD-001</span></li>
+            <li><span>Forgot / reset password</span><span>LLD-001</span></li></ul></div>
+          <div class="tab"><b>🏠 Home <a class="file" href="customer/02-home.html">02-home</a></b><ul>
+            <li><span>Trades, search, Emergency 24×7 entry</span><span>LLD-003/006</span></li>
+            <li><span>Continue draft · active booking card</span><span>LLD-006/009</span></li>
+            <li><span>Area not served → waitlist (“notify me”)</span><span>LLD-005</span></li></ul></div>
+          <div class="tab"><b>📝 Requests <span class="row" style="gap:4px"><a class="file" href="customer/03-request.html">03</a><a class="file" href="customer/04-advance-payment.html">04</a><a class="file" href="customer/05-matching.html">05</a></span></b><ul>
+            <li><span>Step 1 what · 2 where &amp; when · 3 confirm</span><span>LLD-006</span></li>
+            <li><span>Photos / video / voice note</span><span>LLD-014</span></li>
+            <li><span>Advance pay · pending / failed / window closed</span><span>LLD-011</span></li>
+            <li><span>Finding workers · shortlist (≤ 3) · confirm sheet</span><span>LLD-007/008</span></li>
+            <li><span>No worker found · refund</span><span>LLD-006/011</span></li>
+            <li><span>Drafts list</span><span>LLD-006</span></li></ul></div>
+          <div class="tab"><b>📅 Bookings <span class="row" style="gap:4px"><a class="file" href="customer/06-booking.html">06</a><a class="file" href="customer/07-job-tracking.html">07</a><a class="file" href="customer/08-payment.html">08</a><a class="file" href="customer/09-reviews.html">09</a><a class="file" href="customer/10-booking-exceptions.html">10</a></span></b><ul>
+            <li><span>Upcoming / active / past · detail · cancel</span><span>LLD-009</span></li>
+            <li><span>Reschedule / add-days proposal response</span><span>LLD-009</span></li>
+            <li><span>Start code card · visit confirm · no-show report</span><span>LLD-009</span></li>
+            <li><span>Quote approve / reject · material bill ack</span><span>LLD-017</span></li>
+            <li><span>Completion confirm or report (24 h)</span><span>LLD-009/018</span></li>
+            <li><span>Bill · pay online · cash confirm · receipt</span><span>LLD-010/011</span></li>
+            <li><span>Review (double-blind) · dispute</span><span>LLD-012/018</span></li></ul></div>
+          <div class="tab"><b>👤 Account <span class="row" style="gap:4px"><a class="file" href="customer/11-account.html">11</a><a class="file" href="customer/12-addresses.html">12</a><a class="file" href="customer/13-support.html">13</a></span></b><ul>
+            <li><span>Profile · email verified · change password</span><span>LLD-001/002</span></li>
+            <li><span>Addresses (pin on map, not a map view)</span><span>LLD-005</span></li>
+            <li><span>Payment history (no saved methods)</span><span>LLD-011</span></li>
+            <li><span>Inbox · notification settings</span><span>LLD-013</span></li>
+            <li><span>Language · devices / log out all</span><span>LLD-003/002</span></li>
+            <li><span>Privacy: data summary · consents · erase · grievance</span><span>security/03</span></li>
+            <li><span>Help: FAQ (bundled) · call support</span><span>P19</span></li></ul></div>
+        </div>
+      </div>
+
+      <!-- WORKER -->
+      <div class="surf">
+        <div class="hd" style="background:var(--grad-warm);color:var(--ink)"><h3>Worker app</h3><span class="sm">“What work do I have and what do I do next?” · 5 tabs · bn first</span></div>
+        <div class="bd">
+          <div class="tab"><b>Join <span class="row" style="gap:4px"><a class="file" href="worker/01-signup.html">01</a><a class="file" href="worker/02-onboarding.html">02</a><a class="file" href="worker/03-verification.html">03</a><a class="file" href="worker/04-bank-profile.html">04</a></span></b><ul>
+            <li><span>Sign up / log in (email) · language first</span><span>LLD-001/003</span></li>
+            <li><span>Readiness checklist (7 steps)</span><span>LLD-004</span></li>
+            <li><span>Trades, rates per trade, skills, base + radius</span><span>LLD-004/007</span></li>
+            <li><span>Working hours, time off, open-job cap</span><span>LLD-015</span></li>
+            <li><span>ID proof + selfie · PAN · police · licence</span><span>LLD-016</span></li>
+            <li><span>Payout bank account states</span><span>LLD-019</span></li>
+            <li><span>Emergency opt-in (police-verified only)</span><span>LLD-006/007</span></li></ul></div>
+          <div class="tab"><b>🏠 Home · 🔔 Offers <a class="file" href="worker/05-home-offers.html">05-home-offers</a></b><ul>
+            <li><span>Accepting-jobs toggle · today · next action</span><span>LLD-007</span></li>
+            <li><span>Offer inbox · offer detail (masked address)</span><span>LLD-008</span></li>
+            <li><span>Accept sheet: my rate + arrival time</span><span>LLD-008</span></li>
+            <li><span>Decline reasons · withdraw</span><span>LLD-008</span></li>
+            <li><span>Waiting for customer · selected / not chosen</span><span>LLD-008</span></li>
+            <li><span>Suspended / restricted states</span><span>LLD-009/020</span></li></ul></div>
+          <div class="tab"><b>🧰 Jobs <span class="row" style="gap:4px"><a class="file" href="worker/06-job-flow.html">06</a><a class="file" href="worker/07-quotes-cash.html">07</a></span></b><ul>
+            <li><span>Upcoming / active / done · full address + call</span><span>LLD-009</span></li>
+            <li><span>On my way + ETA · check-in (300 m / anyway)</span><span>LLD-009</span></li>
+            <li><span>Start code entry · check-out sheet</span><span>LLD-009</span></li>
+            <li><span>Customer not home · cannot complete</span><span>LLD-009</span></li>
+            <li><span>Add days / reschedule proposal</span><span>LLD-009</span></li>
+            <li><span>Extra-work quote · material bill receipt</span><span>LLD-017</span></li>
+            <li><span>Cash received · dispute response</span><span>LLD-010/018</span></li></ul></div>
+          <div class="tab"><b>₹ Earnings <a class="file" href="worker/08-earnings.html">08-earnings</a> <a class="file" href="worker/09-account-support.html">09-account-support</a></b><ul>
+            <li><span>Pending / ready / paid out · per job</span><span>LLD-010</span></li>
+            <li><span>Payouts + UTR · payout account</span><span>LLD-019</span></li>
+            <li><span>Dues (cash commission) · pay by UPI</span><span>LLD-010/019</span></li></ul></div>
+          <div class="tab"><b>👤 Profile <a class="file" href="worker/04-bank-profile.html">04-bank-profile</a></b><ul>
+            <li><span>Public profile preview · badges</span><span>LLD-004/016</span></li>
+            <li><span>Reviews + reply</span><span>LLD-012</span></li>
+            <li><span>Language · inbox · strikes &amp; appeal</span><span>LLD-003/013/009</span></li></ul></div>
+        </div>
+      </div>
+
+      <!-- ADMIN -->
+      <div class="surf">
+        <div class="hd" style="background:var(--ink)"><h3>Admin web</h3><span class="sm" style="opacity:.9">Ops queues first · permission-gated sidebar · English · 1440</span></div>
+        <div class="bd">
+          <div class="tab"><b>Access &amp; dashboard <a class="file" href="admin/01-access.html">01-access</a></b><ul>
+            <li><span>Log in · MFA enroll / prompt / lockout</span><span>LLD-020</span></li>
+            <li><span>Ops queues page (7 queues, counts, SLA)</span><span>LLD-020</span></li>
+            <li><span>Grafana / Metabase link-out (no KPIs in console)</span><span>P5</span></li></ul></div>
+          <div class="tab"><b>People <a class="file" href="admin/02-people.html">02</a></b><ul>
+            <li><span>Customer / worker lookup (search-first, 20 rows)</span><span>LLD-020</span></li>
+            <li><span>Detail: masked PII, reveal (audited)</span><span>LLD-020</span></li>
+            <li><span>Suspend · restrictions · strikes</span><span>LLD-009/020</span></li></ul></div>
+          <div class="tab"><b>Marketplace <a class="file" href="admin/03-marketplace.html">03</a></b><ul>
+            <li><span>Service requests (read-only)</span><span>LLD-006 · D3</span></li>
+            <li><span>Booking / job detail with visits + quotes</span><span>LLD-009/017</span></li>
+            <li><span>Flagged check-ins</span><span>LLD-009</span></li></ul></div>
+          <div class="tab"><b>Trust &amp; safety <a class="file" href="admin/04-trust.html">04</a></b><ul>
+            <li><span>Verification queue</span><span>LLD-016</span></li>
+            <li><span>Dispute queue · case · decision + actions</span><span>LLD-018</span></li>
+            <li><span>Review moderation</span><span>LLD-012</span></li></ul></div>
+          <div class="tab"><b>Finance <a class="file" href="admin/05-money.html">05</a></b><ul>
+            <li><span>Payments · refunds (&gt; ₹5,000 needs finance.refund)</span><span>LLD-011</span></li>
+            <li><span>Payout account review (NEEDS_REVIEW)</span><span>LLD-019</span></li>
+            <li><span>Payouts · failed payouts · reconciliation</span><span>LLD-019/011</span></li></ul></div>
+          <div class="tab"><b>Config (read-only) <a class="file" href="admin/06-config.html">06-config</a></b><ul>
+            <li><span>Service zones</span><span>LLD-005</span></li>
+            <li><span>Catalog: trades, problems, translations</span><span>LLD-003</span></li>
+            <li><span>Reason codes · notification templates</span><span>LLD-022/013</span></li>
+            <li><span>Staff &amp; permissions · audit log · outbox dead list</span><span>LLD-020/022</span></li></ul></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ LIFECYCLES ============ -->
+  <section class="sec">
+    <p class="eyebrow">Source of truth · UI never invents status</p><h2>Four layered lifecycles</h2>
+    <p class="muted sm">A request becomes one booking; a booking has one job; a job has one or more visits. Each has its own enum. Chip = friendly label, enum underneath. A dispute is a <b>hold</b>, opened inside the 24 h confirm window — not a status of these lifecycles.</p>
+
+    <div class="lane"><div class="nm"><b>① Request</b><small>service_requests · LLD-006</small></div>
+      <div class="flow">
+        <span class="st"><span class="chip accent">👆 Pay advance</span><code>PENDING_PAYMENT</code></span><span class="ar">→</span>
+        <span class="st"><span class="chip info">● Sent</span><code>SUBMITTED</code></span><span class="ar">→</span>
+        <span class="st"><span class="chip info">● Finding workers</span><code>MATCHING</code></span><span class="ar">→</span>
+        <span class="st"><span class="chip accent">👆 Choose a worker</span><code>AWAITING_SELECTION</code></span><span class="ar">→</span>
+        <span class="st"><span class="chip brand">◆ Booked</span><code>BOOKED</code></span><span class="ar">→</span>
+        <span class="st"><span class="chip success">✓ Done</span><code>COMPLETED</code></span>
+        <span class="exits">exits:<span class="st"><span class="chip neutral">– Cancelled</span><code>CANCELLED</code></span><span class="st"><span class="chip neutral">– Expired</span><code>EXPIRED</code></span><span class="st"><span class="chip error">✕ No worker found</span><code>FAILED_TO_MATCH</code></span></span>
+      </div></div>
+    <div style="margin-left:186px" class="row wrap"><span class="link">↓ BOOKED creates a booking</span><span class="sm muted">Unpaid after 15 min → EXPIRED, no charge. Expiry: NOW +2 h · EMERGENCY +45 min · TODAY window end · SCHEDULED window start. Advance refunded in full if cancelled before booking, expired or no match.</span></div>
+
+    <div class="lane"><div class="nm"><b>② Booking</b><small>bookings · LLD-009 D10</small></div>
+      <div class="flow">
+        <span class="st"><span class="chip brand">◆ Booked</span><code>CONFIRMED</code></span><span class="ar">→</span>
+        <span class="st"><span class="chip success">✓ Completed</span><code>COMPLETED</code></span>
+        <span class="exits">exit:<span class="st"><span class="chip neutral">– Cancelled</span><code>CANCELLED</code></span> free until 2 h before; then fee = min(advance, ₹100); after On my way = visit charge</span>
+      </div></div>
+    <div style="margin-left:186px"><span class="link">↓ one job per booking · contact released to both parties here, hidden 7 days after completion</span></div>
+
+    <div class="lane"><div class="nm"><b>③ Job</b><small>jobs · LLD-009 D9</small></div>
+      <div class="flow">
+        <span class="st"><span class="chip info">● Scheduled</span><code>SCHEDULED</code></span><span class="ar">→</span>
+        <span class="st"><span class="chip brand">◆ Work in progress</span><code>IN_PROGRESS</code></span><span class="ar">⇄</span>
+        <span class="st"><span class="chip warning">◔ Paused</span><code>ON_HOLD</code></span><span class="ar">→</span>
+        <span class="st"><span class="chip accent">👆 Work done · confirm</span><code>WORK_COMPLETED</code></span><span class="ar">→</span>
+        <span class="st"><span class="chip success">✓ Completed</span><code>COMPLETED</code></span>
+        <span class="exits">exits:<span class="st"><span class="chip neutral">– Cancelled</span><code>CANCELLED</code></span><span class="st"><span class="chip error">✕ Could not finish</span><code>FAILED</code></span></span>
+      </div></div>
+    <div style="margin-left:186px" class="row wrap"><span class="link">↓ 1..n visits</span><span class="sm muted">WORK_COMPLETED → customer confirms or reports within 24 h, else auto-COMPLETED. Dispute = hold (<code class="mono">disputed_at</code>). Warranty 30 days.</span></div>
+
+    <div class="lane"><div class="nm"><b>④ Visit</b><small>job_visits · LLD-009 D1–D8</small></div>
+      <div class="flow">
+        <span class="st"><span class="chip info">● Scheduled</span><code>SCHEDULED</code></span><span class="ar">→</span>
+        <span class="st"><span class="chip info">● On the way</span><code>EN_ROUTE</code></span><span class="ar">→</span>
+        <span class="st"><span class="chip brand">◆ Arrived</span><code>ARRIVED</code></span><span class="ar">→</span>
+        <span class="st"><span class="chip brand">◆ Working</span><code>IN_PROGRESS</code></span><span class="ar">→</span>
+        <span class="st"><span class="chip success">✓ Visit done</span><code>DONE</code></span>
+        <span class="exits">exits:<span class="st"><span class="chip error">✕ Worker didn't come</span><code>WORKER_NO_SHOW</code></span><span class="st"><span class="chip error">✕ Customer not home</span><code>CUSTOMER_NO_SHOW</code></span><span class="st"><span class="chip neutral">– Moved</span><code>RESCHEDULED</code></span><span class="st"><span class="chip neutral">– Cancelled</span><code>CANCELLED</code></span></span>
+      </div></div>
+    <div style="margin-left:186px" class="sm muted">Check-in within 300 m (or “anyway” + reason, flagged) → ARRIVED; 4-digit start code (5 tries) → IN_PROGRESS; check-out → DONE; customer confirms visit, auto after 24 h. Worker no-show: report after 60 min (auto 2 h). Customer no-show: worker waited 30 min.</div>
+
+    <div class="g2" style="margin-top:6px">
+      <table class="t"><tr><th>Shown in UI</th><th>Comes from</th></tr>
+        <tr><td>Request / booking / job / visit chips</td><td>LLD-006 / 009 enums above</td></tr>
+        <tr><td>Bill, total, due</td><td>LLD-009 §5.4 bill (computed)</td></tr>
+        <tr><td>Payment / refund status</td><td>LLD-010 / 011</td></tr>
+        <tr><td>Verified badges</td><td>LLD-016 <code class="mono">badges()</code></td></tr>
+        <tr><td>Rating + count (shown when ≥ 3)</td><td>LLD-012 reputation snapshot</td></tr>
+        <tr><td>“Why shown” on shortlist</td><td>LLD-007 <code class="mono">score_reasons</code></td></tr>
+        <tr><td>Reason pickers</td><td>LLD-022 reason codes</td></tr></table>
+      <div class="card flat" style="background:var(--grad-soft)"><b class="h4">Old merged lifecycle → replaced</b>
+        <p class="sm muted"><s>Requested → Confirmed → On the way → Arrived → In progress → Awaiting payment → Completed → Disputed</s></p>
+        <p class="sm">“On the way”, “Arrived”, “In progress” are <b>visit</b> states. “Awaiting payment” is not a status — it is a non-zero <code class="mono">dueMinor</code> on the bill. “Disputed” is a hold on a visit, job or cash payment (LLD-018), shown as a banner plus the dispute chip.</p></div>
+    </div>
+  </section>
+
+  <!-- ============ PHASING ============ -->
+  <section class="sec">
+    <p class="eyebrow">Phasing (P26)</p><h2>MVP · Later · Future</h2>
+    <p class="muted sm">MVP = the five build slices in <code class="mono">docs/lld/README.md</code>. Replace the design's “Phase 2” tags with these labels.</p>
+    <div class="g3">
+      <div class="phase tools" style="color:#fff"><h3><span class="chip brand">MVP</span> build slices</h3>
+        <table class="t" style="color:#fff">
+          <tr><td><b>0</b></td><td>Shared platform, admin staff/MFA tables · LLD-022, 020</td></tr>
+          <tr><td><b>1</b></td><td>Core loop: auth, catalog + language, worker profile, addresses/zones, request + advance, matching, offers/shortlist, booking/job/visits, online payment, media, availability · LLD-001–009, 011, 014, 015</td></tr>
+          <tr><td><b>2</b></td><td>Money: cash + ledger + earnings, quotes &amp; material, payouts · LLD-010, 017, 019</td></tr>
+          <tr><td><b>3</b></td><td>Trust &amp; comms: reviews, notifications (push, email, inbox), verification, realtime · LLD-012, 013, 016, 021</td></tr>
+          <tr><td><b>4</b></td><td>Ops: disputes, admin ops queues · LLD-018, 020</td></tr>
+        </table>
+        <span class="sm" style="opacity:.9">Moved into MVP from the design's “Phase 2”: weekly availability + time off + open-job cap (LLD-015).</span></div>
+      <div class="phase" style="background:var(--accent-subtle);border:1px solid #F3D99A"><h3><span class="chip accent">Later</span> next phase</h3>
+        <ul>
+          <li>In-app chat (customer↔worker, support)</li>
+          <li>Masked calling</li>
+          <li>Saved payment methods</li>
+          <li>Phone OTP / SMS login and SMS messages</li>
+          <li>Map view of workers (MVP: address pin only)</li>
+          <li>Analytics inside the console (MVP: link-out)</li>
+          <li>Worker portfolio photos</li>
+          <li>Favourites as direct booking (MVP: “Book again” offers first)</li>
+          <li>Review tags and review photos</li>
+          <li>Multi-day payment schedules, GST invoices, DigiLocker / e-KYC</li>
+          <li>Advanced filters, trust risk scores</li>
+        </ul></div>
+      <div class="phase" style="background:var(--bg);border:1.5px dashed var(--border-strong)"><h3><span class="chip neutral">Future</span></h3>
+        <ul>
+          <li>Trust score and worker levels</li>
+          <li>Business accounts</li>
+          <li>More categories beyond electrician / plumber</li>
+          <li>Worker business tools, financial services</li>
+          <li>Live location tracking</li>
+          <li>UPI payouts via payouts API (MVP: bank only)</li>
+          <li>Receipt PDF / email / SMS receipts</li>
+          <li>Marketing consent and campaigns</li>
+        </ul></div>
+    </div>
+  </section>
+
+</div>
+</body>
+</html>

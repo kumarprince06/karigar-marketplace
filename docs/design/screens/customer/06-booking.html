@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Customer · Booking</title>
+<link rel="stylesheet" href="../assets/karigar.css">
+<style>
+  .kv { display: flex; justify-content: space-between; gap: 12px; font-size: 14px; line-height: 20px; }
+  .kv > span:first-child { color: var(--text-2); }
+  .kv > b { text-align: right; font-weight: 600; }
+  .callbtn { min-height: 48px; padding: 0 16px; border-radius: var(--r-full); background: var(--grad-warm); color: var(--ink); font-weight: 700; display: inline-flex; align-items: center; gap: 6px; border: 0; font-size: 15px; }
+  .codebox { background: rgba(255,255,255,.55); border-radius: var(--r-md); padding: 6px 0; }
+  .bk { display: flex; gap: 12px; padding: 10px 14px; border-bottom: 1px solid var(--border); }
+  .bk:last-child { border-bottom: 0; }
+  .bk .t { flex: 1; min-width: 0; }
+  .bk .t small { display: block; color: var(--text-2); font-size: 13px; line-height: 18px; }
+  .chips { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
+  .action { display: inline-flex; align-items: center; gap: 4px; min-height: 32px; padding: 4px 10px; border-radius: var(--r-full); font-size: 13px; font-weight: 700; background: var(--grad-warm); color: var(--ink); }
+  .media { display: flex; gap: 8px; }
+  .media .thumb { width: 56px; height: 56px; font-size: 20px; }
+  .reason { display: flex; align-items: center; gap: 12px; min-height: 48px; padding: 0 4px; font-size: 15px; }
+</style>
+</head>
+<body>
+<div class="canvas">
+  <p class="canvas-title"><b>Customer · Booking — confirmed, list, detail, cancel, proposals</b>Booking = <code>CONFIRMED | COMPLETED | CANCELLED</code>; day-to-day progress lives on the job and its visits (LLD-009 D10). Contact released only after the customer chooses (LLD-008 D6). No chat, no masked calling: the worker's real phone + Call.</p>
+
+  <!-- C-01l Booking confirmed -->
+  <div class="phone">
+    <span class="label">C-06a Booking confirmed · fixed</span>
+    <div class="hero" style="padding-top:0;gap:8px">
+      <div class="statusbar clear" style="padding:0 2px"><span>2:41</span><span>▮▮ 4G</span></div>
+      <div class="row" style="gap:12px">
+        <div class="illus glass sm" style="width:60px;height:60px;font-size:28px;align-self:auto">✅</div>
+        <div><p class="h3">You chose Rakesh</p><p class="sm muted">Booking confirmed · Ref 9C41E7</p></div>
+      </div>
+      <div class="row" style="background:rgba(255,255,255,.12);border-radius:14px;padding:10px">
+        <div class="avatar" style="background:#fff">RD</div>
+        <div class="grow"><b>Rakesh Das</b><p class="sm muted">Electrician · 98300 45678</p></div>
+        <a class="callbtn">📞 Call</a>
+      </div>
+    </div>
+    <div class="content" style="padding-top:12px;gap:10px">
+      <div class="card warm" style="gap:4px;padding:12px 14px">
+        <div class="row between"><b class="label-t">🔑 START CODE · visit 1</b><span class="sm" style="font-weight:600">5 tries left</span></div>
+        <div class="codebox"><div class="bigcode" style="font-size:40px;line-height:48px">4821</div></div>
+        <p class="sm">Give this code to Rakesh <b>only when he is at your door</b>. If someone else is at home, tell them by phone.</p>
+      </div>
+      <div class="card" style="gap:6px;padding:12px 14px">
+        <div class="kv"><span>Problem</span><b>⚡ Fan not working</b></div>
+        <div class="kv"><span>First visit</span><b>Today, 4:00–6:00 PM</b></div>
+        <div class="kv"><span>Rakesh can come</span><b>4:30 PM</b></div>
+        <div class="kv"><span>Agreed rate</span><b class="money">₹350 per visit</b></div>
+        <div class="kv"><span>Advance paid</span><b class="money">₹99 · deducted from bill</b></div>
+      </div>
+      <div class="banner neutral" style="padding:10px 12px"><span class="ico">🕑</span><span class="sm">Free to cancel until <b>2:00 PM</b>. After that a fee of up to ₹99 is taken from your advance.</span></div>
+    </div>
+    <div class="footer" style="flex-direction:row">
+      <a class="btn secondary" style="flex:1">Ask to reschedule</a>
+      <a class="btn primary" style="flex:1">Track</a>
+    </div>
+  </div>
+  <div class="note"><b>Data (LLD-008 D5/D6, LLD-009 §5.1, D3, D5)</b>Selection creates a SINGLE_VISIT booking, status CONFIRMED, agreed_rate_type/amount snapshot (VISIT ₹350), advance_paid_minor 9900. Customer view adds worker phone + photo (contact only after selection). Start code: <code>GET /visits/{id}/start-code</code> → {code "4821", attemptsLeft 5}; plain 4 digits, 5 wrong tries lock it. Cancel rule copy from §8 (free ≥ 2 h before start). "Ask to reschedule" = <code>POST /jobs/{id}/proposals {kind: RESCHEDULE}</code> — the worker accepts or rejects (C-06f). Ref = last 6 chars of the booking UUID (ADR 0018; display code is open decision P4).</div>
+
+  <!-- C-01m Bookings list -->
+  <div class="phone soft">
+    <span class="label">C-06b Bookings · fixed</span>
+    <div class="statusbar"><span>5:10</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><h1>My bookings</h1></div>
+    <div class="content" style="gap:10px">
+      <div class="seg"><a class="on">Active (4)</a><a>Completed</a><a>Cancelled</a></div>
+      <div class="list">
+        <div class="bk">
+          <div class="tradeicon">⚡</div>
+          <div class="t"><b>Fan not working</b><small>Rakesh Das · Today 4:00–6:00 PM</small>
+            <div class="chips"><span class="chip info">Work done</span><span class="action">✔ Confirm work</span></div></div>
+        </div>
+        <div class="bk">
+          <div class="tradeicon">🚰</div>
+          <div class="t"><b>Bathroom pipe leak</b><small>Sujit Mondal · Day 2 of 3</small>
+            <div class="chips"><span class="chip warning">● In progress</span><span class="action">📝 Quote waiting</span></div></div>
+        </div>
+        <div class="bk">
+          <div class="tradeicon">⚡</div>
+          <div class="t"><b>Switchboard sparking</b><small>Amit Pal · Day 1 of 2 confirmed</small>
+            <div class="chips"><span class="chip warning">● In progress</span><span class="action">₹ Payment due ₹1,350</span></div></div>
+        </div>
+        <div class="bk">
+          <div class="tradeicon">🚰</div>
+          <div class="t"><b>Tap not stopping</b><small>Bapi Saha · Work done 2 Oct</small>
+            <div class="chips"><span class="chip error">⚠ Issue · in review</span></div></div>
+        </div>
+      </div>
+      <div class="card flat" style="flex-direction:row;align-items:center;gap:12px;padding:12px 14px">
+        <div class="tradeicon teal">⭐</div>
+        <div class="grow"><b class="sm">Inverter wiring</b><p class="sm muted">Completed · review until 12 Oct</p></div>
+        <span class="action">Rate worker</span>
+      </div>
+    </div>
+    <div class="tabbar"><a><span class="ico">🏠</span>Home</a><a class="on"><span class="ico">📋</span>Bookings</a><a><span class="ico">🔔</span>Inbox</a><a><span class="ico">👤</span>Account</a></div>
+  </div>
+  <div class="note"><b>Tabs &amp; badges (LLD-009 §6–7, LLD-017, LLD-018, LLD-012)</b><code>GET /bookings?role=customer&amp;status=…</code>. Tabs: <strong>Active</strong> = booking CONFIRMED (job SCHEDULED / IN_PROGRESS / ON_HOLD / WORK_COMPLETED); <strong>Completed</strong> = COMPLETED; <strong>Cancelled</strong> = CANCELLED or job FAILED (shows advance refund). Status chip = job status (one label per enum). Orange action badges: <strong>Confirm work</strong> (job WORK_COMPLETED or visit DONE unconfirmed), <strong>Quote waiting</strong> (quote SUBMITTED), <strong>Payment due</strong> (bill dueMinor &gt; 0), <strong>Rate worker</strong> (job COMPLETED, no review, within 7 days), <strong>Issue · in review</strong> (dispute IN_REVIEW). Title = problem/trade label, never free text.</div>
+
+  <!-- C-01n Booking detail -->
+  <div class="phone">
+    <span class="label">C-06c Booking detail · fixed</span>
+    <div class="statusbar"><span>3:05</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><div class="grow"><h1>Fan not working</h1><p class="sub">Ref 9C41E7 · Booked 5 Oct</p></div></div>
+    <div class="content" style="gap:10px;padding-top:0">
+      <div class="row wrap"><span class="chip brand">Booking confirmed</span><span class="chip neutral">Visit · scheduled</span></div>
+      <div class="card" style="padding:12px 14px;gap:4px">
+        <div class="timeline">
+          <div class="tl done"><div class="dot"><i></i><b></b></div><div class="t"><b class="sm">Advance ₹99 paid</b><small>1:52 PM</small></div></div>
+          <div class="tl done"><div class="dot"><i></i><b></b></div><div class="t"><b class="sm">You chose Rakesh</b><small>2:40 PM · 3 workers wanted this job</small></div></div>
+          <div class="tl now"><div class="dot"><i></i><b></b></div><div class="t"><b class="sm">Visit 1 · today 4:00–6:00 PM</b><small>You'll get a push when he is on the way</small></div></div>
+          <div class="tl"><div class="dot"><i></i></div><div class="t" style="padding-bottom:0"><b class="sm muted">Work done → you confirm → pay</b></div></div>
+        </div>
+      </div>
+      <div class="card" style="padding:12px 14px;gap:6px">
+        <b class="label-t">Problems</b>
+        <p class="sm">⚡ Ceiling fan not working · 🔌 Switch sparks</p>
+        <p class="sm muted">"Fan stopped last night, switch makes noise."</p>
+        <div class="media"><div class="thumb">🖼️</div><div class="thumb">🖼️</div><div class="thumb">🎙️</div></div>
+      </div>
+      <div class="card" style="padding:12px 14px;gap:4px">
+        <b class="label-t">Site &amp; contact</b>
+        <p class="sm">12/3 G.T. Road, Shibpur, Howrah 711102 · 2nd floor, no lift</p>
+        <p class="sm muted">On-site contact: <b style="color:var(--text)">Mita Sen (mother) · 98311 22334</b></p>
+      </div>
+    </div>
+    <div class="footer" style="flex-direction:row">
+      <a class="btn danger-o" style="flex:1">Cancel booking</a>
+      <a class="btn secondary" style="flex:1">📞 Call Rakesh</a>
+    </div>
+  </div>
+  <div class="note"><b>Data (LLD-009 §5.1, LLD-006, LLD-014)</b>Role-aware <code>GET /bookings/{id}</code>: booking + job + visits (timeline from status timestamps: confirmed_at, en_route_at, check_in_at…), request problems (≤5), description, media counts/thumbnails (photos, voice), address with floor/lift, site contact (contact_name/phone, LLD-006). Separate chips for booking and visit status (B8). "Report a problem" appears once a visit has started (C-07h).</div>
+
+  <!-- C-06d Cancel booking -->
+  <div class="phone">
+    <span class="label">C-06d Cancel booking · fixed</span>
+    <div class="statusbar"><span>1:10</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><h1>Cancel booking</h1></div>
+    <div class="content" style="gap:10px;padding-top:0">
+      <div class="card hero" style="padding:14px;gap:6px">
+        <p class="sm" style="opacity:.9">If you cancel now (1:10 PM)</p>
+        <div class="row between"><span>Cancellation fee</span><b class="money" style="font-size:22px">₹0</b></div>
+        <div class="row between"><span>Advance refunded</span><b class="money" style="font-size:22px;color:#FFD15C">₹99</b></div>
+        <p class="sm" style="opacity:.9">Back to your UPI / card in 5–7 days.</p>
+      </div>
+      <div class="list sm">
+        <div class="li" style="min-height:44px"><span>✅</span><span class="t">Until 2:00 PM<small>Free · full ₹99 back</small></span></div>
+        <div class="li" style="min-height:44px"><span>⚠️</span><span class="t">2:00 PM – visit start<small>Fee ₹99 from your advance (max ₹100)</small></span></div>
+        <div class="li" style="min-height:44px"><span>🛵</span><span class="t">After he is on the way<small>Visit charge, up to your ₹99 advance</small></span></div>
+      </div>
+      <b class="label-t">Why are you cancelling?</b>
+      <div class="list" style="padding:0 10px">
+        <div class="reason"><span class="radio on"></span>No longer needed</div>
+        <div class="reason"><span class="radio"></span>Found someone else</div>
+        <div class="reason"><span class="radio"></span>Price too high</div>
+        <div class="reason"><span class="radio"></span>Booked by mistake</div>
+        <div class="reason"><span class="radio"></span>Other</div>
+      </div>
+    </div>
+    <div class="footer" style="flex-direction:row">
+      <a class="btn ghost" style="flex:1">Keep booking</a>
+      <a class="btn danger" style="flex:1">Cancel · get ₹99</a>
+    </div>
+  </div>
+  <div class="note"><b>Data (LLD-009 D5, §8, §5.3; ERD reason seed)</b>Fee preview first: <code>POST /bookings/{id}/cancel?preview=true</code> → {feeMinor, refundMinor}; button label repeats the outcome. Rules: ≥ 2 h before start = free; &lt; 2 h, not EN_ROUTE = min(advance, ₹100); after "On my way" = visit charge capped at the advance. Reason codes (CUSTOMER_CANCELLATION, API-driven, translated): NO_LONGER_NEEDED, FOUND_SOMEONE_ELSE, PRICE_TOO_HIGH, BOOKED_BY_MISTAKE, WORKER_LATE (shown only after start time), OTHER (+note). 409 BOOKING_NOT_CANCELLABLE once work started → "Report a problem" instead.</div>
+
+  <!-- C-06e Booking cancelled -->
+  <div class="phone soft">
+    <span class="label">C-06e Booking cancelled · fixed</span>
+    <div class="statusbar"><span>1:11</span><span>▮▮ 4G</span></div>
+    <div class="content" style="justify-content:center;gap:14px;text-align:center">
+      <div class="illus teal">🧾</div>
+      <h1 class="h2">Booking cancelled</h1>
+      <p class="body-lg muted">Rakesh has been told. Nothing was charged.</p>
+      <div class="card" style="text-align:left;padding:12px 14px;gap:6px">
+        <div class="kv"><span>Cancellation fee</span><b class="money">₹0</b></div>
+        <div class="kv"><span>Advance refund</span><b class="money" style="color:var(--success)">₹99</b></div>
+        <div class="hr"></div>
+        <p class="sm">💸 <b>₹99 refunded to your UPI</b> in 5–7 days.</p>
+        <div class="row between"><span class="sm muted">Refund status</span><span class="chip info">Processing</span></div>
+        <p class="sm muted">Ref 9C41E7 · Reason: No longer needed</p>
+      </div>
+    </div>
+    <div class="footer">
+      <a class="btn primary">Book again</a>
+      <a class="btn ghost">Back to bookings</a>
+    </div>
+  </div>
+  <div class="note"><b>Data (LLD-009 §8, LLD-011 refunds, LLD-006)</b>Booking CANCELLED (cancelled_by CUSTOMER, reason code, cancellation_fee_minor 0). Refund row: reason UNUSED_ADVANCE, status REQUESTED → PROCESSING → SUCCEEDED / FAILED (chip per enum). Request BOOKED → CANCELLED; "Book again" pre-fills a new request (P18). If a fee applied: "Fee ₹99 · paid to Rakesh · Refund ₹0".</div>
+
+  <!-- C-06f Ask to reschedule sheet -->
+  <div class="phone">
+    <span class="label">C-06f Ask to reschedule · new</span>
+    <div class="statusbar"><span>2:45</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><h1>Fan not working</h1></div>
+    <div class="content"><div class="skel" style="width:70%"></div><div class="skel"></div><div class="skel" style="width:50%"></div></div>
+    <div class="scrim">
+      <div class="sheet">
+        <p class="h3">Ask Rakesh to change the time</p>
+        <p class="sm muted">He has to agree. Until then your booking stays at today 4:00–6:00 PM.</p>
+        <b class="label-t">New day</b>
+        <div class="choice"><a class="opt">Today</a><a class="opt on">Tue 6 Oct</a><a class="opt">Wed 7 Oct</a><a class="opt">📅 Pick</a></div>
+        <b class="label-t">Time window (2 h or more)</b>
+        <div class="choice"><a class="opt">9–11 AM</a><a class="opt on">11 AM–1 PM</a><a class="opt">4–6 PM</a></div>
+        <label class="field"><span>Reason <em>(optional)</em></span><div class="input ph">I'll be at office today</div></label>
+        <p class="help">If he doesn't answer within 12 h (or 1 h before the new time) the request ends. A visit can be moved at most 2 times.</p>
+        <a class="btn primary">Send request</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- C-06g Proposal response -->
+  <div class="phone">
+    <span class="label">C-06g Add days / reschedule — respond · new</span>
+    <div class="statusbar"><span>6:20</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><div class="grow"><h1>Bathroom pipe leak</h1><p class="sub">Sujit Mondal · Plumber</p></div></div>
+    <div class="content" style="gap:10px;padding-top:0">
+      <div class="card hero" style="gap:6px">
+        <span class="pill" style="align-self:flex-start">📅 Sujit asks to add 2 days</span>
+        <p class="sm" style="opacity:.92">"Second pipe line under the floor also leaks. Needs one more full day and a half day with a helper."</p>
+        <p class="countdown" style="color:#FFD15C">⏳ Answer within 11 h 40 min</p>
+      </div>
+      <div class="list sm">
+        <div class="li"><span>🗓️</span><span class="t"><b>Thu 8 Oct · Full day</b><small>9:00 AM – 5:00 PM</small></span><b class="money">₹850</b></div>
+        <div class="li"><span>🗓️</span><span class="t"><b>Fri 9 Oct · Half day</b><small>9:00 AM – 1:00 PM</small></span><b class="money">₹425</b></div>
+        <div class="li"><span>👷</span><span class="t"><b>1 helper</b><small>₹500 per full day · half for a half day</small></span><b class="money">₹750</b></div>
+        <div class="li"><span>💳</span><span class="t"><b>Pay daily</b><small>After you confirm each day's work</small></span></div>
+      </div>
+      <div class="banner info"><span class="ico">ℹ️</span><span>Plan becomes <b>5 days</b>. About <b class="money">₹2,025</b> more labour, charged only for days you confirm.</span></div>
+    </div>
+    <div class="footer" style="flex-direction:row">
+      <a class="btn danger-o" style="flex:1">Reject</a>
+      <a class="btn primary" style="flex:1">Approve</a>
+    </div>
+  </div>
+  <div class="note"><b>Data (LLD-009 §3 visit_change_proposals, §5.3, §7)</b>kind ADD_DAYS {visits[date, dayType, start, end], helperCount, paymentSchedule, reason ≤300} or RESCHEDULE {start, end}; one PENDING per job (409 PROPOSAL_PENDING); expires_at = 12 h or 1 h before earliest start; <code>POST /proposals/{id}/accept | reject</code> by the other party, withdraw by proposer. Accept inserts visits (409 WORKER_BUSY_AT_TIME on overlap), sets MULTI_DAY, planned_days, payment_schedule. Amounts are estimates from the agreed DAILY rate (§4); RESCHEDULE limit 2 per visit (RESCHEDULE_LIMIT_REACHED). Same screen with "Sujit asks to move visit 2 to …" for RESCHEDULE.</div>
+</div>
+</body>
+</html>

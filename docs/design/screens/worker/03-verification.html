@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Worker · Verification</title>
+<link rel="stylesheet" href="../assets/karigar.css">
+<style>
+  .phone { font-size: 16px; line-height: 24px; }
+  .phone .help, .phone .li .t small { font-size: 14px; line-height: 20px; font-weight: 400; }
+  .note b:not(:first-child) { display: inline; margin: 0; }
+  .doc { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 12px; display: flex; flex-direction: column; gap: 8px; box-shadow: var(--e1); }
+  .doc .top { display: flex; align-items: center; gap: 12px; }
+  .doc .t { flex: 1; font-weight: 600; line-height: 22px; }
+  .doc .t small { display: block; font-weight: 400; font-size: 14px; color: var(--text-2); line-height: 20px; }
+  .pick { display: flex; align-items: center; gap: 14px; min-height: 76px; padding: 10px 14px; background: var(--surface); border: 1.5px solid var(--border-strong); border-radius: var(--r-lg); font-weight: 600; font-size: 17px; }
+  .pick.on { border: 2px solid var(--primary); background: var(--primary-subtle); }
+  .pick .big { width: 52px; height: 52px; border-radius: 14px; display: grid; place-items: center; font-size: 28px; background: var(--grad-warm); flex-shrink: 0; }
+  .pick small { display: block; font-size: 14px; font-weight: 400; color: var(--text-2); }
+  .cam { background: #101816; color: #fff; }
+  .viewfinder { position: relative; height: 300px; margin: 8px 16px; border-radius: var(--r-lg); background: radial-gradient(circle at 50% 40%, #3A4A47, #18221F 70%); display: grid; place-items: center; overflow: hidden; }
+  .cardframe { width: 260px; height: 168px; border: 3px solid var(--accent); border-radius: 14px; box-shadow: 0 0 0 999px rgba(0,0,0,.45); display: grid; place-items: center; font-size: 56px; }
+  .shutter { width: 76px; height: 76px; border-radius: 50%; border: 5px solid #fff; background: var(--grad-warm); align-self: center; }
+  .sidesteps { display: flex; gap: 8px; padding: 0 16px; }
+  .sidesteps span { flex: 1; min-height: 48px; border-radius: var(--r-md); display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 14px; font-weight: 600; background: rgba(255,255,255,.1); color: rgba(255,255,255,.75); }
+  .sidesteps span.done { background: rgba(29,116,69,.9); color: #fff; }
+  .sidesteps span.now { background: var(--accent); color: var(--ink); }
+  .tip { display: flex; gap: 10px; align-items: center; font-size: 15px; line-height: 20px; }
+  .tip i { font-style: normal; width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; background: rgba(255,255,255,.12); font-size: 20px; flex-shrink: 0; }
+  .tip.lt i { background: var(--accent-subtle); }
+  .thumbs { display: flex; gap: 8px; }
+  .thumbs div { flex: 1; height: 76px; border-radius: var(--r-md); background: linear-gradient(135deg, #DCE9E6, #F3EAD2); display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; position: relative; gap: 2px; }
+  .thumbs div span { font-size: 24px; line-height: 28px; }
+  .thumbs div::after { content: '✓'; position: absolute; top: 4px; right: 4px; width: 20px; height: 20px; border-radius: 50%; background: var(--success); color: #fff; font-size: 12px; display: grid; place-items: center; line-height: 20px; text-align: center; }
+  .ck { display: flex; align-items: center; gap: 12px; padding: 8px 12px; min-height: 54px; border-bottom: 1px solid var(--border); font-weight: 600; }
+  .ck:last-child { border-bottom: 0; }
+  .ck .ti { width: 38px; height: 38px; border-radius: 10px; display: grid; place-items: center; font-size: 19px; background: var(--primary-subtle); flex-shrink: 0; }
+  .ck .t { flex: 1; }
+  .ok, .todo { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; font-size: 15px; font-weight: 700; flex-shrink: 0; }
+  .ok { background: var(--success); color: #fff; }
+  .todo { border: 2px dashed var(--border-strong); }
+</style>
+</head>
+<body>
+<div class="canvas">
+  <p class="canvas-title"><b>Worker · Your documents (verification)</b>Replaces Verification · passport / approved / rejected. Manual review, ID proof = Voter ID / Driving licence / Passport + selfie; <strong>no Aadhaar uploads</strong>; no address proof (LLD-016 D1–D3, P13). Electrical licence mandatory for electricians (P14 default).</p>
+
+  <!-- W-03a Documents hub (bn) -->
+  <div class="phone soft" lang="bn">
+    <span class="label">W-03a Your documents (বাংলা) · fixed</span>
+    <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><h1>আপনার কাগজপত্র</h1></div>
+    <div class="content" style="gap:10px">
+      <span class="label-t muted">কাজ পেতে দরকার</span>
+      <div class="doc"><div class="top"><span class="tradeicon">🪪</span><span class="t">পরিচয়পত্র + সেলফি<small>ভোটার কার্ড / লাইসেন্স / পাসপোর্ট</small></span></div>
+        <div class="row between"><span class="chip info">🔎 দেখা হচ্ছে</span><span class="help">কাল সকাল 11টার মধ্যে</span></div></div>
+      <div class="doc"><div class="top"><span class="tradeicon">⚡</span><span class="t">ইলেকট্রিক লাইসেন্স<small>ইলেকট্রিশিয়ানের জন্য</small></span></div>
+        <div class="row between"><span class="chip neutral">○ জমা হয়নি</span><a class="btn primary sm" style="min-height:44px">জমা দিন</a></div></div>
+      <span class="label-t muted" style="margin-top:4px">ইচ্ছে হলে · ব্যাজ পাবেন</span>
+      <div class="doc"><div class="top"><span class="tradeicon teal">👮</span><span class="t">পুলিশ ভেরিফিকেশন<small>জরুরি কাজের জন্য লাগবে</small></span></div>
+        <div class="row between"><span class="chip success">✓ যাচাই হয়েছে</span><span class="help">Aug 2028 পর্যন্ত</span></div></div>
+      <div class="doc"><div class="top"><span class="tradeicon teal">🎓</span><span class="t">দক্ষতার সার্টিফিকেট</span></div>
+        <div class="row between"><span class="chip error">✕ নেওয়া হয়নি</span><a class="btn secondary sm" style="min-height:44px">আবার দিন</a></div></div>
+    </div>
+  </div>
+  <div class="note"><b>Data (LLD-016 §3 seed, §4.1)</b><code>GET /workers/me/verifications</code> → per trade <code>requirements[{type, mandatory, status, validUntil, renewFrom}]</code> + checks with <code>status</code> and localised <code>rejectionReasonCode</code>. Mandatory: ID_PROOF (all trades) + ELECTRICAL_LICENSE (Electrician). Optional badges: POLICE_VERIFICATION (also needed for emergency jobs), SKILL_CERTIFICATE. One chip per enum: PENDING "জমা হয়েছে / Submitted", IN_REVIEW "দেখা হচ্ছে / Being checked", VERIFIED "যাচাই হয়েছে / Verified", REJECTED "নেওয়া হয়নি / Not accepted", EXPIRED "মেয়াদ শেষ / Expired". Time = <code>expectedDecisionBy</code> (24 h SLA). No PAN here (asked before payouts), no address proof.</div>
+
+  <!-- W-03b Choose ID document -->
+  <div class="phone soft">
+    <span class="label">W-03b ID proof · choose document · fixed</span>
+    <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><h1>Which ID do you have?</h1></div>
+    <div class="content" style="gap:10px">
+      <a class="pick on"><span class="big">🗳️</span><span class="grow">Voter ID card<small>Front + back</small></span><span class="radio on"></span></a>
+      <a class="pick"><span class="big">🚗</span><span class="grow">Driving licence<small>Front + back</small></span><span class="radio"></span></a>
+      <a class="pick"><span class="big">🛂</span><span class="grow">Passport<small>Photo page</small></span><span class="radio"></span></a>
+      <div class="banner error" style="align-items:center"><span class="ico" style="font-size:26px;line-height:28px">🚫</span><span><b>Aadhaar not accepted.</b> Don’t send Aadhaar photos. Use one of the cards above.</span></div>
+      <div class="banner neutral"><span class="ico">📞</span><span>Only have Aadhaar? <u>Call support</u> — we help you get a Voter ID.</span></div>
+      <p class="help">You will also take a selfie holding the card. 🤳</p>
+    </div>
+    <div class="footer"><a class="btn primary">📷 Next: take photos</a></div>
+  </div>
+  <div class="note"><b>Data (LLD-016 D2, D3, §4.1; open question P15)</b><code>documentKind</code>: VOTER_ID, DRIVING_LICENCE, PASSPORT. Required sides: FRONT + SELFIE, + BACK for Voter ID / DL. Aadhaar is not a choice; an Aadhaar photo sent anyway → rejected <code>AADHAAR_NOT_ACCEPTED</code> and file deleted at once (Aadhaar Act s.29). Aadhaar-only workers stay ONBOARDING; ops help them (LLD-016 §11, P15 open). Needs WORKER_KYC consent (<code>403 KYC_CONSENT_REQUIRED</code>).</div>
+
+  <!-- W-03c Capture back -->
+  <div class="phone cam">
+    <span class="label">W-03c Capture front / back · fixed</span>
+    <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn" style="color:#fff">✕</button><h1>Back of Voter ID</h1></div>
+    <div class="sidesteps"><span class="done">✓ Front</span><span class="now">② Back</span><span>③ Selfie</span></div>
+    <div class="viewfinder"><div class="cardframe">🗳️</div><span class="pill" style="position:absolute;bottom:12px;background:rgba(0,0,0,.55)">Fit card inside the box</span></div>
+    <div class="col" style="padding:4px 20px;gap:10px">
+      <div class="tip"><i>💡</i>Good light. No flash shine.</div>
+      <div class="tip"><i>🔲</i>All 4 corners inside.</div>
+      <div class="tip"><i>✋</i>Hold phone still.</div>
+    </div>
+    <div class="grow"></div>
+    <div class="row" style="justify-content:space-around;padding:0 24px 24px"><span style="width:56px;height:56px;border-radius:12px;background:rgba(255,255,255,.12);display:grid;place-items:center;font-size:22px">🖼️</span><span class="shutter"></span><span style="width:56px;height:56px;border-radius:12px;background:rgba(255,255,255,.12);display:grid;place-items:center;font-size:22px">🔄</span></div>
+  </div>
+
+  <!-- W-03d Selfie with document -->
+  <div class="phone cam">
+    <span class="label">W-03d Selfie holding card · new</span>
+    <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn" style="color:#fff">←</button><h1>Selfie with your card</h1></div>
+    <div class="sidesteps"><span class="done">✓ Front</span><span class="done">✓ Back</span><span class="now">③ Selfie</span></div>
+    <div class="viewfinder" style="height:330px">
+      <div style="width:190px;height:240px;border-radius:50%;border:3px dashed var(--accent);display:grid;place-items:center;font-size:88px;box-shadow:0 0 0 999px rgba(0,0,0,.4)">🧑🏽</div>
+      <span style="position:absolute;right:42px;bottom:40px;font-size:44px;transform:rotate(-8deg)">🗳️</span>
+    </div>
+    <div class="col" style="padding:4px 20px;gap:10px">
+      <div class="tip"><i>🙂</i>Face fully in the circle.</div>
+      <div class="tip"><i>🪪</i>Hold the card next to your face.</div>
+      <div class="tip"><i>🧢</i>No cap, no dark glasses.</div>
+    </div>
+    <div class="grow"></div>
+    <div class="row" style="justify-content:center;padding:0 24px 24px"><span class="shutter"></span></div>
+  </div>
+  <div class="note"><b>Data (LLD-014 D2, D6, D11; LLD-016 D3)</b>Each photo: compressed on phone (~1600 px JPEG, ~300 KB), uploaded one at a time with retry via presigned PUT, purpose <code>VERIFICATION_DOC</code> (private bucket, EXIF stripped). Sides stored in <code>verification_documents(side FRONT/BACK/SELFIE)</code>. Selfie replaces a separate face-match check; reviewer compares faces (<code>FACE_MISMATCH</code> if not). Gallery pick allowed; PDFs refused (photos only, D9).</div>
+
+  <!-- W-03e Document details -->
+  <div class="phone soft">
+    <span class="label">W-03e Document number + check · new</span>
+    <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><h1>Check and send</h1></div>
+    <div class="content" style="gap:12px">
+      <div class="thumbs"><div><span>🗳️</span>Front</div><div><span>🔁</span>Back</div><div><span>🤳</span>Selfie</div></div>
+      <label class="field"><span>🔢 Voter ID number</span><div class="input focus mono" style="font-size:17px;letter-spacing:1px">WBX1234567</div><span class="help">🔒 We keep only the last 4: <b class="mono">XXXXXX4567</b></span></label>
+      <label class="field"><span>👤 Name on card</span><div class="input">Sujit Das</div></label>
+      <label class="field"><span>🎂 Year of birth</span><div class="input">1988</div></label>
+      <div class="banner info"><span class="ico">⏱️</span><span>We check in about <b>24 hours</b>. You get a message.</span></div>
+    </div>
+    <div class="footer"><a class="btn primary">✅ Send for checking</a></div>
+  </div>
+  <div class="note"><b>Data (LLD-016 D4, §4.1)</b><code>POST /workers/me/verifications</code> (Idempotency-Key): <code>type ID_PROOF, documentKind, documentNumber, documents[{side, mediaId}]</code>. Stored: masked number (last 4) + HMAC hash for duplicates; name + year of birth only (18+ check). Reviewer confirms / corrects these. "Send" enabled only when all photos are AVAILABLE. <code>409 VERIFICATION_ALREADY_OPEN</code> if one is waiting; <code>422 INVALID_MEDIA</code> → re-upload.</div>
+
+  <!-- W-03f Police verification -->
+  <div class="phone soft">
+    <span class="label">W-03f Police verification · new</span>
+    <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><h1>Police verification</h1></div>
+    <div class="content" style="gap:11px">
+      <div class="card hero" style="flex-direction:row;align-items:center;gap:12px"><span style="font-size:40px">👮</span><span><b>Get the “Police verified” badge</b><br><span style="opacity:.9;font-size:15px">Needed for emergency jobs.</span></span></div>
+      <a class="card flat" style="flex-direction:row;align-items:center;gap:12px;border:2px dashed var(--primary);min-height:76px"><span style="font-size:30px">📷</span><b class="grow" style="color:var(--primary)">Take photo of certificate</b></a>
+      <label class="field"><span>🔢 Certificate number</span><div class="input">HWH/PCC/2026/04417</div></label>
+      <label class="field"><span>🏢 Police station</span><div class="input">Shibpur Police Station</div></label>
+      <label class="field"><span>📅 Date of issue</span><div class="input">12 Aug 2026 <span class="grow"></span>📅</div><span class="help">✅ Valid till Aug 2028 (2 years). Older than 2 years? Not accepted.</span></label>
+    </div>
+    <div class="footer"><a class="btn primary">Send for checking</a></div>
+  </div>
+  <div class="note"><b>Data (LLD-016 D7, §4.1)</b><code>type POLICE_VERIFICATION, documentKind POLICE_CERTIFICATE, documentNumber, issuer, issuedOn</code>, side FRONT. Valid 24 months from issue (<code>valid_for_months</code>); older → <code>422 DOCUMENT_TOO_OLD</code>. Accepted: WB Police PCC + station letters (open question). Optional for electrician/plumber, mandatory for locksmith / cleaning (seed). Unlocks <code>acceptsEmergencyJobs</code> (W-02k).</div>
+
+  <!-- W-03g Electrical licence -->
+  <div class="phone soft">
+    <span class="label">W-03g Electrical licence · new</span>
+    <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><h1>Electrical licence</h1></div>
+    <div class="content" style="gap:11px">
+      <div class="banner warning" style="align-items:center"><span class="ico" style="font-size:26px;line-height:28px">⚡</span><span><b>Needed for electrician jobs.</b> Plumber jobs can still come without it.</span></div>
+      <a class="card flat" style="flex-direction:row;align-items:center;gap:12px;border:2px dashed var(--primary);min-height:76px"><span style="font-size:30px">📷</span><b class="grow" style="color:var(--primary)">Take photo of licence</b></a>
+      <label class="field"><span>🔢 Licence / permit number</span><div class="input">WB/WP/HWH/22871</div></label>
+      <label class="field"><span>🏢 Given by</span><div class="input">Directorate of Electricity, WB</div></label>
+      <label class="field"><span>📅 Valid till <em>(on the licence)</em></span><div class="input err">30 Sep 2026 <span class="grow"></span>📅</div><span class="help err">⚠️ This licence has ended. Renew it first, then send.</span></label>
+    </div>
+    <div class="footer"><a class="btn disabled">Send for checking</a></div>
+  </div>
+  <div class="note"><b>Data (LLD-016 §3 seed, D7; P14)</b>Per trade: <code>type ELECTRICAL_LICENSE, professionId = Electrician, documentKind ELECTRICAL_LICENSE, documentNumber, issuer, expiresOn</code> (from the document). Already expired → <code>422 DOCUMENT_EXPIRED</code> (checked on the phone too). Mandatory per modules/07 default; can switch to optional badge by seed change if pilot supply is thin (P14 / LLD-016 §11). Without it the Electrician trade is not job-eligible; other trades unaffected.</div>
+
+  <!-- W-03h Submitted / in review -->
+  <div class="phone soft">
+    <span class="label">W-03h Submitted · in review · new</span>
+    <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">✕</button></div>
+    <div class="content" style="gap:16px;text-align:center">
+      <div class="illus teal">⏳</div>
+      <h2 class="h2">Sent! We are checking</h2>
+      <p class="body-lg muted">Answer by <b style="color:var(--text)">tomorrow, 11:40 am</b>. We will send you a message.</p>
+      <div class="card flat" style="text-align:left">
+        <div class="timeline">
+          <div class="tl done"><div class="dot"><i></i><b></b></div><div class="t"><b>Sent</b><small>Today 11:40 · Voter ID ••4567</small></div></div>
+          <div class="tl now"><div class="dot"><i></i><b></b></div><div class="t"><b>Being checked</b><small>Our team looks at photos</small></div></div>
+          <div class="tl"><div class="dot"><i></i></div><div class="t"><b>Answer</b><small>Verified or what to fix</small></div></div>
+        </div>
+      </div>
+      <div class="grow"></div>
+      <a class="btn secondary">Meanwhile: add bank account 🏦</a>
+    </div>
+  </div>
+  <div class="note"><b>Data (LLD-016 D10, §4.1)</b>Status PENDING ("Sent") → IN_REVIEW when an admin claims it ("Being checked"). Time from <code>expectedDecisionBy</code> (SLA 24 h P90, 48 h max). A PENDING submission can't be withdrawn in MVP (§11). Decision → push + inbox (LLD-013). CTA points to the next open readiness step.</div>
+
+  <!-- W-03i Verified -->
+  <div class="phone">
+    <span class="label">W-03i Verified · fixed</span>
+    <div class="hero" style="padding-top:0;padding-bottom:24px;align-items:center;text-align:center">
+      <div class="statusbar clear" style="padding:0 2px;align-self:stretch"><span>9:41</span><span>▮▮ 4G</span></div>
+      <div class="illus" style="width:110px;height:110px;font-size:52px">🪪</div>
+      <h2 class="h2">ID verified! 🎉</h2>
+      <span class="pill" style="background:#fff;color:var(--success)">✓ ID verified badge on your profile</span>
+    </div>
+    <div class="content" style="padding-top:14px;gap:10px">
+      <div class="row between"><b class="h4">Still to do for jobs</b><span class="chip accent">5 / 7 done</span></div>
+      <div class="list">
+        <div class="ck"><span class="ti">⚡</span><span class="t">Electrical licence</span><span class="todo"></span></div>
+        <div class="ck"><span class="ti">🏦</span><span class="t">Bank account</span><span class="todo"></span></div>
+        <div class="ck" style="color:var(--text-2)"><span class="ti">🪪</span><span class="t">ID check</span><span class="ok">✓</span></div>
+      </div>
+      <div class="card flat" style="flex-direction:row;align-items:center;gap:12px;opacity:.8"><span style="font-size:22px">🔒</span><span class="grow"><b>Go online</b><br><span class="help">Opens when all 7 are done</span></span><span class="toggle"></span></div>
+    </div>
+    <div class="footer"><a class="btn primary">Next: Electrical licence →</a></div>
+  </div>
+  <div class="note"><b>Data (LLD-004 D5, D8; LLD-007 D2; LLD-016 D11)</b>Approval updates eligibility in the same transaction (<code>JobReadinessService.recheck</code>) and adds badge ID_VERIFIED. No "Go online now" while readiness is incomplete: toggle locked with reason. When the last step completes, account becomes ACTIVE automatically → this screen shows "You can get jobs now" + enabled "Go online" (ACCEPTING_JOBS).</div>
+
+  <!-- W-03j Rejected (bn) -->
+  <div class="phone soft" lang="bn">
+    <span class="label">W-03j Rejected (বাংলা) · fixed</span>
+    <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><h1>পরিচয়পত্র</h1></div>
+    <div class="content" style="gap:12px">
+      <div class="card" style="background:var(--grad-danger);color:#fff;border:0;flex-direction:row;align-items:center;gap:12px">
+        <span style="font-size:40px">📷</span><span><b style="font-size:19px">ছবি পরিষ্কার নয়</b><br><span style="opacity:.92">ভোটার কার্ডের লেখা পড়া যাচ্ছে না।</span></span>
+      </div>
+      <b class="h4">এবার এভাবে তুলুন</b>
+      <div class="col" style="gap:10px">
+        <div class="tip lt"><i>💡</i>আলোতে দাঁড়িয়ে ছবি তুলুন</div>
+        <div class="tip lt"><i>🚫</i>ফ্ল্যাশ বন্ধ, ঝলক যেন না পড়ে</div>
+        <div class="tip lt"><i>🔲</i>কার্ডের চারটে কোণ যেন দেখা যায়</div>
+        <div class="tip lt"><i>✋</i>ফোন স্থির রাখুন</div>
+      </div>
+      <div class="banner warning"><span class="ico">🔁</span><span>আর <b>2 বার</b> পাঠাতে পারবেন (30 দিনে 3 বার)।</span></div>
+    </div>
+    <div class="footer"><a class="btn primary">📷 আবার ছবি তুলুন</a><a class="btn ghost">📞 সাহায্য চাই</a></div>
+  </div>
+  <div class="note"><b>Data (LLD-016 §3 reasons, D5)</b>Text + tips per <code>rejectionReasonCode</code> (en/bn/hi from reason_codes): BLURRY_IMAGE (shown), DOCUMENT_INCOMPLETE "show all corners / back side", WRONG_DOCUMENT_TYPE "use Voter ID, DL or passport", NAME_MISMATCH "name must match your profile — edit profile or call support", FACE_MISMATCH "retake selfie, face + card clear", NUMBER_MISMATCH "type the number exactly", EXPIRED_DOCUMENT "use a valid card", AADHAAR_NOT_ACCEPTED, UNDERAGE / DUPLICATE_DOCUMENT / SUSPECTED_FORGERY → "call support" only (no retake). Reviewer notes never shown. Resubmit = new row; max 3 per type per 30 days → <code>429 RESUBMISSION_LIMIT</code> with <code>retryAfter</code> date.</div>
+
+  <!-- W-03k Expiring soon / renew -->
+  <div class="phone soft">
+    <span class="label">W-03k Expiring soon · renew · new</span>
+    <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><h1>Renew documents</h1></div>
+    <div class="content" style="gap:12px">
+      <div class="card warm" style="gap:6px">
+        <div class="row"><span style="font-size:34px">👮</span><b class="grow h4">Police verification ends soon</b></div>
+        <div class="row between"><span>Ends on <b>12 Nov 2026</b></span><span class="chip" style="background:#fff;color:var(--warning)">⏳ 38 days</span></div>
+        <span class="sm">Badge stays till then. Renew now to keep emergency jobs.</span>
+        <a class="btn primary" style="margin-top:4px">🔁 Renew now</a>
+      </div>
+      <div class="doc" style="border:1.5px solid var(--error)">
+        <div class="top"><span class="tradeicon" style="background:var(--grad-danger)">⚡</span><span class="t">Electrical licence<small>Ended 30 Sep 2026</small></span><span class="chip error">⛔ Expired</span></div>
+        <div class="banner error"><span class="ico">⚠️</span><span>No new electrician jobs. Your booked jobs stay.</span></div>
+        <a class="btn secondary">📷 Send new licence</a>
+      </div>
+    </div>
+  </div>
+  <div class="note"><b>Data (LLD-016 D6, D8; LLD-004 §6)</b>Renewal allowed from 60 days before <code>expires_on</code> (<code>renewFrom</code>) while current stays VERIFIED; approval marks old one SUPERSEDED. Reminders 30 / 7 / 1 day before; expiry job 00:05 IST sets EXPIRED. Worker stays ACTIVE, but that trade is excluded from matching (<code>job_eligible = false</code>); expired police check removes emergency offers. Expiry never cancels booked jobs.</div>
+</div>
+</body>
+</html>

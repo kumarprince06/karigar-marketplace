@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin · People</title>
+<link rel="stylesheet" href="../assets/karigar.css">
+<style>
+
+.side{background-image:var(--tools-light),var(--grad);background-size:220px 220px,cover;gap:1px}
+.side a{padding:6px 10px}.side .gf{border:1px dashed rgba(255,255,255,.35);margin-top:4px}
+.side .me{display:flex;gap:8px;align-items:center;padding:10px;border-radius:10px;background:rgba(255,255,255,.1);margin-top:6px;font-size:12px;line-height:16px;color:#fff}
+.side .me .avatar{width:32px;height:32px;font-size:12px;background:var(--grad-warm);color:var(--ink)}
+.id{font-family:var(--mono);font-size:12px;color:var(--text-2);white-space:nowrap}.id::after{content:" 📋";font-size:11px}
+.perm{font-family:var(--mono);font-size:11px;background:var(--bg-2);color:var(--text-2);padding:1px 6px;border-radius:4px;white-space:nowrap}
+.modal{position:absolute;inset:0;background:rgba(11,47,46,.5);display:grid;place-items:center;z-index:5}
+.modal .dialog{width:560px;margin:0;box-shadow:var(--e3)}
+.web .input{min-height:40px;font-size:14px}
+.web .table td,.web .table th{padding:9px 12px}
+.badge{white-space:nowrap}.web .btn{white-space:nowrap}.web .btn.sm{min-height:32px;padding:0 10px;font-size:13px}
+.sec{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--text-2);font-weight:700}
+.notes{display:flex;gap:16px;flex-wrap:wrap;width:1440px;margin-bottom:24px}
+/* this file */
+
+.kv{display:grid;grid-template-columns:130px 1fr;gap:6px 12px;font-size:13px;align-items:center}.kv dt{color:var(--text-2)}
+.phead{display:flex;flex-direction:row;gap:16px;align-items:center;padding:18px 20px}
+.phead .avatar{background:rgba(255,255,255,.18);color:#fff}
+.phead .masked{color:rgba(255,255,255,.85)}
+.mini th{font-size:11px}
+.dlg2{display:flex;gap:24px}
+
+</style>
+</head>
+<body>
+<div class="canvas">
+
+<p class="canvas-title"><b>Admin · People: user lookup, customer &amp; worker detail</b>Search-first lookup (P6, LLD-020 §4.2): no paged list of all customers/workers. PII masked by default (D7); reveal needs <code>user.pii.reveal</code> + reason, audited, 20/h. Suspend / reinstate / restrictions per LLD-020 §4.2 and §6.</p>
+
+<!-- A-02a User lookup -->
+<div class="web">
+  <span class="label">A-02a User lookup (search-first) · fixed</span>
+  <nav class="side" data-on="users"></nav>
+  <div class="main">
+    <header class="topbar" data-std><h1>User lookup</h1></header>
+    <div class="page">
+      <div class="card hero" style="padding:22px;gap:14px">
+        <div class="row between"><b class="h3">🔎 Find a customer or worker</b><span class="pill">🙈 Results are masked</span></div>
+        <div class="row">
+          <div class="input focus grow" style="min-height:48px;font-size:16px">Rin<span style="border-left:2px solid var(--primary);height:20px"></span></div>
+          <div class="seg" style="width:300px;background:rgba(255,255,255,.15)"><a class="on">All</a><a style="color:#fff">Customers</a><a style="color:#fff">Workers</a></div>
+          <a class="btn accent" style="min-height:48px">Search</a>
+        </div>
+        <div class="row wrap sm" style="opacity:.9;gap:16px"><span>📱 Exact phone <span class="mono">+919876543210</span></span><span>✉️ Exact email</span><span>🆔 Full user / customer / worker id</span><span>🔤 Name prefix, at least 3 letters</span><span>· max 20 results</span></div>
+      </div>
+      <div class="row between"><span class="sm muted">7 results for name starting <b>"Rin"</b> · search is saved masked in the audit log</span><span class="chip neutral">No export · no "browse all"</span></div>
+      <div class="table"><table>
+        <tr><th>Name</th><th>Type</th><th>User id</th><th>Phone</th><th>Email</th><th>Area</th><th>Account</th><th>Open dispute</th><th>Restrictions</th><th></th></tr>
+        <tr><td><b>Rina Das</b></td><td><span class="chip info">👤 Customer</span></td><td class="id">…4f21e9</td><td class="masked">+91******4321</td><td class="masked">r***@gmail.com</td><td>Shibpur 711102</td><td><span class="chip success">ACTIVE</span></td><td><span class="chip warning">⚖️ 1</span></td><td>—</td><td><a class="badge">Open →</a></td></tr>
+        <tr><td><b>Rinku Paul</b></td><td><span class="chip accent">🧰 Worker</span></td><td class="id">…6d19f4</td><td class="masked">+91******7710</td><td class="masked">r***@yahoo.in</td><td>Bally · 6 km</td><td><span class="chip success">ACTIVE</span></td><td>—</td><td><span class="chip error">⛔ NO_NEW_OFFERS</span></td><td><a class="badge">Open →</a></td></tr>
+        <tr><td><b>Rina Mukherjee</b></td><td><span class="chip info">👤 Customer</span></td><td class="id">…a1907c</td><td class="masked">+91******0092</td><td class="masked">m***@gmail.com</td><td>Salkia 711106</td><td><span class="chip error">SUSPENDED</span></td><td>—</td><td>—</td><td><a class="badge">Open →</a></td></tr>
+        <tr><td><b>Rintu Sk</b></td><td><span class="chip accent">🧰 Worker</span></td><td class="id">…e55b10</td><td class="masked">+91******3348</td><td class="masked">r***@gmail.com</td><td>Santragachi · 4 km</td><td><span class="chip neutral">ONBOARDING</span></td><td>—</td><td>—</td><td><a class="badge">Open →</a></td></tr>
+        <tr><td><b>Rina Ghosh</b></td><td><span class="chip info">👤 Customer</span> <span class="chip accent">🧰 Worker</span></td><td class="id">…0c7d4a</td><td class="masked">+91******5521</td><td class="masked">g***@outlook.com</td><td>Howrah 711101</td><td><span class="chip success">ACTIVE</span></td><td>—</td><td>—</td><td><a class="badge">Open →</a></td></tr>
+        <tr><td><b>Rinki Shaw</b></td><td><span class="chip info">👤 Customer</span></td><td class="id">…63fe02</td><td class="masked">+91******9018</td><td class="masked">s***@gmail.com</td><td>Liluah 711204</td><td><span class="chip neutral">DEACTIVATED</span></td><td>—</td><td>—</td><td><a class="badge">Open →</a></td></tr>
+        <tr><td><b>Rinita Bose</b></td><td><span class="chip accent">🧰 Worker</span></td><td class="id">…77b2d1</td><td class="masked">+91******6620</td><td class="masked">b***@gmail.com</td><td>Shibpur · 5 km</td><td><span class="chip error">SUSPENDED</span></td><td>—</td><td><span class="chip error">⛔ NO_PAYOUTS</span></td><td><a class="badge">Open →</a></td></tr>
+      </table></div>
+      <div class="banner neutral"><span class="ico">💡</span><span>Phone and email search are <b>exact match only</b> (no "starts with"). Name search needs 3+ letters. Staff accounts are managed in <b>Staff &amp; roles</b>, not here.</span></div>
+    </div>
+  </div>
+</div>
+<div class="notes">
+  <div class="note"><b>API</b><code>GET /admin/users?q=&amp;type=</code> (<code>user.view</code>): q = exact phone / email / id, or name prefix ≥ 3 → max 20 rows; &lt; 3 chars → 422. Rows masked: phone <code>+91******4321</code>, email <code>s***@gmail.com</code>, address = locality + PIN (LLD-020 D7, §8).</div>
+  <div class="note"><b>Fixes vs PNG (Customers / Workers tables)</b>No paged list, no export, no "Invite worker", no "needs Support role". Columns limited to open dispute + restrictions (review §3.5). Worker area = base locality + radius (P10). DEACTIVATED shown.</div>
+</div>
+
+<!-- A-02b Customer detail -->
+<div class="web">
+  <span class="label">A-02b Customer detail · fixed</span>
+  <nav class="side" data-on="users"></nav>
+  <div class="main">
+    <header class="topbar" data-std><h1>User lookup › Rina Das</h1></header>
+    <div class="page">
+      <div class="card hero phead">
+        <div class="avatar lg">RD</div>
+        <div class="col grow" style="gap:4px">
+          <div class="row"><b class="h2">Rina Das</b><span class="chip success">● ACTIVE</span><span class="pill">👤 Customer</span></div>
+          <div class="row wrap sm" style="gap:14px"><span class="masked">🆔 …4f21e9 📋</span><span class="masked">📱 +91******4321</span><span class="masked">✉️ r***@gmail.com</span><span style="opacity:.85">Joined 12 Mar 2026 · en · Android</span></div>
+        </div>
+        <a class="btn" style="background:rgba(255,255,255,.16);color:#fff">👁️ Reveal contact…</a>
+        <a class="btn accent">⛔ Add restriction</a>
+        <a class="btn danger">Suspend</a>
+      </div>
+      <div class="split">
+        <div class="col grow" style="gap:12px;min-width:0">
+          <div class="tabs"><a class="on">Bookings · 3</a><a>Requests · 4</a><a>Addresses · 2</a><a>Audit · 20</a></div>
+          <div class="table"><table>
+            <tr><th>Booking</th><th>Trade · problem</th><th>Worker</th><th>First visit</th><th>Booking</th><th>Job</th><th>Next / last visit</th><th></th></tr>
+            <tr><td class="id">…3f9a1c</td><td>⚡ Fan not working</td><td>Sujit Das</td><td>Today 10:00</td><td><span class="chip brand">CONFIRMED</span></td><td><span class="chip info">IN_PROGRESS</span></td><td><span class="chip info">IN_PROGRESS</span></td><td><a class="badge">Open →</a></td></tr>
+            <tr><td class="id">…c2e817</td><td>🚰 Tap leaking</td><td>Mitali Pal</td><td>2 Oct, 09:30</td><td><span class="chip success">COMPLETED</span></td><td><span class="chip success">COMPLETED</span></td><td><span class="chip success">DONE</span></td><td><a class="badge">Open →</a></td></tr>
+            <tr><td class="id">…18d4a0</td><td>⚡ Wiring check</td><td>Abdul Hossain</td><td>21 Sep, 16:00</td><td><span class="chip neutral">CANCELLED</span></td><td><span class="chip neutral">CANCELLED</span></td><td><span class="chip neutral">CANCELLED</span></td><td><a class="badge">Open →</a></td></tr>
+          </table></div>
+          <div class="card" style="gap:6px">
+            <div class="row between"><b class="h4">Recent activity (audit)</b><a class="badge">Audit log →</a></div>
+            <div class="table" style="box-shadow:none"><table class="mini">
+              <tr><th>When</th><th>Who</th><th>Action</th><th>Reason</th></tr>
+              <tr><td>Today 11:02</td><td>Priya Sen</td><td class="mono">USER_VIEWED</td><td>—</td></tr>
+              <tr><td>Today 10:48</td><td>Arif Khan</td><td class="mono">USER_PII_REVEALED · PHONE</td><td>SUPPORT_CALL</td></tr>
+              <tr><td>3 Oct 18:20</td><td>SYSTEM</td><td class="mono">DISPUTE_OPENED</td><td>POOR_QUALITY</td></tr>
+            </table></div>
+          </div>
+        </div>
+        <div class="rail">
+          <div class="card">
+            <div class="row between"><b class="h4">⛔ Restrictions</b><span class="chip success">None live</span></div>
+            <p class="sm muted">Last lifted: NO_NEW_REQUESTS · ADMIN · lifted 28 Sep by Arif Khan (FRAUD_CLEARED).</p>
+          </div>
+          <div class="card" style="border-left:4px solid var(--warning)">
+            <div class="row between"><b class="h4">⚖️ Open dispute</b><span class="chip warning">IN_REVIEW</span></div>
+            <p class="sm"><span class="id">…d71e02</span> · POOR_QUALITY · JOB of booking <span class="id">…c2e817</span></p>
+            <a class="badge">Open case →</a>
+          </div>
+          <div class="card">
+            <b class="h4">📍 Addresses</b>
+            <div class="row between sm"><span>🏠 Home · Shibpur</span><span class="mono">711102</span></div>
+            <div class="row between sm"><span>👵 Mother's flat · Salkia</span><span class="mono">711106</span></div>
+            <p class="help">Locality + PIN only. Full address via Reveal.</p>
+          </div>
+          <div class="card"><b class="h4">Counts</b><div class="row between sm"><span>Requests 4 · Bookings 3</span><span>Reviews written 1</span></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="notes">
+  <div class="note"><b>API</b><code>GET /admin/users/{userId}</code> → masked detail: status, profiles, restrictions, counts, last 20 audit events (writes <code>USER_VIEWED</code>). Bookings via <code>GET /admin/bookings?customerId=</code> (<code>booking.view</code>). Booking / job / visit = three chips (B8).</div>
+  <div class="note"><b>Buttons by permission</b>Reveal: <code>user.pii.reveal</code>. Suspend / reinstate: <code>account.suspend</code>. Restriction add / lift: <code>account.restrict</code>. Hidden when missing — the API still checks. Staff targets → 409 <code>TARGET_IS_STAFF</code>; self → 409 <code>SELF_ACTION_FORBIDDEN</code>.</div>
+  <div class="note"><b>Removed vs PNG</b>Free-text notes / support cases (later), dispute as a booking status, email shown half-unmasked.</div>
+</div>
+
+<!-- A-02c Reveal modal -->
+<div class="web">
+  <span class="label">A-02c Reveal contact details (PII reveal) · new</span>
+  <nav class="side" data-on="users"></nav>
+  <div class="main">
+    <header class="topbar" data-std><h1>User lookup › Rina Das</h1></header>
+    <div class="page">
+      <div class="card hero phead"><div class="avatar lg">RD</div><div class="col grow" style="gap:4px"><b class="h2">Rina Das</b><div class="row sm" style="gap:14px"><span class="masked">📱 +91 98765 44321</span><span class="masked">✉️ r***@gmail.com</span></div></div><span class="pill">👁️ Phone revealed · re-masks when you leave this page</span></div>
+      <div class="skel" style="height:40px"></div><div class="skel" style="height:220px"></div><div class="skel" style="height:160px"></div>
+    </div>
+  </div>
+  <div class="modal"><div class="dialog" style="width:600px">
+    <div class="row between"><h3 class="h3">👁️ Reveal contact details</h3><span class="perm">user.pii.reveal</span></div>
+    <p class="sm muted">Only reveal what you need for this case. Every reveal is saved in the audit log with your name, the fields and your reason.</p>
+    <div class="sec">Fields</div>
+    <div class="choice"><span class="opt on">☑️ Phone</span><span class="opt">☐ Email</span><span class="opt">☐ Full addresses</span></div>
+    <label class="field"><span>Reason</span><div class="input">📞 SUPPORT_CALL — customer is on the phone with support<span class="grow"></span>▾</div></label>
+    <div class="sm muted" style="padding-left:4px">Other reasons: DISPUTE_INVESTIGATION · SAFETY_CONCERN · FRAUD_SUSPECTED · LEGAL_REQUEST</div>
+    <label class="field"><span>Note <em>(optional, required for some reasons · max 500)</em></span><div class="input area">Customer called about today's visit; calling back on registered number.</div></label>
+    <div class="banner warning"><span class="ico">⏳</span><span><b>7 of 20</b> reveals left this hour. More than 30 in a day alerts security.</span></div>
+    <div class="row" style="justify-content:flex-end"><a class="btn ghost">Cancel</a><a class="btn primary">Reveal phone</a></div>
+  </div></div>
+</div>
+<div class="notes">
+  <div class="note"><b>API</b><code>POST /admin/users/{userId}/reveal {fields:[PHONE,EMAIL,ADDRESSES], reasonCode, note}</code> → only asked fields, <code>Cache-Control: no-store</code>; audit <code>USER_PII_REVEALED {fields, reasonCode}</code>. Reason codes from <code>reason_codes</code> category <code>PII_REVEAL</code> (API-driven picker). 429 <code>REVEAL_LIMIT_REACHED</code> after 20/h (LLD-020 D7, §8, §9).</div>
+  <div class="note"><b>Re-mask</b>Revealed values live only in page memory; navigating away re-masks. No copy-to-clipboard shortcut for revealed values.</div>
+</div>
+
+<!-- A-02d Customer suspend + restriction dialogs -->
+<div class="web">
+  <span class="label">A-02d Customer · suspend &amp; add / lift restriction dialogs · new</span>
+  <nav class="side" data-on="users"></nav>
+  <div class="main">
+    <header class="topbar" data-std><h1>User lookup › Rina Das</h1></header>
+    <div class="page"><div class="skel" style="height:110px"></div><div class="skel" style="height:300px"></div></div>
+  </div>
+  <div class="modal" style="align-content:center;justify-content:center"><div class="dlg2">
+    <div class="dialog" style="width:540px">
+      <div class="row between"><h3 class="h3">Suspend customer</h3><span class="perm">account.suspend</span></div>
+      <p class="sm muted">Rina Das <span class="id">…4f21e9</span> will be logged out on all devices and can't log in or place requests.</p>
+      <label class="field"><span>Reason</span><div class="input">FRAUD_SUSPECTED<span class="grow"></span>▾</div></label>
+      <label class="field"><span>Note <em>(max 500)</em></span><div class="input area">3 chargeback attempts on advances this week.</div></label>
+      <div class="banner warning"><span class="ico">📅</span><span><b>1 confirmed booking stays active</b> — suspension does not cancel it. Cancel it separately if needed (needs <span class="perm">booking.manage</span>):<br><span class="id">…3f9a1c</span> · ⚡ Fan not working · today 10:00 · <a class="badge">Cancel booking…</a></span></div>
+      <p class="help">Open requests expire on their own. Reinstate later from this page (same reason + note). DEACTIVATED accounts can't be reinstated.</p>
+      <div class="row" style="justify-content:flex-end"><a class="btn ghost">Cancel</a><a class="btn danger">Suspend customer</a></div>
+    </div>
+    <div class="dialog" style="width:540px">
+      <div class="row between"><h3 class="h3">Add restriction</h3><span class="perm">account.restrict</span></div>
+      <div class="sec">Type</div>
+      <div class="choice"><span class="opt on">🚫 NO_NEW_REQUESTS</span><span class="opt off">NO_NEW_OFFERS · workers</span><span class="opt off">NO_PAYOUTS · workers</span></div>
+      <div class="sec">Source</div>
+      <div class="seg"><a class="on">ADMIN</a><a>FRAUD</a></div>
+      <label class="field"><span>Ends <em>(optional — empty = until lifted)</em></span><div class="input">📅 12 Oct 2026, 23:59</div></label>
+      <label class="field"><span>Reason</span><div class="input">ABUSIVE_TO_WORKERS<span class="grow"></span>▾</div></label>
+      <label class="field"><span>Note</span><div class="input">2 worker reports, see dispute …d71e02</div></label>
+      <div class="hr"></div>
+      <div class="row between sm"><span>Lift a live restriction: reason + note. <b>STRIKES</b> and <b>DUES</b> sources can't be lifted here 🔒</span></div>
+      <div class="row" style="justify-content:flex-end"><a class="btn ghost">Cancel</a><a class="btn primary">Add restriction</a></div>
+    </div>
+  </div></div>
+</div>
+<div class="notes">
+  <div class="note"><b>API</b><code>POST /admin/customers/{id}/suspend · /reinstate {reasonCode, note}</code>; <code>POST /admin/users/{userId}/restrictions {type, source: ADMIN|FRAUD, endsAt?, reasonCode, note}</code>; <code>POST /admin/restrictions/{id}/lift {reasonCode, note}</code> → 409 <code>RESTRICTION_NOT_LIFTABLE</code> for STRIKES / DUES. Reason pickers = API-driven <code>reason_codes</code> (CUSTOMER_SUSPENSION, ACCOUNT_RESTRICTION). Example codes shown are placeholders where the LLD lists none.</div>
+  <div class="note"><b>Rules</b>Customer suspend always suspends the user account (revokeAll + deny-list). Confirmed bookings are listed, not auto-cancelled (LLD-020 §11 default). Repeat suspend = 200, no second audit row.</div>
+</div>
+
+<!-- A-02e Worker detail -->
+<div class="web">
+  <span class="label">A-02e Worker detail · fixed</span>
+  <nav class="side" data-on="users"></nav>
+  <div class="main">
+    <header class="topbar" data-std><h1>User lookup › Sujit Das</h1></header>
+    <div class="page">
+      <div class="card hero phead">
+        <div class="avatar lg">SD</div>
+        <div class="col grow" style="gap:4px">
+          <div class="row"><b class="h2">Sujit Das</b><span class="chip success">● ACTIVE</span><span class="chip warning">🪪 PARTIAL · 1 pending</span><span class="pill">🟢 ACCEPTING_JOBS</span></div>
+          <div class="row wrap sm" style="gap:14px"><span class="masked">🆔 worker …8c03d2 📋</span><span class="masked">📱 +91******7710</span><span class="masked">✉️ s***@gmail.com</span><span style="opacity:.85">⭐ 4.6 · 32 reviews · bn</span></div>
+        </div>
+        <a class="btn" style="background:rgba(255,255,255,.16);color:#fff">👁️ Reveal…</a>
+        <a class="btn" style="background:rgba(255,255,255,.16);color:#fff">🗓️ Schedule</a>
+        <a class="btn accent">⛔ Restriction</a>
+        <a class="btn danger">Suspend</a>
+      </div>
+      <div style="display:grid;grid-template-columns:1.25fr 1fr 1fr;gap:14px;flex:1;min-height:0">
+        <div class="col" style="gap:14px">
+          <div class="card">
+            <div class="row between"><b class="h4">🧰 Trades</b><span class="sm muted">📍 Base: Shibpur · radius 6 km</span></div>
+            <div class="table" style="box-shadow:none"><table class="mini">
+              <tr><th>Trade</th><th>Rate</th><th>Exp.</th><th>Status</th><th>Job eligible</th></tr>
+              <tr><td>⚡ Electrician</td><td class="money">₹350 / visit</td><td>8 yrs</td><td><span class="chip success">ACTIVE</span></td><td><span class="chip success">✓ Yes</span></td></tr>
+              <tr><td>🚰 Plumber</td><td class="money">₹700 / half day</td><td>3 yrs</td><td><span class="chip neutral">PAUSED</span></td><td><span class="chip error">✗ Not yet</span></td></tr>
+            </table></div>
+          </div>
+          <div class="card">
+            <div class="row between"><b class="h4">🪪 Verification checks</b><a class="badge">Open queue →</a></div>
+            <div class="row between sm"><span>ID_PROOF · Voter ID</span><span class="chip success">VERIFIED</span></div>
+            <div class="row between sm"><span>ELECTRICAL_LICENSE · Electrician</span><span class="chip success">VERIFIED · exp 03/2028</span></div>
+            <div class="row between sm"><span>PAN</span><span class="chip warning">PENDING · 19 h</span></div>
+            <div class="row between sm"><span>POLICE_VERIFICATION <span class="faint">(optional badge)</span></span><span class="chip neutral">Not submitted</span></div>
+          </div>
+        </div>
+        <div class="col" style="gap:14px">
+          <div class="card">
+            <div class="row between"><b class="h4">⚠️ Strikes</b><span class="chip warning">5 active pts</span></div>
+            <div class="table" style="box-shadow:none"><table class="mini">
+              <tr><th>Type</th><th>Pts</th><th>Status</th></tr>
+              <tr><td>LATE_CANCELLATION<br><span class="faint">18 Sep · SYSTEM</span></td><td>2</td><td><span class="chip warning">ACTIVE</span></td></tr>
+              <tr><td>DISPUTE_UPHELD<br><span class="faint">29 Sep · dispute …a0c2f1</span></td><td>3</td><td><span class="chip warning">ACTIVE</span></td></tr>
+              <tr><td>NO_SHOW<br><span class="faint">2 Aug · SYSTEM</span></td><td>3</td><td><span class="chip neutral">REVOKED</span></td></tr>
+            </table></div>
+            <p class="help">Strikes are issued / revoked through dispute actions (WORKER_STRIKE / REVOKE_STRIKE).</p>
+          </div>
+          <div class="card">
+            <b class="h4">⛔ Restrictions</b>
+            <div class="row between sm"><span>NO_NEW_OFFERS · <b>STRIKES</b></span><span class="chip neutral">🔒 Not liftable here</span></div>
+            <p class="help">Lifts when strikes expire or are revoked.</p>
+          </div>
+        </div>
+        <div class="col" style="gap:14px">
+          <div class="card">
+            <b class="h4">💰 Money</b>
+            <div class="row between sm"><span>Ledger balance</span><b class="money" style="color:var(--error)">−₹118 (owes)</b></div>
+            <div class="row between sm"><span>Dues limit</span><span>₹1,000</span></div>
+            <div class="row between sm"><span>Payout account</span><span class="chip success">ACTIVE · …4821</span></div>
+            <div class="row between sm"><span>Payout hold</span><span class="chip neutral">None</span></div>
+            <a class="badge">Ledger &amp; payouts →</a>
+          </div>
+          <div class="card">
+            <div class="row between"><b class="h4">📅 Confirmed bookings</b><span class="chip brand">2</span></div>
+            <div class="row between sm"><span class="id">…3f9a1c</span><span>Today 10:00 · IN_PROGRESS</span></div>
+            <div class="row between sm"><span class="id">…b4e0a7</span><span>Tomorrow 15:00</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="notes">
+  <div class="note"><b>Data</b>Masked user detail (LLD-020) + worker summary port: account_status ONBOARDING/ACTIVE/SUSPENDED/DEACTIVATED, verification_status UNVERIFIED/PARTIAL/VERIFIED + pending chip (LLD-004, LLD-016), availability ACCEPTING_JOBS (LLD-007), base point + radius (P10), strikes (LLD-009 V7_1), restrictions sources STRIKES/FRAUD/ADMIN/DUES, balance (LLD-010), payout account (LLD-019). Schedule: <code>GET /admin/workers/{id}/schedule</code> (<code>user.view</code>).</div>
+  <div class="note"><b>Fixes vs PNG</b>No "Invite worker", no multi-locality areas, no "online" dot — ACCEPTING_JOBS chip. Skills are profile info only (P12).</div>
+</div>
+
+<!-- A-02f Worker suspend dialog -->
+<div class="web">
+  <span class="label">A-02f Worker · suspend dialog (blockLogin + bookings to cancel) · new</span>
+  <nav class="side" data-on="users"></nav>
+  <div class="main">
+    <header class="topbar" data-std><h1>User lookup › Sujit Das</h1></header>
+    <div class="page"><div class="skel" style="height:110px"></div><div class="skel" style="height:420px"></div></div>
+  </div>
+  <div class="modal"><div class="dialog" style="width:640px">
+    <div class="row between"><h3 class="h3">Suspend worker</h3><span class="perm">account.suspend</span></div>
+    <p class="sm muted">Sujit Das <span class="id">…8c03d2</span> stops getting offers at once; accepted offers are withdrawn.</p>
+    <label class="field"><span>Reason</span><div class="input">🛡️ SAFETY_CONCERN<span class="grow"></span>▾</div></label>
+    <label class="field"><span>Note <em>(max 500)</em></span><div class="input area">Customer complaint, call ref 4411</div></label>
+    <div class="card flat" style="flex-direction:row;align-items:flex-start;gap:12px;background:var(--bg)">
+      <span class="toggle"></span>
+      <div><b>Also block login</b> <span class="faint">(blockLogin)</span><p class="sm muted">For fraud or safety. Off: the worker can still log in to see earnings and dues and check out a visit in progress. On: account suspended and all sessions revoked.</p></div>
+    </div>
+    <div class="banner error"><span class="ico">📅</span><span><b>2 confirmed bookings will be cancelled automatically</b> (reason WORKER_SUSPENDED) and the requests go back to matching; customers keep their advance.<br><span class="id">…3f9a1c</span> today 10:00 — visit IN_PROGRESS, can be checked out first<br><span class="id">…b4e0a7</span> tomorrow 15:00</span></div>
+    <p class="help">Reinstate later restores ACTIVE (and login, if blocked). Readiness is not re-checked.</p>
+    <div class="row" style="justify-content:flex-end"><a class="btn ghost">Cancel</a><a class="btn danger">Suspend worker</a></div>
+  </div></div>
+</div>
+<div class="notes">
+  <div class="note"><b>API</b><code>POST /admin/workers/{workerId}/suspend {reasonCode, note, blockLogin}</code> → <code>{accountStatus, loginBlocked, confirmedBookingsToCancel, auditEventId}</code>; bookings cancelled async by LLD-009 on <code>WorkerSuspended</code>; money per LLD-009 §8 ("worker cancels ≥ 2 h"). ONBOARDING worker without blockLogin → 409 <code>ACCOUNT_STATE_INVALID</code> (LLD-020 D6, §5.2, §6).</div>
+  <div class="note"><b>Count before submit</b>The dialog's booking list comes from the worker's CONFIRMED bookings in the detail view; the API response's <code>confirmedBookingsToCancel</code> is the authoritative count.</div>
+</div>
+
+</div>
+
+<script>
+const NAV=[['',[['ops','🧭','Ops queues','30']]],['People',[['users','🔎','User lookup']]],['Marketplace',[['requests','📝','Requests'],['bookings','📅','Bookings']]],['Trust',[['verif','🪪','Verifications','14'],['disputes','⚖️','Disputes','6'],['reviews','⭐','Reviews','3']]],['Money',[['payments','💳','Payments & refunds'],['payouts','🏦','Payout accounts','2'],['ledger','📒','Ledger']]],['Config',[['catalog','🧰','Catalog'],['zones','🗺️','Service zones'],['notif','🔔','Notifications'],['outbox','📮','Outbox','3'],['audit','🧾','Audit log'],['staff','👥','Staff & roles'],['settings','⚙️','Settings']]]];
+const ROLE={VERIFICATION_AGENT:'ops users verif',DISPUTE_AGENT:'ops users requests bookings disputes reviews',FINANCE:'ops users payments payouts ledger audit',SUPPORT_AGENT:'ops users requests bookings disputes reviews notif'};
+document.querySelectorAll('.side[data-on]').forEach(s=>{const[nm,rl,ini]=(s.dataset.me||'Priya Sen|OPS_MANAGER|PS').split('|');const ok=ROLE[rl];let h='<div class="brand">🛠️ Karigar Ops</div>';for(const[g,it]of NAV){const v=it.filter(x=>!ok||ok.split(' ').includes(x[0]));if(!v.length)continue;if(g)h+=`<div class="grp">${g}</div>`;for(const[k,i,t,c]of v)h+=`<a class="${k==s.dataset.on?'on':''}"><span>${i}&nbsp; ${t}</span>${c?`<span class="cnt">${c}</span>`:''}</a>`}h+=`<div class="grow"></div><a class="gf"><span>📈&nbsp; Grafana</span><span>↗</span></a><div class="me"><div class="avatar">${ini}</div><div><b>${nm}</b><br><span style="opacity:.8">${rl}</span></div></div>`;s.innerHTML=h;const t=s.parentElement.querySelector('.topbar[data-std]');if(t)t.insertAdjacentHTML('beforeend',`<div class="input ph" style="width:280px;min-height:38px">🔎 Phone, email, id or name…</div><span class="chip accent">📍 Howrah</span><span class="chip success">🔐 MFA · until 21:40</span><div class="avatar" style="width:36px;height:36px;font-size:13px">${ini}</div>`)});
+</script>
+</body>
+</html>

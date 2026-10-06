@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin · Money</title>
+<link rel="stylesheet" href="../assets/karigar.css">
+<style>
+
+.side{background-image:var(--tools-light),var(--grad);background-size:220px 220px,cover;gap:1px}
+.side a{padding:6px 10px}.side .gf{border:1px dashed rgba(255,255,255,.35);margin-top:4px}
+.side .me{display:flex;gap:8px;align-items:center;padding:10px;border-radius:10px;background:rgba(255,255,255,.1);margin-top:6px;font-size:12px;line-height:16px;color:#fff}
+.side .me .avatar{width:32px;height:32px;font-size:12px;background:var(--grad-warm);color:var(--ink)}
+.id{font-family:var(--mono);font-size:12px;color:var(--text-2);white-space:nowrap}.id::after{content:" 📋";font-size:11px}
+.perm{font-family:var(--mono);font-size:11px;background:var(--bg-2);color:var(--text-2);padding:1px 6px;border-radius:4px;white-space:nowrap}
+.modal{position:absolute;inset:0;background:rgba(11,47,46,.5);display:grid;place-items:center;z-index:5}
+.modal .dialog{width:560px;margin:0;box-shadow:var(--e3)}
+.web .input{min-height:40px;font-size:14px}
+.web .table td,.web .table th{padding:9px 12px}
+.badge{white-space:nowrap}.web .btn{white-space:nowrap}.web .btn.sm{min-height:32px;padding:0 10px;font-size:13px}
+.sec{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--text-2);font-weight:700}
+.notes{display:flex;gap:16px;flex-wrap:wrap;width:1440px;margin-bottom:24px}
+/* this file */
+
+.kv{display:grid;grid-template-columns:130px 1fr;gap:6px 12px;font-size:13px;align-items:center}.kv dt{color:var(--text-2)}
+.mini th{font-size:11px}.mini td{font-size:13px}
+.bill .li{min-height:36px;padding:6px 14px;font-size:14px}
+.qh{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.namecmp{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.namecmp>div{background:var(--bg);border-radius:var(--r-md);padding:12px}
+.meter{height:10px;border-radius:5px;background:linear-gradient(90deg,#C62E25 0 50%,#F2A900 50% 80%,#1D7445 80%);position:relative}
+.meter i{position:absolute;top:-5px;width:4px;height:20px;background:var(--ink);border-radius:2px}
+
+</style>
+</head>
+<body>
+<div class="canvas">
+
+<p class="canvas-title"><b>Admin · Money: payments, refunds, finance queues, payouts, ledger</b>Real statuses from LLD-010/011/019. Refunds only from online payments, with reason + note + idempotency and a pro-rata preview (LLD-011 D7/D8). Admins see amounts, statuses and provider references only. Persona: FINANCE.</p>
+
+<!-- A-05a Payments -->
+<div class="web">
+  <span class="label">A-05a Payments &amp; refunds · fixed</span>
+  <nav class="side" data-on="payments" data-me="Meera Iyer|FINANCE|MI"></nav>
+  <div class="main">
+    <header class="topbar" data-std><h1>Payments &amp; refunds</h1></header>
+    <div class="page">
+      <div class="filters">
+        <div class="input" style="width:230px">🔎 Payment / booking id</div><div class="input" style="width:160px">Status: any ▾</div><div class="input" style="width:160px">Method: any ▾</div><div class="input" style="width:190px">Purpose: any ▾</div><div class="input" style="width:150px">📅 Last 7 days</div>
+      </div>
+      <div class="split">
+        <div class="table grow" style="align-self:flex-start"><table>
+          <tr><th>Payment</th><th>Purpose</th><th>Method</th><th class="money">Amount</th><th>Status</th><th>Refunds</th><th>For</th></tr>
+          <tr style="background:var(--primary-subtle)"><td><span class="id">…be72</span><br><span class="faint">Today 10:05</span></td><td>FINAL</td><td>📲 UPI</td><td class="money">₹1,850</td><td><span class="chip success">SUCCEEDED</span></td><td><span class="chip info">₹250 PROCESSING</span></td><td class="id">job …e81c27</td></tr>
+          <tr><td><span class="id">…a7f3</span><br><span class="faint">Today 10:20</span></td><td>BOOKING_ADVANCE</td><td>📲 UPI</td><td class="money">₹99</td><td><span class="chip success">SUCCEEDED</span></td><td>—</td><td class="id">req …3c88d5</td></tr>
+          <tr><td><span class="id">…11d0</span><br><span class="faint">Today 10:58</span></td><td>BOOKING_ADVANCE</td><td>💳 CARD</td><td class="money">₹99</td><td><span class="chip warning">PENDING</span></td><td>—</td><td class="id">req …e0a4c1</td></tr>
+          <tr><td><span class="id">…be71</span><br><span class="faint">Yesterday</span></td><td>FINAL</td><td>💵 CASH</td><td class="money">₹650</td><td><span class="chip error">DISPUTED</span></td><td class="faint">n/a cash</td><td class="id">job …77c1e3</td></tr>
+          <tr><td><span class="id">…3a90</span><br><span class="faint">5 Oct</span></td><td>DAILY_WAGE</td><td>💵 CASH</td><td class="money">₹1,200</td><td><span class="chip success">SUCCEEDED</span></td><td class="faint">n/a cash</td><td class="id">job …3f9a1c</td></tr>
+          <tr><td><span class="id">…7c4e</span><br><span class="faint">Today 08:30</span></td><td>BOOKING_ADVANCE</td><td>📲 UPI</td><td class="money">₹99</td><td><span class="chip success">SUCCEEDED</span></td><td><span class="chip success">₹99 SUCCEEDED</span></td><td class="id">req …a4730b</td></tr>
+          <tr><td><span class="id">…5f2b</span><br><span class="faint">4 Oct</span></td><td>ADDITIONAL</td><td>🏦 NETBANKING</td><td class="money">₹1,200</td><td><span class="chip neutral">CANCELLED</span></td><td>—</td><td class="id">job …0f4b9e</td></tr>
+          <tr><td><span class="id">…8e01</span><br><span class="faint">Today 08:02</span></td><td>BOOKING_ADVANCE</td><td>📲 UPI</td><td class="money">₹99</td><td><span class="chip error">FAILED</span></td><td>—</td><td class="id">req …2e6c19</td></tr>
+          <tr><td><span class="id">…c6d3</span><br><span class="faint">3 Oct</span></td><td>WORKER_DUES</td><td>📲 UPI</td><td class="money">₹420</td><td><span class="chip success">SUCCEEDED</span></td><td>—</td><td>worker Rinku Paul</td></tr>
+          <tr><td><span class="id">…9ab4</span><br><span class="faint">2 Oct</span></td><td>VISIT_CHARGE</td><td>📲 UPI</td><td class="money">₹400</td><td><span class="chip success">SUCCEEDED</span></td><td><span class="chip error">₹400 FAILED</span></td><td class="id">job …5a92d0</td></tr>
+        </table></div>
+        <div class="rail" style="width:340px">
+          <div class="card">
+            <div class="row between"><b class="h4">Payment <span class="id">…be72</span></b><span class="chip success">SUCCEEDED</span></div>
+            <dl class="kv"><dt>Purpose · method</dt><dd>FINAL · UPI</dd><dt>Amount</dt><dd class="money">₹1,850</dd><dt>Payer</dt><dd>Rina Das · <span class="masked">r***@okaxis</span></dd><dt>Provider ref</dt><dd class="mono">pay_Nx…8KcQ</dd><dt>Captured</dt><dd>Today 10:05 · webhook ✓</dd><dt>Refunded</dt><dd class="money">₹250 · ₹1,600 left</dd></dl>
+            <div class="sec">Refunds</div>
+            <div class="row between sm"><span>₹250 · ADMIN · Today 10:40</span><span class="chip info">PROCESSING</span></div>
+            <a class="btn primary" style="width:100%">↩️ Refund…</a>
+            <p class="help">Needs <span class="perm">finance.refund</span>. Cash payments can't be refunded here.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="notes">
+  <div class="note"><b>Data</b><code>GET /admin/payments?status=&amp;cursor=</code> (<code>finance.view</code>). Payment status CREATED / PENDING / SUCCEEDED / FAILED / CANCELLED / DISPUTED; purpose BOOKING_ADVANCE / VISIT_CHARGE / DAILY_WAGE / MILESTONE / FINAL / ADDITIONAL / WORKER_DUES; method UPI / CARD / NETBANKING / WALLET / CASH. Refund REQUESTED / PROCESSING / SUCCEEDED / FAILED (LLD-010, LLD-011, LLD-019).</div>
+  <div class="note"><b>Fixes vs PNG</b>No "Paid / Refund initiated / awaiting approval" labels, no Stripe-like ids as primary key (UUID tail; provider ref shown as a field), no "retry payment" button (customer retries in checkout). VPA stays masked.</div>
+</div>
+
+<!-- A-05b Refund dialog -->
+<div class="web">
+  <span class="label">A-05b Refund dialog (pro-rata preview) · new</span>
+  <nav class="side" data-on="payments" data-me="Meera Iyer|FINANCE|MI"></nav>
+  <div class="main">
+    <header class="topbar" data-std><h1>Payments &amp; refunds › …be72</h1></header>
+    <div class="page"><div class="skel" style="height:40px"></div><div class="skel" style="height:420px"></div></div>
+  </div>
+  <div class="modal"><div class="dialog" style="width:640px">
+    <div class="row between"><h3 class="h3">↩️ Refund payment</h3><span class="perm">finance.refund</span></div>
+    <p class="sm muted">FINAL · UPI <span class="id">…be72</span> · ₹1,850 paid · ₹250 already refunding · <b>₹1,600 refundable</b></p>
+    <div class="row" style="gap:12px;align-items:flex-end">
+      <label class="field grow"><span>Amount</span><div class="input focus money">₹ 500</div></label>
+      <label class="field grow"><span>Reason</span><div class="input">ADMIN <span class="faint">(fixed)</span></div></label>
+    </div>
+    <label class="field"><span>Note <em>(required)</em></span><div class="input area" style="min-height:64px">Part of the work was redone free by another worker; partial refund agreed on call.</div></label>
+    <div class="card flat bill" style="padding:0;gap:0;background:var(--bg)">
+      <div class="li"><b class="grow">Pro-rata reversal of the original split (27.03%)</b><span class="sm muted">from server</span></div>
+      <div class="li"><span class="grow">Worker share</span><span class="money">−₹441.00</span></div>
+      <div class="li"><span class="grow">Platform fee (10%)</span><span class="money">−₹50.00</span></div>
+      <div class="li"><span class="grow">GST on fee (18%)</span><span class="money">−₹9.00</span></div>
+      <div class="li total"><span class="grow">Refund to customer's UPI</span><span class="money">₹500</span></div>
+    </div>
+    <div class="banner warning"><span class="ico">⚠️</span><span>Mitali Pal was already paid out for this job. Her balance goes to <b>−₹441</b> and is recovered from later earnings.</span></div>
+    <p class="help">🔑 Idempotency key is created when you open this dialog, so a double click or retry refunds once. Saved in the audit log.</p>
+    <div class="row" style="justify-content:flex-end"><a class="btn ghost">Cancel</a><a class="btn danger">Refund ₹500</a></div>
+  </div></div>
+</div>
+<div class="notes">
+  <div class="note"><b>API</b><code>POST /admin/payments/{id}/refunds {amountMinor, reasonCode:"ADMIN", note}</code> + <code>Idempotency-Key</code>. Total ≤ payment (row locked) → else 409 <code>REFUND_EXCEEDS_PAYMENT</code>. Pro-rata split per LLD-011 D8 (fee + GST + worker share, worker balance may go negative). Example uses 10% fee, 18% GST from LLD-010 D1/D2.</div>
+  <div class="note"><b>Open question</b>Dual control for large refunds is not in MVP (P23); amounts audited and alerted. The preview endpoint itself is not in LLD-011 — the split must come from the backend (D9), never computed in the browser.</div>
+</div>
+
+<!-- A-05c Finance queues -->
+<div class="web">
+  <span class="label">A-05c Queues · stuck refunds, parked provider events, disputed cash · new</span>
+  <nav class="side" data-on="ops" data-me="Meera Iyer|FINANCE|MI"></nav>
+  <div class="main">
+    <header class="topbar" data-std><h1>Ops queues › Money</h1></header>
+    <div class="page" style="gap:14px">
+      <div>
+        <div class="qh"><b class="h4">↩️ Stuck refunds <span class="chip error">1</span></b><span class="sm muted">FAILED, or REQUESTED / PROCESSING &gt; 24 h · <span class="perm">finance.view</span></span></div>
+        <div class="table"><table>
+          <tr><th>Refund</th><th>Payment</th><th class="money">Amount</th><th>Reason</th><th>Status</th><th>Age</th><th>Failure</th><th></th></tr>
+          <tr><td class="id">…77e2</td><td class="id">…9ab4 · UPI</td><td class="money">₹400</td><td>DISPUTE_RESOLVED</td><td><span class="chip error">FAILED</span></td><td>26 h</td><td class="mono">BAD_REQUEST_ERROR · account closed</td><td><a class="btn primary sm">New refund (new key)</a></td></tr>
+        </table></div>
+      </div>
+      <div>
+        <div class="qh"><b class="h4">📨 Parked provider events <span class="chip success">0</span></b><span class="sm muted">verified webhooks not processed after 5 tries · <span class="perm">finance.view</span> · ack <span class="perm">ops.act</span></span></div>
+        <div class="table"><table>
+          <tr><th>Event</th><th>Provider</th><th>Type</th><th>Received</th><th>Attempts</th><th>Processing error</th><th></th></tr>
+          <tr><td class="id">…0c19</td><td>razorpay</td><td class="mono">refund.processed</td><td>yesterday 22:14</td><td>5</td><td class="mono">REFUND_NOT_FOUND</td><td><span class="chip success">✓ acked · HANDLED_ELSEWHERE</span></td></tr>
+          <tr><td colspan="7" class="center muted">Nothing parked right now 🎉 (acked rows shown for the last 24 h)</td></tr>
+        </table></div>
+      </div>
+      <div>
+        <div class="qh"><b class="h4">💵 Disputed cash <span class="chip warning">2</span></b><span class="sm muted">cash payment DISPUTED · leaves when the dispute is resolved · <span class="perm">ops.view</span></span></div>
+        <div class="table"><table>
+          <tr><th>Payment</th><th>Job</th><th class="money">Amount</th><th>Worker marked</th><th>Customer says</th><th>Dispute</th><th>Age</th><th></th></tr>
+          <tr><td class="id">…be71</td><td class="id">…77c1e3</td><td class="money">₹650</td><td>4 Oct 18:30</td><td>"I paid only ₹400"</td><td><span class="chip info">…09c4ab · IN_REVIEW</span></td><td>19 h</td><td><a class="btn secondary sm">Open dispute</a></td></tr>
+          <tr><td class="id">…4d27</td><td class="id">…18aa0c</td><td class="money">₹350</td><td>3 Oct 12:10</td><td>"Never paid cash"</td><td><span class="chip warning">…3e90b1 · AWAITING_RESPONSE</span></td><td>2 d</td><td><a class="btn secondary sm">Open dispute</a></td></tr>
+        </table></div>
+      </div>
+      <div class="banner neutral"><span class="ico">🔁</span><span>Reconciliation runs daily against the provider; differences show up here as stuck refunds or parked events. Ack = <b>NO_ACTION</b> or <b>HANDLED_ELSEWHERE</b> + note.</span></div>
+    </div>
+  </div>
+</div>
+<div class="notes">
+  <div class="note"><b>API</b><code>GET /admin/ops/queues/STUCK_REFUND · PARKED_PROVIDER_EVENT · CASH_DISPUTED</code>; ack <code>POST …/items/{id}/ack</code> (<code>ops.act</code>). A FAILED refund is retried by <code>finance.refund</code> with a new key (LLD-011 §6), then acked. Cash disputes are settled only via the dispute's CASH_PAID / CASH_NOT_PAID action (LLD-018).</div>
+  <div class="note"><b>Persona note</b>FINANCE has <code>ops.view</code> but not <code>ops.act</code> in LLD-020 §3.2 — so Ack buttons are hidden here (OPS_MANAGER / SUPER_ADMIN ack). Flag: finance may need <code>ops.act</code> for its own queues.</div>
+</div>
+
+<!-- A-05d Payout accounts review -->
+<div class="web">
+  <span class="label">A-05d Payout accounts review + payout hold · new</span>
+  <nav class="side" data-on="payouts" data-me="Meera Iyer|FINANCE|MI"></nav>
+  <div class="main">
+    <header class="topbar" data-std><h1>Payout accounts</h1></header>
+    <div class="page">
+      <div class="tabs"><a class="on">🔎 NEEDS_REVIEW · 2</a><a>⏳ PENDING_VERIFICATION · 1</a><a>💸 Payouts</a><a>⛔ Payout holds · 1</a></div>
+      <div class="split">
+        <div class="col grow" style="gap:12px;min-width:0">
+          <div class="table"><table>
+            <tr><th>Worker</th><th>Account</th><th>Bank name returned</th><th>Match score</th><th>Status</th><th>Added</th></tr>
+            <tr style="background:var(--primary-subtle)"><td><b>Rakesh Mondal</b> <span class="id">…41bb7e</span></td><td>🏦 BANK ·· 4821 · SBIN0001234</td><td>R MONDAL ENTERPRISES</td><td><b style="color:var(--warning)">65</b></td><td><span class="chip warning">NEEDS_REVIEW</span></td><td>Today 09:12</td></tr>
+            <tr><td><b>Pradip Saha</b> <span class="id">…4a7e21</span></td><td>🏦 BANK ·· 0937 · HDFC0004567</td><td>PRADEEP SAHA</td><td><b style="color:var(--warning)">50</b></td><td><span class="chip warning">NEEDS_REVIEW</span></td><td>Yesterday</td></tr>
+          </table></div>
+          <div class="card">
+            <b class="h4">💸 Recent payouts · daily batch 11:00 IST</b>
+            <div class="table" style="box-shadow:none"><table class="mini">
+              <tr><th>Payout</th><th>Worker</th><th class="money">Amount</th><th>Status</th><th>Batch</th><th>Failure</th></tr>
+              <tr><td class="id">…e0d4</td><td>Sujit Das</td><td class="money">₹3,240</td><td><span class="chip success">PAID</span></td><td>5 Oct</td><td>—</td></tr>
+              <tr><td class="id">…a19f</td><td>Mitali Pal</td><td class="money">₹1,860</td><td><span class="chip info">PROCESSING</span></td><td>6 Oct</td><td>—</td></tr>
+              <tr><td class="id">…77b0</td><td>Rinita Bose</td><td class="money">₹920</td><td><span class="chip error">FAILED</span></td><td>4 Oct</td><td class="mono">ACCOUNT_FROZEN</td></tr>
+              <tr><td class="id">…3c2d</td><td>Abdul Hossain</td><td class="money">₹1,100</td><td><span class="chip neutral">QUEUED</span></td><td>6 Oct</td><td>—</td></tr>
+            </table></div>
+          </div>
+        </div>
+        <div class="rail" style="width:400px">
+          <div class="card" style="border-top:4px solid var(--warning)">
+            <div class="row between"><b class="h4">Review bank account</b><span class="perm">finance.payout</span></div>
+            <div class="namecmp">
+              <div><span class="sec">Worker name</span><br><b>Rakesh Mondal</b><br><span class="sm muted">profile display name</span></div>
+              <div><span class="sec">Bank (penny-drop)</span><br><b>R MONDAL ENTERPRISES</b><br><span class="sm muted">penny-drop ✓ succeeded</span></div>
+            </div>
+            <div class="row between sm"><span>Name match</span><b>65 / 100</b></div>
+            <div class="meter"><i style="left:65%"></i></div>
+            <div class="row between sm faint"><span>&lt; 50 auto-disabled</span><span>50–79 review</span><span>≥ 80 auto-active</span></div>
+            <p class="sm muted">After approval: 24 h cooling-off before the first payout; worker gets email + push.</p>
+            <div class="row"><a class="btn primary grow">Approve → ACTIVE</a></div>
+            <div class="row"><div class="input grow" style="min-height:40px">Reject reason ▾</div><a class="btn danger-o">Reject</a></div>
+          </div>
+          <div class="card">
+            <div class="row between"><b class="h4">⛔ Payout hold</b><span class="chip neutral">none for Rakesh</span></div>
+            <p class="sm muted">Adds a NO_PAYOUTS restriction (source ADMIN) with reason + note. Earnings keep accruing; lift any time.</p>
+            <a class="btn secondary sm">Put payouts on hold…</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="notes">
+  <div class="note"><b>API</b><code>POST /admin/payout-accounts/{id}/approve · /reject</code> (reason required on reject → DISABLED <code>REJECTED_BY_OPS</code>); <code>POST · DELETE /admin/workers/{id}/payout-hold {reasonCode, note}</code>; <code>GET /admin/payouts?status=&amp;workerId=</code>. Account status PENDING_VERIFICATION / NEEDS_REVIEW / ACTIVE / DISABLED; payout QUEUED / PROCESSING / PAID / FAILED / REVERSED (LLD-019 D3–D6).</div>
+  <div class="note"><b>Masking</b>Account number shown as last 4 + IFSC only; no UPI payout accounts in MVP (D2).</div>
+</div>
+
+<!-- A-05e Ledger -->
+<div class="web">
+  <span class="label">A-05e Ledger · worker balance &amp; manual adjustment · new</span>
+  <nav class="side" data-on="ledger" data-me="Meera Iyer|FINANCE|MI"></nav>
+  <div class="main">
+    <header class="topbar" data-std><h1>Ledger › Rinku Paul</h1></header>
+    <div class="page">
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px">
+        <div class="card hero" style="padding:16px;background-image:var(--tools-light),var(--grad-danger)"><span class="sm" style="opacity:.9">WORKER_PAYABLE balance</span><b style="font-size:30px;line-height:36px">−₹1,240</b><span class="sm" style="opacity:.9">owes platform (cash-job fees)</span></div>
+        <div class="kpi"><small>Dues limit</small><b>₹1,000</b><small>over by ₹240 → NO_NEW_OFFERS (DUES)</small></div>
+        <div class="kpi"><small>CASH_WITH_WORKER (gross)</small><b>₹10,450</b><small>last 30 days</small></div>
+        <div class="kpi"><small>Earnings ON_HOLD</small><b>₹0</b><small>no open dispute</small></div>
+      </div>
+      <div class="table"><table>
+        <tr><th>When</th><th>Transaction</th><th>Reference</th><th>Dr / Cr</th><th class="money">Amount</th><th class="money">Balance</th><th>By</th></tr>
+        <tr><td>Today 09:40</td><td class="mono">CASH_COLLECTED</td><td class="id">payment …3a90</td><td>Dr</td><td class="money">₹118</td><td class="money">−₹1,240</td><td>SYSTEM</td></tr>
+        <tr><td>3 Oct 14:02</td><td class="mono">DUES_RECEIVED</td><td class="id">payment …c6d3</td><td>Cr</td><td class="money">₹420</td><td class="money">−₹1,122</td><td>SYSTEM</td></tr>
+        <tr><td>2 Oct 19:15</td><td class="mono">ADJUSTMENT</td><td class="id">adj …09ef</td><td>Cr</td><td class="money">₹150</td><td class="money">−₹1,542</td><td>Meera Iyer · DOUBLE_FEE_CHARGED</td></tr>
+        <tr><td>1 Oct 18:30</td><td class="mono">CASH_COLLECTED</td><td class="id">payment …88a1</td><td>Dr</td><td class="money">₹236</td><td class="money">−₹1,692</td><td>SYSTEM</td></tr>
+        <tr><td>30 Sep 23:59</td><td class="mono faint">Opening balance</td><td>—</td><td>—</td><td>—</td><td class="money">−₹1,456</td><td>—</td></tr>
+      </table></div>
+    </div>
+  </div>
+  <div class="modal" style="background:rgba(11,47,46,.35)"><div class="dialog" style="width:560px">
+    <div class="row between"><h3 class="h3">Manual ledger adjustment</h3><span class="perm">finance.adjust</span></div>
+    <p class="sm muted">Rinku Paul <span class="id">…6d19f4</span> · current balance <b>−₹1,240</b></p>
+    <div class="sec">Direction</div>
+    <div class="seg"><a class="on">➕ Credit worker</a><a>➖ Debit worker</a></div>
+    <label class="field"><span>Amount</span><div class="input focus money">₹ 236</div></label>
+    <label class="field"><span>Reason</span><div class="input">Select reason (server list) ▾</div></label>
+    <label class="field"><span>Note <em>(required)</em></span><div class="input area" style="min-height:60px">Cash job …88a1 was cancelled after check-in; fee charged by mistake.</div></label>
+    <div class="banner info"><span class="ico">🧮</span><span>New balance <b>−₹1,004</b> — still over the ₹1,000 dues limit; NO_NEW_OFFERS stays until it is within the limit.</span></div>
+    <div class="row" style="justify-content:flex-end"><a class="btn ghost">Cancel</a><a class="btn primary">Post adjustment</a></div>
+  </div></div>
+</div>
+<div class="notes">
+  <div class="note"><b>API</b><code>GET /admin/ledger/accounts/WORKER_PAYABLE?ownerId=</code> (<code>finance.view</code>): balance computed from entries + cursor list. <code>POST /admin/ledger/adjustments {workerId, amountMinor, direction, reasonCode, note}</code> (<code>finance.adjust</code>) → posting P9, balanced pair, audited (LLD-010 §4). Entries are append-only.</div>
+  <div class="note"><b>Not in docs</b>Adjustment reason-code list isn't seeded in LLD-010 — picker is API-driven; "DOUBLE_FEE_CHARGED" is a placeholder.</div>
+</div>
+
+</div>
+
+<script>
+const NAV=[['',[['ops','🧭','Ops queues','30']]],['People',[['users','🔎','User lookup']]],['Marketplace',[['requests','📝','Requests'],['bookings','📅','Bookings']]],['Trust',[['verif','🪪','Verifications','14'],['disputes','⚖️','Disputes','6'],['reviews','⭐','Reviews','3']]],['Money',[['payments','💳','Payments & refunds'],['payouts','🏦','Payout accounts','2'],['ledger','📒','Ledger']]],['Config',[['catalog','🧰','Catalog'],['zones','🗺️','Service zones'],['notif','🔔','Notifications'],['outbox','📮','Outbox','3'],['audit','🧾','Audit log'],['staff','👥','Staff & roles'],['settings','⚙️','Settings']]]];
+const ROLE={VERIFICATION_AGENT:'ops users verif',DISPUTE_AGENT:'ops users requests bookings disputes reviews',FINANCE:'ops users payments payouts ledger audit',SUPPORT_AGENT:'ops users requests bookings disputes reviews notif'};
+document.querySelectorAll('.side[data-on]').forEach(s=>{const[nm,rl,ini]=(s.dataset.me||'Priya Sen|OPS_MANAGER|PS').split('|');const ok=ROLE[rl];let h='<div class="brand">🛠️ Karigar Ops</div>';for(const[g,it]of NAV){const v=it.filter(x=>!ok||ok.split(' ').includes(x[0]));if(!v.length)continue;if(g)h+=`<div class="grp">${g}</div>`;for(const[k,i,t,c]of v)h+=`<a class="${k==s.dataset.on?'on':''}"><span>${i}&nbsp; ${t}</span>${c?`<span class="cnt">${c}</span>`:''}</a>`}h+=`<div class="grow"></div><a class="gf"><span>📈&nbsp; Grafana</span><span>↗</span></a><div class="me"><div class="avatar">${ini}</div><div><b>${nm}</b><br><span style="opacity:.8">${rl}</span></div></div>`;s.innerHTML=h;const t=s.parentElement.querySelector('.topbar[data-std]');if(t)t.insertAdjacentHTML('beforeend',`<div class="input ph" style="width:280px;min-height:38px">🔎 Phone, email, id or name…</div><span class="chip accent">📍 Howrah</span><span class="chip success">🔐 MFA · until 21:40</span><div class="avatar" style="width:36px;height:36px;font-size:13px">${ini}</div>`)});
+</script>
+</body>
+</html>

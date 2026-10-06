@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Customer · Addresses</title>
+<link rel="stylesheet" href="../assets/karigar.css">
+<style>
+  .field > span.help { font-weight: 400; }
+  .sec { font-size: 13px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--text-2); }
+  .two { display: flex; gap: 10px; } .two > * { flex: 1; min-width: 0; }
+  .opt.s { min-height: 48px; padding: 6px 12px; font-size: 14px; }
+  .addr .t b { font-size: 16px; }
+  .meta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+  .content .field { gap: 4px; }
+  .content .input { min-height: 48px; }
+</style>
+</head>
+<body>
+<div class="canvas">
+  <p class="canvas-title"><b>Customer · Saved addresses & service area</b>LLD-005: separate address fields, map pin always, site contact for someone else's place, floor / lift, service-zone result and "Notify me" waitlist. Up to 20 addresses.</p>
+
+  <!-- C-04a Saved addresses -->
+  <div class="phone soft">
+    <span class="label">C-12a Saved addresses · fixed</span>
+    <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><h1>Saved addresses</h1><span class="sub">3 of 20</span></div>
+    <div class="content" style="gap:10px">
+      <div class="card addr" style="border:2px solid var(--primary)">
+        <div class="row between"><div class="row"><span class="tradeicon teal" style="width:40px;height:40px;font-size:20px">🏠</span><b>Home</b></div><span class="chip brand">Default</span></div>
+        <p class="sm">Flat 2A, Ganga Apartment, 22 Kadamtala Road, Kadamtala, Howrah, WB 711101</p>
+        <div class="meta"><span class="chip neutral">🏢 Flat · 2nd floor · lift</span><span class="chip success">✓ We serve Howrah Central</span></div>
+      </div>
+      <div class="card addr">
+        <div class="row between"><div class="row"><span class="tradeicon" style="width:40px;height:40px;font-size:20px">👵</span><b>Maa's flat</b></div><a class="btn ghost sm" style="padding:0 6px">Edit</a></div>
+        <p class="sm">Flat 3B, Shanti Apartment, 14/2 G.T. Road, Shibpur, near Shibpur Bazar bus stop, Howrah, WB 711102</p>
+        <p class="sm muted">👤 Contact: <b style="color:var(--text)">Anjali Das</b> · +91 98300 12345 · Family</p>
+        <div class="meta"><span class="chip neutral">🪜 2nd floor · no lift</span><span class="chip success">✓ We serve Shibpur</span></div>
+      </div>
+      <div class="card addr">
+        <div class="row between"><div class="row"><span class="tradeicon" style="width:40px;height:40px;font-size:20px">🏪</span><b>Shop</b></div><a class="btn ghost sm" style="padding:0 6px">Edit</a></div>
+        <p class="sm">12 Lake Place, Lake Market, Kolkata, WB 700029</p>
+        <div class="meta"><span class="chip warning">⏳ Not served yet</span></div>
+        <a class="btn secondary sm" style="width:100%">🔔 Notify me when you start here</a>
+      </div>
+    </div>
+    <div class="footer"><a class="btn primary">+ Add address</a></div>
+  </div>
+  <div class="note"><b>Saved addresses (LLD-005 D3–D6, §4.1)</b><code>GET /customer/addresses</code>, default first; shows <code>formattedAddress</code> (built by the backend), floor / lift, property type, <code>serviceArea.status</code>. Site contact (name, mobile, relation) only when <code>addressFor ≠ SELF</code>. Outside an active zone → "Not served yet" + Notify me (waitlist). Counter "3 of 20"; at 20 the add button is disabled with "Delete an address to add a new one" (<code>422 ADDRESS_LIMIT_REACHED</code>). Deleting the default does <strong>not</strong> pick a new default (D6) — the app asks at the next request.</div>
+
+  <!-- C-04b Set pin -->
+  <div class="phone">
+    <span class="label">C-12b Add address · 1 Set the pin · fixed</span>
+    <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><div class="grow"><h1>Add address</h1><span class="sub">Step 1 of 2 · Pin</span></div></div>
+    <div class="map" style="height:300px;border-radius:0;border-left:0;border-right:0">
+      <span class="chip" style="position:absolute;left:12px;bottom:12px;background:#fff;color:var(--text);box-shadow:var(--e2);padding:8px 12px">✋ Drag the map to put the pin on your door</span>
+      <span class="iconbtn" style="position:absolute;right:12px;top:12px;background:#fff;box-shadow:var(--e2)">🎯</span>
+    </div>
+    <div class="content" style="padding-top:14px">
+      <div class="card flat" style="gap:4px"><p class="label-t">Pin is at</p><p>G.T. Road, Shibpur, Howrah 711102</p><p class="sm muted">From GPS · accurate to about 18 m</p></div>
+      <div class="banner success"><span class="ico">✅</span><span><b>Good news — we serve Shibpur.</b> Workers nearby can take your jobs.</span></div>
+      <p class="sm muted">🔒 Workers see only "Shibpur, 1.2 km" until you choose one.</p>
+    </div>
+    <div class="footer"><a class="btn primary">Confirm pin</a></div>
+  </div>
+
+  <!-- C-04c Address details -->
+  <div class="phone soft">
+    <span class="label">C-12c Add address · 2 Details · fixed</span>
+    <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><div class="grow"><h1>Address details</h1><span class="sub">Step 2 of 2 · Shibpur pin set ✓</span></div></div>
+    <div class="content" style="gap:8px">
+      <div class="two">
+        <label class="field"><span>House / flat no.</span><div class="input focus">Flat 3B</div></label>
+        <label class="field"><span>Floor</span><div class="input">2</div></label>
+      </div>
+      <label class="field"><span>Building <em>· optional</em></span><div class="input">Shanti Apartment</div></label>
+      <label class="field"><span>Street <em>· optional</em></span><div class="input">14/2 G.T. Road</div></label>
+      <div class="two">
+        <label class="field"><span>Area / locality</span><div class="input">Shibpur</div></label>
+        <label class="field" style="flex:.7"><span>PIN</span><div class="input">711102</div></label>
+      </div>
+      <label class="field"><span>Landmark <em>· helps the worker</em></span><div class="input">Shibpur Bazar bus stop</div></label>
+      <p class="sm muted">Howrah · West Bengal (from the pin)</p>
+      <div class="row between"><span class="label-t">Lift in the building?</span><div class="seg" style="width:150px"><a>Yes</a><a class="on">No</a></div></div>
+      <p class="sm muted center">↓ Who lives here · property type · label</p>
+    </div>
+    <div class="footer"><a class="btn primary">Next</a></div>
+  </div>
+
+  <!-- C-04d Who & label -->
+  <div class="phone soft">
+    <span class="label">C-12d Add address · 2 Details (cont.) · fixed</span>
+    <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><h1>Whose place is this?</h1></div>
+    <div class="content" style="gap:8px">
+      <div class="choice"><span class="opt s">Mine</span><span class="opt s on">✓ Family</span><span class="opt s">Relative</span><span class="opt s">Tenant</span><span class="opt s">Business</span><span class="opt s">Other</span></div>
+      <div class="card flat" style="gap:8px;padding:12px">
+        <p class="label-t">Who will meet the worker?</p>
+        <div class="two">
+          <label class="field"><span>Name</span><div class="input">Anjali Das</div></label>
+          <label class="field"><span>Mobile</span><div class="input">98300 12345</div></label>
+        </div>
+        <div class="check" style="min-height:0"><span class="box on">✓</span><span class="sm">Anjali Das is OK with us sharing her number with the worker I choose.</span></div>
+      </div>
+      <span class="label-t">Type of place</span>
+      <div class="choice"><span class="opt s on">✓ Flat</span><span class="opt s">House</span><span class="opt s">Shop</span><span class="opt s">Office</span><span class="opt s">Other</span></div>
+      <label class="field"><span>Save as</span><div class="input">Maa's flat</div></label>
+      <div class="row between" style="min-height:48px"><span>Make this my default address</span><span class="toggle"></span></div>
+    </div>
+    <div class="footer"><a class="btn primary">Save address</a></div>
+  </div>
+  <div class="note"><b>Add address (LLD-005 §3, D1, D4, §8; security/03 §100)</b>Pin first: GPS or map pin from the phone (<code>location_source</code> GPS / MAP_PIN, accuracy m); the app may reverse-geocode to pre-fill fields — the backend never geocodes. Typed-only addresses must still confirm a pin (location is NOT NULL). Coverage shown after the pin via <code>GET /service-areas/check?latitude&amp;longitude&amp;pincode</code>.<br>Fields: house_no*, building, street, locality*, landmark, PIN* (6 digits, not starting with 0 → <code>INVALID_PINCODE</code>), city/district/state prefilled, floor (−2…100) + lift, property type FLAT / INDEPENDENT_HOUSE / SHOP / OFFICE / OTHER, free label (≤40).<br><strong>Address for</strong> SELF / FAMILY / RELATIVE / TENANT / BUSINESS / OTHER. Not "Mine" → contact name + Indian mobile + consent tick, all required (<code>400 SITE_CONTACT_REQUIRED</code>); consent time stored. Make default: off by default; saving with it on clears the old default.</div>
+
+  <!-- C-04e Not in service area -->
+  <div class="phone soft">
+    <span class="label">C-12e Not in service area · new</span>
+    <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><h1>Add address</h1></div>
+    <div class="map" style="height:150px;margin:0 16px"></div>
+    <div class="content" style="padding-top:14px;gap:12px">
+      <div class="card warm" style="gap:6px">
+        <p class="h3">🚧 We're not in Kolkata Central yet</p>
+        <p class="sm">Karigar works in Howrah today: Shibpur, Salkia, Bally, Belur, Liluah and more. Kolkata is coming soon.</p>
+      </div>
+      <div class="card flat" style="gap:8px">
+        <p class="label-t">🔔 Want to know when we start?</p>
+        <p class="sm muted">We'll tell you once, in the app, when workers are available at PIN <b style="color:var(--text)">700019</b>.</p>
+        <a class="btn accent">Notify me</a>
+      </div>
+      <p class="sm muted">You can still save this address now and use it later.</p>
+    </div>
+    <div class="footer"><a class="btn secondary">Save address anyway</a></div>
+  </div>
+
+  <!-- C-04f Waitlist joined -->
+  <div class="phone">
+    <span class="label">C-12f You're on the list · new</span>
+    <div class="statusbar clear" style="position:absolute;inset:0 0 auto 0;z-index:1"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="content tools" style="color:#fff;padding-top:60px;gap:16px;text-align:center">
+      <div class="grow"></div>
+      <div class="illus">🔔</div>
+      <h1 class="h1">You're on the list</h1>
+      <p class="body-lg" style="opacity:.92">We'll let you know as soon as Karigar workers are available at PIN 700019.</p>
+      <div class="card" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);color:#fff;box-shadow:none;text-align:left">
+        <p class="label-t">Need work in Howrah meanwhile?</p>
+        <p class="sm" style="opacity:.9">Add a Howrah address — workers in Shibpur, Salkia and Bally are ready.</p>
+      </div>
+      <div class="grow"></div>
+      <a class="btn accent">Done</a>
+    </div>
+  </div>
+  <div class="note"><b>Waitlist (LLD-005 §4.2–4.3, D3)</b><code>POST /service-areas/waitlist {pincode}</code> → 202 (email optional when logged in; required on the logged-out coverage check). Unique per user + PIN, so a second tap is harmless (ON CONFLICT DO NOTHING). Zone message comes localized from the API (<code>message</code>). When the zone becomes ACTIVE, one "We're now in your area" notification (push / inbox; email if logged out, LLD-013 D12). The address can be saved outside a zone; only placing a request is blocked (<code>SERVICE_AREA_NOT_AVAILABLE</code> in LLD-006).</div>
+
+  <!-- C-12g Saved outside zone -->
+  <div class="phone soft">
+    <span class="label">C-12g Address saved outside zone · new</span>
+    <div class="statusbar"><span>9:41</span><span>▮▮ 4G</span></div>
+    <div class="appbar"><button class="iconbtn">←</button><h1>Saved addresses</h1><span class="sub">4 of 20</span></div>
+    <div class="content" style="gap:10px">
+      <div class="banner success"><span class="ico">✅</span><span><b>Address saved.</b> We'll tell you when we start in Kolkata Central.</span></div>
+      <div class="card addr" style="border:2px solid var(--accent)">
+        <div class="row between"><div class="row"><span class="tradeicon" style="width:40px;height:40px;font-size:20px">🏬</span><b>Didi's house</b></div><span class="chip accent">New</span></div>
+        <p class="sm">7 Hazra Lane, Kalighat, Kolkata, WB 700026</p>
+        <p class="sm muted">👤 Contact: <b style="color:var(--text)">Rina Sen</b> · +91 90070 45678 · Relative</p>
+        <div class="meta"><span class="chip warning">⏳ Not served yet</span><span class="chip info">🔔 You'll be notified</span></div>
+        <p class="sm muted">You can't book a worker here yet.</p>
+      </div>
+      <div class="card addr">
+        <div class="row between"><div class="row"><span class="tradeicon teal" style="width:40px;height:40px;font-size:20px">🏠</span><b>Home</b></div><span class="chip brand">Default</span></div>
+        <p class="sm">Flat 2A, Ganga Apartment, 22 Kadamtala Road, Kadamtala, Howrah, WB 711101</p>
+        <div class="meta"><span class="chip success">✓ We serve Howrah Central</span></div>
+      </div>
+      <div class="card addr" style="opacity:.9">
+        <div class="row between"><div class="row"><span class="tradeicon" style="width:40px;height:40px;font-size:20px">👵</span><b>Maa's flat</b></div></div>
+        <p class="sm">Flat 3B, Shanti Apartment, 14/2 G.T. Road, Shibpur…</p>
+      </div>
+    </div>
+    <div class="footer"><a class="btn primary">+ Add address</a></div>
+  </div>
+  <div class="note"><b>Outside-zone state (LLD-005 D2, D3)</b>Zone is stored on the address for display (<code>serviceArea.status</code> ACTIVE / COMING_SOON / none) but re-resolved when a request is created, so a zone launch applies at once. Chips: "We serve &lt;zone&gt;" (success), "Not served yet" (warning), "You'll be notified" (info, waitlist joined). Picking a not-served address in the request flow shows the same card with Notify me instead of "Next".<br><strong>Gap:</strong> <code>AddressView</code> has no "waitlisted" flag — the "You'll be notified" chip needs one (or a <code>GET</code> on the waitlist); drop the chip if not added.</div>
+</div>
+</body>
+</html>
