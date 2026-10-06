@@ -1,0 +1,92 @@
+/** Permission catalog and role seed, LLD-020 §3.2 and §4.1. The server is the authority; the UI only hides. */
+export const PERMISSIONS = [
+  'staff.manage',
+  'user.view',
+  'user.pii.reveal',
+  'account.suspend',
+  'account.restrict',
+  'ops.view',
+  'ops.act',
+  'audit.view',
+  'catalog.manage',
+  'service_zone.manage',
+  'finance.view',
+  'finance.adjust',
+  'finance.refund',
+  'finance.payout',
+  'booking.view',
+  'booking.manage',
+  'review.moderate',
+  'worker.enforce',
+  'verification.review',
+  'dispute.manage',
+  'dispute.resolve',
+  'notification.view',
+  'notification.retry',
+] as const;
+
+export type Permission = (typeof PERMISSIONS)[number];
+
+export const ROLES = [
+  'SUPER_ADMIN',
+  'OPS_MANAGER',
+  'SUPPORT_AGENT',
+  'VERIFICATION_AGENT',
+  'FINANCE',
+  'DISPUTE_AGENT',
+] as const;
+
+export type Role = (typeof ROLES)[number];
+
+export const ROLE_PERMISSIONS: Record<Role, readonly Permission[]> = {
+  SUPER_ADMIN: PERMISSIONS,
+  OPS_MANAGER: [
+    'user.view',
+    'user.pii.reveal',
+    'account.suspend',
+    'account.restrict',
+    'ops.view',
+    'ops.act',
+    'audit.view',
+    'booking.view',
+    'booking.manage',
+    'catalog.manage',
+    'service_zone.manage',
+    'finance.view',
+    'review.moderate',
+    'worker.enforce',
+    'dispute.manage',
+    'notification.view',
+    'notification.retry',
+  ],
+  SUPPORT_AGENT: [
+    'user.view',
+    'user.pii.reveal',
+    'ops.view',
+    'booking.view',
+    'booking.manage',
+    'review.moderate',
+    'dispute.manage',
+    'notification.view',
+  ],
+  VERIFICATION_AGENT: ['user.view', 'ops.view', 'verification.review'],
+  FINANCE: [
+    'user.view',
+    'ops.view',
+    'audit.view',
+    'finance.view',
+    'finance.adjust',
+    'finance.refund',
+    'finance.payout',
+  ],
+  DISPUTE_AGENT: [
+    'user.view',
+    'user.pii.reveal',
+    'ops.view',
+    'booking.view',
+    'review.moderate',
+    'worker.enforce',
+    'dispute.manage',
+    'dispute.resolve',
+  ],
+};
